@@ -114,6 +114,7 @@ class Pronto_donation_Admin {
 	}
 	
 	public function pronto_donation_menu_page() {
+		//dsadassdasda
 		require_once('partials/pronto_donation-admin-display.php');
 	}
 
