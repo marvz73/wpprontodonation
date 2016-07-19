@@ -172,4 +172,5 @@ class Pronto_donation_Admin {
 		global $title;
 		require_once('partials/pronto_donation-admin-display.php');
 	}
+
 }
