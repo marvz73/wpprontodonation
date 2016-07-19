@@ -111,6 +111,44 @@ class Pronto_donation_Admin {
 	       	'dashicons-money',						        // The icon for this menu.
 	        '83.7'                                          // The position in the menu order this menu should appear
 	    );
+
+		//Campaign
+		$donation_menu = add_submenu_page(
+			'donation_page',
+	        'Pronto Donation',                              // The title to be displayed on the corresponding page for this menu
+	        'Pronto Campaign',                              // The text to be displayed for this actual menu item
+	        'administrator',                                // Which type of users can see this menu
+	        'donation-campaign',                                // The unique ID - that is, the slug - for this menu item
+	        array( $this, 'pronto_donation_menu_page' ),    // The name of the function to call when rendering the menu for this page
+	       	'dashicons-money',						        // The icon for this menu.
+	        '83.7'                                          // The position in the menu order this menu should appear
+	    );
+
+		//Payment
+		$donation_menu = add_submenu_page(
+			'donation_page',
+	        'Pronto Donation',                              // The title to be displayed on the corresponding page for this menu
+	        'Pronto Payment',                              // The text to be displayed for this actual menu item
+	        'administrator',                                // Which type of users can see this menu
+	        'donation-payment',                                // The unique ID - that is, the slug - for this menu item
+	        array( $this, 'pronto_donation_menu_page' ),    // The name of the function to call when rendering the menu for this page
+	       	'dashicons-money',						        // The icon for this menu.
+	        '83.7'                                          // The position in the menu order this menu should appear
+	    );
+
+		//General Settings
+		$donation_menu = add_submenu_page(
+			'donation_page',
+	        'Pronto Donation',                              // The title to be displayed on the corresponding page for this menu
+	        'Pronto Settings',                              // The text to be displayed for this actual menu item
+	        'administrator',                                // Which type of users can see this menu
+	        'donation-settings',                                // The unique ID - that is, the slug - for this menu item
+	        array( $this, 'pronto_donation_menu_page' ),    // The name of the function to call when rendering the menu for this page
+	       	'dashicons-money',						        // The icon for this menu.
+	        '83.7'                                          // The position in the menu order this menu should appear
+	    );
+
+
 	}
 	
 	public function pronto_donation_menu_page() {
