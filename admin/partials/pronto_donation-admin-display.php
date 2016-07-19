@@ -14,7 +14,7 @@
 
 
 
-	echo "sample";
+	echo "pronto donation";
 
 
 ?>

@@ -152,7 +152,24 @@ class Pronto_donation_Admin {
 	}
 	
 	public function pronto_donation_menu_page() {
+		global $title;
 		require_once('partials/pronto_donation-admin-display.php');
 	}
 
+	public function pronto_donation_sub_ezidebit() {
+
+		$ezidebit_menu = add_submenu_page( 
+ 				'donation_page', 
+ 				'Ezidebit', 
+ 				'Ezidebit', 
+ 				'administrator', 
+ 				'ezidebit',  
+ 				'tedx_inatural_sync_contact_callback' 
+ 		);
+	}
+
+	public function pronto_donation_ezidebit_page() {
+		global $title;
+		require_once('partials/pronto_donation-admin-display.php');
+	}
 }
