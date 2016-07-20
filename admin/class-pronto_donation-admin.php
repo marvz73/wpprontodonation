@@ -153,7 +153,22 @@ class Pronto_donation_Admin {
 	
 	public function pronto_donation_menu_page() {
 		global $title;
-		require_once('partials/pronto_donation-admin-display.php');
+
+$base = __DIR__ . '/../payments/';
+
+
+$dirs = scandir($base);
+
+foreach($dirs as $directory)
+{
+	if(!is_file($directory) && !is_dir($directory)){
+		echo $directory;
+	}
+}
+
+
+
+		// require_once('partials/pronto_donation-admin-display.php');
 	}
 
 	public function pronto_donation_sub_ezidebit() {
