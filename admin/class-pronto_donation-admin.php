@@ -187,4 +187,5 @@ foreach($dirs as $directory)
 		global $title;
 		require_once('partials/pronto_donation-admin-display.php');
 	}
+
 }
