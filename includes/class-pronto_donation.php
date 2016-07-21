@@ -159,6 +159,22 @@ class Pronto_donation {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'pronto_donation_parent_menu');
 
+		$this->loader->add_action( 'init', $plugin_admin, 'pronto_donation_campaign_posttype' );
+		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'pronto_donation_meta_box' );
+		$this->loader->add_action( 'save_post', $plugin_admin, 'pronto_donation_campagin_save_post' );
+		$this->loader->add_filter( 'manage_edit-campaign_columns', $plugin_admin, 'pronto_donation_post_column' );
+		$this->loader->add_action( 'manage_campaign_posts_custom_column', $plugin_admin, 'pronto_donation_column_data', 10, 2 );
+		$this->loader->add_action( 'admin_head', $plugin_admin, 'pronto_donation_campaign_head_css' );
+
+		$this->loader->add_filter( 'posts_join', $plugin_admin, 'pronto_donation_cf_search_join' );
+		$this->loader->add_filter( 'posts_where', $plugin_admin, 'pronto_donation_cf_search_where' );
+		$this->loader->add_filter( 'posts_distinct', $plugin_admin,'pronto_donation_cf_search_distinct' );
+
+		
+		$this->loader->add_action( 'admin_print_scripts', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_scripts' );
+		$this->loader->add_action( 'admin_print_styles', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_styles' );
+		$this->loader->add_shortcode( 'pronto-donation', $plugin_admin, 'pronto_donation_shortcode' );
+
 	}
 
 	/**

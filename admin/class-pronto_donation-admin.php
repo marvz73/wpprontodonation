@@ -150,24 +150,13 @@ class Pronto_donation_Admin {
 	        '83.7'                                          // The position in the menu order this menu should appear
 	    );
 	}
-<<<<<<< HEAD
-	public function pronto_donation_settings_menu_page() {
-=======
+
 
 	//
 	// Payments Settings
 	// Author: Marvin B. Aya-ay
 	public function pronto_donation_payment_page(){
->>>>>>> e82416c1f8c2a96b89d3cde93f2c4fb92f8d2348
-		global $title;
-		require_once('partials/pronto_donation-admin-display.php');
-	}
 
-<<<<<<< HEAD
-
-	public function pronto_donation_menu_page() {
-
-=======
 		$payment_dirs = scandir($this->base);
 
 		foreach($payment_dirs as $dir)
@@ -273,33 +262,571 @@ class Pronto_donation_Admin {
 
 	}
 	// EOF Pronto Payments
->>>>>>> e82416c1f8c2a96b89d3cde93f2c4fb92f8d2348
 
-	
-	public function pronto_donation_menu_page() {
+
+		/*
+	*	This is the callback function that will render
+	* 	the campagin backend page
+	*/
+	public function pronto_donation_campaign_page() {
 		global $title;
-
-		require_once('partials/pronto_donation-admin-display.php');
-	}
-<<<<<<< HEAD
-=======
-
-	public function pronto_donation_sub_ezidebit() {
-
-		$ezidebit_menu = add_submenu_page( 
- 				'donation_page', 
- 				'Ezidebit', 
- 				'Ezidebit', 
- 				'administrator', 
- 				'ezidebit',  
- 				'tedx_inatural_sync_contact_callback' 
- 		);
+		require_once('partials/pronto_donation-campaign-page.php');	
 	}
 
-	public function pronto_donation_ezidebit_page() {
-		global $title;
-		require_once('partials/pronto_donation-admin-display.php');
+	public function pronto_donation_wp_gear_manager_admin_scripts() {
+		wp_enqueue_script('media-upload');
+		wp_enqueue_script('thickbox');
 	}
 
->>>>>>> e82416c1f8c2a96b89d3cde93f2c4fb92f8d2348
+	public function pronto_donation_wp_gear_manager_admin_styles() {
+		wp_enqueue_style('thickbox');
+	}
+
+	public function pronto_donation_campaign_posttype() {
+		register_post_type( 'campaign',
+		array(
+			'labels' => array(
+				'name' => __( 'Campaign' ),
+				'singular_name' => __( 'Campaigns' ),
+				'add_name' => 'Add New',
+				'add_new_item' => 'Add New Campaign',
+				'edit' => 'Edit',
+				'edit_item' => 'Edit Campaign',
+				'new_item' => 'New Campaign',
+				'view' => 'View Campaign',
+				'view_item' => 'Niew Campaign',
+				'search_items' => 'Search Campaigns',
+				'parent' => 'Parent Campaign',
+				'not_found' => 'No Campaigns found',
+				'no_found_in_trash' => 'No Campaigns in Trash'
+				),
+			'public' => true,
+			'has_archive' => true,
+			'rewrite' => array('slug' => 'Campaigns'),
+			'supports' => array('title')
+			)
+		);
+	}
+
+	public function pronto_donation_meta_box(){
+		add_meta_box(
+			'pronto_donation_campagin_meta',
+			'Campaign',
+			array( $this, 'pronto_donation_meta_box_callback' ),
+			'campaign',
+			'normal',
+			'core'
+		);
+	}
+
+	public function pronto_donation_meta_box_callback($post) {
+
+		wp_nonce_field(basename( __FILE__ ), 'pronto_donation_campaign_nonce' );
+		$campaigns = get_post_meta( $post->ID );
+
+		if( array_key_exists( 'pronto_donation_campaign', $campaigns ) && array_key_exists( 'pronto_donation_user_info', $campaigns ) ) {
+
+			$campaign_info = unserialize( $campaigns['pronto_donation_campaign'][0] );
+			$user_information = unserialize( $campaigns['pronto_donation_user_info'][0] );
+
+	 		$explode_amount_level = explode( ",", $campaign_info['amount_level'] );
+			$amount_l = '';
+		 	$sizeofaray = sizeof($explode_amount_level);
+			if($sizeofaray !== 0) {
+				for ($i=0; $i < $sizeofaray; $i++) {
+					if($i > 0) {
+						$amount_l .= " " . $explode_amount_level[$i];
+					} else {
+						$amount_l .= $explode_amount_level[$i];
+					}
+				}
+			}
+		}
+
+		?>
+
+		<div class="wrap">
+ 			<form id="campagin-form" method="POST" action="" >
+				<table class="form-table">
+					<tbody>
+						<tr>
+							<td>
+								<h3>Campaign</h3>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="donation_name">Donation Name</label></th>
+							<td>
+								<input type="text" name="donation_name" id="donation_name" class="regular-text" value="<?php if( !empty( $campaign_info['donation_name'] ) ) echo esc_attr( $campaign_info['donation_name'] ); ?>">
+								<p class="description">This will be the donation name</p>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><label for="donation_target">Donation Target</label></th>
+							<td>
+								<input placeholder="0.00" type="text" name="donation_target" id="donation_target" class="regular-text" value="<?php if( !empty( $campaign_info['donation_target'] ) ) echo esc_attr( $campaign_info['donation_target'] ); ?>">
+								<p class="description">Your campaign donation target</p>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><label for="banner_image_btn">Banner Image</label></th>
+							<td>
+								<p><img id="banner_image_img" src="<?php if( !empty( $campaign_info['banner_image'] ) ) echo esc_attr( $campaign_info['banner_image'] ); ?>" width="100" height="100" alt=""></p>
+								<div style="display: inline-flex;">
+									<input style="font-size: 12px;" readonly id="banner_image" type="text" size="36" name="banner_image" value="<?php if( !empty( $campaign_info['banner_image'] ) ) echo esc_attr( $campaign_info['banner_image'] ); ?>" />
+									&nbsp;<input class="button button-primary" id="upload_image_button" type="button" value="Upload Image" />
+								</div>
+								<p class="description">Select banner image on wordpress media</p>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><label for="hide_custom_amount">Hide Custom Amount</label></th>
+							<td>
+								<label class="" for="hide_custom_amount"><input name="hide_custom_amount" type="checkbox" id="hide_custom_amount" <?php if ( !empty( $campaign_info['banner_image'] ) && $campaign_info['hide_custom_amount'] !== 0 ) echo "checked='checked'" ?>  > Hide custom amount on form </label>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><label for="amount_level">Amount Levels</label></th>
+							<td>
+								<input type="text" name="amount_level" id="amount_level">
+								<input type="hidden" name="amount_level_data" id="amount_level_data" value="<?php if( !empty( $amount_l ) ) echo esc_attr( $amount_l ) ?>">
+								<a class="button button-primary" id="add_amount_btn" href=''>Add</a>
+
+								<div id="amount_level_display">
+									<?php
+
+									if(isset($sizeofaray) && $sizeofaray !== 0 ) {
+										for ($i=0; $i < $sizeofaray; $i++) {
+											?>
+											<p id="amount-level<?php echo $explode_amount_level[$i] ?>"><?php echo $explode_amount_level[$i] ?> <a style="text-decoration: underline; cursor: pointer;" data="<?php echo $explode_amount_level[$i] ?>" id="amount-remove<?php echo $explode_amount_level[$i] ?>"> remove </a></p>
+											<?php
+										}
+									}
+									?>
+								</div> 
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><label for="donation_type">Donation Type</label></th>
+							<td>
+								<select name="donation_type" id="donation_type">
+									<option value="single" <?php if( !empty( $campaign_info['donation_type'] ) && esc_attr($campaign_info['donation_type']) == 'single' ) echo "selected='selected'"; ?> >Single</option>
+									<option value="recurring" <?php if( !empty( $campaign_info['donation_type'] ) && esc_attr($campaign_info['donation_type']) == 'recurring' ) echo "selected='selected'"; ?> >Recurring</option>
+									<option value="both" <?php if( !empty( $campaign_info['donation_type'] ) && esc_attr($campaign_info['donation_type']) == 'both' ) echo "selected='selected'"; ?> >Both</option>
+								</select>
+								<p class="description">Select Donation Type</p>
+							</td>
+						</tr>
+
+					</tbody>
+					<tbody>
+						<tr>
+							<td>
+								<h3>User Information</h3>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_donor_type_option">Donor Type</label></th>
+							<td>
+								<select name="user_donor_type_option" id="user_donor_type_option">
+									<option value="show" <?php if( !empty( $user_information['user_donor_type_option'] ) && esc_attr($user_information['user_donor_type_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_donor_type_option'] ) && esc_attr($user_information['user_donor_type_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_donor_type_option'] ) && esc_attr($user_information['user_donor_type_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for donor type</p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_email_option">Email</label></th>
+							<td>
+								<select name="user_email_option" id="user_email_option">
+									<option value="show" <?php if( !empty( $user_information['user_email_option'] ) && esc_attr($user_information['user_email_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_email_option'] ) && esc_attr($user_information['user_email_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_email_option'] ) && esc_attr($user_information['user_email_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user email</p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_firstname_option">First Name</label></th>
+							<td>
+								<select name="user_firstname_option" id="user_firstname_option">
+									<option value="show" <?php if( !empty( $user_information['user_firstname_option'] ) && esc_attr($user_information['user_firstname_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_firstname_option'] ) && esc_attr($user_information['user_firstname_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_firstname_option'] ) && esc_attr($user_information['user_firstname_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user first name</p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_lastname_option">Last Name</label></th>
+							<td>
+								<select name="user_lastname_option" id="user_lastname_option">
+									<option value="show" <?php if( !empty( $user_information['user_lastname_option'] ) && esc_attr($user_information['user_lastname_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_lastname_option'] ) && esc_attr($user_information['user_lastname_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_lastname_option'] ) && esc_attr($user_information['user_lastname_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user last name</p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_phone_option">Phone</label></th>
+							<td>
+								<select name="user_phone_option" id="user_phone_option">
+									<option value="show" <?php if( !empty( $user_information['user_phone_option'] ) && esc_attr($user_information['user_phone_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_phone_option'] ) && esc_attr($user_information['user_phone_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_phone_option'] ) && esc_attr($user_information['user_phone_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user phone</p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_address_option">Address</label></th>
+							<td>
+								<select name="user_address_option" id="user_address_option">
+									<option value="show" <?php if( !empty( $user_information['user_address_option'] ) && esc_attr($user_information['user_address_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_address_option'] ) && esc_attr($user_information['user_address_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_address_option'] ) && esc_attr($user_information['user_address_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user address</p>
+							</td>	
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_country_option">Country</label></th>
+							<td>
+								<select name="user_country_option" id="user_country_option">
+									<option value="show" <?php if( !empty( $user_information['user_country_option'] ) && esc_attr($user_information['user_country_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_country_option'] ) && esc_attr($user_information['user_country_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_country_option'] ) && esc_attr($user_information['user_country_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user country</p>
+							</td>	
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_state_option">State</label></th>
+							<td>
+								<select name="user_state_option" id="user_state_option">
+									<option value="show" <?php if( !empty( $user_information['user_state_option'] ) && esc_attr($user_information['user_state_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_state_option'] ) && esc_attr($user_information['user_state_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_state_option'] ) && esc_attr($user_information['user_state_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user state</p>
+							</td>	
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_postcode_option">Post Code</label></th>
+							<td>
+								<select name="user_postcode_option" id="user_postcode_option">
+									<option value="show" <?php if( !empty( $user_information['user_postcode_option'] ) && esc_attr($user_information['user_postcode_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_postcode_option'] ) && esc_attr($user_information['user_postcode_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_postcode_option'] ) && esc_attr($user_information['user_postcode_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user post code</p>
+							</td>	
+						</tr>
+						<tr>
+							<th scope="row"><label for="user_suburb_option">Suburb</label></th>
+							<td>
+								<select name="user_suburb_option" id="user_suburb_option">
+									<option value="show" <?php if( !empty( $user_information['user_suburb_option'] ) && esc_attr($user_information['user_suburb_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( !empty( $user_information['user_suburb_option'] ) && esc_attr($user_information['user_suburb_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_suburb_option'] ) && esc_attr($user_information['user_suburb_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user suburb</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+
+		</div>
+
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+
+				$('#post').submit(function(e) {
+					if($('#donation_name').val() == '' && $('#donation_name').val() == null) {
+						console.log('haha');
+						return false;
+					}
+				})
+ 
+				$('#donation_target, #amount_level').keypress(function(e) {
+				    var a = [];
+				    var k = e.which;
+				    
+				    for (i = 48; i < 58; i++)
+				        a.push(i);
+				    
+				    if (!(a.indexOf(k)>=0))
+				        e.preventDefault();
+ 
+				});
+
+				Array.prototype.remove = function() {
+					var what, a = arguments, L = a.length, ax;
+					while (L && this.length) {
+						what = a[--L];
+						while ((ax = this.indexOf(what)) !== -1) {
+							this.splice(ax, 1);
+						}
+					}
+					return this;
+				};
+
+				function bindOnclick(data) {
+					// console.log(data)
+					for (var i = 0; i < data.length; i++) {
+						var data_now = data[i];
+						$('#amount-remove'+data[i]).click(function(){
+
+							var removeddata = $(this).attr('data');
+							console.log(removeddata)
+							data.remove(removeddata);
+							var newtextdata = '';
+							for(var a = 0; a < data.length; a++) {
+								if(a > 0) {
+									newtextdata += " " + data[a];
+								} else {
+									newtextdata += data[a];
+								}
+							}
+							$('#amount_level_data').val(newtextdata);
+							$('#amount-level'+$(this).attr('data')).hide();
+						});
+					}
+				}
+
+				var datavalue = $('#amount_level_data').val().split(' ');
+				bindOnclick(datavalue);
+
+				$('#add_amount_btn').click(function(e){
+					var data = $('#amount_level').val();
+					if(data != null && data != '') {
+
+						var datavalue = $('#amount_level_data').val().split(' ');
+						if( $.inArray( data, datavalue ) == -1) {
+							if($('#amount_level_data').val() == '' || $('#amount_level_data').val == null) {
+								$('#amount_level_data').val( $('#amount_level_data').val() + data );
+							} else {
+								$('#amount_level_data').val( $('#amount_level_data').val() +" "+ data );
+							}
+							$('#amount_level_display').append('<p id="amount-level'+data+'">'+data+' '+'<a style="text-decoration: underline; cursor: pointer;" data="'+data+'"id="amount-remove'+data+'">remove</a></p>');
+						}
+
+						var datavalue = $('#amount_level_data').val().split(' ');
+						bindOnclick(datavalue);
+						$('#amount_level').val('');
+					}
+					e.preventDefault();
+				});
+
+				$('#upload_image_button').click(function() {
+					formfield = $('#banner_image').attr('name');
+					tb_show('', 'media-upload.php?type=image&TB_iframe=true');
+					return false;
+				});
+
+				window.send_to_editor = function(html) {
+					imgurl = $('img',html).attr('src');
+					$('#banner_image').val(imgurl);
+					$('#banner_image_img').attr("src", imgurl);
+					tb_remove();
+				}
+
+				});
+		</script>
+
+		<?php
+	}
+
+	public function pronto_donation_campagin_save_post( $post_id ) {
+
+		$is_autosave = wp_is_post_autosave( $post_id );
+		$is_revision = wp_is_post_revision( $post_id );
+		$is_valid_nonce = ( isset($_POST['pronto_donation_campaign_nonce'] ) && wp_verify_nonce( $_POST['	'], basename( __FILE__ ) ) ) ? 'true' : 'false';
+
+		if( $is_autosave || $is_revision || !$is_valid_nonce ) {
+			return;
+		}
+
+		if( isset( $_POST['publish'] ) || isset( $_POST['save'] ) ) {
+
+  			$amount_level_data = array();
+
+			if( isset( $_POST['amount_level_data'] ) && !empty( $_POST['amount_level_data'] ) ) {
+				$amount_level_data = explode( " ", $_POST['amount_level_data'] );
+			}
+ 	 
+			$data = sanitize_text_field( $_POST['hide_custom_amount'] );
+
+			$campaign_data = array();
+			$campaign_data['donation_name'] = sanitize_text_field( $_POST['donation_name'] );
+			$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'] );
+			$campaign_data['banner_image'] = sanitize_text_field( $_POST['banner_image'] );
+			$campaign_data['hide_custom_amount'] = ( isset( $data ) ) ? 1 : 0;
+			$campaign_data['amount_level'] = implode(",", $amount_level_data);
+			$campaign_data['donation_type'] = sanitize_text_field( $_POST['donation_type'] );
+			$campaign_data['campaign_shortcode'] = '[pronto-donation campaign=' . $post_id .']';
+			update_post_meta( $post_id, 'pronto_donation_campaign', $campaign_data );
+
+			$user_information = array();
+			$user_information['user_donor_type_option'] = sanitize_text_field( $_POST['user_donor_type_option'] );
+			$user_information['user_address_option'] = sanitize_text_field( $_POST['user_address_option'] );
+			$user_information['user_email_option'] = sanitize_text_field( $_POST['user_email_option'] );
+			$user_information['user_country_option'] = sanitize_text_field( $_POST['user_country_option'] );
+			$user_information['user_firstname_option'] = sanitize_text_field( $_POST['user_firstname_option'] );
+			$user_information['user_state_option'] = sanitize_text_field( $_POST['user_state_option'] );
+			$user_information['user_lastname_option'] = sanitize_text_field( $_POST['user_lastname_option'] );
+			$user_information['user_postcode_option'] = sanitize_text_field( $_POST['user_postcode_option'] );
+			$user_information['user_phone_option'] = sanitize_text_field( $_POST['user_phone_option'] );
+			$user_information['user_suburb_option'] = sanitize_text_field( $_POST['user_suburb_option'] );
+			update_post_meta( $post_id, 'pronto_donation_user_info', $user_information );
+		}
+ 
+	}
+
+	public function pronto_donation_post_column( $columns ) {
+
+		$columns = array(
+			'cb'	 	=> '<input type="checkbox" />',
+			// 'title' => __( 'Title' ),
+			'banner_image' => __( 'Banner Image' ),
+			'donation_name' => __( 'Donation Name' ) ,
+			'donation_target' => __( 'Donation Target' ),
+			'donation_type' => __( 'Donation Type' ),
+			'campaign_shortcode' => __( 'Shortcode' ),
+			'action' => __( 'Action' )
+			);
+
+		return $columns;
+	}
+
+		public function pronto_donation_column_data( $column, $post_id){
+		global $post;
+
+		$campaigns = get_post_meta( $post->ID );
+
+		$campaign_info = unserialize( $campaigns['pronto_donation_campaign'][0] );
+		$user_information = unserialize( $campaigns['pronto_donation_user_info'][0] );
+
+		switch( $column ) {
+			
+			case 'banner_image' :
+ 				
+ 				$data_banner = $campaign_info['banner_image'];
+ 				echo '<img id="banner_image_img" src="'. $data_banner .'" width="50" height="50" alt="">';
+
+			break;
+			
+			case 'donation_name' :
+ 				$data_donation_name = $campaign_info['donation_name'];
+ 				echo $data_donation_name;
+			break;
+			
+			case 'campaign_shortcode' :
+ 				$data_shortcode = $campaign_info['campaign_shortcode'];
+ 				echo $data_shortcode;
+			break;
+			
+			case 'donation_type' :
+ 				$data_donation_type = $campaign_info['donation_type'];
+
+ 				if($data_donation_type == 'recurring') {
+ 					echo 'Recurring';
+ 				} elseif($data_donation_type == 'single') {
+ 					echo 'Single';
+ 				} elseif($data_donation_type == 'both') {
+ 					echo 'Both';
+ 				}
+			break;
+
+			case 'donation_target' :
+ 				$data_donation_target = $campaign_info['donation_target'];
+ 				echo $data_donation_target;
+			break;
+
+			case 'action' :
+				$actions = "<a class='campaign_action' href='". get_post_permalink($post_id)."'> View </a> ";
+				$actions .= "|<a class='campaign_action' href='". get_edit_post_link($post_id)."'>Edit </a> ";
+				$actions .= "|<a class='campaign_action' href='". get_delete_post_link($post_id)."'> Remove </a>";
+
+				echo $actions;
+			break;
+ 
+		}
+
+	}
+
+	public function pronto_donation_campaign_head_css() {
+		echo '<style>
+			.column-banner_image {width: 12%}
+			.column-donation_name {width: 25%}
+			.column-donation_target {width: 15%}
+			.column-donation_type {width: 15%}
+			.column-campaign_shortcode {width: 15%}
+			.column-status1 {width: 10%}
+		</style>';
+	}
+
+	/**
+	 * Join posts and postmeta tables
+	 *
+	 * http://codex.wordpress.org/Plugin_API/Filter_Reference/posts_join
+	 */
+ 	public function pronto_donation_cf_search_join( $join ) {
+	    global $wpdb;
+
+	    if ( is_search() ) {    
+	        $join .=' LEFT JOIN '.$wpdb->postmeta. ' ON '. $wpdb->posts . '.ID = ' . $wpdb->postmeta . '.post_id ';
+	    }
+	    
+	    return $join;
+	}
+
+	/**
+	 * Modify the search query with posts_where
+	 *
+	 * http://codex.wordpress.org/Plugin_API/Filter_Reference/posts_where
+	 */
+	public function pronto_donation_cf_search_where( $where ) {
+	    global $pagenow, $wpdb;
+	   
+	    if ( is_search() ) {
+	        $where = preg_replace(
+	            "/\(\s*".$wpdb->posts.".post_title\s+LIKE\s*(\'[^\']+\')\s*\)/",
+	            "(".$wpdb->posts.".post_title LIKE $1) OR (".$wpdb->postmeta.".meta_value LIKE $1)", $where );
+	    }
+
+	    return $where;
+	}
+
+	/**
+	 * Prevent duplicates
+	 *
+	 * http://codex.wordpress.org/Plugin_API/Filter_Reference/posts_distinct
+	 */
+	public function pronto_donation_cf_search_distinct( $where ) {
+	    global $wpdb;
+
+	    if ( is_search() ) {
+	        return "DISTINCT";
+	    }
+
+	    return $where;
+	}
+
+	public function pronto_donation_shortcode( $atts ) {
+		$a = shortcode_atts( array(
+	        'campaign' => 0,
+	    ), $atts );
+
+	    return "campaign is ". $a['campaign'];
+	}
+
 }
