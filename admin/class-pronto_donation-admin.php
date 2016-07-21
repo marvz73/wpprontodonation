@@ -143,28 +143,20 @@ class Pronto_donation_Admin {
 	        'Pronto Settings',                              // The text to be displayed for this actual menu item
 	        'administrator',                                // Which type of users can see this menu
 	        'donation-settings',                                // The unique ID - that is, the slug - for this menu item
-	        array( $this, 'pronto_donation_menu_page' ),    // The name of the function to call when rendering the menu for this page
+	        array( $this, 'pronto_donation_settings_menu_page' ),    // The name of the function to call when rendering the menu for this page
 	       	'dashicons-money',						        // The icon for this menu.
 	        '83.7'                                          // The position in the menu order this menu should appear
 	    );
 
 
 	}
-	
-	public function pronto_donation_menu_page() {
+	public function pronto_donation_settings_menu_page() {
 		global $title;
-
-$base = __DIR__ . '/../payments/';
-
-
-$dirs = scandir($base);
-
-foreach($dirs as $directory)
-{
-	if(!is_file($directory) && !is_dir($directory)){
-		echo $directory;
+		require_once('partials/pronto_donation-admin-display.php');
 	}
-}
+
+
+	public function pronto_donation_menu_page() {
 
 
 
