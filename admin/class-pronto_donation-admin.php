@@ -152,13 +152,12 @@ class Pronto_donation_Admin {
 	}
 
 	//
-	//
+	// Payments Settings
 	// Author: Marvin B. Aya-ay
 	public function pronto_donation_payment_page(){
 		global $title;
 
 		$payment_dirs = scandir($this->base);
-
 
 		foreach($payment_dirs as $dir)
 		{
@@ -174,30 +173,96 @@ class Pronto_donation_Admin {
 			}
 		}
 
-		if(!$_GET['action'])
+		$post_data = $_POST;
+		$payment_type = $_GET['payment'];
+
+		if($_GET['action']!=1)
 		{
 			require_once('partials/pronto_donation-payment-display.php');
+		}
+		else if($post_data['action'] == 'save_settings' &&  wp_verify_nonce( $post_data['nonce'], 'payment_'.$post_data['payment_type']))
+		{
+
+			//payment option exist, update
+			if ( in_array( 
+			   	'payment_option_'.$post_data['payment_type']
+			      ,array_keys( wp_load_alloptions() )
+			  ) ) 
+			{
+				update_option( 'payment_option_'.$post_data['payment_type'], $post_data);
+			}
+			else //Create payment option
+			{
+				update_option( 'payment_option_'.$post_data['payment_type'], $post_data);
+			}
+			
+			$payment_settings = $this->get_payment_settings($payment_type);
+
+			$form_builder = new form_builder();
+
+			$forms = $form_builder->generate_fields($this->set_payment_settings($payment_settings->get_form_fields(), $post_data));
+
+			require_once('partials/pronto_donation-payment-settings.php');
+
 		}
 		else
 		{
 			$payment_settings = array();
 
-			foreach($this->payments as $key=>$payment)
-			{
-				if($payment->className == $_GET['payment'])
-				{
-					$payment_settings = $payment;
-				}
-			}
-
 			$form_builder = new form_builder();
 
-			$forms = $form_builder->generate_fields($payment_settings->get_form_fields());
+			$payment_settings = $this->get_payment_settings($payment_type);
+
+			$pm_settings = get_option( 'payment_option_'.$payment_type);
+
+			$forms = $form_builder->generate_fields($this->set_payment_settings($payment_settings->get_form_fields(), $pm_settings));
 
 			require_once('partials/pronto_donation-payment-settings.php');
 		}
 
-	} // EOF pronto_donation_payment_page
+	} 
+
+	function set_payment_settings($forms, $form_data){
+
+		if(!empty($forms))
+		{
+			foreach($forms as $form_key=>$form_field)
+			{	
+				if(!empty($form_data))
+				{
+					foreach($form_data as $pm_key=>$pm_value)
+					{
+						if($pm_key == $form_field['name'])
+						{
+							$forms[$form_key]['value'] = $pm_value;
+						}
+					}
+				}
+			}
+
+			return $forms;
+		}
+		else
+		{
+			return array();
+		}
+
+	}
+
+	//get data of the current payment
+	function get_payment_settings($payment_type){
+
+			foreach($this->payments as $key=>$payment)
+			{
+				if($payment->className == $payment_type)
+				{
+					return $payment;
+				}
+			}
+
+	}
+	// EOF Pronto Payments
+
 	
 	public function pronto_donation_menu_page() {
 		global $title;
