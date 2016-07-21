@@ -829,4 +829,9 @@ class Pronto_donation_Admin {
 	    return "campaign is ". $a['campaign'];
 	}
 
+	public function pronto_donation_settings_menu_page(){
+		global $title;
+		require_once('partials/pronto_donation-admin-display.php');
+	}
+
 }
