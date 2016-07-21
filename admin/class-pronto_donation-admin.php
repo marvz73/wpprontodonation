@@ -145,18 +145,29 @@ class Pronto_donation_Admin {
 	        'Pronto Settings',                              // The text to be displayed for this actual menu item
 	        'administrator',                                // Which type of users can see this menu
 	        'donation-settings',                                // The unique ID - that is, the slug - for this menu item
-	        array( $this, 'pronto_donation_menu_page' ),    // The name of the function to call when rendering the menu for this page
+	        array( $this, 'pronto_donation_settings_menu_page' ),    // The name of the function to call when rendering the menu for this page
 	       	'dashicons-money',						        // The icon for this menu.
 	        '83.7'                                          // The position in the menu order this menu should appear
 	    );
 	}
+<<<<<<< HEAD
+	public function pronto_donation_settings_menu_page() {
+=======
 
 	//
 	// Payments Settings
 	// Author: Marvin B. Aya-ay
 	public function pronto_donation_payment_page(){
+>>>>>>> e82416c1f8c2a96b89d3cde93f2c4fb92f8d2348
 		global $title;
+		require_once('partials/pronto_donation-admin-display.php');
+	}
 
+<<<<<<< HEAD
+
+	public function pronto_donation_menu_page() {
+
+=======
 		$payment_dirs = scandir($this->base);
 
 		foreach($payment_dirs as $dir)
@@ -262,6 +273,7 @@ class Pronto_donation_Admin {
 
 	}
 	// EOF Pronto Payments
+>>>>>>> e82416c1f8c2a96b89d3cde93f2c4fb92f8d2348
 
 	
 	public function pronto_donation_menu_page() {
