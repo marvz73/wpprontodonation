@@ -22,6 +22,8 @@
  */
 class Pronto_donation_Admin {
 
+	private $base = __DIR__ . '/../payments/';
+	private $payments = array();
 	/**
 	 * The ID of this plugin.
 	 *
@@ -131,7 +133,7 @@ class Pronto_donation_Admin {
 	        'Pronto Payment',                              // The text to be displayed for this actual menu item
 	        'administrator',                                // Which type of users can see this menu
 	        'donation-payment',                                // The unique ID - that is, the slug - for this menu item
-	        array( $this, 'pronto_donation_menu_page' ),    // The name of the function to call when rendering the menu for this page
+	        array( $this, 'pronto_donation_payment_page' ),    // The name of the function to call when rendering the menu for this page
 	       	'dashicons-money',						        // The icon for this menu.
 	        '83.7'                                          // The position in the menu order this menu should appear
 	    );
@@ -147,28 +149,60 @@ class Pronto_donation_Admin {
 	       	'dashicons-money',						        // The icon for this menu.
 	        '83.7'                                          // The position in the menu order this menu should appear
 	    );
-
-
 	}
+
+	//
+	//
+	// Author: Marvin B. Aya-ay
+	public function pronto_donation_payment_page(){
+		global $title;
+
+		$payment_dirs = scandir($this->base);
+
+
+		foreach($payment_dirs as $dir)
+		{
+			if(!is_file($dir) && !is_dir($dir)){
+				require_once($this->base . $dir . '/index.php');
+				$payment_method = new $dir;
+				if (class_exists((string)$dir))
+				{	
+					$payment_method->className = $dir;
+					$payment_method->form_builder = new form_builder();
+					array_push($this->payments, $payment_method);
+				}
+			}
+		}
+
+		if(!$_GET['action'])
+		{
+			require_once('partials/pronto_donation-payment-display.php');
+		}
+		else
+		{
+			$payment_settings = array();
+
+			foreach($this->payments as $key=>$payment)
+			{
+				if($payment->className == $_GET['payment'])
+				{
+					$payment_settings = $payment;
+				}
+			}
+
+			$form_builder = new form_builder();
+
+			$forms = $form_builder->generate_fields($payment_settings->get_form_fields());
+
+			require_once('partials/pronto_donation-payment-settings.php');
+		}
+
+	} // EOF pronto_donation_payment_page
 	
 	public function pronto_donation_menu_page() {
 		global $title;
 
-$base = __DIR__ . '/../payments/';
-
-
-$dirs = scandir($base);
-
-foreach($dirs as $directory)
-{
-	if(!is_file($directory) && !is_dir($directory)){
-		echo $directory;
-	}
-}
-
-
-
-		// require_once('partials/pronto_donation-admin-display.php');
+		require_once('partials/pronto_donation-admin-display.php');
 	}
 
 	public function pronto_donation_sub_ezidebit() {

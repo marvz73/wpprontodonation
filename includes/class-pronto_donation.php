@@ -119,6 +119,10 @@ class Pronto_donation {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-pronto_donation-public.php';
 
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-form-builder.php';
+
+
 		$this->loader = new Pronto_donation_Loader();
 
 	}
