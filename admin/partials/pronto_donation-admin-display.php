@@ -760,6 +760,7 @@ if ( isset($_GET['page']) ) {
 						    	
 						    ?>
 							</select>
+							<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.</p>
 						<p>
 					    <?php
 							$content = $thank_you_page_message;
@@ -809,6 +810,7 @@ if ( isset($_GET['page']) ) {
 						    	
 						    ?>
 							</select>
+							<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.</p>
 						<p>
 					    <?php
 							$content = $info_on_offline_payment_panel;
@@ -841,6 +843,7 @@ if ( isset($_GET['page']) ) {
 						    	
 						    ?>
 							</select>
+							<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.</p>
 						<p>	
 						<?php
 							$content = $instructions_emailed_to_offline_donor_before_payment;
