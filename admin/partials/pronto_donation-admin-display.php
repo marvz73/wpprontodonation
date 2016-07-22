@@ -453,6 +453,50 @@ if ( isset($_GET['page']) ) {
 	    	$page = get_page_by_title($thank_you_page_message_postTitle);
 			$thank_you_page_message_post_id = $page->ID;
 	    }
+
+
+	    $info_on_offline_payment_panel_post_id = '';
+		$info_on_offline_payment_panel_postTitle = 'pronto_donation_info_on_offline_payment_panel';
+
+	    if (get_page_by_title($info_on_offline_payment_panel_postTitle) == NULL) {
+	    	$new_post = array(
+	            'post_title' => $info_on_offline_payment_panel_postTitle,
+	            'post_content' => '',
+	            'post_status' => 'publish',
+	            'post_date' => date('Y-m-d H:i:s'),
+	            'post_author' => '',
+	            'post_type' => 'page',
+	            'post_category' => array(0)
+	        );
+			$info_on_offline_payment_panel_post_id = wp_insert_post($new_post);
+	    	
+	    } 
+	    else {
+	    	$page = get_page_by_title($info_on_offline_payment_panel_postTitle);
+			$info_on_offline_payment_panel_post_id = $page->ID;
+	    }
+
+
+	   	$instructions_emailed_to_offline_donor_before_payment_post_id = '';
+		$instructions_emailed_to_offline_donor_before_payment_postTitle = 'pronto_donation_instructions_emailed_to_offline_donor_before_payment';
+
+	    if (get_page_by_title($instructions_emailed_to_offline_donor_before_payment_postTitle) == NULL) {
+	    	$new_post = array(
+	            'post_title' => $instructions_emailed_to_offline_donor_before_payment_postTitle,
+	            'post_content' => '',
+	            'post_status' => 'publish',
+	            'post_date' => date('Y-m-d H:i:s'),
+	            'post_author' => '',
+	            'post_type' => 'page',
+	            'post_category' => array(0)
+	        );
+			$instructions_emailed_to_offline_donor_before_payment_post_id = wp_insert_post($new_post);
+	    	
+	    } 
+	    else {
+	    	$page = get_page_by_title($instructions_emailed_to_offline_donor_before_payment_postTitle);
+			$instructions_emailed_to_offline_donor_before_payment_post_id = $page->ID;
+	    }
 	    //================ Create Post Page for Messages ==============//
 
 
@@ -478,15 +522,16 @@ if ( isset($_GET['page']) ) {
 			$salesforce_username = (empty($_POST['salesforce_username'])) ? "" : $_POST['salesforce_username'];
 			$salesforce_password = (empty($_POST['salesforce_password'])) ? "" : $_POST['salesforce_password'];
 
-			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
 			$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
+			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
+
 
 			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];
 
-			$info_on_offline_payment_panel_page = (empty($_POST['info_on_offline_payment_panel_page'])) ? "" : $_POST['info_on_offline_payment_panel_page'];	
+			$info_on_offline_payment_panel_page = (empty($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;	
 			$info_on_offline_payment_panel = (empty($_POST['info_on_offline_payment_panel'])) ? "" : $_POST['info_on_offline_payment_panel'];
 
-			$instructions_emailed_to_offline_donor_before_payment_page = (empty($_POST['instructions_emailed_to_offline_donor_before_payment_page'])) ? "" : $_POST['instructions_emailed_to_offline_donor_before_payment_page'];
+			$instructions_emailed_to_offline_donor_before_payment_page = (empty($instructions_emailed_to_offline_donor_before_payment_post_id)) ? "" : $instructions_emailed_to_offline_donor_before_payment_post_id;
 			$instructions_emailed_to_offline_donor_before_payment = (empty($_POST['instructions_emailed_to_offline_donor_before_payment'])) ? "" : $_POST['instructions_emailed_to_offline_donor_before_payment'];				
 
 
@@ -775,7 +820,6 @@ if ( isset($_GET['page']) ) {
 						<label for="thank_you_page_message">Thank you Page Message</label>
 						</br>
 						</br>
-
 						<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.
 					    <?php
 							$content = $thank_you_page_message;
@@ -811,22 +855,7 @@ if ( isset($_GET['page']) ) {
 						<label for="info_on_offline_payment_panel">Info on Offline Payment Panel</label>
 						</br>
 						</br>
-
-						<p>Select Page :
-						    <select id="info_on_offline_payment_panel_page" name="info_on_offline_payment_panel_page">
-						    	<option value=""<?php if($info_on_offline_payment_panel_page==''){echo'selected';}?>></option>
-						    <?php
-						   	$pages = get_pages($args);
-						    foreach ($pages as $key => $value) {
-						    	?>	
-						    	<option value="<?php echo($value->ID);?>"<?php if($info_on_offline_payment_panel_page==$value->ID){echo'selected';}?>><?php echo ($value->post_title);?></option>
-						    	<?php
-						   	}
-						    	
-						    ?>
-							</select>
-							<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.</p>
-						<p>
+						<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.</p>
 					    <?php
 							$content = $info_on_offline_payment_panel;
 							$editor_id = 'info_on_offline_payment_panel';
@@ -844,22 +873,7 @@ if ( isset($_GET['page']) ) {
 						<label for="instructions_emailed_to_offline_donor_before_payment">Instructions Emailed to Offline Donor Before Payment is Approved</label>
 						</br>
 						</br>
-
-					    <p>Select Page :
-						    <select id="instructions_emailed_to_offline_donor_before_payment_page" name="instructions_emailed_to_offline_donor_before_payment_page">
-						    	<option value=""<?php if($instructions_emailed_to_offline_donor_before_payment_page==''){echo'selected';}?>></option>
-						    <?php
-						   	$pages = get_pages($args);
-						    foreach ($pages as $key => $value) {
-						    	?>	
-						    	<option value="<?php echo($value->ID);?>"<?php if($instructions_emailed_to_offline_donor_before_payment_page==$value->ID){echo'selected';}?>><?php echo ($value->post_title);?></option>
-						    	<?php
-						   	}
-						    	
-						    ?>
-							</select>
-							<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.</p>
-						<p>	
+						<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page 	
 						<?php
 							$content = $instructions_emailed_to_offline_donor_before_payment;
 							$editor_id = 'instructions_emailed_to_offline_donor_before_payment';
