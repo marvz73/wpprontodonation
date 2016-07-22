@@ -40,6 +40,8 @@ class Pronto_donation_Public {
 	 */
 	private $version;
 
+
+	private $class;
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -47,10 +49,11 @@ class Pronto_donation_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version, $class ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->class = $class;
 
 	}
 
@@ -96,9 +99,41 @@ class Pronto_donation_Public {
 		 * class.
 		 */
 
-		// wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
 
 	}
 
+<<<<<<< Updated upstream
+=======
+	private $base = __DIR__ . '/../payments/';
+	//
+	// Desc: Pronto Campaign
+	// Author: Marvin Aya-ay
+	public function pronto_donation_campaign( $campaign_id ) {
+		
+		$attrs = shortcode_atts( array(
+	        'campaign' => 0,
+	    ), $campaign_id );
+
+	    // return "campaign is ". $attrs['campaign'];
+
+		//payment method
+		$payment_methods = $this->class->payment_methods();
+
+		// print_r($payment_methods);
+
+		
+
+
+
+	    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
+	    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
+
+	    // print_r($pronto_donation_campaign);
+
+	    require_once('partials/pronto_donation-public-campaign.php');
+	}
+
+>>>>>>> Stashed changes
 
 }

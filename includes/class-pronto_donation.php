@@ -178,8 +178,14 @@ class Pronto_donation {
 		
 		$this->loader->add_action( 'admin_print_scripts', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_scripts' );
 		$this->loader->add_action( 'admin_print_styles', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_styles' );
+<<<<<<< Updated upstream
 		$this->loader->add_shortcode( 'pronto-donation', $plugin_admin, 'pronto_donation_shortcode' );
  	}
+=======
+		// $this->loader->add_shortcode( 'pronto-donation', $plugin_admin, 'pronto_donation_shortcode' );
+
+	}
+>>>>>>> Stashed changes
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
@@ -190,11 +196,12 @@ class Pronto_donation {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Pronto_donation_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Pronto_donation_Public( $this->get_plugin_name(), $this->get_version(), $this );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		$this->loader->add_shortcode( 'pronto-donation', $plugin_public, 'pronto_donation_campaign' );
 	}
 
 	/**
@@ -235,6 +242,49 @@ class Pronto_donation {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+
+
+
+
+
+	public function payment_methods(){
+
+		$base = __DIR__ . '/../payments/';
+		$payments = array();
+		$payment_dirs = scandir($base);
+		foreach($payment_dirs as $dir)
+		{
+			if(!is_file($dir) && !is_dir($dir)){
+				require_once($base . $dir . '/index.php');
+				$payment_method = new $dir;
+				if (class_exists((string)$dir))
+				{
+
+					$payment_method->option = get_option('payment_option_' . (string)$dir);
+					
+					array_push($payments, $payment_method);
+				}
+			}
+		}
+
+		return $payments;
+
+	}
+
+	public function has_payment_amount_level($campaign_id){
+
+		if($campaign_id)
+		{
+			$pronto_donation_campaign = get_post_meta($campaign_id, 'pronto_donation_campaign', true);
+			if(!empty($pronto_donation_campaign['amount_level']))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

@@ -29,4 +29,28 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+
+
 })( jQuery );
+
+
+
+
+
+
+
+jQuery(function(){
+
+	jQuery('.pd_amount').on('change', function(){
+		if(jQuery(this).val() == '0')
+		{
+			jQuery('#pd_custom_amount').removeAttr('disabled', 'disabled');
+		}
+		else
+		{
+			jQuery('#pd_custom_amount').val('').attr('disabled', 'disabled');
+		}
+	})
+
+})
+

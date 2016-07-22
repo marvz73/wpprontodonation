@@ -39,6 +39,18 @@ class ezidebit{
 				'label'	=> 'Sanbox Mode'
 			),
 			array(
+				'type'  => 'checkbox',
+				'value' => '',
+				'name'	=> 'logo',
+				'label'	=> 'Show Logo'
+			),
+			array(
+				'type'  => 'checkbox',
+				'value' => '',
+				'name'	=> 'enable',
+				'label'	=> 'Enable Payment'
+			),
+			array(
 				'type'  => 'text',
 				'value' => '',
 				'name'	=> 'url',

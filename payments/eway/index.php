@@ -17,15 +17,15 @@ class eway{
 	);
 
 
-	function get_payment_name(){
+	public function get_payment_name(){
 		echo $this->payment['payment_name'];
 	}
 
-	function get_payment_description(){
+	public function get_payment_description(){
 		echo $this->payment['payment_description'];
 	}
 
-	function get_payment_logo(){
+	public function get_payment_logo(){
 		echo plugins_url( $this->payment['logo'], __FILE__ );
 	}
 
@@ -37,6 +37,18 @@ class eway{
 				'value' => false,
 				'name'	=> 'ewaysandboxmode',
 				'label'	=> 'Eway Sanbox Mode'
+			),
+			array(
+				'type'  => 'checkbox',
+				'value' => '',
+				'name'	=> 'logo',
+				'label'	=> 'Show Logo'
+			),
+			array(
+				'type'  => 'checkbox',
+				'value' => '',
+				'name'	=> 'enable',
+				'label'	=> 'Enable Payment'
 			),
 			array(
 				'type'  => 'text',
