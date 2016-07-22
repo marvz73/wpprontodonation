@@ -433,6 +433,7 @@ if ( isset($_GET['page']) ) {
 			$form_class = (empty($_POST['from_class'])) ? "" : $_POST['from_class'];
 			$button_class = (empty($_POST['button_class'])) ? "" : $_POST['button_class'];
 			$input_field_class = (empty($_POST['input_field_class'])) ? "" : $_POST['input_field_class'];
+			$edit_button_caption = (empty($_POST['edit_button_caption'])) ? "" : $_POST['edit_button_caption'];
 			$set_currency = (empty($_POST['set_currency'])) ? "" : $_POST['set_currency'];
 			$set_country = (empty($_POST['set_country'])) ? "" : $_POST['set_country'];	
 
@@ -448,16 +449,23 @@ if ( isset($_GET['page']) ) {
 			$salesforce_username = (empty($_POST['salesforce_username'])) ? "" : $_POST['salesforce_username'];
 			$salesforce_password = (empty($_POST['salesforce_password'])) ? "" : $_POST['salesforce_password'];
 
-			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];	
-			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];	
-			$info_on_offline_payment_panel = (empty($_POST['info_on_offline_payment_panel'])) ? "" : $_POST['info_on_offline_payment_panel'];	
-			$instructions_emailed_to_offline_donor_before_payment = (empty($_POST['instructions_emailed_to_offline_donor_before_payment'])) ? "" : $_POST['instructions_emailed_to_offline_donor_before_payment'];		
+			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
+			$thank_you_page_message_page = (empty($_POST['thank_you_page_message_page'])) ? "" : $_POST['thank_you_page_message_page'];
+
+			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];
+
+			$info_on_offline_payment_panel_page = (empty($_POST['info_on_offline_payment_panel_page'])) ? "" : $_POST['info_on_offline_payment_panel_page'];	
+			$info_on_offline_payment_panel = (empty($_POST['info_on_offline_payment_panel'])) ? "" : $_POST['info_on_offline_payment_panel'];
+
+			$instructions_emailed_to_offline_donor_before_payment_page = (empty($_POST['instructions_emailed_to_offline_donor_before_payment_page'])) ? "" : $_POST['instructions_emailed_to_offline_donor_before_payment_page'];
+			$instructions_emailed_to_offline_donor_before_payment = (empty($_POST['instructions_emailed_to_offline_donor_before_payment'])) ? "" : $_POST['instructions_emailed_to_offline_donor_before_payment'];				
 
 
 			$pronto_donation_settings = array(
 				'FormClass'     => stripslashes($form_class),
 				'ButtonClass'      => stripslashes($button_class),
 				'InputFieldClass'   => stripslashes($input_field_class),
+				'EditButtonCaption'   => stripslashes($edit_button_caption),
 				'SetCurrencySymbol'   => $currency_symbols[$set_currency],
 				'SetCurrencyCode'   => stripslashes($set_currency),
 				'SetCountry' => stripslashes($set_country),
@@ -474,15 +482,59 @@ if ( isset($_GET['page']) ) {
 				'SalesforceUsername' => stripslashes($salesforce_username),
 				'SalesforcePassword' => stripslashes($salesforce_password),
 
-				'ThankYouPageMessage' => stripslashes(str_replace("/","",$thank_you_page_message)),
-				'ThankYouMailMessage' => stripslashes(str_replace("/","",$thank_you_email_message)),
-				'InfoOnOfflinePaymentPanel' => stripslashes(str_replace("/","",$info_on_offline_payment_panel)),
-				'InstructionsEmailedToOfflineDonorBeforePayment' => stripslashes(str_replace("/","",$instructions_emailed_to_offline_donor_before_payment))
+				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
+				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
+
+				'ThankYouMailMessage' => stripslashes($thank_you_email_message),
+
+				'InfoOnOfflinePaymentPanelPage' => stripslashes($info_on_offline_payment_panel_page),
+				'InfoOnOfflinePaymentPanel' => stripslashes($info_on_offline_payment_panel),
+
+				'InstructionsEmailedToOfflineDonorBeforePaymentPage' => stripslashes($instructions_emailed_to_offline_donor_before_payment_page),
+				'InstructionsEmailedToOfflineDonorBeforePayment' => stripslashes($instructions_emailed_to_offline_donor_before_payment)
 
 			); 
 			update_option('pronto_donation_settings' , $pronto_donation_settings); //On form submit all value is stored on an array and then stored in option named 'pronto_donation_settings'
 
+			
 
+			if($thank_you_page_message_page==""||empty($thank_you_page_message_page)){}
+			else{
+
+				// Update content of page selected on 'instructions emailed to offline donor before payment'
+				$my_post = array(
+				  'ID'           => $thank_you_page_message_page,
+				  'post_content' => stripslashes($thank_you_page_message)
+				);
+				// Update the post into the database
+				wp_update_post( $my_post );
+			}
+
+
+			if($info_on_offline_payment_panel_page==""||empty($info_on_offline_payment_panel_page)){}
+			else{
+
+				// Update content of page selected on 'instructions emailed to offline donor before payment'
+				$my_post = array(
+				  'ID'           => $info_on_offline_payment_panel_page,
+				  'post_content' => stripslashes($info_on_offline_payment_panel)
+				);
+				// Update the post into the database
+				wp_update_post( $my_post );
+			}
+
+
+			if($instructions_emailed_to_offline_donor_before_payment_page==""||empty($instructions_emailed_to_offline_donor_before_payment_page)){}
+			else{
+
+				// Update content of page selected on 'instructions emailed to offline donor before payment'
+				$my_post = array(
+				  'ID'           => $instructions_emailed_to_offline_donor_before_payment_page,
+				  'post_content' => stripslashes($instructions_emailed_to_offline_donor_before_payment)
+				);
+				// Update the post into the database
+				wp_update_post( $my_post );
+			}
 
 
 
@@ -492,7 +544,9 @@ if ( isset($_GET['page']) ) {
 
 		$form_class = (empty($pronto_donation_settings['FormClass'])) ? "" : $pronto_donation_settings['FormClass'];
 		$button_class = (empty($pronto_donation_settings['ButtonClass'])) ? "" : $pronto_donation_settings['ButtonClass'];
-		$input_field_class = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : $pronto_donation_settings['InputFieldClass']; 
+		$input_field_class = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : $pronto_donation_settings['InputFieldClass'];
+		$edit_button_caption = (empty($pronto_donation_settings['EditButtonCaption'])) ? "" : $pronto_donation_settings['EditButtonCaption'];
+
 		$set_currency = (empty($pronto_donation_settings['SetCurrencyCode'])) ? "" : $pronto_donation_settings['SetCurrencyCode']; 
 		$set_country = (empty($pronto_donation_settings['SetCountry'])) ? "" : $pronto_donation_settings['SetCountry']; 	
 
@@ -508,9 +562,15 @@ if ( isset($_GET['page']) ) {
 		$salesforce_username = (empty($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
+		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
 		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];	
+
 		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
-		$info_on_offline_payment_panel = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];	
+
+		$info_on_offline_payment_panel_page = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelPage'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelPage'];
+		$info_on_offline_payment_panel = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];
+
+		$instructions_emailed_to_offline_donor_before_payment_page = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'];	
 		$instructions_emailed_to_offline_donor_before_payment = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'];
 
 		?>
@@ -542,6 +602,14 @@ if ( isset($_GET['page']) ) {
 					</th>
 					<td>
 						<input type="text" name="input_field_class" id="input_field_class" class="regular-text" value="<?php echo $input_field_class; ?>">
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="edit_button_caption">Edit Button Caption</label>
+					</th>
+					<td>
+						<input type="text" name="edit_button_caption" id="edit_button_caption" class="regular-text" value="<?php echo $edit_button_caption; ?>">
 					</td>
 				</tr>					
 			</tbody>
@@ -579,7 +647,7 @@ if ( isset($_GET['page']) ) {
 					   	}
 					    	
 					    ?>
-						</select><?php if($set_currency=='USD'){echo'selected';}?>
+						</select>
 					</td>
 				</tr>
 			</tbody>
@@ -674,11 +742,31 @@ if ( isset($_GET['page']) ) {
 		<table class="form-table">
 			<tbody>
 				<tr>
-					<th scope="row">
+					<th scope="row" style="background-color: rgba(35, 40, 45, 0.11);padding: 18px;">
 						<label for="thank_you_page_message">Thank you Page Message</label>
 						</br>
 						</br>
-					    <textarea id="thank_you_page_message" name="thank_you_page_message" class="large-text" rows="10" cols="60"><?php echo $thank_you_page_message; ?></textarea>
+
+						<p>Select Page :
+						    <select id="thank_you_page_message_page" name="thank_you_page_message_page">
+						    	<option value=""<?php if($thank_you_page_message_page==''){echo'selected';}?>></option>
+						    <?php
+						   	$pages = get_pages($args);
+						    foreach ($pages as $key => $value) {
+						    	?>	 
+						    	<option value="<?php echo($value->ID);?>"<?php if($thank_you_page_message_page==$value->ID){echo'selected';}?>><?php echo ($value->post_title);?></option>
+						    	<?php
+						   	}
+						    	
+						    ?>
+							</select>
+						<p>
+					    <?php
+							$content = $thank_you_page_message;
+							$editor_id = 'thank_you_page_message';
+
+							wp_editor( $content, $editor_id );
+						?>
 					</th>
 				</tr>
 			</tbody>
@@ -686,11 +774,16 @@ if ( isset($_GET['page']) ) {
 		<table class="form-table">
 			<tbody>
 				<tr>
-					<th scope="row">
+					<th scope="row" style="background-color: rgba(35, 40, 45, 0.11);padding: 18px;">
 						<label for="thank_you_email_message">Thank you Email Message</label>
 						</br>
 						</br>
-					    <textarea id="thank_you_email_message" name="thank_you_email_message" class="large-text" rows="10" cols="60"><?php echo $thank_you_email_message; ?></textarea>
+					    <?php
+							$content = $thank_you_email_message;
+							$editor_id = 'thank_you_email_message';
+
+							wp_editor( $content, $editor_id );
+						?>
 					</th>
 				</tr>
 			</tbody>
@@ -698,11 +791,31 @@ if ( isset($_GET['page']) ) {
 		<table class="form-table">
 			<tbody>
 				<tr>
-					<th scope="row">
+					<th scope="row" style="background-color: rgba(35, 40, 45, 0.11);padding: 18px;">
 						<label for="info_on_offline_payment_panel">Info on Offline Payment Panel</label>
 						</br>
 						</br>
-					    <textarea id="info_on_offline_payment_panel" name="info_on_offline_payment_panel" class="large-text" rows="10" cols="60"><?php echo $info_on_offline_payment_panel; ?></textarea>
+
+						<p>Select Page :
+						    <select id="info_on_offline_payment_panel_page" name="info_on_offline_payment_panel_page">
+						    	<option value=""<?php if($info_on_offline_payment_panel_page==''){echo'selected';}?>></option>
+						    <?php
+						   	$pages = get_pages($args);
+						    foreach ($pages as $key => $value) {
+						    	?>	
+						    	<option value="<?php echo($value->ID);?>"<?php if($info_on_offline_payment_panel_page==$value->ID){echo'selected';}?>><?php echo ($value->post_title);?></option>
+						    	<?php
+						   	}
+						    	
+						    ?>
+							</select>
+						<p>
+					    <?php
+							$content = $info_on_offline_payment_panel;
+							$editor_id = 'info_on_offline_payment_panel';
+
+							wp_editor( $content, $editor_id );
+						?>
 					</th>
 				</tr>
 			</tbody>
@@ -710,11 +823,31 @@ if ( isset($_GET['page']) ) {
 		<table class="form-table">
 			<tbody>
 				<tr>
-					<th scope="row">
+					<th scope="row" style="background-color: rgba(35, 40, 45, 0.11);padding: 18px;">
 						<label for="instructions_emailed_to_offline_donor_before_payment">Instructions Emailed to Offline Donor Before Payment is Approved</label>
 						</br>
 						</br>
-					    <textarea id="instructions_emailed_to_offline_donor_before_payment" name="instructions_emailed_to_offline_donor_before_payment" class="large-text" rows="10" cols="60"><?php echo $instructions_emailed_to_offline_donor_before_payment; ?></textarea>
+
+					    <p>Select Page :
+						    <select id="instructions_emailed_to_offline_donor_before_payment_page" name="instructions_emailed_to_offline_donor_before_payment_page">
+						    	<option value=""<?php if($instructions_emailed_to_offline_donor_before_payment_page==''){echo'selected';}?>></option>
+						    <?php
+						   	$pages = get_pages($args);
+						    foreach ($pages as $key => $value) {
+						    	?>	
+						    	<option value="<?php echo($value->ID);?>"<?php if($instructions_emailed_to_offline_donor_before_payment_page==$value->ID){echo'selected';}?>><?php echo ($value->post_title);?></option>
+						    	<?php
+						   	}
+						    	
+						    ?>
+							</select>
+						<p>	
+						<?php
+							$content = $instructions_emailed_to_offline_donor_before_payment;
+							$editor_id = 'instructions_emailed_to_offline_donor_before_payment';
+
+							wp_editor( $content, $editor_id );
+						?>
 					</th>
 				</tr>
 			</tbody>
@@ -724,9 +857,7 @@ if ( isset($_GET['page']) ) {
 		</p>
 	</form>
 </div>
-
 	<?php
-	
 	}
 }
 //================= Donation Settings =================//
