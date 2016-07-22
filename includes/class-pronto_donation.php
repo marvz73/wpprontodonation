@@ -108,6 +108,11 @@ class Pronto_donation {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pronto_donation-i18n.php';
 
+	 	/**
+		 *  This will load the donation list custom wp list table
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/pronto_donation-campaign-page.php';
+
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
@@ -122,12 +127,6 @@ class Pronto_donation {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-form-builder.php';
 		
-
-		/**
-		 *  This will load the donation list custom wp list table
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/pronto_donation-campaign-page.php';
-
 
 		$this->loader = new Pronto_donation_Loader();
 

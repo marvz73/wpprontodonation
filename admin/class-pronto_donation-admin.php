@@ -104,16 +104,6 @@ class Pronto_donation_Admin {
 
 	public function pronto_donation_parent_menu() {
 
-		$donation_menu = add_menu_page(
-	        'Pronto Donation',                              // The title to be displayed on the corresponding page for this menu
-	        'Pronto Donation',                              // The text to be displayed for this actual menu item
-	        'administrator',                                // Which type of users can see this menu
-	        'donation_page',                                // The unique ID - that is, the slug - for this menu item
-	        array( $this, 'pronto_donation_menu_page' ),    // The name of the function to call when rendering the menu for this page
-	       	'dashicons-money',						        // The icon for this menu.
-	        '83.7'                                          // The position in the menu order this menu should appear
-	    );
-
 	 	//Campaign
 		$donation_menu_campaign = add_submenu_page(
 			'donation_page',
@@ -679,8 +669,7 @@ class Pronto_donation_Admin {
 					$('#banner_image_img').attr("src", imgurl);
 					tb_remove();
 				}
-
-				});
+			});
 		</script>
 
 		<?php

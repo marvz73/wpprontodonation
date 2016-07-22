@@ -12,8 +12,16 @@ class Pronto_Donation_Campaign_WP_list_Table {
     }
 
     public function pronto_donation_campaign_table_page() {
-
-        add_management_page( 'Donation List', 'Donation List', 'manage_options', "donation-list.php", array($this, 'pronto_donation_campaign_list_table_page'));
+    	
+    	$donation_menu = add_menu_page(
+	        'Pronto Donation',
+	        'Pronto Donation',
+	        'administrator',
+	        'donation_page',
+	        array( $this, 'pronto_donation_campaign_list_table_page' ),
+	       	'dashicons-money',	   
+	        '83.7'
+	    );
     }
 
     public function pronto_donation_campaign_list_table_page()
