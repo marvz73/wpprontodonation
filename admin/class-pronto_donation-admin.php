@@ -114,16 +114,13 @@ class Pronto_donation_Admin {
 	        '83.7'                                          // The position in the menu order this menu should appear
 	    );
 
-		//Campaign
-		$donation_menu = add_submenu_page(
+	 	//Campaign
+		$donation_menu_campaign = add_submenu_page(
 			'donation_page',
-	        'Pronto Donation',                              // The title to be displayed on the corresponding page for this menu
-	        'Pronto Campaign',                              // The text to be displayed for this actual menu item
-	        'administrator',                                // Which type of users can see this menu
-	        'donation-campaign',                                // The unique ID - that is, the slug - for this menu item
-	        array( $this, 'pronto_donation_menu_page' ),    // The name of the function to call when rendering the menu for this page
-	       	'dashicons-money',						        // The icon for this menu.
-	        '83.7'                                          // The position in the menu order this menu should appear
+	        'Pronto Donation',
+	        'Pronto Campaign',
+	        'administrator',
+ 			'edit.php?post_type=campaign'
 	    );
 
 		//Payment
@@ -263,16 +260,13 @@ class Pronto_donation_Admin {
 	}
 	// EOF Pronto Payments
 
+	// BOF Pronto Donation Campaign 
+	// Author: Danrul T. Carpio
 
-		/*
-	*	This is the callback function that will render
-	* 	the campagin backend page
+	/*
+	* This 2 function pronto_donation_wp_gear_manager_admin_scripts, pronto_donation_wp_gear_manager_admin_styles
+	* will load the wordpress media uploader script and styles
 	*/
-	public function pronto_donation_campaign_page() {
-		global $title;
-		require_once('partials/pronto_donation-campaign-page.php');	
-	}
-
 	public function pronto_donation_wp_gear_manager_admin_scripts() {
 		wp_enqueue_script('media-upload');
 		wp_enqueue_script('thickbox');
@@ -282,6 +276,10 @@ class Pronto_donation_Admin {
 		wp_enqueue_style('thickbox');
 	}
 
+	/*
+	* This function is used to create a custom postype
+	* 'campaign'
+	*/
 	public function pronto_donation_campaign_posttype() {
 		register_post_type( 'campaign',
 		array(
@@ -303,11 +301,16 @@ class Pronto_donation_Admin {
 			'public' => true,
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'Campaigns'),
+			'show_in_menu' => 'edit.php?post_type=campaign',
 			'supports' => array('title')
 			)
 		);
 	}
 
+	/*
+	* This function will add a custom meta box for
+	* custom postype 'campaign'
+	*/
 	public function pronto_donation_meta_box(){
 		add_meta_box(
 			'pronto_donation_campagin_meta',
@@ -319,6 +322,10 @@ class Pronto_donation_Admin {
 		);
 	}
 
+	/*
+	* This function will act as the display of the
+	* custom posttype meta box
+	*/
 	public function pronto_donation_meta_box_callback($post) {
 
 		wp_nonce_field(basename( __FILE__ ), 'pronto_donation_campaign_nonce' );
@@ -422,7 +429,13 @@ class Pronto_donation_Admin {
 								<p class="description">Select Donation Type</p>
 							</td>
 						</tr>
-
+						<tr>
+							<th scope="row"><label for="donation_campaign_filter">Campaign Filter</label></th>
+							<td>
+								<input type="text" name="donation_campaign_filter" id="donation_campaign_filter" class="regular-text" value="<?php if( !empty( $campaign_info['donation_campaign_filter'] ) ) echo esc_attr( $campaign_info['donation_campaign_filter'] ); ?>">
+								<p class="description">This field use to filter campaign's donations</p>
+							</td>
+						</tr>
 					</tbody>
 					<tbody>
 						<tr>
@@ -548,14 +561,11 @@ class Pronto_donation_Admin {
 
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
-
-				$('#post').submit(function(e) {
-					if($('#donation_name').val() == '' && $('#donation_name').val() == null) {
-						console.log('haha');
-						return false;
-					}
-				})
- 
+ 				
+ 				/*
+ 				* This jquery keypress event function for text field
+ 				* is to restrict field to input only numbers from [0-9]
+ 				*/
 				$('#donation_target, #amount_level').keypress(function(e) {
 				    var a = [];
 				    var k = e.which;
@@ -565,9 +575,12 @@ class Pronto_donation_Admin {
 				    
 				    if (!(a.indexOf(k)>=0))
 				        e.preventDefault();
- 
 				});
 
+				/*
+ 				* This native javascript function will remove
+ 				*  items on existing array
+ 				*/
 				Array.prototype.remove = function() {
 					var what, a = arguments, L = a.length, ax;
 					while (L && this.length) {
@@ -579,14 +592,16 @@ class Pronto_donation_Admin {
 					return this;
 				};
 
+				/*
+ 				* This function will create a click event
+ 				* for dynamic php amount level
+ 				*/
 				function bindOnclick(data) {
-					// console.log(data)
 					for (var i = 0; i < data.length; i++) {
 						var data_now = data[i];
 						$('#amount-remove'+data[i]).click(function(){
 
 							var removeddata = $(this).attr('data');
-							console.log(removeddata)
 							data.remove(removeddata);
 							var newtextdata = '';
 							for(var a = 0; a < data.length; a++) {
@@ -605,6 +620,10 @@ class Pronto_donation_Admin {
 				var datavalue = $('#amount_level_data').val().split(' ');
 				bindOnclick(datavalue);
 
+				/*
+ 				* This event click function is for the button add amount level,
+ 				* the items will add into hidden textfield 
+ 				*/
 				$('#add_amount_btn').click(function(e){
 					var data = $('#amount_level').val();
 					if(data != null && data != '') {
@@ -626,12 +645,20 @@ class Pronto_donation_Admin {
 					e.preventDefault();
 				});
 
+				/*
+ 				* This event click function is for the upload button,
+ 				* when button click upload it will show the wordpress media uploader
+ 				*/
 				$('#upload_image_button').click(function() {
 					formfield = $('#banner_image').attr('name');
 					tb_show('', 'media-upload.php?type=image&TB_iframe=true');
 					return false;
 				});
 
+			 	/*
+ 				* This function will place the link for
+ 				*  the selected wordpress media image
+ 				*/
 				window.send_to_editor = function(html) {
 					imgurl = $('img',html).attr('src');
 					$('#banner_image').val(imgurl);
@@ -645,6 +672,11 @@ class Pronto_donation_Admin {
 		<?php
 	}
 
+	/*
+	* This function will execute when publishing campaign or editing campaign,
+	* this will add a post_meta called pronto_donation_campaign, pronto_donation_user_info
+	* for every campaign created
+	*/
 	public function pronto_donation_campagin_save_post( $post_id ) {
 
 		$is_autosave = wp_is_post_autosave( $post_id );
@@ -667,11 +699,12 @@ class Pronto_donation_Admin {
 
 			$campaign_data = array();
 			$campaign_data['donation_name'] = sanitize_text_field( $_POST['donation_name'] );
-			$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'] );
+			$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'], 2 );
 			$campaign_data['banner_image'] = sanitize_text_field( $_POST['banner_image'] );
 			$campaign_data['hide_custom_amount'] = ( isset( $data ) ) ? 1 : 0;
 			$campaign_data['amount_level'] = implode(",", $amount_level_data);
 			$campaign_data['donation_type'] = sanitize_text_field( $_POST['donation_type'] );
+			$campaign_data['donation_campaign_filter'] = sanitize_text_field( $_POST['donation_campaign_filter'] );
 			$campaign_data['campaign_shortcode'] = '[pronto-donation campaign=' . $post_id .']';
 			update_post_meta( $post_id, 'pronto_donation_campaign', $campaign_data );
 
@@ -691,6 +724,9 @@ class Pronto_donation_Admin {
  
 	}
 
+	/*
+	* This function will modify the table header for custom posttype
+	*/
 	public function pronto_donation_post_column( $columns ) {
 
 		$columns = array(
@@ -707,7 +743,11 @@ class Pronto_donation_Admin {
 		return $columns;
 	}
 
-		public function pronto_donation_column_data( $column, $post_id){
+	/*
+	* This will display all the campaign data 
+	* into the table
+	*/
+	public function pronto_donation_column_data( $column, $post_id){
 		global $post;
 
 		$campaigns = get_post_meta( $post->ID );
@@ -718,10 +758,8 @@ class Pronto_donation_Admin {
 		switch( $column ) {
 			
 			case 'banner_image' :
- 				
  				$data_banner = $campaign_info['banner_image'];
  				echo '<img id="banner_image_img" src="'. $data_banner .'" width="50" height="50" alt="">';
-
 			break;
 			
 			case 'donation_name' :
@@ -736,7 +774,6 @@ class Pronto_donation_Admin {
 			
 			case 'donation_type' :
  				$data_donation_type = $campaign_info['donation_type'];
-
  				if($data_donation_type == 'recurring') {
  					echo 'Recurring';
  				} elseif($data_donation_type == 'single') {
@@ -748,14 +785,12 @@ class Pronto_donation_Admin {
 
 			case 'donation_target' :
  				$data_donation_target = $campaign_info['donation_target'];
- 				echo $data_donation_target;
+ 				echo number_format( (int) $data_donation_target, 2 );
 			break;
 
 			case 'action' :
-				$actions = "<a class='campaign_action' href='". get_post_permalink($post_id)."'> View </a> ";
-				$actions .= "|<a class='campaign_action' href='". get_edit_post_link($post_id)."'>Edit </a> ";
+				$actions = "<a class='campaign_action' href='". get_edit_post_link($post_id)."'>Edit </a> ";
 				$actions .= "|<a class='campaign_action' href='". get_delete_post_link($post_id)."'> Remove </a>";
-
 				echo $actions;
 			break;
  
@@ -763,6 +798,10 @@ class Pronto_donation_Admin {
 
 	}
 
+	/*
+	* This will resize the table header size
+	* of the custom posttype 
+	*/
 	public function pronto_donation_campaign_head_css() {
 		echo '<style>
 			.column-banner_image {width: 12%}
@@ -828,6 +867,8 @@ class Pronto_donation_Admin {
 
 	    return "campaign is ". $a['campaign'];
 	}
+	
+	// EOF campaign
 
 	public function pronto_donation_settings_menu_page(){
 		global $title;

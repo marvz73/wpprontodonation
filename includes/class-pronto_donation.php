@@ -121,6 +121,12 @@ class Pronto_donation {
 
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-form-builder.php';
+		
+
+		/**
+		 *  This will load the donation list custom wp list table
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/pronto_donation-campaign-page.php';
 
 
 		$this->loader = new Pronto_donation_Loader();
@@ -174,8 +180,7 @@ class Pronto_donation {
 		$this->loader->add_action( 'admin_print_scripts', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_scripts' );
 		$this->loader->add_action( 'admin_print_styles', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_styles' );
 		$this->loader->add_shortcode( 'pronto-donation', $plugin_admin, 'pronto_donation_shortcode' );
-
-	}
+ 	}
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
