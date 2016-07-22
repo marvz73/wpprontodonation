@@ -17,6 +17,9 @@
 //================= Donation Settings =================//
 if ( isset($_GET['page']) ) {
 	if($_GET['page']=='donation-settings'){
+
+
+		//================ Options for Country and Currency ==============//
 		$currency_symbols = array(
 			'AED' => '&#1583;.&#1573;', // ?
 			'AFN' => '&#65;&#102;',
@@ -426,6 +429,32 @@ if ( isset($_GET['page']) ) {
 			'ZM' => 'Zambia',
 			'ZW' => 'Zimbabwe',
 		);
+		//================ Options for Country and Currency ==============//
+
+
+		//================ Create Post Page for Messages ==============//
+		$thank_you_page_message_post_id = '';
+		$thank_you_page_message_postTitle = 'pronto_donation_thank_you_page_message';
+
+	    if (get_page_by_title($thank_you_page_message_postTitle) == NULL) {
+	    	$new_post = array(
+	            'post_title' => $thank_you_page_message_postTitle,
+	            'post_content' => '',
+	            'post_status' => 'publish',
+	            'post_date' => date('Y-m-d H:i:s'),
+	            'post_author' => '',
+	            'post_type' => 'page',
+	            'post_category' => array(0)
+	        );
+			$thank_you_page_message_post_id = wp_insert_post($new_post);
+	    	
+	    } 
+	    else {
+	    	$page = get_page_by_title($thank_you_page_message_postTitle);
+			$thank_you_page_message_post_id = $page->ID;
+	    }
+	    //================ Create Post Page for Messages ==============//
+
 
 
 		if (isset($_POST['submit'])) {
@@ -450,7 +479,7 @@ if ( isset($_GET['page']) ) {
 			$salesforce_password = (empty($_POST['salesforce_password'])) ? "" : $_POST['salesforce_password'];
 
 			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
-			$thank_you_page_message_page = (empty($_POST['thank_you_page_message_page'])) ? "" : $_POST['thank_you_page_message_page'];
+			$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
 
 			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];
 
@@ -747,21 +776,7 @@ if ( isset($_GET['page']) ) {
 						</br>
 						</br>
 
-						<p>Select Page :
-						    <select id="thank_you_page_message_page" name="thank_you_page_message_page">
-						    	<option value=""<?php if($thank_you_page_message_page==''){echo'selected';}?>></option>
-						    <?php
-						   	$pages = get_pages($args);
-						    foreach ($pages as $key => $value) {
-						    	?>	 
-						    	<option value="<?php echo($value->ID);?>"<?php if($thank_you_page_message_page==$value->ID){echo'selected';}?>><?php echo ($value->post_title);?></option>
-						    	<?php
-						   	}
-						    	
-						    ?>
-							</select>
-							<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.</p>
-						<p>
+						<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.
 					    <?php
 							$content = $thank_you_page_message;
 							$editor_id = 'thank_you_page_message';
@@ -861,6 +876,12 @@ if ( isset($_GET['page']) ) {
 	</form>
 </div>
 	<?php
+	// $my_postid = 8;//This is page id or post id
+	// $content_post = get_post($my_postid);
+	// $content = $content_post->post_content;
+	// $content = apply_filters('the_content', $content);
+	// $content = str_replace(']]>', ']]&gt;', $content);
+	// echo $content;
 	}
 }
 //================= Donation Settings =================//
