@@ -348,6 +348,20 @@ class Pronto_donation_Admin {
 					}
 				}
 			}
+		} else {
+			$amount_l = "10,20,30,40";
+	 		$explode_amount_level = explode( ",", $amount_l );
+		 	$sizeofaray = sizeof($explode_amount_level);
+		 	if($sizeofaray !== 0) {
+		 		$amount_l = "";
+		 		for ($i=0; $i < $sizeofaray; $i++) {
+		 			if($i > 0) {
+		 				$amount_l .= " " . $explode_amount_level[$i];
+		 			} else {
+		 				$amount_l .= $explode_amount_level[$i];
+		 			}
+		 		}
+		 	}
 		}
 
 		?>
