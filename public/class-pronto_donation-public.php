@@ -103,37 +103,40 @@ class Pronto_donation_Public {
 
 	}
 
-<<<<<<< Updated upstream
-=======
-	private $base = __DIR__ . '/../payments/';
 	//
 	// Desc: Pronto Campaign
 	// Author: Marvin Aya-ay
+	private $base = __DIR__ . '/../payments/';
 	public function pronto_donation_campaign( $campaign_id ) {
 		
-		$attrs = shortcode_atts( array(
-	        'campaign' => 0,
-	    ), $campaign_id );
+		//Process the payment here...
+	    if($_POST)
+	    {
+	    	print_r($_POST);
+	    	$campaign_data = $_POST;
 
-	    // return "campaign is ". $attrs['campaign'];
+	    	update_post_meta($campaign_data['campaign'], $campaign_data);
 
-		//payment method
-		$payment_methods = $this->class->payment_methods();
+	    	// wp_redirect('/wordpress');
+	    }
+	    //Display the donation fields
+	    else
+	    {
 
-		// print_r($payment_methods);
+			$attrs = shortcode_atts( array(
+		        'campaign' => 0,
+		    ), $campaign_id );
 
-		
+			//Payment method
+			$payment_methods = $this->class->pronto_donation_payment_methods();
 
+			//Donor user fields
+		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
+			
+		    // $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
 
-
-	    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
-	    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
-
-	    // print_r($pronto_donation_campaign);
-
-	    require_once('partials/pronto_donation-public-campaign.php');
+		    require_once('partials/pronto_donation-public-campaign.php');
+	    }
 	}
-
->>>>>>> Stashed changes
 
 }

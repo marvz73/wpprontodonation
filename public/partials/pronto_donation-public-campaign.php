@@ -1,35 +1,32 @@
+<!-- <form method="post" action="<?php echo home_url( '/wp-admin/admin-post.php' ) ?>"> -->
+<form method="post" >
 
-<form>
-
+	<!-- Donor Information -->
 	<fieldset>
 		<legend><h3>Donation Information</h3></legend>
 
-
-		<?php if($this->class->has_payment_amount_level($attrs['campaign'])): ?>
+		<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
 			<p>
 				<label>Donation Amount: </label>
-				<?php
-					foreach(explode(',', $pronto_donation_campaign['amount_level']) as $index=>$amount_level):
-				?>
-						<label for="pd_amount<?php echo $index ?>"><input id="pd_amount<?php echo $index ?>" class="pd_amount" type="radio" name="pd_amount" value="<?php echo $amount_level ?>" <?php echo ($index==0) ? 'checked="true"' : ''; ?> /><?php echo $amount_level ?></label>
-				<?php
-						endforeach;
-					
-				?>
 
-				<label for="other_amount"><input id="other_amount" class="pd_amount" type="radio" name="pd_amount" value="0" />Other</label>
+				<?php
+					$this->class->pronto_donation_payment_amount_level($attrs['campaign']);
+				?>
 				
+				<label for="other_amount"><input id="other_amount" class="pd_amount" type="radio" name="pd_amount" value="0" />Other</label>
+			
 			</p>
 		<?php endif; ?>
 
 		<p>
 			<label>Donation Custom Amount: </label>
-			<?php if($this->class->has_payment_amount_level($attrs['campaign'])): ?>
+			<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
 				<input disabled="" type="number" id="pd_custom_amount" name="pd_custom_amount" />
 			<?php else: ?>
 				<input type="number" id="pd_custom_amount" name="pd_custom_amount" />
 			<?php endif; ?>
 		</p>
+
 
 		<p>
 			<label>Donation Type :</label>
@@ -46,74 +43,121 @@
 	</fieldset>
 
 
+	<!-- Donor Information -->
 	<fieldset>
-
 		<legend><h3>Donor Information</h3></legend>
 
-		<p>
-			<label>Donor Type</label>
-			<select>
-				<option value="personal">Personal</option>
-				<option value="business">Business</option>
-			</select>
-		</p>
+		<?php if($pronto_donation_user_info['user_donor_type_option'] != 'hide'): ?>
+			<p>
+				<label>Donor Type</label>
+				<select name="donor_type" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_donor_type_option']) ?> >
+					<option value="personal">Personal</option>
+					<option value="business">Business</option>
+				</select>
+			</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_email_option'] != 'hide'): ?>
 		<p>
 			<label>Email</label>
-			<input type="email" />
+			<input name="email" type="email" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_email_option']) ?>/>
 		</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_firstname_option'] != 'hide'): ?>
 		<p>
 			<label>First Name</label>
-			<input type="text" />
+			<input name="first_name" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_firstname_option']) ?>/>
 		</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_lastname_option'] != 'hide'): ?>
 		<p>
 			<label>Last Name</label>
-			<input type="text" />
+			<input name="last_name" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_lastname_option']) ?>/>
 		</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_phone_option'] != 'hide'): ?>
 		<p>
 			<label>Phone</label>
-			<input type="text" />
+			<input name="phone" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_phone_option']) ?>/>
 		</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
 		<p>
 			<label>Address</label>
-			<input type="text" />
+			<input name="address" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
 		</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
+		<p>
+			<label>Country</label>
+			<select name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>>
+				<option>Select</option>
+			</select>
+		</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_state_option'] != 'hide'): ?>
 		<p>
 			<label>State</label>
-			<input type="text" />
+			<select name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>>
+				<option>Select</option>
+			</select>
 		</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_postcode_option'] != 'hide'): ?>
 		<p>
 			<label>Post Code</label>
-			<input type="text" />
+			<input name="post_code" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
 		</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
 		<p>
 			<label>Suburb</label>
-			<input type="text" />
+			<input name="suburb" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
 		</p>
+		<?php endif; ?>
+
 	</fieldset>
 
 
+	<!-- Payment Method -->
 	<fieldset>
 		<legend><h3>Payment</h3></legend>
 		
 			<?php
+				if(!empty($payment_methods)):
 				foreach($payment_methods as $index=>$payment):
 			?>
-			<div>
-				<label>
-					<input type="radio" name="payment" value="<?php echo $payment->get_payment_name() ?>" /> <img src="<?php echo $payment->get_payment_logo() ?>" width="20%" alt="<?php echo $payment->get_payment_name() ?>" />
-				</label>
-			</div>
+						<div>
+							<label>
+								<input <?php echo ($index==0) ? 'checked="true"' : '' ?> type="radio" name="payment" value="<?php echo $payment->get_payment_name() ?>" /> 
+								<?php if($payment->option['logo']): ?>
+									<img src="<?php echo $payment->get_payment_logo() ?>" width="20%" alt="<?php echo $payment->get_payment_name() ?>" />
+								<?php else: 
+										echo $payment->get_payment_name();
+								      endif; ?>
+							</label>
+						</div>
 			<?php
 				endforeach;
+				else:
+					echo '<h1>No Payment avaiable</h1>';
+				endif;
 			?>
-
-	
-
 	</fieldset>
+	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
+	<input type="hidden" name="campagin" value="<?php echo $attrs['campaign'] ?>" />
+	<input type="hidden" name="action" value="process_donate"/>
 	<br>
 	<p class="submit">
 		<button class="button button-primary">Donate</button>
 	</p>
-
 
 </form>

@@ -178,14 +178,11 @@ class Pronto_donation {
 		
 		$this->loader->add_action( 'admin_print_scripts', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_scripts' );
 		$this->loader->add_action( 'admin_print_styles', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_styles' );
-<<<<<<< Updated upstream
-		$this->loader->add_shortcode( 'pronto-donation', $plugin_admin, 'pronto_donation_shortcode' );
- 	}
-=======
+
 		// $this->loader->add_shortcode( 'pronto-donation', $plugin_admin, 'pronto_donation_shortcode' );
 
 	}
->>>>>>> Stashed changes
+
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
@@ -202,6 +199,7 @@ class Pronto_donation {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		$this->loader->add_shortcode( 'pronto-donation', $plugin_public, 'pronto_donation_campaign' );
+		
 	}
 
 	/**
@@ -248,8 +246,7 @@ class Pronto_donation {
 
 
 
-
-	public function payment_methods(){
+	public function pronto_donation_payment_methods(){
 
 		$base = __DIR__ . '/../payments/';
 		$payments = array();
@@ -263,8 +260,10 @@ class Pronto_donation {
 				{
 
 					$payment_method->option = get_option('payment_option_' . (string)$dir);
-					
-					array_push($payments, $payment_method);
+					if($payment_method->option['enable'])
+					{
+						array_push($payments, $payment_method);
+					}
 				}
 			}
 		}
@@ -273,7 +272,31 @@ class Pronto_donation {
 
 	}
 
-	public function has_payment_amount_level($campaign_id){
+	public function pronto_donation_payment_amount_level($campaign_id){
+		$html ='';
+		if($campaign_id)
+		{
+			$pronto_donation_campaign = get_post_meta($campaign_id, 'pronto_donation_campaign', true);
+			if(!empty($pronto_donation_campaign['amount_level']))
+			{
+				
+				foreach(explode(',', $pronto_donation_campaign['amount_level']) as $index=>$amount_level):
+					if($index==0)
+					{
+						$html .= '<label for="pd_amount'.$index.'"><input id="pd_amount'.$index.'" class="pd_amount" type="radio" name="pd_amount" value="'.$amount_level.'" checked="true" />' . $amount_level. '</label>';
+					}
+					else
+					{
+						$html .= '<label for="pd_amount'.$index.'"><input id="pd_amount'.$index.'" class="pd_amount" type="radio" name="pd_amount" value="'.$amount_level.'" />' . $amount_level. '</label>';
+					}
+
+				endforeach;
+			}
+			echo $html;
+		}
+	}
+
+	public function pronto_donation_has_payment_amount_level($campaign_id){
 
 		if($campaign_id)
 		{
@@ -285,6 +308,59 @@ class Pronto_donation {
 		}
 
 		return false;
+	}
+
+	public function pronto_donation_is_required($field){
+		echo ($field == 'required') ? 'required' : '';
+	}
+
+
+	public function pronto_donation_user_fields($campaign_id){
+
+		if($campaign_id)
+		{
+			$pronto_donation_user_info = get_post_meta($campaign_id, 'pronto_donation_user_info', true);
+
+// array ( 
+// 'user_donor_type_option' => 'required',
+// 'user_address_option' => show,
+// 'user_email_option' => show,
+// 'user_country_option' => show,
+// 'user_firstname_option' => show,
+// 'user_state_option' => show,
+// 'user_lastname_option' => show,
+// 'user_postcode_option' => show,
+// 'user_phone_option' => show,
+// 'user_suburb_option' => show
+// )
+
+
+			foreach($pronto_donation_user_info as $index=>$field)
+			{
+
+				if(in_array($index, array('user_donor_type_option')))
+				{
+					$html .= '<p>
+								<label>Donor Type</label>
+								<select name="'.$index.'">
+									<option value="personal">Personal</option>
+									<option value="business">Business</option>
+								</select>
+							</p>';
+				}
+				else
+				{
+				$html .= '<p>
+							<label>Email</label>
+							<input type="email" />
+						</p>';
+				}
+
+			}
+			
+
+			echo $html;
+		}
 	}
 
 }
