@@ -216,7 +216,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
  				$table_data['first_name'] = $data_value['first_name'];
  				$table_data['last_name'] = $data_value['last_name'];
  				$table_data['campaign_name'] = $data_value['campaign_name'];
- 				$table_data['amount'] = number_format( (int) $data_value['amount'], 2 );
+ 				$table_data['amount'] = number_format( (int) $data_value['amount'], 2 , '.', ',' );
  				$table_data['country'] = $data_value['country'];
  				$data[] = $table_data;
  			}
