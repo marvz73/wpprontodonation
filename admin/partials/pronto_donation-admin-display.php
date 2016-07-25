@@ -651,251 +651,250 @@ if ( isset($_GET['page']) ) {
 
 <div class="wrap">
 	<h1>Pronto Settings</h1>
-	<form method="post">	
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row">
-						<label for="from_class">Form Class</label>
-					</th>
-					<td>
-						<input type="text" name="from_class" id="from_class" class="regular-text" value="<?php echo $form_class; ?>">
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="button_class">Button Class</label>
-					</th>
-					<td>
-						<input type="text" name="button_class" id="button_class" class="regular-text" value="<?php echo $button_class; ?>">
-					</td>						    						
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="input_field_class">Input Field Class</label>
-					</th>
-					<td>
-						<input type="text" name="input_field_class" id="input_field_class" class="regular-text" value="<?php echo $input_field_class; ?>">
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="edit_button_caption">Edit Button Caption</label>
-					</th>
-					<td>
-						<input type="text" name="edit_button_caption" id="edit_button_caption" class="regular-text" value="<?php echo $edit_button_caption; ?>">
-					</td>
-				</tr>					
-			</tbody>
-		</table>
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row">
-						<label for="set_currency">Set Currency</label>
-					</th>
-					<td>
-					    <select id="set_currency" name="set_currency">
-					   	<?php
-					    foreach ($currency_symbols as $key => $value) {
-					    	?>	
-							<option value="<?php echo $key;?>"<?php if($set_currency==$key){echo'selected';}?>><?php echo $key;?></option>
+	<form method="post">
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<label for="from_class">Form Class</label>
+						</th>
+						<td>
+							<input type="text" name="from_class" id="from_class" class="regular-text" value="<?php echo $form_class; ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="button_class">Button Class</label>
+						</th>
+						<td>
+							<input type="text" name="button_class" id="button_class" class="regular-text" value="<?php echo $button_class; ?>">
+						</td>						    						
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="input_field_class">Input Field Class</label>
+						</th>
+						<td>
+							<input type="text" name="input_field_class" id="input_field_class" class="regular-text" value="<?php echo $input_field_class; ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="edit_button_caption">Edit Button Caption</label>
+						</th>
+						<td>
+							<input type="text" name="edit_button_caption" id="edit_button_caption" class="regular-text" value="<?php echo $edit_button_caption; ?>">
+						</td>
+					</tr>					
+				</tbody>
+			</table>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<label for="set_currency">Set Currency</label>
+						</th>
+						<td>
+						    <select id="set_currency" name="set_currency">
+						   	<?php
+						    foreach ($currency_symbols as $key => $value) {
+						    	?>	
+								<option value="<?php echo $key;?>"<?php if($set_currency==$key){echo'selected';}?>><?php echo $key;?></option>
+								<?php
+						   	}
+						    	
+						    ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="set_country">Set Country</label>
+						</th>
+						<td>
+						    <select id="set_country" name="set_country">
+						    <?php
+						    foreach ($countries as $key => $value) {
+						    	?>	
+						    	<option value="<?php echo $key;?>"<?php if($set_country==$key){echo'selected';}?>><?php echo $value;?></option>
+						    	<?php
+						   	}
+						    	
+						    ?>
+							</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>	
+		</br>
+		</br>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Notifications</h2>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<label for="email_to_be_notify">Email to be notify</label>
+						</th>
+						<td>
+						    <input name="email_to_be_notify" type="email" id="email_to_be_notify" class="regular-text" value="<?php echo $email_to_be_notify; ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="email_address">Email Address</label>
+						</th>
+						<td>
+						    <input name="email_address" type="email" id="email_address" class="regular-text" value="<?php echo $email_address; ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="email_name">Email Name</label>
+						</th>
+						<td>
+						    <input name="email_name" type="text" id="email_name" class="regular-text" value="<?php echo $email_name; ?>">
+						</td>
+					</tr>
+				</tbody>	
+			</table>
+		</div>
+
+		</br>
+		</br>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Salesforce API Configuration  ( Optional )</h2>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row"><label for="client_id">Consumer Key</label></th>
+						<td>
+							<input type="text" name="client_id" id="client_id" class="regular-text" value="<?php echo $client_id; ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="client_secret">Consumer Secret</label></th>
+						<td>
+							<input type="text" id="client_secret" name="client_secret" class="regular-text" value="<?php echo $client_secret; ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="redirect_uri">Redirect URI</label></th>
+						<td>
+							<input type="url" id="redirect_uri" name="redirect_uri" class="regular-text" value="<?php echo $redirect_uri; ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="login_uri">Login URL</label></th>
+						<td>	
+							<input type="url" id="login_uri" name="login_uri" class="regular-text" value="<?php echo $login_uri; ?>">							
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="salesforce_url">Salesforce URL</label></th>
+						<td>
+							<input type="url" id="salesforce_url" name="salesforce_url" class="regular-text" value="<?php echo $salesforce_url; ?>">		
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="salesforce_url">Username</label></th>
+						<td>
+							<input type="text" id="salesforce_username" name="salesforce_username" class="regular-text" value="<?php echo $salesforce_username; ?>">		
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="salesforce_url">Password</label></th>
+						<td>
+							<input type="password" id="salesforce_password" name="salesforce_password" class="regular-text" value="<?php echo $salesforce_password; ?>">		
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		</br>
+		</br>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Thank you Page Messages</h2>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<p><span class="description">Note: Use this shorcode</span> [pronto-donation-TYPM] <span class="description">for front end use.</p></p>
+						    <?php
+								$content = $thank_you_page_message;
+								$editor_id = 'thank_you_page_message';
+
+								wp_editor( $content, $editor_id );
+							?>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Thank you Email Message</h2>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+						    <?php
+								$content = $thank_you_email_message;
+								$editor_id = 'thank_you_email_message';
+
+								wp_editor( $content, $editor_id );
+							?>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Info on Offline Payment Panel</h2>		
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<p><span class="description">Note: Use this shorcode</span> [pronto-donation-IOOPPP] <span class="description">for front end use.</p></p>
+						    <?php
+								$content = $info_on_offline_payment_panel;
+								$editor_id = 'info_on_offline_payment_panel';
+
+								wp_editor( $content, $editor_id );
+							?>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Instructions Emailed to Offline Donor Before Payment is Approved</h2>	
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<p><span class="description">Note: Use this shorcode</span> [pronto-donation-IETODBP] <span class="description">for front end use.</p></p>
 							<?php
-					   	}
-					    	
-					    ?>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="set_country">Set Country</label>
-					</th>
-					<td>
-					    <select id="set_country" name="set_country">
-					    <?php
-					    foreach ($countries as $key => $value) {
-					    	?>	
-					    	<option value="<?php echo $key;?>"<?php if($set_country==$key){echo'selected';}?>><?php echo $value;?></option>
-					    	<?php
-					   	}
-					    	
-					    ?>
-						</select>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+								$content = $instructions_emailed_to_offline_donor_before_payment;
+								$editor_id = 'instructions_emailed_to_offline_donor_before_payment';
 
-		</br>
-		</br>	
-		<h2 class="title">Notifications</h2>
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row">
-						<label for="email_to_be_notify">Email to be notify</label>
-					</th>
-					<td>
-					    <input name="email_to_be_notify" type="email" id="email_to_be_notify" class="regular-text" value="<?php echo $email_to_be_notify; ?>">
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="email_address">Email Address</label>
-					</th>
-					<td>
-					    <input name="email_address" type="email" id="email_address" class="regular-text" value="<?php echo $email_address; ?>">
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="email_name">Email Name</label>
-					</th>
-					<td>
-					    <input name="email_name" type="text" id="email_name" class="regular-text" value="<?php echo $email_name; ?>">
-					</td>
-				</tr>
-			</tbody>	
-		</table>
-	
-		</br>
-		</br>			
-		<h2 class="title">Salesforce API Configuration  ( Optional )</h2>
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row"><label for="client_id">Consumer Key</label></th>
-					<td>
-						<input type="text" name="client_id" id="client_id" class="regular-text" value="<?php echo $client_id; ?>">
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="client_secret">Consumer Secret</label></th>
-					<td>
-						<input type="text" id="client_secret" name="client_secret" class="regular-text" value="<?php echo $client_secret; ?>">
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="redirect_uri">Redirect URI</label></th>
-					<td>
-						<input type="url" id="redirect_uri" name="redirect_uri" class="regular-text" value="<?php echo $redirect_uri; ?>">
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="login_uri">Login URL</label></th>
-					<td>	
-						<input type="url" id="login_uri" name="login_uri" class="regular-text" value="<?php echo $login_uri; ?>">							
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="salesforce_url">Salesforce URL</label></th>
-					<td>
-						<input type="url" id="salesforce_url" name="salesforce_url" class="regular-text" value="<?php echo $salesforce_url; ?>">		
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="salesforce_url">Username</label></th>
-					<td>
-						<input type="text" id="salesforce_username" name="salesforce_username" class="regular-text" value="<?php echo $salesforce_username; ?>">		
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="salesforce_url">Password</label></th>
-					<td>
-						<input type="password" id="salesforce_password" name="salesforce_password" class="regular-text" value="<?php echo $salesforce_password; ?>">		
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		
-
-		</br>
-		</br>	
-		<h2 class="title">Messages</h2>
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row" style="background-color: rgba(35, 40, 45, 0.11);padding: 18px;">
-						<label for="thank_you_page_message">Thank you Page Message</label>
-						</br>
-						</br>
-						<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.
-					    <?php
-							$content = $thank_you_page_message;
-							$editor_id = 'thank_you_page_message';
-
-							wp_editor( $content, $editor_id );
-						?>
-					</th>
-				</tr>
-			</tbody>
-		</table>
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row" style="background-color: rgba(35, 40, 45, 0.11);padding: 18px;">
-						<label for="thank_you_email_message">Thank you Email Message</label>
-						</br>
-						</br>
-					    <?php
-							$content = $thank_you_email_message;
-							$editor_id = 'thank_you_email_message';
-
-							wp_editor( $content, $editor_id );
-						?>
-					</th>
-				</tr>
-			</tbody>
-		</table>
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row" style="background-color: rgba(35, 40, 45, 0.11);padding: 18px;">
-						<label for="info_on_offline_payment_panel">Info on Offline Payment Panel</label>
-						</br>
-						</br>
-						<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page editor for it to work.</p>
-					    <?php
-							$content = $info_on_offline_payment_panel;
-							$editor_id = 'info_on_offline_payment_panel';
-
-							wp_editor( $content, $editor_id );
-						?>
-					</th>
-				</tr>
-			</tbody>
-		</table>
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row" style="background-color: rgba(35, 40, 45, 0.11);padding: 18px;">
-						<label for="instructions_emailed_to_offline_donor_before_payment">Instructions Emailed to Offline Donor Before Payment is Approved</label>
-						</br>
-						</br>
-						<p class="description">Note: Shortcodes like this "[Sample-Shortcode]" should be inserted here and not on page 	
-						<?php
-							$content = $instructions_emailed_to_offline_donor_before_payment;
-							$editor_id = 'instructions_emailed_to_offline_donor_before_payment';
-
-							wp_editor( $content, $editor_id );
-						?>
-					</th>
-				</tr>
-			</tbody>
-		</table>
+								wp_editor( $content, $editor_id );
+							?>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
 		</p>
 	</form>
 </div>
 	<?php
-	// $my_postid = 8;//This is page id or post id
-	// $content_post = get_post($my_postid);
-	// $content = $content_post->post_content;
-	// $content = apply_filters('the_content', $content);
-	// $content = str_replace(']]>', ']]&gt;', $content);
-	// echo $content;
+
 	}
 }
 //================= Donation Settings =================//
