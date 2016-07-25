@@ -251,7 +251,7 @@ class Pronto_donation_Admin {
 	// EOF Pronto Payments
 
 	// BOF Pronto Donation Campaign 
-	// Author: Danrul T. Carpio
+	// Author: Danryl T. Carpio
 
 	/*
 	* This 2 function pronto_donation_wp_gear_manager_admin_scripts, pronto_donation_wp_gear_manager_admin_styles
@@ -416,7 +416,9 @@ class Pronto_donation_Admin {
 									if( $sizeofaray > 0 ) {
 										for ($i=0; $i < $sizeofaray; $i++) {
 											?>
-											<p id="amount-level<?php echo $explode_amount_level[$i] ?>"><?php echo $explode_amount_level[$i] ?> <a style="text-decoration: underline; cursor: pointer;" data="<?php echo $explode_amount_level[$i] ?>" id="amount-remove<?php echo $explode_amount_level[$i] ?>"> remove </a></p>
+											<p id="amount-level<?php echo $explode_amount_level[$i] ?>"><a class="dashicons-before dashicons-trash" style=" color: #666; cursor: pointer;" 
+												data="<?php echo $explode_amount_level[$i] ?>" id="amount-remove<?php echo $explode_amount_level[$i] ?>"> </a> <?php echo $explode_amount_level[$i] ?> 
+											</p>
 											<?php
 										}
 									}
@@ -573,7 +575,7 @@ class Pronto_donation_Admin {
 								<p class="description">Select an option for user suburb</p>
 							</td>
 						</tr>
-						
+
 					</tbody>
 				</table>
 			</form>
@@ -666,8 +668,9 @@ class Pronto_donation_Admin {
 					if(data != null && data != '') {
 
 						var datavalue = $('#amount_level_data').val().split(' ');
- 
-						if(data == "0") {
+ 						var datanumber = parseInt(data);
+
+						if(datanumber < 1) {
 							return false;
 						}
 
@@ -677,7 +680,7 @@ class Pronto_donation_Admin {
 							} else {
 								$('#amount_level_data').val( $('#amount_level_data').val() +" "+ data );
 							}
-							$('#amount_level_display').append('<p id="amount-level'+data+'">'+data+' '+'<a style="text-decoration: underline; cursor: pointer;" data="'+data+'"id="amount-remove'+data+'">remove</a></p>');
+							$('#amount_level_display').append('<p id="amount-level'+data+'"><a class="dashicons-before dashicons-trash" style=" color: #666; cursor: pointer;" data="'+data+'"id="amount-remove'+data+'"></a>'+' '+data+'</p>');
 						}
 
 						var datavalue = $('#amount_level_data').val().split(' ');
@@ -721,7 +724,6 @@ class Pronto_donation_Admin {
 	}
 
 	/*
-
 	* This function will execute when publishing campaign or editing campaign,
 	* this will add a post_meta called pronto_donation_campaign, pronto_donation_user_info
 	* for every campaign created
@@ -836,7 +838,7 @@ class Pronto_donation_Admin {
 
 			case 'donation_target' :
  				$data_donation_target = $campaign_info['donation_target'];
- 				echo number_format( (int) $data_donation_target, 2 );
+ 				echo number_format($data_donation_target, 2, '.', ',');
 			break;
  
 		}
