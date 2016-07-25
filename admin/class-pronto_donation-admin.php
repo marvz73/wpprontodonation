@@ -753,6 +753,9 @@ class Pronto_donation_Admin {
  	 			$amountdata = implode(",", $amount_level_data);
  	 		}
 
+ 	 		date_default_timezone_set('Australia/Melbourne');
+			$date = date('M d, Y h:i:s a', time());
+
 			$data = ( isset( $_POST['hide_custom_amount'] ) ) ? 1 : 0 ;
 
 			$campaign_data = array();
@@ -763,6 +766,7 @@ class Pronto_donation_Admin {
 			$campaign_data['donation_type'] = sanitize_text_field( $_POST['donation_type'] );
 			$campaign_data['donation_campaign_filter'] = sanitize_text_field( $_POST['donation_campaign_filter'] );
 			$campaign_data['campaign_shortcode'] = '[pronto-donation campaign=' . $post_id .']';
+			$campaign_data['date_updated'] = $date;
 			update_post_meta( $post_id, 'pronto_donation_campaign', $campaign_data );
 
 			$user_information = array();
@@ -791,7 +795,9 @@ class Pronto_donation_Admin {
 			'title' => __( 'Donation Name' ) ,
 			'donation_target' => __( 'Donation Target' ),
 			'donation_type' => __( 'Donation Type' ),
-			'campaign_shortcode' => __( 'Shortcode' )
+			'campaign_shortcode' => __( 'Shortcode' ),
+			'date_updated' => __('Last Updated Date'),
+			'date' => __('Date Created')
 		);
 
 		return $columns;
@@ -840,6 +846,11 @@ class Pronto_donation_Admin {
  				$data_donation_target = $campaign_info['donation_target'];
  				echo number_format($data_donation_target, 2, '.', ',');
 			break;
+
+			case 'date_updated' :
+				$date_date_created = $campaign_info['date_updated'];
+ 				echo $date_date_created;
+			break;
  
 		}
 
@@ -851,11 +862,13 @@ class Pronto_donation_Admin {
 	*/
 	public function pronto_donation_campaign_head_css() {
 		echo '<style>
-			.column-banner_image {width: 12%}
+			.column-banner_image {width: 10%}
 			.column-donation_name {width: 25%}
-			.column-donation_target {width: 15%}
-			.column-donation_type {width: 15%}
-			.column-campaign_shortcode {width: 15%}
+			.column-donation_target {width: 12%}
+			.column-donation_type {width: 11%}
+			.column-campaign_shortcode {width: 12%}
+			.column-date_updated {width: 12%}
+			.column-date {width: 15%}
 		</style>';
 	}
 
