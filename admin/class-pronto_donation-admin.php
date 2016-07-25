@@ -326,21 +326,31 @@ class Pronto_donation_Admin {
 			$campaign_info = unserialize( $campaigns['pronto_donation_campaign'][0] );
 			$user_information = unserialize( $campaigns['pronto_donation_user_info'][0] );
 
-	 		$explode_amount_level = explode( ",", $campaign_info['amount_level'] );
-			$amount_l = '';
-		 	$sizeofaray = sizeof($explode_amount_level);
-			if($sizeofaray !== 0) {
-				for ($i=0; $i < $sizeofaray; $i++) {
-					if($i > 0) {
-						$amount_l .= " " . $explode_amount_level[$i];
-					} else {
-						$amount_l .= $explode_amount_level[$i];
-					}
-				}
+			$sizeofaray = 0;
+
+			if( !empty( $campaign_info['amount_level'] ) ) {
+
+	 			$explode_amount_level = explode( ",", $campaign_info['amount_level'] );
+
+	 			$amount_l = '';
+	 			$sizeofaray = sizeof($explode_amount_level);
+
+	 			if($sizeofaray !== 0) {
+	 				for ($i=0; $i < $sizeofaray; $i++) {
+	 					if($i > 0) {
+	 						$amount_l .= " " . $explode_amount_level[$i];
+	 					} else {
+	 						$amount_l .= $explode_amount_level[$i];
+	 					}
+	 				}
+	 			}
 			}
+
 		} else {
+
 			$amount_l = "10,20,30,40";
 	 		$explode_amount_level = explode( ",", $amount_l );
+
 		 	$sizeofaray = sizeof($explode_amount_level);
 		 	if($sizeofaray !== 0) {
 		 		$amount_l = "";
@@ -365,15 +375,8 @@ class Pronto_donation_Admin {
 								<h3>Campaign</h3>
 							</td>
 						</tr>
-						<tr>
-							<th scope="row"><label for="donation_name">Donation Name</label></th>
-							<td>
-								<input type="text" name="donation_name" id="donation_name" class="regular-text" value="<?php if( !empty( $campaign_info['donation_name'] ) ) echo esc_attr( $campaign_info['donation_name'] ); ?>">
-								<p class="description">This will be the donation name</p>
-							</td>
-						</tr>
-
-						<tr>
+ 
+ 						<tr>
 							<th scope="row"><label for="donation_target">Donation Target</label></th>
 							<td>
 								<input placeholder="0.00" type="text" name="donation_target" id="donation_target" class="regular-text" value="<?php if( !empty( $campaign_info['donation_target'] ) ) echo esc_attr( $campaign_info['donation_target'] ); ?>">
@@ -410,7 +413,7 @@ class Pronto_donation_Admin {
 								<div id="amount_level_display">
 									<?php
 
-									if(isset($sizeofaray) && $sizeofaray !== 0 ) {
+									if( $sizeofaray > 0 ) {
 										for ($i=0; $i < $sizeofaray; $i++) {
 											?>
 											<p id="amount-level<?php echo $explode_amount_level[$i] ?>"><?php echo $explode_amount_level[$i] ?> <a style="text-decoration: underline; cursor: pointer;" data="<?php echo $explode_amount_level[$i] ?>" id="amount-remove<?php echo $explode_amount_level[$i] ?>"> remove </a></p>
@@ -433,6 +436,7 @@ class Pronto_donation_Admin {
 								<p class="description">Select Donation Type</p>
 							</td>
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="donation_campaign_filter">Campaign Filter</label></th>
 							<td>
@@ -440,13 +444,16 @@ class Pronto_donation_Admin {
 								<p class="description">This field use to filter campaign's donations</p>
 							</td>
 						</tr>
+
 					</tbody>
 					<tbody>
+
 						<tr>
 							<td>
 								<h3>User Information</h3>
 							</td>
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_donor_type_option">Donor Type</label></th>
 							<td>
@@ -458,39 +465,43 @@ class Pronto_donation_Admin {
 								<p class="description">Select an option for donor type</p>
 							</td>
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_email_option">Email</label></th>
 							<td>
-								<select name="user_email_option" id="user_email_option">
-									<option value="show" <?php if( !empty( $user_information['user_email_option'] ) && esc_attr($user_information['user_email_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
-									<option value="hide" <?php if( !empty( $user_information['user_email_option'] ) && esc_attr($user_information['user_email_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
-									<option value="required" <?php if( !empty( $user_information['user_email_option'] ) && esc_attr($user_information['user_email_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								<select name="user_email_option" id="user_email_option" disabled>
+									<option value="show">Show</option>
+									<option value="hide">Hide</option>
+									<option value="required" selected="selected">Required</option>
 								</select>
 								<p class="description">Select an option for user email</p>
 							</td>
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_firstname_option">First Name</label></th>
 							<td>
-								<select name="user_firstname_option" id="user_firstname_option">
-									<option value="show" <?php if( !empty( $user_information['user_firstname_option'] ) && esc_attr($user_information['user_firstname_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
-									<option value="hide" <?php if( !empty( $user_information['user_firstname_option'] ) && esc_attr($user_information['user_firstname_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
-									<option value="required" <?php if( !empty( $user_information['user_firstname_option'] ) && esc_attr($user_information['user_firstname_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								<select name="user_firstname_option" id="user_firstname_option" disabled>
+									<option value="show">Show</option>
+									<option value="hide">Hide</option>
+									<option value="required" selected="selected">Required</option>
 								</select>
 								<p class="description">Select an option for user first name</p>
 							</td>
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_lastname_option">Last Name</label></th>
 							<td>
-								<select name="user_lastname_option" id="user_lastname_option">
-									<option value="show" <?php if( !empty( $user_information['user_lastname_option'] ) && esc_attr($user_information['user_lastname_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
-									<option value="hide" <?php if( !empty( $user_information['user_lastname_option'] ) && esc_attr($user_information['user_lastname_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
-									<option value="required" <?php if( !empty( $user_information['user_lastname_option'] ) && esc_attr($user_information['user_lastname_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								<select name="user_lastname_option" id="user_lastname_option" disabled>
+									<option value="show">Show</option>
+									<option value="hide">Hide</option>
+									<option value="required" selected="selected">Required</option>
 								</select>
 								<p class="description">Select an option for user last name</p>
 							</td>
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_phone_option">Phone</label></th>
 							<td>
@@ -502,6 +513,7 @@ class Pronto_donation_Admin {
 								<p class="description">Select an option for user phone</p>
 							</td>
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_address_option">Address</label></th>
 							<td>
@@ -513,6 +525,7 @@ class Pronto_donation_Admin {
 								<p class="description">Select an option for user address</p>
 							</td>	
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_country_option">Country</label></th>
 							<td>
@@ -524,6 +537,7 @@ class Pronto_donation_Admin {
 								<p class="description">Select an option for user country</p>
 							</td>	
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_state_option">State</label></th>
 							<td>
@@ -535,6 +549,7 @@ class Pronto_donation_Admin {
 								<p class="description">Select an option for user state</p>
 							</td>	
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_postcode_option">Post Code</label></th>
 							<td>
@@ -546,6 +561,7 @@ class Pronto_donation_Admin {
 								<p class="description">Select an option for user post code</p>
 							</td>	
 						</tr>
+
 						<tr>
 							<th scope="row"><label for="user_suburb_option">Suburb</label></th>
 							<td>
@@ -557,6 +573,7 @@ class Pronto_donation_Admin {
 								<p class="description">Select an option for user suburb</p>
 							</td>
 						</tr>
+						
 					</tbody>
 				</table>
 			</form>
@@ -565,6 +582,10 @@ class Pronto_donation_Admin {
 
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
+
+				if( $('#amount_level_data').val() == null || $('#amount_level_data').val() == '' ) {
+					$('#hide_custom_amount').attr('disabled', true);
+				}
  				
  				/*
  				* This jquery keypress event function for text field
@@ -615,8 +636,18 @@ class Pronto_donation_Admin {
 									newtextdata += data[a];
 								}
 							}
+
 							$('#amount_level_data').val(newtextdata);
 							$('#amount-level'+$(this).attr('data')).hide();
+
+							var datavalue = $('#amount_level_data').val().split(' ');
+							console.log(datavalue)
+
+							if(datavalue.length === 1 && datavalue[0] === '') {
+								$('#hide_custom_amount').prop('checked', false);
+								$('#hide_custom_amount').attr('disabled', true);
+							}
+
 						});
 					}
 				}
@@ -629,11 +660,18 @@ class Pronto_donation_Admin {
  				* the items will add into hidden textfield 
  				*/
 				$('#add_amount_btn').click(function(e){
+
 					var data = $('#amount_level').val();
+				 
 					if(data != null && data != '') {
 
 						var datavalue = $('#amount_level_data').val().split(' ');
-						if( $.inArray( data, datavalue ) == -1) {
+ 
+						if(data == "0") {
+							return false;
+						}
+
+						if( $.inArray( data, datavalue ) == -1 ) {
 							if($('#amount_level_data').val() == '' || $('#amount_level_data').val == null) {
 								$('#amount_level_data').val( $('#amount_level_data').val() + data );
 							} else {
@@ -645,6 +683,13 @@ class Pronto_donation_Admin {
 						var datavalue = $('#amount_level_data').val().split(' ');
 						bindOnclick(datavalue);
 						$('#amount_level').val('');
+
+						if( $('#amount_level_data').val() == null || $('#amount_level_data').val() == '' ) {
+							$('#hide_custom_amount').attr('disabled', true);
+						} else {
+							$('#hide_custom_amount').prop('disabled', false);
+						}
+
 					}
 					e.preventDefault();
 				});
@@ -676,15 +721,18 @@ class Pronto_donation_Admin {
 	}
 
 	/*
+
 	* This function will execute when publishing campaign or editing campaign,
 	* this will add a post_meta called pronto_donation_campaign, pronto_donation_user_info
 	* for every campaign created
 	*/
 	public function pronto_donation_campagin_save_post( $post_id ) {
 
+		$data = ( isset( $_POST['hide_custom_amount'] ) ) ? 1 : 0 ;
+ 
 		$is_autosave = wp_is_post_autosave( $post_id );
 		$is_revision = wp_is_post_revision( $post_id );
-		$is_valid_nonce = ( isset($_POST['pronto_donation_campaign_nonce'] ) && wp_verify_nonce( $_POST['	'], basename( __FILE__ ) ) ) ? 'true' : 'false';
+		$is_valid_nonce = ( isset($_POST['pronto_donation_campaign_nonce'] ) && wp_verify_nonce( $_POST['pronto_donation_campaign_nonce'], basename( __FILE__ ) ) ) ? 'true' : 'false';
 
 		if( $is_autosave || $is_revision || !$is_valid_nonce ) {
 			return;
@@ -697,15 +745,19 @@ class Pronto_donation_Admin {
 			if( isset( $_POST['amount_level_data'] ) && !empty( $_POST['amount_level_data'] ) ) {
 				$amount_level_data = explode( " ", $_POST['amount_level_data'] );
 			}
- 	 
-			$data = sanitize_text_field( $_POST['hide_custom_amount'] );
+ 	 		
+ 	 		$amountdata = "";
+ 	 		if( !empty($amount_level_data) ) {
+ 	 			$amountdata = implode(",", $amount_level_data);
+ 	 		}
+
+			$data = ( isset( $_POST['hide_custom_amount'] ) ) ? 1 : 0 ;
 
 			$campaign_data = array();
-			$campaign_data['donation_name'] = sanitize_text_field( $_POST['donation_name'] );
 			$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'], 2 );
 			$campaign_data['banner_image'] = sanitize_text_field( $_POST['banner_image'] );
-			$campaign_data['hide_custom_amount'] = ( isset( $data ) ) ? 1 : 0;
-			$campaign_data['amount_level'] = implode(",", $amount_level_data);
+			$campaign_data['hide_custom_amount'] = $data;
+			$campaign_data['amount_level'] = $amountdata;
 			$campaign_data['donation_type'] = sanitize_text_field( $_POST['donation_type'] );
 			$campaign_data['donation_campaign_filter'] = sanitize_text_field( $_POST['donation_campaign_filter'] );
 			$campaign_data['campaign_shortcode'] = '[pronto-donation campaign=' . $post_id .']';
@@ -724,7 +776,6 @@ class Pronto_donation_Admin {
 			$user_information['user_suburb_option'] = sanitize_text_field( $_POST['user_suburb_option'] );
 			update_post_meta( $post_id, 'pronto_donation_user_info', $user_information );
 		}
- 
 	}
 
 	/*
@@ -734,14 +785,12 @@ class Pronto_donation_Admin {
 
 		$columns = array(
 			'cb'	 	=> '<input type="checkbox" />',
-			// 'title' => __( 'Title' ),
 			'banner_image' => __( 'Banner Image' ),
-			'donation_name' => __( 'Donation Name' ) ,
+			'title' => __( 'Donation Name' ) ,
 			'donation_target' => __( 'Donation Target' ),
 			'donation_type' => __( 'Donation Type' ),
-			'campaign_shortcode' => __( 'Shortcode' ),
-			'action' => __( 'Action' )
-			);
+			'campaign_shortcode' => __( 'Shortcode' )
+		);
 
 		return $columns;
 	}
@@ -753,7 +802,7 @@ class Pronto_donation_Admin {
 	public function pronto_donation_column_data( $column, $post_id){
 		global $post;
 
-		$campaigns = get_post_meta( $post->ID );
+		$campaigns = get_post_meta( $post_id );
 
 		$campaign_info = unserialize( $campaigns['pronto_donation_campaign'][0] );
 		$user_information = unserialize( $campaigns['pronto_donation_user_info'][0] );
@@ -765,9 +814,8 @@ class Pronto_donation_Admin {
  				echo '<img id="banner_image_img" src="'. $data_banner .'" width="50" height="50" alt="">';
 			break;
 			
-			case 'donation_name' :
- 				$data_donation_name = $campaign_info['donation_name'];
- 				echo $data_donation_name;
+			case 'title' :
+
 			break;
 			
 			case 'campaign_shortcode' :
@@ -790,12 +838,6 @@ class Pronto_donation_Admin {
  				$data_donation_target = $campaign_info['donation_target'];
  				echo number_format( (int) $data_donation_target, 2 );
 			break;
-
-			case 'action' :
-				$actions = "<a class='campaign_action' href='". get_edit_post_link($post_id)."'>Edit </a> ";
-				$actions .= "|<a class='campaign_action' href='". get_delete_post_link($post_id)."'> Remove </a>";
-				echo $actions;
-			break;
  
 		}
 
@@ -812,7 +854,6 @@ class Pronto_donation_Admin {
 			.column-donation_target {width: 15%}
 			.column-donation_type {width: 15%}
 			.column-campaign_shortcode {width: 15%}
-			.column-status1 {width: 10%}
 		</style>';
 	}
 
