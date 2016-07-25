@@ -59,4 +59,35 @@ class ezidebit{
 		);
 
 	}
+
+	public function payment_process($ppd = array()){
+
+		// ShowDisabledInputs	
+		// RedirectMethod	
+		// RedirectURL	
+		// PaymentReference	
+
+	 	// global $wpdb;
+		// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
+
+		$url = $ppd['payment_info']->option['url'];
+
+		$fields = array(
+			// 'CompanyName'			=> $ppd['payment_info']
+			'FirstName'				=> $ppd['first_name'],
+			'LastName'				=> $ppd['last_name'],
+			'EmailAddress'			=> $ppd['email'],
+			'MobilePhoneNumber'		=> $ppd['phone'],
+			'PaymentAmount'			=> $ppd['pd_amount'],
+			'ShowDisabledInputs'	=> 0,
+			'RedirectMethod'		=> 'GET',
+			'RedirectURL'			=> 'http://localhost/wordpress',
+			'PaymentReference'		=> $ppd['post_meta_id']
+		);
+
+
+		require_once('tmpl/tmpl_payment_process.php');
+
+	}
+
 }

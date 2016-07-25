@@ -51,6 +51,7 @@ function deactivate_pronto_donation() {
 register_activation_hook( __FILE__, 'activate_pronto_donation' );
 register_deactivation_hook( __FILE__, 'deactivate_pronto_donation' );
 
+
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
@@ -68,8 +69,14 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-pronto_donation.php';
  */
 function run_pronto_donation() {
 
+
+
+
 	$plugin = new Pronto_donation();
 	$plugin->run();
 
 }
+
+
+
 run_pronto_donation();

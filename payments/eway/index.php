@@ -67,4 +67,44 @@ class eway{
 
 	}
 
+
+
+	public function payment_process($payment_params = array()){
+
+		echo 123123123123;
+
+		require_once('eWay.php');
+
+		$request = new eWAY\CreateAccessCodesSharedRequest();
+		// $request->Customer->TokenCustomerID = '911193411846';  -----> OPTIONAL
+
+		// $request->Customer->FirstName = 'Junjie';  
+		// $request->Customer->LastName = 'Canonio'; 
+		// $request->Customer->Country = 'AU'; 
+		// $request->Payment->TotalAmount = '69';
+
+		// $self_url = 'http';
+		// if (!empty($_SERVER['HTTPS'])) {
+		//     $self_url .= "s";
+		// }
+		// $self_url .= "://" . $_SERVER["SERVER_NAME"];
+		// if ($_SERVER["SERVER_PORT"] != "80") {
+		// $self_url .= ":".$_SERVER["SERVER_PORT"];
+		// }
+		// $self_url .= $_SERVER["REQUEST_URI"];
+
+		// $request->RedirectUrl = $self_url;
+		// $request->CancelUrl   = $self_url;
+		// $request->Method = 'TokenPayment';
+
+		// $eway_params = array();
+		// if ($EwaySanboxMode) $eway_params['sandbox'] = true;
+		// $service = new eWAY\RapidAPI($EwayAPIKey,$EwayAPIPassword , $eway_params);
+		// $result = $service->CreateAccessCodesShared($request);
+
+		// header("Location: " . $result->SharedPaymentUrl);
+
+
+	}
+
 }

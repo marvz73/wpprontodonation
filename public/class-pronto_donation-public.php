@@ -101,7 +101,16 @@ class Pronto_donation_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
 
+		
+
 	}
+
+
+
+
+
+
+
 
 	//
 	// Desc: Pronto Campaign
@@ -112,17 +121,36 @@ class Pronto_donation_Public {
 		//Process the payment here...
 	    if($_POST)
 	    {
-	    	print_r($_POST);
 	    	$campaign_data = $_POST;
+	    	if($campaign_data['action'] == 'process_donate' && wp_verify_nonce( $campaign_data['nonce'], 'donation'))
+	    	{
+	    		$campaign_data['status'] = 'pending';
+	    		
+	    		$payment_methods = $this->class->pronto_donation_payment_methods();
 
-	    	update_post_meta($campaign_data['campaign'], $campaign_data);
+	    		foreach($payment_methods as $index=>$payment)
+	    		{
+	    			if($campaign_data['payment'] == $payment->payment['payment_name'])
+	    			{
+	    				$campaign_data['payment_info'] = $payment;
+	    			}
+	    		}
 
-	    	// wp_redirect('/wordpress');
+  				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
+
+  				$campaign_data['post_meta_id'] = $post_meta_id;
+  				
+	    		// Call the payment function to execute payment action
+	    		$campaign_data['payment_info']->payment_process($campaign_data);
+
+			 	// global $wpdb;
+				// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
+
+	    	}
 	    }
-	    //Display the donation fields
 	    else
 	    {
-
+		    //Display the donation fields
 			$attrs = shortcode_atts( array(
 		        'campaign' => 0,
 		    ), $campaign_id );
@@ -132,49 +160,32 @@ class Pronto_donation_Public {
 
 			//Donor user fields
 		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
-			
-		    // $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
+
+		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
 
 		    require_once('partials/pronto_donation-public-campaign.php');
 	    }
 	}
 
 
-	public function pronto_donation_thank_you_page_message(){
-		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+	function shopello_feed_rewrites_init(){
 
-		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
-
-		$my_postid = $thank_you_page_message_page;//This is page id or post id
-		$content_post = get_post($my_postid);
-		$content = $content_post->post_content;
-		$content = apply_filters('the_content', $content);
-		$content = str_replace(']]>', ']]&gt;', $content);
-		echo $content;
+	    add_rewrite_rule(
+	       '^shopello?',
+	       'index.php?pagename=shopello',
+	       'top' 
+	    );
 	}
-	public function pronto_donation_info_on_offline_payment_panel_page(){
-		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
 
-		$info_on_offline_payment_panel_page = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelPage'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelPage'];
 
-		$my_postid = $info_on_offline_payment_panel_page;//This is page id or post id
-		$content_post = get_post($my_postid);
-		$content = $content_post->post_content;
-		$content = apply_filters('the_content', $content);
-		$content = str_replace(']]>', ']]&gt;', $content);
-		echo $content;
-	}
-	public function pronto_donation_instructions_emailed_to_offline_donor_before_payment(){
-		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+	function shopello_fee_page_template( $page_template )
+	{	
+   		if ( is_page( 'shopello' ) ) {
+    	echo 12312312;
+   		
+   		}
 
-		$instructions_emailed_to_offline_donor_before_payment_page = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'];	
-
-		$my_postid = $instructions_emailed_to_offline_donor_before_payment_page;//This is page id or post id
-		$content_post = get_post($my_postid);
-		$content = $content_post->post_content;
-		$content = apply_filters('the_content', $content);
-		$content = str_replace(']]>', ']]&gt;', $content);
-		echo $content;
+   		return $page_template;
 	}
 
 }

@@ -12,12 +12,15 @@
 				<?php
 					$this->class->pronto_donation_payment_amount_level($attrs['campaign']);
 				?>
-				
+				<?php if(!$pronto_donation_campaign['hide_custom_amount']): ?>
 				<label for="other_amount"><input id="other_amount" class="pd_amount" type="radio" name="pd_amount" value="0" />Other</label>
-			
+				<?php endif; ?>
 			</p>
 		<?php endif; ?>
 
+		<?php 
+
+		if(!$pronto_donation_campaign['hide_custom_amount']): ?>
 		<p>
 			<label>Donation Custom Amount: </label>
 			<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
@@ -26,19 +29,28 @@
 				<input type="number" id="pd_custom_amount" name="pd_custom_amount" />
 			<?php endif; ?>
 		</p>
-
-
+		<?php endif; ?>
+		
 		<p>
 			<label>Donation Type :</label>
-			<span>
+			<?php if($pronto_donation_campaign['donation_type'] == 'both'): ?>	
+					<label>
+						<input type="radio" name="donation_type" value="single" checked="true" /> Single
+					</label>
+					<label>
+						<input type="radio" name="donation_type" value="recurring" /> Recurring
+					</label>
+			<?php elseif($pronto_donation_campaign['donation_type'] == 'single'): ?>
 				<label>
-					<input type="radio" name="donation_type" checked="true" /> Single
+					<input type="radio" name="donation_type" value="single" /> Single
 				</label>
+			<?php elseif($pronto_donation_campaign['donation_type'] == 'recurring'): ?>	
 				<label>
-					<input type="radio" name="donation_type" /> Recurring
+					<input type="radio" name="donation_type" value="recurring" /> Recurring
 				</label>
-			</span>
+			<?php endif; ?>
 		</p>
+
 
 	</fieldset>
 
@@ -137,7 +149,8 @@
 			?>
 						<div>
 							<label>
-								<input <?php echo ($index==0) ? 'checked="true"' : '' ?> type="radio" name="payment" value="<?php echo $payment->get_payment_name() ?>" /> 
+								<input <?php echo ($index==0) ? 'checked="true"' : '' ?> type="radio" name="payment" value="<?php echo $payment->get_payment_name() ?>" />
+								
 								<?php if($payment->option['logo']): ?>
 									<img src="<?php echo $payment->get_payment_logo() ?>" width="20%" alt="<?php echo $payment->get_payment_name() ?>" />
 								<?php else: 
@@ -153,7 +166,7 @@
 			?>
 	</fieldset>
 	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
-	<input type="hidden" name="campagin" value="<?php echo $attrs['campaign'] ?>" />
+	<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 	<input type="hidden" name="action" value="process_donate"/>
 	<br>
 	<p class="submit">
