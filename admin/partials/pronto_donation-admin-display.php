@@ -457,7 +457,7 @@ if ( isset($_GET['page']) ) {
 	    }
 	    //================ Get Post Page for Messages ==============//
 
-	    
+
 
 		if (isset($_POST['submit'])) {
 
@@ -516,12 +516,12 @@ if ( isset($_GET['page']) ) {
 				'SalesforcePassword' => stripslashes($salesforce_password),
 
 				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
-				'ThankYouPageMessageEnableOfflinePayment' => stripslashes($info_on_offline_payment_panel_enable_offline_payment),
 				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
 
 				'ThankYouMailMessage' => stripslashes($thank_you_email_message),
 
 				'InfoOnOfflinePaymentPanelPage' => stripslashes($info_on_offline_payment_panel_page),
+				'InfoOnOfflinePaymentPanelEnableOfflinePayment' => stripslashes($info_on_offline_payment_panel_enable_offline_payment),
 				'InfoOnOfflinePaymentPanel' => stripslashes($info_on_offline_payment_panel),
 
 				'InstructionsEmailedToOfflineDonorBeforePaymentPage' => stripslashes($instructions_emailed_to_offline_donor_before_payment_page),
@@ -597,18 +597,19 @@ if ( isset($_GET['page']) ) {
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
 		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
-		$info_on_offline_payment_panel_enable_offline_payment = (empty($pronto_donation_settings['ThankYouPageMessageEnableOfflinePayment'])) ? "" : $pronto_donation_settings['ThankYouPageMessageEnableOfflinePayment'];
+
 		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];	
 
 		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
 
 		$info_on_offline_payment_panel_page = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelPage'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelPage'];
+		$info_on_offline_payment_panel_enable_offline_payment = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'];
 		$info_on_offline_payment_panel = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];
 
 		$instructions_emailed_to_offline_donor_before_payment_page = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'];	
 		$instructions_emailed_to_offline_donor_before_payment = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'];
 
-		echo $info_on_offline_payment_panel_enable_offline_payment;
+
 		?>
 
 <div class="wrap">
@@ -690,8 +691,8 @@ if ( isset($_GET['page']) ) {
 				</tbody>
 			</table>
 		</div>	
-		</br>
-		</br>
+		<br/>
+		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">
 			<h2 class="title">Notifications</h2>
 			<table class="form-table">
@@ -724,8 +725,8 @@ if ( isset($_GET['page']) ) {
 			</table>
 		</div>
 
-		</br>
-		</br>
+		<br/>
+		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">
 			<h2 class="title">Salesforce API Configuration  ( Optional )</h2>
 			<table class="form-table">
@@ -776,8 +777,8 @@ if ( isset($_GET['page']) ) {
 			</table>
 		</div>
 
-		</br>
-		</br>
+		<br/>
+		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">
 			<h2 class="title">Thank you Page Messages</h2>
 			<table class="form-table">

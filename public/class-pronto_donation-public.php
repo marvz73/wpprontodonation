@@ -192,8 +192,8 @@ class Pronto_donation_Public {
 		global $title;
 
 		?>
-		</br>
-		</br>
+		<br/>
+		<br/>
 		<?php
 
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
@@ -209,8 +209,8 @@ class Pronto_donation_Public {
 		global $title;
 
 		?>
-		</br>
-		</br>
+		<br/>
+		<br/>
 		<?php
 
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
@@ -226,8 +226,8 @@ class Pronto_donation_Public {
 		global $title;
 
 		?>
-		</br>
-		</br>
+		<br/>
+		<br/>
 		<?php
 
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
