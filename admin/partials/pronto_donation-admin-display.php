@@ -466,7 +466,8 @@ if ( isset($_GET['page']) ) {
 			$input_field_class = (empty($_POST['input_field_class'])) ? "" : $_POST['input_field_class'];
 			$edit_button_caption = (empty($_POST['edit_button_caption'])) ? "" : $_POST['edit_button_caption'];
 			$set_currency = (empty($_POST['set_currency'])) ? "" : $_POST['set_currency'];
-			$set_country = (empty($_POST['set_country'])) ? "" : $_POST['set_country'];	
+			$set_country = (empty($_POST['set_country'])) ? "" : $_POST['set_country'];
+			$enable_address_validation = (empty($_POST['enable_address_validation'])) ? "" : $_POST['enable_address_validation'];	
 
 			$email_to_be_notify = (empty($_POST['email_to_be_notify'])) ? "" : $_POST['email_to_be_notify'];
 			$email_address = (empty($_POST['email_address'])) ? "" : $_POST['email_address'];
@@ -502,6 +503,7 @@ if ( isset($_GET['page']) ) {
 				'SetCurrencySymbol'   => $currency_symbols[$set_currency],
 				'SetCurrencyCode'   => stripslashes($set_currency),
 				'SetCountry' => stripslashes($set_country),
+				'EnableAddressValidation' => stripslashes($enable_address_validation),
 
 				'EmailToBeNotify' => stripslashes(str_replace("/","",$email_to_be_notify)),
 				'EmailAddress' => stripslashes(str_replace("/","",$email_address)),
@@ -583,6 +585,7 @@ if ( isset($_GET['page']) ) {
 
 		$set_currency = (empty($pronto_donation_settings['SetCurrencyCode'])) ? "" : $pronto_donation_settings['SetCurrencyCode']; 
 		$set_country = (empty($pronto_donation_settings['SetCountry'])) ? "" : $pronto_donation_settings['SetCountry']; 	
+		$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];
 
 		$email_to_be_notify = (empty($pronto_donation_settings['EmailToBeNotify'])) ? "" : $pronto_donation_settings['EmailToBeNotify']; 
 		$email_address = (empty($pronto_donation_settings['EmailAddress'])) ? "" : $pronto_donation_settings['EmailAddress']; 
@@ -686,6 +689,17 @@ if ( isset($_GET['page']) ) {
 						    	
 						    ?>
 							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="enable_address_validation">Address Validation</label>
+						</th>
+						<td>
+							<label for="enable_address_validation">
+								<input name="enable_address_validation" type="checkbox" id="enable_address_validation" value="1" <?php if($enable_address_validation==1){echo'checked';}?>>
+							Enable Validation
+							</label>	
 						</td>
 					</tr>
 				</tbody>
