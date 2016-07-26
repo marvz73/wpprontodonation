@@ -185,56 +185,21 @@ class Pronto_donation_Public {
 	   return $page_template;
 	}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a0cc2a5b1c46c4bf9f95700145efd896a7926e1c
 	public function pronto_donation_thank_you_page_message(){
 		global $title;
-
-		?>
-		</br>
-		</br>
-		<?php
-
-		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
-
-		$my_postid = $thank_you_page_message_page;//This is page id or post id
-		$content_post = get_post($my_postid);
-		$content = $content_post->post_content;
-		echo $content;
-
+		require_once('partials/pronto_donation-thank-you-page-message.php');
 	}
 	public function pronto_donation_info_on_offline_payment_panel_page(){
 		global $title;
-
-		?>
-		</br>
-		</br>
-		<?php
-
-		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-		$info_on_offline_payment_panel_page = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelPage'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelPage'];
-
-		$my_postid = $info_on_offline_payment_panel_page;//This is page id or post id
-		$content_post = get_post($my_postid);
-		$content = $content_post->post_content;
-		echo $content;
-
+		require_once('partials/pronto_donation-public-info-on-offline-payment-panel-page.php');
 	}
 	public function pronto_donation_instructions_emailed_to_offline_donor_before_payment(){
 		global $title;
-
-		?>
-		</br>
-		</br>
-		<?php
-
-		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-		$instructions_emailed_to_offline_donor_before_payment_page = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'];	
-
-		$my_postid = $instructions_emailed_to_offline_donor_before_payment_page;//This is page id or post id
-		$content_post = get_post($my_postid);
-		$content = $content_post->post_content;
-		echo $content;
-
+		require_once('partials/pronto_donation-public-instructions-emailed-to-offline-donor-before-payment.php');
 	}
 
 
