@@ -189,8 +189,10 @@ class Pronto_donation_Public {
 
 			// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
 
-	}
+		}
 
+
+	}
 	public function pronto_donation_thank_you_page_message(){
 		global $title;
 		require_once('partials/pronto_donation-thank-you-page-message.php');
