@@ -185,5 +185,59 @@ class Pronto_donation_Public {
 	   return $page_template;
 	}
 
+<<<<<<< HEAD
+=======
+	public function pronto_donation_thank_you_page_message(){
+		global $title;
+
+		?>
+		</br>
+		</br>
+		<?php
+
+		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
+
+		$my_postid = $thank_you_page_message_page;//This is page id or post id
+		$content_post = get_post($my_postid);
+		$content = $content_post->post_content;
+		echo $content;
+
+	}
+	public function pronto_donation_info_on_offline_payment_panel_page(){
+		global $title;
+
+		?>
+		</br>
+		</br>
+		<?php
+
+		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+		$info_on_offline_payment_panel_page = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelPage'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelPage'];
+
+		$my_postid = $info_on_offline_payment_panel_page;//This is page id or post id
+		$content_post = get_post($my_postid);
+		$content = $content_post->post_content;
+		echo $content;
+
+	}
+	public function pronto_donation_instructions_emailed_to_offline_donor_before_payment(){
+		global $title;
+
+		?>
+		</br>
+		</br>
+		<?php
+
+		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+		$instructions_emailed_to_offline_donor_before_payment_page = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'];	
+
+		$my_postid = $instructions_emailed_to_offline_donor_before_payment_page;//This is page id or post id
+		$content_post = get_post($my_postid);
+		$content = $content_post->post_content;
+		echo $content;
+
+	}
+>>>>>>> 45cdbb082fd9b63d445d4fab49c97663887fab04
 
 }

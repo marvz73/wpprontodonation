@@ -16,9 +16,7 @@
 
 //================= Donation Settings =================//
 if ( isset($_GET['page']) ) {
-	$send_test_email = false;
 	if($_GET['page']=='donation-settings'){
-
 
 		//================ Options for Country and Currency ==============//
 		$currency_symbols = array(
@@ -488,6 +486,7 @@ if ( isset($_GET['page']) ) {
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
+	            'post_type' => 'page',
 	            'post_category' => array(0)
 	        );
 			$instructions_emailed_to_offline_donor_before_payment_post_id = wp_insert_post($new_post);
@@ -528,7 +527,8 @@ if ( isset($_GET['page']) ) {
 
 			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];
 
-			$info_on_offline_payment_panel_page = (empty($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;	
+			$info_on_offline_payment_panel_page = (empty($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;
+			$info_on_offline_payment_panel_enable_offline_payment = (empty($_POST['enable_offline_payment'])) ? "" : $_POST['enable_offline_payment'];
 			$info_on_offline_payment_panel = (empty($_POST['info_on_offline_payment_panel'])) ? "" : $_POST['info_on_offline_payment_panel'];
 
 			$instructions_emailed_to_offline_donor_before_payment_page = (empty($instructions_emailed_to_offline_donor_before_payment_post_id)) ? "" : $instructions_emailed_to_offline_donor_before_payment_post_id;
@@ -557,6 +557,7 @@ if ( isset($_GET['page']) ) {
 				'SalesforcePassword' => stripslashes($salesforce_password),
 
 				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
+				'ThankYouPageMessageEnableOfflinePayment' => stripslashes($info_on_offline_payment_panel_enable_offline_payment),
 				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
 
 				'ThankYouMailMessage' => stripslashes($thank_you_email_message),
@@ -637,6 +638,7 @@ if ( isset($_GET['page']) ) {
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
 		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
+		$info_on_offline_payment_panel_enable_offline_payment = (empty($pronto_donation_settings['ThankYouPageMessageEnableOfflinePayment'])) ? "" : $pronto_donation_settings['ThankYouPageMessageEnableOfflinePayment'];
 		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];	
 
 		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
@@ -647,6 +649,7 @@ if ( isset($_GET['page']) ) {
 		$instructions_emailed_to_offline_donor_before_payment_page = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'];	
 		$instructions_emailed_to_offline_donor_before_payment = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'];
 
+		echo $info_on_offline_payment_panel_enable_offline_payment;
 		?>
 
 <div class="wrap">
@@ -833,9 +836,7 @@ if ( isset($_GET['page']) ) {
 					</tr>
 				</tbody>
 			</table>
-		</div>
 
-		<div class="card" style="width: 100%;max-width: 96% !important">
 			<h2 class="title">Thank you Email Message</h2>
 			<table class="form-table">
 				<tbody>
@@ -857,9 +858,12 @@ if ( isset($_GET['page']) ) {
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		<div class="card" style="width: 100%;max-width: 96% !important">
-			<h2 class="title">Info on Offline Payment Panel</h2>		
+
+			<h2 class="title">Info on Offline Payment Panel</h2>
+			<label for="enable_offline_payment">
+				<input name="enable_offline_payment" type="checkbox" id="enable_offline_payment" value="1" <?php if($info_on_offline_payment_panel_enable_offline_payment==1){echo'checked';}?>>
+			Enable Offline Payment
+			</label>		
 			<table class="form-table">
 				<tbody>
 					<tr>
@@ -875,8 +879,7 @@ if ( isset($_GET['page']) ) {
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		<div class="card" style="width: 100%;max-width: 96% !important">
+
 			<h2 class="title">Instructions Emailed to Offline Donor Before Payment is Approved</h2>	
 			<table class="form-table">
 				<tbody>

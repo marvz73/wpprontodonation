@@ -772,11 +772,11 @@ class Pronto_donation_Admin {
 			$user_information = array();
 			$user_information['user_donor_type_option'] = sanitize_text_field( $_POST['user_donor_type_option'] );
 			$user_information['user_address_option'] = sanitize_text_field( $_POST['user_address_option'] );
-			$user_information['user_email_option'] = sanitize_text_field( $_POST['user_email_option'] );
+			$user_information['user_email_option'] = 'required';
 			$user_information['user_country_option'] = sanitize_text_field( $_POST['user_country_option'] );
-			$user_information['user_firstname_option'] = sanitize_text_field( $_POST['user_firstname_option'] );
+			$user_information['user_firstname_option'] = 'required';
 			$user_information['user_state_option'] = sanitize_text_field( $_POST['user_state_option'] );
-			$user_information['user_lastname_option'] = sanitize_text_field( $_POST['user_lastname_option'] );
+			$user_information['user_lastname_option'] ='required';
 			$user_information['user_postcode_option'] = sanitize_text_field( $_POST['user_postcode_option'] );
 			$user_information['user_phone_option'] = sanitize_text_field( $_POST['user_phone_option'] );
 			$user_information['user_suburb_option'] = sanitize_text_field( $_POST['user_suburb_option'] );
