@@ -101,8 +101,7 @@ class Pronto_donation_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
 
-		
-
+	
 	}
 
 
@@ -111,7 +110,6 @@ class Pronto_donation_Public {
 	// Author: Marvin Aya-ay
 	private $base = __DIR__ . '/../payments/';
 	public function pronto_donation_campaign( $campaign_id ) {
-
 
 		//Process the payment here...
 	    if($_POST)
@@ -169,7 +167,7 @@ class Pronto_donation_Public {
 	}
 
 
-	public function pronto_donation_override_template( $page_template ){
+	public function pronto_donation_override_template($page_template ){
 
 		if (isset($_GET['PaymentReference']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage']){
 			
@@ -209,6 +207,8 @@ class Pronto_donation_Public {
 		}
 	}
 
+
+	
 	public function pronto_donation_thank_you_page_message(){
 		global $title;
 		require_once('partials/pronto_donation-thank-you-page-message.php');
