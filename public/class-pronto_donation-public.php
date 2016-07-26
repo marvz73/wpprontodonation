@@ -112,6 +112,7 @@ class Pronto_donation_Public {
 	private $base = __DIR__ . '/../payments/';
 	public function pronto_donation_campaign( $campaign_id ) {
 
+
 		//Process the payment here...
 	    if($_POST)
 	    {
@@ -133,7 +134,7 @@ class Pronto_donation_Public {
 	    			}
 	    		}
 
-	    		$campaign_data['redirectURL'] = get_home_url() . '/p=' . $option['ThankYouPageMessagePage'];
+	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $option['ThankYouPageMessagePage'];
 
   				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 
@@ -159,7 +160,7 @@ class Pronto_donation_Public {
 
 			//Campaign fields
 		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
-			
+
 			//Donor user fields
 		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
 
@@ -168,25 +169,38 @@ class Pronto_donation_Public {
 	}
 
 
+	public function pronto_donation_override_template( $page_template ){
+
+		if (isset($_GET['PaymentReference']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage']){
+			$payment_response = $_GET;
+			global $wpdb;
+
+			// PaymentReference
+			// BillerID
+			// TransactionID
+			// PaymentAmount
+			// ResultCode 
+			// ResultText
+			// TransactionFeeCustomer
+
+			$results = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $payment_response['PaymentReference']);
+			
+			// print_r($results);
+
+			// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
 
 
-	function pronto_donation_page_template( $page_template )
-	{
+			//Donation Complete
+			// $payment_methods = $this->class->pronto_donation_payment_methods();
 
-		// $option = get_option('pronto_donation_settings');
 
-		if ( get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage']) {
-			// $page_template = dirname( __FILE__ ) . '/page-shopello.php';
-			echo 123123123;
-			$title = 'test32';
-			$page_template = '<h1>Title</h1>';
+			$page_template = dirname( __FILE__ ) . '/partials/pronto_donation-public-thankyou.php';
 		}
 	    
 	   return $page_template;
 	}
 
-<<<<<<< HEAD
-=======
+
 	public function pronto_donation_thank_you_page_message(){
 		global $title;
 
@@ -225,8 +239,8 @@ class Pronto_donation_Public {
 		global $title;
 
 		?>
-		</br>
-		</br>
+		<br />
+		<br />
 		<?php
 
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
@@ -238,6 +252,7 @@ class Pronto_donation_Public {
 		echo $content;
 
 	}
->>>>>>> 45cdbb082fd9b63d445d4fab49c97663887fab04
+
+
 
 }

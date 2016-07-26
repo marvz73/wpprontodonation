@@ -203,7 +203,7 @@ class Pronto_donation {
 		$this->loader->add_shortcode( 'pronto-donation-IOOPPP', $plugin_public, 'pronto_donation_info_on_offline_payment_panel_page');
 		$this->loader->add_shortcode( 'pronto-donation-IETODBP', $plugin_public, 'pronto_donation_instructions_emailed_to_offline_donor_before_payment');
 	
-		$this->loader->add_filter( 'page_template', $plugin_public, 'pronto_donation_page_template' );
+		$this->loader->add_filter( 'single_template', $plugin_public, 'pronto_donation_override_template' );
 	    	    
 	}
 
