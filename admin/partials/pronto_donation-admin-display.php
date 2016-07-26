@@ -488,6 +488,7 @@ if ( isset($_GET['page']) ) {
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
+	            'post_type' => 'page',
 	            'post_category' => array(0)
 	        );
 			$instructions_emailed_to_offline_donor_before_payment_post_id = wp_insert_post($new_post);
@@ -833,9 +834,7 @@ if ( isset($_GET['page']) ) {
 					</tr>
 				</tbody>
 			</table>
-		</div>
 
-		<div class="card" style="width: 100%;max-width: 96% !important">
 			<h2 class="title">Thank you Email Message</h2>
 			<table class="form-table">
 				<tbody>
@@ -857,9 +856,12 @@ if ( isset($_GET['page']) ) {
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		<div class="card" style="width: 100%;max-width: 96% !important">
-			<h2 class="title">Info on Offline Payment Panel</h2>		
+
+			<h2 class="title">Info on Offline Payment Panel</h2>
+			<label for="users_can_register">
+				<input name="users_can_register" type="checkbox" id="users_can_register" value="1">
+			Anyone can register
+			</label>		
 			<table class="form-table">
 				<tbody>
 					<tr>
@@ -875,8 +877,7 @@ if ( isset($_GET['page']) ) {
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		<div class="card" style="width: 100%;max-width: 96% !important">
+
 			<h2 class="title">Instructions Emailed to Offline Donor Before Payment is Approved</h2>	
 			<table class="form-table">
 				<tbody>
