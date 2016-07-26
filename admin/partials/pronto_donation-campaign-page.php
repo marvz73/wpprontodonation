@@ -68,12 +68,13 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
     public function get_columns()
     {
         $columns = array(
-            'donation_date' => 'Date',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
+            'fullname' => 'Full Name',
+            'email' => 'Email Address',
             'campaign_name' => 'Campaign Name',
             'amount' => 'Amount',
-            'country' => 'Country'
+            'country' => 'Country',
+            'payment' => 'Payment',
+            'status' => 'Donation Status'
         );
         return $columns;
     }
@@ -112,116 +113,26 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
     private function table_data()
     {
  		$data = array();
-
-
- 		date_default_timezone_set('Australia/Melbourne');
-		$date = date('M d, Y h:i:s a', time());
-
-		$data_sample = array(
-				array(
-					'donation_date' => $date,
-					'first_name' => 'Danryl',
-					'last_name' => 'Carpio',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' =>  50000,
-					'country' => 'Australia'
-				),
-				array(
-					'donation_date' => $date,
-					'first_name' => 'Marvin',
-					'last_name' => 'Aya-ay',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' => 755600,
-					'country' => 'Australia'
-				),
-				array(
-					'donation_date' => $date,
-					'first_name' => 'Junjie',
-					'last_name' => 'Canonio',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' => 7556232,
-					'country' => 'Australia'
-				),
-				array(
-					'donation_date' => $date,
-					'first_name' => 'John Rendhon',
-					'last_name' => 'Gerona',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' => 522872,
-					'country' => 'Australia'
-				),
-			 	array(
-					'donation_date' => $date,
-					'first_name' => 'John',
-					'last_name' => 'Snow',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' =>  665520,
-					'country' => 'Singapore'
-				),
-				array(
-					'donation_date' => $date,
-					'first_name' => 'Sansa',
-					'last_name' => 'Stark',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' => 755600,
-					'country' => 'USA'
-				),
-				array(
-					'donation_date' => $date,
-					'first_name' => 'Super',
-					'last_name' => 'Mario',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' => 80330,
-					'country' => 'Australia'
-				),
-				array(
-					'donation_date' => $date,
-					'first_name' => 'Jet',
-					'last_name' => 'Cow',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' => 96000,
-					'country' => 'Australia'
-				),
-				array(
-					'donation_date' => $date,
-					'first_name' => 'Joe',
-					'last_name' => 'Smith',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' => 50000,
-					'country' => 'USA'
-				),
-				array(
-					'donation_date' => $date,
-					'first_name' => 'Lebron',
-					'last_name' => 'James',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' => 700000,
-					'country' => 'USA'
-				),
-				array(
-					'donation_date' => $date,
-					'first_name' => 'Carmelo',
-					'last_name' => 'Anthony',
-					'campaign_name' => 'LMFB Campaign',
-					'amount' => 600000,
-					'country' => 'USA'
-				)
-			);
-
- 		if(!empty($data_sample)) {
-
- 			foreach ($data_sample as $data_value) {
- 				$table_data = array();
- 				$table_data['donation_date'] = $data_value['donation_date'];
- 				$table_data['first_name'] = $data_value['first_name'];
- 				$table_data['last_name'] = $data_value['last_name'];
- 				$table_data['campaign_name'] = $data_value['campaign_name'];
- 				$table_data['amount'] = number_format( (int) $data_value['amount'], 2 , '.', ',' );
- 				$table_data['country'] = $data_value['country'];
- 				$data[] = $table_data;
- 			}
- 		}
-
+		$args = array( 'post_type' => 'campaign');
+		$loop = new WP_Query( $args );
+		
+		while ( $loop->have_posts() ) : $loop->the_post();
+		    $campaigns = get_post_meta( get_the_ID() );
+				if( array_key_exists( 'pronto_donation_donor', $campaigns ) ) {
+					foreach ($campaigns['pronto_donation_donor'] as $donors) {
+						$donor_data = unserialize( $donors );
+						$table_data = array();
+						$table_data['fullname'] = $donor_data['first_name'] . " " .  $donor_data['last_name'];
+						$table_data['email'] = $donor_data['email'];
+						$table_data['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );
+						$table_data['amount'] = number_format( $donor_data['pd_amount'], 2, '.', ',');
+						$table_data['country'] = ( !isset( $donor_data['country'] ) || $donor_data['country'] == 'Select' ) ? 'Not Specified' : $donor_data['country'];
+						$table_data['payment'] = $donor_data['payment'];
+						$table_data['status'] = $donor_data['status'];
+						$data[] = $table_data;
+					}
+				}
+		endwhile;
         return $data;
     }
 
@@ -236,12 +147,13 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
     public function column_default( $item, $column_name )
     {
         switch( $column_name ) {
-        	case 'donation_date':
-			case 'first_name':
-			case 'last_name':
+			case 'fullname':
+			case 'email':
 			case 'campaign_name':
 			case 'amount':
 			case 'country':
+			case 'payment':
+			case 'status':
                 return $item[ $column_name ];
             default:
                 return print_r( $item, true ) ;
@@ -255,8 +167,8 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
     private function sort_data( $a, $b )
     {
         // Set defaults
-        $orderby = 'donation_date';
-        $order = 'desc';
+        $orderby = 'campaign_name';
+        $order = 'asc';
         // If orderby is set, use this as the sort column
         if(!empty($_GET['orderby']))
         {
