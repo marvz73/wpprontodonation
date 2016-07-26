@@ -101,8 +101,7 @@ class Pronto_donation_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
 
-		
-
+	
 	}
 
 
@@ -111,7 +110,6 @@ class Pronto_donation_Public {
 	// Author: Marvin Aya-ay
 	private $base = __DIR__ . '/../payments/';
 	public function pronto_donation_campaign( $campaign_id ) {
-
 
 		//Process the payment here...
 	    if($_POST)
@@ -169,11 +167,15 @@ class Pronto_donation_Public {
 	}
 
 
-	public function pronto_donation_override_template( $page_template ){
+	public function pronto_donation_override_template($page_template ){
 
 		if (isset($_GET['PaymentReference']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage']){
-			$payment_response = $_GET;
+			
 			global $wpdb;
+
+			$results = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $_GET['PaymentReference']);
+			
+			$campaign = maybe_unserialize($results[0]->meta_value);
 
 			// PaymentReference
 			// BillerID
@@ -183,24 +185,40 @@ class Pronto_donation_Public {
 			// ResultText
 			// TransactionFeeCustomer
 
-			$results = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $payment_response['PaymentReference']);
+			$payment_response = array(
+				'PaymentReference'			=> $_GET['PaymentReference'],
+				'BillerID'					=> $_GET['BillerID'],
+				'TransactionID'				=> $_GET['TransactionID'],
+				'PaymentAmount'				=> $_GET['PaymentAmount'],
+				'ResultCode' 				=> $_GET['ResultCode'],
+				'ResultText'				=> $_GET['ResultText'],
+				'TransactionFeeCustomer'	=> $_GET['TransactionFeeCustomer']
+			);
 			
-			// print_r($results);
+			$campaign['payment_response'] = $payment_response;
 
-			// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
+			$campaign['status'] = 'success';
+
+			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . $_GET['PaymentReference']);
+
+			// $resultsx = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $_GET['PaymentReference']);
+			// print_r(maybe_unserialize($resultsx[0]->meta_value));
 
 		}
-
-
 	}
+
+
+	
 	public function pronto_donation_thank_you_page_message(){
 		global $title;
 		require_once('partials/pronto_donation-thank-you-page-message.php');
 	}
+
 	public function pronto_donation_info_on_offline_payment_panel_page(){
 		global $title;
 		require_once('partials/pronto_donation-public-info-on-offline-payment-panel-page.php');
 	}
+
 	public function pronto_donation_instructions_emailed_to_offline_donor_before_payment(){
 		global $title;
 		require_once('partials/pronto_donation-public-instructions-emailed-to-offline-donor-before-payment.php');
