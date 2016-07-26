@@ -199,7 +199,7 @@ class Pronto_donation_Activator {
 
 
 		$thank_you_page_message_post_id = '';
-		$thank_you_page_message_postTitle = 'pronto_donation_thank_you_page_message';
+		$thank_you_page_message_postTitle = 'pronto donation thank you page message';
 
 	    if (get_page_by_title($thank_you_page_message_postTitle) == NULL) {
 	    	$new_post = array(
@@ -218,7 +218,7 @@ class Pronto_donation_Activator {
 
 
 	    $info_on_offline_payment_panel_post_id = '';
-		$info_on_offline_payment_panel_postTitle = 'pronto_donation_info_on_offline_payment_panel';
+		$info_on_offline_payment_panel_postTitle = 'pronto donation info on offline payment panel';
 
 	    if (get_page_by_title($info_on_offline_payment_panel_postTitle) == NULL) {
 	    	$new_post = array(
@@ -237,7 +237,7 @@ class Pronto_donation_Activator {
 
 
 	   	$instructions_emailed_to_offline_donor_before_payment_post_id = '';
-		$instructions_emailed_to_offline_donor_before_payment_postTitle = 'pronto_donation_instructions_emailed_to_offline_donor_before_payment';
+		$instructions_emailed_to_offline_donor_before_payment_postTitle = 'pronto donation instructions emailed to offline donor before payment';
 
 	    if (get_page_by_title($instructions_emailed_to_offline_donor_before_payment_postTitle) == NULL) {
 	    	$new_post = array(
