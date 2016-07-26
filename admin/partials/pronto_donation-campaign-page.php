@@ -107,7 +107,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
  		$data = array();
 		$args = array( 'post_type' => 'campaign');
 		$loop = new WP_Query( $args );
-
+        
         $ezidebit_url = plugins_url( '/pronto_donation/payments/ezidebit/logo.png' );
         $ezidebit_url = '<img src="'.$ezidebit_url.'" width="70" height="30" alt="">';
 
