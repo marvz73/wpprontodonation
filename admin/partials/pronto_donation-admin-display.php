@@ -814,7 +814,10 @@ if ( isset($_GET['page']) ) {
 					</tr>
 				</tbody>
 			</table>
-
+		</div>
+		<br/>
+		<br/>
+		<div class="card" style="width: 100%;max-width: 96% !important">
 			<h2 class="title">Thank you Email Message</h2>
 			<table class="form-table">
 				<tbody>
@@ -836,7 +839,10 @@ if ( isset($_GET['page']) ) {
 					</tr>
 				</tbody>
 			</table>
-
+		</div>
+		<br/>
+		<br/>
+		<div class="card" style="width: 100%;max-width: 96% !important">
 			<h2 class="title">Info on Offline Payment Panel</h2>
 			<label for="enable_offline_payment">
 				<input name="enable_offline_payment" type="checkbox" id="enable_offline_payment" value="1" <?php if($info_on_offline_payment_panel_enable_offline_payment==1){echo'checked';}?>>
