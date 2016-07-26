@@ -1,6 +1,7 @@
 <!-- <form method="post" action="<?php echo home_url( '/wp-admin/admin-post.php' ) ?>"> -->
 <form method="post" >
 
+
 	<!-- Donor Information -->
 	<fieldset>
 		<legend><h3>Donation Information</h3></legend>
@@ -62,11 +63,17 @@
 		<?php if($pronto_donation_user_info['user_donor_type_option'] != 'hide'): ?>
 			<p>
 				<label>Donor Type</label>
-				<select name="donor_type" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_donor_type_option']) ?> >
-					<option value="personal">Personal</option>
-					<option value="business">Business</option>
+				<select id="donorType" name="donor_type" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_donor_type_option']) ?> >
+					<option value="I">Individual</option>
+					<option value="B">Business</option>
 				</select>
 			</p>
+
+			<p id="companyName" style="display: none;">
+				<label>Company Name</label> 
+				<input name="companyName" type="text" />	
+			</p>
+
 		<?php endif; ?>
 
 		<?php if($pronto_donation_user_info['user_email_option'] != 'hide'): ?>

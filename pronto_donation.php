@@ -70,8 +70,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-pronto_donation.php';
 function run_pronto_donation() {
 
 
-
-
 	$plugin = new Pronto_donation();
 	$plugin->run();
 

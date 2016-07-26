@@ -34,11 +34,6 @@
 })( jQuery );
 
 
-
-
-
-
-
 jQuery(function(){
 
 	jQuery('.pd_amount').on('change', function(){
@@ -51,6 +46,16 @@ jQuery(function(){
 			jQuery('#pd_custom_amount').val('').attr('disabled', 'disabled');
 		}
 	})
+	
+	jQuery('#donorType').on('change', function(){
+		var companyName = jQuery('#companyName');
+		if(jQuery(this).val() == 'I')
+		{
+			companyName.hide();
+		}else{
+			companyName.show();
+		}
+	})
+});
 
-})
 

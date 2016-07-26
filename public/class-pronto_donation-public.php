@@ -106,24 +106,21 @@ class Pronto_donation_Public {
 	}
 
 
-
-
-
-
-
-
 	//
 	// Desc: Pronto Campaign
 	// Author: Marvin Aya-ay
 	private $base = __DIR__ . '/../payments/';
 	public function pronto_donation_campaign( $campaign_id ) {
-		
+
 		//Process the payment here...
 	    if($_POST)
 	    {
 	    	$campaign_data = $_POST;
 	    	if($campaign_data['action'] == 'process_donate' && wp_verify_nonce( $campaign_data['nonce'], 'donation'))
 	    	{
+			
+				$option = get_option('pronto_donation_settings');
+
 	    		$campaign_data['status'] = 'pending';
 	    		
 	    		$payment_methods = $this->class->pronto_donation_payment_methods();
@@ -136,15 +133,17 @@ class Pronto_donation_Public {
 	    			}
 	    		}
 
+	    		$campaign_data['redirectURL'] = get_home_url() . '/p=' . $option['ThankYouPageMessagePage'];
+
   				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 
   				$campaign_data['post_meta_id'] = $post_meta_id;
-  				
-	    		// Call the payment function to execute payment action
-	    		$campaign_data['payment_info']->payment_process($campaign_data);
 
 			 	// global $wpdb;
 				// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
+	    		
+	    		// Call the payment function to execute payment action
+	    		$campaign_data['payment_info']->payment_process($campaign_data);
 
 	    	}
 	    }
@@ -158,34 +157,33 @@ class Pronto_donation_Public {
 			//Payment method
 			$payment_methods = $this->class->pronto_donation_payment_methods();
 
+			//Campaign fields
+		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
+			
 			//Donor user fields
 		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
-
-		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
 
 		    require_once('partials/pronto_donation-public-campaign.php');
 	    }
 	}
 
 
-	function shopello_feed_rewrites_init(){
 
-	    add_rewrite_rule(
-	       '^shopello?',
-	       'index.php?pagename=shopello',
-	       'top' 
-	    );
+
+	function pronto_donation_page_template( $page_template )
+	{
+
+		// $option = get_option('pronto_donation_settings');
+
+		if ( get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage']) {
+			// $page_template = dirname( __FILE__ ) . '/page-shopello.php';
+			echo 123123123;
+			$title = 'test32';
+			$page_template = '<h1>Title</h1>';
+		}
+	    
+	   return $page_template;
 	}
 
-
-	function shopello_fee_page_template( $page_template )
-	{	
-   		if ( is_page( 'shopello' ) ) {
-    	echo 12312312;
-   		
-   		}
-
-   		return $page_template;
-	}
 
 }

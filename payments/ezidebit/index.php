@@ -73,7 +73,8 @@ class ezidebit{
 		$url = $ppd['payment_info']->option['url'];
 
 		$fields = array(
-			// 'CompanyName'			=> $ppd['payment_info']
+			'Type'					=> $ppd['donorType'],
+			'CompanyName'			=> $ppd['companyName'],
 			'FirstName'				=> $ppd['first_name'],
 			'LastName'				=> $ppd['last_name'],
 			'EmailAddress'			=> $ppd['email'],
@@ -81,10 +82,9 @@ class ezidebit{
 			'PaymentAmount'			=> $ppd['pd_amount'],
 			'ShowDisabledInputs'	=> 0,
 			'RedirectMethod'		=> 'GET',
-			'RedirectURL'			=> 'http://localhost/wordpress',
+			'RedirectURL'			=> $ppd['redirectURL'],
 			'PaymentReference'		=> $ppd['post_meta_id']
 		);
-
 
 		require_once('tmpl/tmpl_payment_process.php');
 
