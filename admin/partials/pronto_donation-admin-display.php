@@ -443,22 +443,9 @@ if ( isset($_GET['page']) ) {
 	    }
 
 	    $info_on_offline_payment_panel_post_id = '';
-		$info_on_offline_payment_panel_postTitle = 'pronto donation info on offline payment panel';
-		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $info_on_offline_payment_panel_postTitle . "'" );
-
-		if (empty($post_id_B)||$post_id_B==null) {}
-		else {
-			$info_on_offline_payment_panel_post_id = $post_id_B;
-	    }
 
 	   	$instructions_emailed_to_offline_donor_before_payment_post_id = '';
-		$instructions_emailed_to_offline_donor_before_payment_postTitle = 'pronto donation instructions emailed to offline donor before payment';
-		$post_id_C = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $instructions_emailed_to_offline_donor_before_payment_postTitle . "'" );
 
-		if (empty($post_id_C)||$post_id_C==null) {}
-		else {
-			$instructions_emailed_to_offline_donor_before_payment_post_id = $post_id_C;
-	    }
 	    //================ Get Post Page for Messages ==============//
 
 

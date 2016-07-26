@@ -208,50 +208,17 @@ class Pronto_donation_Activator {
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
-	            'post_type' => 'post',
+	            'post_type' => '',
 	            'post_category' => array(0)
 	        );
 			$thank_you_page_message_post_id = wp_insert_post($new_post);
 	    	
 	    } 
 
-
-
 	    $info_on_offline_payment_panel_post_id = '';
-		$info_on_offline_payment_panel_postTitle = 'pronto donation info on offline payment panel';
-
-	    if (get_page_by_title($info_on_offline_payment_panel_postTitle) == NULL) {
-	    	$new_post = array(
-	            'post_title' => $info_on_offline_payment_panel_postTitle,
-	            'post_content' => (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'],
-	            'post_status' => 'publish',
-	            'post_date' => date('Y-m-d H:i:s'),
-	            'post_author' => '',
-	            'post_type' => 'post',
-	            'post_category' => array(0)
-	        );
-			$info_on_offline_payment_panel_post_id = wp_insert_post($new_post);
-	    	
-	    } 
-
-
 
 	   	$instructions_emailed_to_offline_donor_before_payment_post_id = '';
-		$instructions_emailed_to_offline_donor_before_payment_postTitle = 'pronto donation instructions emailed to offline donor before payment';
 
-	    if (get_page_by_title($instructions_emailed_to_offline_donor_before_payment_postTitle) == NULL) {
-	    	$new_post = array(
-	            'post_title' => $instructions_emailed_to_offline_donor_before_payment_postTitle,
-	            'post_content' => (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'],
-	            'post_status' => 'publish',
-	            'post_date' => date('Y-m-d H:i:s'),
-	            'post_author' => '',
-	            'post_type' => 'post',
-	            'post_category' => array(0)
-	        );
-			$instructions_emailed_to_offline_donor_before_payment_post_id = wp_insert_post($new_post);
-	    	
-	    } 
 
 
 	    //================ Get All Data In Pronto Donation Settings Option ==============//
