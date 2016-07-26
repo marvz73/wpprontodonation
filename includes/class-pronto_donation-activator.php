@@ -208,7 +208,7 @@ class Pronto_donation_Activator {
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
-	            'post_type' => 'page',
+	            'post_type' => 'post',
 	            'post_category' => array(0)
 	        );
 			$thank_you_page_message_post_id = wp_insert_post($new_post);
@@ -227,7 +227,7 @@ class Pronto_donation_Activator {
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
-	            'post_type' => 'page',
+	            'post_type' => 'post',
 	            'post_category' => array(0)
 	        );
 			$info_on_offline_payment_panel_post_id = wp_insert_post($new_post);
@@ -246,7 +246,7 @@ class Pronto_donation_Activator {
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
-	            'post_type' => 'page',
+	            'post_type' => 'post',
 	            'post_category' => array(0)
 	        );
 			$instructions_emailed_to_offline_donor_before_payment_post_id = wp_insert_post($new_post);
