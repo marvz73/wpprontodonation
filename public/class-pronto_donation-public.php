@@ -207,8 +207,6 @@ class Pronto_donation_Public {
 		}
 	}
 
-
-	
 	public function pronto_donation_thank_you_page_message(){
 		global $title;
 		require_once('partials/pronto_donation-thank-you-page-message.php');
