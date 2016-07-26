@@ -185,8 +185,6 @@ class Pronto_donation_Public {
 	   return $page_template;
 	}
 
-<<<<<<< HEAD
-=======
 	public function pronto_donation_thank_you_page_message(){
 		global $title;
 
@@ -238,6 +236,6 @@ class Pronto_donation_Public {
 		echo $content;
 
 	}
->>>>>>> 45cdbb082fd9b63d445d4fab49c97663887fab04
+
 
 }
