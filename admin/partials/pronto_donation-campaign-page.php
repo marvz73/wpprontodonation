@@ -9,6 +9,7 @@ class Pronto_Donation_Campaign_WP_list_Table {
 
 	public function __construct() {
         add_action( 'admin_menu', array($this, 'pronto_donation_campaign_table_page' ));
+        add_action( 'admin_head', array($this, 'pronto_donation_table_head_css' ));
     }
 
     public function pronto_donation_campaign_table_page() {
@@ -22,6 +23,18 @@ class Pronto_Donation_Campaign_WP_list_Table {
 	       	'dashicons-money',	   
 	        '83.7'
 	    );
+    }
+
+    public function pronto_donation_table_head_css() {
+        echo '<style>
+            .column-donor_name {width: 20%}
+            .column-email {width: 20%}
+            .column-campaign_name {width: 20%}
+            .column-amount {width: 9%}
+            .column-country {width: 12%}
+            .column-payment {width: 10%}
+            .column-status {width: 9%}
+        </style>';
     }
 
     public function pronto_donation_campaign_list_table_page()
@@ -68,7 +81,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
     public function get_columns()
     {
         $columns = array(
-            'fullname' => 'Full Name',
+            'donor_name' => 'Donor Name',
             'email' => 'Email Address',
             'campaign_name' => 'Campaign Name',
             'amount' => 'Amount',
@@ -89,46 +102,51 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
         return array('title' => array('title', false));
     }
 
-    function csv_to_array($filename='', $delimiter=',')
-	{
-	    if(!file_exists($filename) || !is_readable($filename))
-	        return FALSE;
-
-	    $header = NULL;
-	    $data = array();
-	    if (($handle = fopen($filename, 'r')) !== FALSE)
-	    {
-	        while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE)
-	        {
-	            if(!$header)
-	                $header = $row;
-	            else
-	                $data[] = array_combine($header, $row);
-	        }
-	        fclose($handle);
-	    }
-	    return $data;
-	}
-
     private function table_data()
     {
  		$data = array();
 		$args = array( 'post_type' => 'campaign');
 		$loop = new WP_Query( $args );
+        
+        $ezidebit_url = plugins_url( '/pronto_donation/payments/ezidebit/logo.png' );
+        $ezidebit_url = '<img src="'.$ezidebit_url.'" width="70" height="30" alt="">';
+
+        $eway_url = plugins_url( '/pronto_donation/payments/eway/logo.png' );
+        $eway_url = '<img src="'.$eway_url.'" width="70" height="30" alt="">';
 		
 		while ( $loop->have_posts() ) : $loop->the_post();
 		    $campaigns = get_post_meta( get_the_ID() );
-				if( array_key_exists( 'pronto_donation_donor', $campaigns ) ) {
+				if( array_key_exists( 'pronto_donation_donor', $campaigns )  ) {
 					foreach ($campaigns['pronto_donation_donor'] as $donors) {
+
 						$donor_data = unserialize( $donors );
 						$table_data = array();
-						$table_data['fullname'] = $donor_data['first_name'] . " " .  $donor_data['last_name'];
+
+                        $table_data['donor_name'] = ( array_key_exists( 'donor_type', $donor_data ) && $donor_data['donor_type'] == 'B' ) ? 
+                        $donor_data['companyName'] : $table_data['donor_name'] = $donor_data['first_name'] . " " .  $donor_data['last_name'];
+
+                        $table_data['payment'] = ( $donor_data['payment'] == 'Ezidebit' ) ? $ezidebit_url : $eway_url;
 						$table_data['email'] = $donor_data['email'];
 						$table_data['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );
 						$table_data['amount'] = number_format( $donor_data['pd_amount'], 2, '.', ',');
-						$table_data['country'] = ( !isset( $donor_data['country'] ) || $donor_data['country'] == 'Select' ) ? 'Not Specified' : $donor_data['country'];
-						$table_data['payment'] = $donor_data['payment'];
-						$table_data['status'] = $donor_data['status'];
+
+						$table_data['country'] = ( !isset( $donor_data['country'] ) || $donor_data['country'] == 'Select' ) ? 
+                        "<p class='description'>Not Specified</p>" : $donor_data['country'];
+
+                        if($donor_data['status'] == 'pending') {
+                            $table_data['status'] = '<div style="
+                            background-color: #026aa7;
+                            padding: 5px;
+                            text-align: center;
+                            text-transform: capitalize;
+                            color: #ffffff;
+                            font-weight: bold;
+                            border-radius: 4px;">'. $donor_data['status'] . '</div>';
+                        } else {
+                            $table_data['status'] = $donor_data['status'];
+                        }
+
+						
 						$data[] = $table_data;
 					}
 				}
@@ -147,7 +165,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
     public function column_default( $item, $column_name )
     {
         switch( $column_name ) {
-			case 'fullname':
+			case 'donor_name':
 			case 'email':
 			case 'campaign_name':
 			case 'amount':

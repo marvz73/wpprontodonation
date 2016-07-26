@@ -423,7 +423,7 @@ class Pronto_donation_Admin {
 										}
 									}
 									?>
-								</div> 
+								</div>
 							</td>
 						</tr>
 
@@ -549,7 +549,7 @@ class Pronto_donation_Admin {
 									<option value="required" <?php if( !empty( $user_information['user_state_option'] ) && esc_attr($user_information['user_state_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
 								</select>
 								<p class="description">Select an option for user state</p>
-							</td>	
+							</td>
 						</tr>
 
 						<tr>
