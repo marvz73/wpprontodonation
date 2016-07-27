@@ -4,6 +4,15 @@
  */
 
 
+/*Custom amount currency*/
+#currency span{
+    position: relative;
+    right: -20px;
+}
+#currency input[type=number]{
+	padding-left: 20px;
+}
+
 /* 
 =======================
    Circle Preloader
