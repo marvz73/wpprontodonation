@@ -79,7 +79,7 @@ class ezidebit{
 			'LastName'				=> $ppd['last_name'],
 			'EmailAddress'			=> $ppd['email'],
 			'MobilePhoneNumber'		=> $ppd['phone'],
-			'PaymentAmount'			=> $ppd['pd_amount'],
+			'PaymentAmount'			=> !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] : $ppd['pd_amount'],
 			'ShowDisabledInputs'	=> 0,
 			'RedirectMethod'		=> 'GET',
 			'RedirectURL'			=> $ppd['redirectURL'],
@@ -87,6 +87,45 @@ class ezidebit{
 		);
 
 		require_once('tmpl/tmpl_payment_process.php');
+
+	}
+
+	// Payment process complete
+	public function payment_complete($params){
+
+		global $wpdb;
+
+		$results = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($params['PaymentReference']));
+		
+		$campaign = maybe_unserialize($results[0]->meta_value);
+
+		if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign)){
+
+			// PaymentReference
+			// BillerID
+			// TransactionID
+			// PaymentAmount
+			// ResultCode 
+			// ResultText
+			// TransactionFeeCustomer
+
+			$payment_response = array(
+				'PaymentReference'			=> esc_html($params['PaymentReference']),
+				'BillerID'					=> esc_html($params['BillerID']),
+				'TransactionID'				=> esc_html($params['TransactionID']),
+				'PaymentAmount'				=> esc_html($params['PaymentAmount']),
+				'ResultCode' 				=> esc_html($params['ResultCode']),
+				'ResultText'				=> esc_html($params['ResultText']),
+				'TransactionFeeCustomer'	=> esc_html($params['TransactionFeeCustomer'])
+			);
+			
+			$campaign['payment_response'] = $payment_response;
+
+			$campaign['status'] = esc_html($params['ResultText']);
+
+			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($params['PaymentReference']));
+
+		}
 
 	}
 

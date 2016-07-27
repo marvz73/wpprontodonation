@@ -126,13 +126,13 @@ class Pronto_donation_Public {
 
 	    		foreach($payment_methods as $index=>$payment)
 	    		{
-	    			if($campaign_data['payment'] == $payment->payment['payment_name'])
+	    			if(strtolower($campaign_data['payment']) == strtolower($payment->payment['payment_name']))
 	    			{
 	    				$campaign_data['payment_info'] = $payment;
 	    			}
 	    		}
 
-	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $option['ThankYouPageMessagePage'];
+	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $option['ThankYouPageMessagePage'] . '&payment_gateway=' . $campaign_data['payment'];
 
   				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 
@@ -166,44 +166,20 @@ class Pronto_donation_Public {
 	    }
 	}
 
+	public function pronto_donation_override_template($page_template){
 
-	public function pronto_donation_override_template($page_template ){
+		if (get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage']){
 
-		if (isset($_GET['PaymentReference']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage']){
-			
-			global $wpdb;
+    		$payment_methods = $this->class->pronto_donation_payment_methods();
 
-			$results = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $_GET['PaymentReference']);
-			
-			$campaign = maybe_unserialize($results[0]->meta_value);
-
-			// PaymentReference
-			// BillerID
-			// TransactionID
-			// PaymentAmount
-			// ResultCode 
-			// ResultText
-			// TransactionFeeCustomer
-
-			$payment_response = array(
-				'PaymentReference'			=> $_GET['PaymentReference'],
-				'BillerID'					=> $_GET['BillerID'],
-				'TransactionID'				=> $_GET['TransactionID'],
-				'PaymentAmount'				=> $_GET['PaymentAmount'],
-				'ResultCode' 				=> $_GET['ResultCode'],
-				'ResultText'				=> $_GET['ResultText'],
-				'TransactionFeeCustomer'	=> $_GET['TransactionFeeCustomer']
-			);
-			
-			$campaign['payment_response'] = $payment_response;
-
-			$campaign['status'] = 'success';
-
-			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . $_GET['PaymentReference']);
-
-			// $resultsx = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $_GET['PaymentReference']);
-			// print_r(maybe_unserialize($resultsx[0]->meta_value));
-
+    		foreach($payment_methods as $index=>$payment)
+    		{
+    			//Call the payment function for the process complete
+    			if(strtolower($_GET['payment_gateway']) == strtolower($payment->payment['payment_name']))
+    			{
+    				$payment->payment_complete($_GET);
+    			}
+    		}
 		}
 	}
 

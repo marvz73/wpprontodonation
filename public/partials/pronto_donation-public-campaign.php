@@ -27,12 +27,12 @@
 			<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
 				<span id="currency">
 					<span><?php echo $this->class->pronto_donation_currency(); ?></span>
-					<input disabled="" type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="0.00" />
+					<input disabled="" type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="0.00"step="0.01"  />
 				</span>
 			<?php else: ?>
 				<span id="currency">
 					<span><?php echo $this->class->pronto_donation_currency(); ?></span>
-					<input type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="0.00" />
+					<input type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="0.00" step="0.01" />
 				</span>
 			<?php endif; ?>
 		</p>
