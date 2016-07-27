@@ -120,7 +120,7 @@
 		<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
 		<p>
 			<label>Country</label>
-			<select name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>>
+			<select id="country" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>>
 				<option>Select</option>
 			</select>
 		</p>
@@ -129,7 +129,7 @@
 		<?php if($pronto_donation_user_info['user_state_option'] != 'hide'): ?>
 		<p>
 			<label>State</label>
-			<select name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>>
+			<select id="state"  name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>>
 				<option>Select</option>
 			</select>
 		</p>

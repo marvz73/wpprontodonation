@@ -98,7 +98,10 @@ class Pronto_donation_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		//================================ Country And States Library =============================//
+		wp_enqueue_script('countries' , plugin_dir_url( __FILE__ ) . 'js/countries.js', array( 'jquery' ), $this->version, false );
+		//================================ Country And States Library =============================//
+		
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
 
 	
