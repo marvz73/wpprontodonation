@@ -201,12 +201,11 @@ class Pronto_donation {
 		$this->loader->add_shortcode( 'pronto-donation-IOOPPP', $plugin_public, 'pronto_donation_info_on_offline_payment_panel_page');
 		$this->loader->add_shortcode( 'pronto-donation-IETODBP', $plugin_public, 'pronto_donation_instructions_emailed_to_offline_donor_before_payment');
 	
-<<<<<<< HEAD
+
 		$this->loader->add_filter( 'page_template', $plugin_public, 'pronto_donation_page_template' );
-=======
+
 		$this->loader->add_filter( 'single_template', $plugin_public, 'pronto_donation_override_template' );
-	    	    
->>>>>>> 6a4325cf18e7498792d4ea4d9804d94666798839
+
 	}
 
 	/**
@@ -248,10 +247,6 @@ class Pronto_donation {
 	public function get_version() {
 		return $this->version;
 	}
-
-
-
-
 
 	public function pronto_donation_payment_methods(){
 
