@@ -80,12 +80,13 @@ class eway{
 		$EwaySanboxMode = 1;
 
 		$request = new eWAY\CreateAccessCodesSharedRequest();
-		$request->Customer->TokenCustomerID = '911193411846';  // OPTIONAL
+		//$request->Customer->TokenCustomerID = '911193411846';  // OPTIONAL
 
 		$request->Customer->FirstName = 'Junjie';  // required
 		$request->Customer->LastName = 'Canonio'; // required
 		$request->Customer->Country = 'AU'; // required
 		$request->Payment->TotalAmount = '69';
+		$request->CustomerReadOnly = true;
 
 		$self_url = 'http';
 		if (!empty($_SERVER['HTTPS'])) {
@@ -99,7 +100,7 @@ class eway{
 
 		$request->RedirectUrl = $self_url;
 		$request->CancelUrl   = $self_url;
-		$request->Method = 'TokenPayment';
+		$request->Method = 'ProcessPayment';
 
 		$eway_params = array();
 		if ($EwaySanboxMode) $eway_params['sandbox'] = true;

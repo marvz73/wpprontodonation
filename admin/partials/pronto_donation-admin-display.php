@@ -442,6 +442,18 @@ if ( isset($_GET['page']) ) {
 	    	$thank_you_page_message_post_id = $post_id_A;
 	    }
 
+
+
+	   	$cancel_page_message_post_id = '';
+		$cancel_page_message_postTitle = 'pronto donation cancel page message';
+		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $cancel_page_message_postTitle . "'" );
+
+	    if(empty($post_id_B)||$post_id_B==null){}
+	    else{
+	    	$cancel_page_message_post_id = $post_id_B;
+	    }
+
+
 	    $info_on_offline_payment_panel_post_id = '';
 
 	   	$instructions_emailed_to_offline_donor_before_payment_post_id = '';
@@ -475,6 +487,8 @@ if ( isset($_GET['page']) ) {
 			$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
 			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
 
+			$cancel_page_message_page = (empty($cancel_page_message_post_id)) ? "" : $cancel_page_message_post_id;
+			$cancel_page_message = (empty($_POST['cancel_page_message'])) ? "" : $_POST['cancel_page_message'];
 
 			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];
 
@@ -510,6 +524,9 @@ if ( isset($_GET['page']) ) {
 
 				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
 				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
+
+				'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
+				'CancelPageMessage' => stripslashes($cancel_page_message),
 
 				'ThankYouMailMessage' => stripslashes($thank_you_email_message),
 
@@ -591,8 +608,10 @@ if ( isset($_GET['page']) ) {
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
 		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
+		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];
 
-		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];	
+		$cancel_page_message_page = (empty($pronto_donation_settings['CancelPageMessagePage'])) ? "" : $pronto_donation_settings['CancelPageMessagePage'];
+		$cancel_page_message = (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'];	
 
 		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
 
@@ -802,6 +821,29 @@ if ( isset($_GET['page']) ) {
 				</tbody>
 			</table>
 		</div>
+
+		<br/>
+		<br/>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Cancel Page Messages</h2>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<p><span class="description">Note: Use this shorcode</span> [pronto-donation-CPM] <span class="description">for front end use.</p></p>
+						    <?php
+								$content = $cancel_page_message;
+								$editor_id = 'cancel_page_message';
+
+								wp_editor( $content, $editor_id );
+							?>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
 		<br/>
 		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">

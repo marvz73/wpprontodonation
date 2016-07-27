@@ -215,9 +215,35 @@ class Pronto_donation_Activator {
 	    	
 	    } 
 
+
+	   	$cancel_message_post_id = '';
+		$cancel_page_message_postTitle = 'pronto donation cancel page message';
+
+	    if (get_page_by_title($cancel_page_message_postTitle) == NULL) {
+	    	$new_post = array(
+	            'post_title' => $cancel_page_message_postTitle,
+	            'post_content' => (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'],
+	            'post_status' => 'publish',
+	            'post_date' => date('Y-m-d H:i:s'),
+	            'post_author' => '',
+	            'post_type' => 'staff',
+	            'post_category' => array(0)
+	        );
+			$cancel_page_message_post_id = wp_insert_post($new_post);
+	    	
+	    } 
+
+
+
 	    $info_on_offline_payment_panel_post_id = '';
 
 	   	$instructions_emailed_to_offline_donor_before_payment_post_id = '';
+
+
+
+
+
+
 
 
 
@@ -245,7 +271,11 @@ class Pronto_donation_Activator {
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
 		$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
-		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];	
+		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];
+
+		$cancel_page_message_page = (empty($cancel_message_post_id)) ? "" : $cancel_message_post_id;
+		$cancel_page_message = (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'];
+
 
 		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
 
@@ -282,6 +312,9 @@ class Pronto_donation_Activator {
 
 			'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
 			'ThankYouPageMessage' => stripslashes($thank_you_page_message),
+
+			'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
+			'CancelPageMessage' => stripslashes($cancel_page_message),
 
 			'ThankYouMailMessage' => stripslashes($thank_you_email_message),
 

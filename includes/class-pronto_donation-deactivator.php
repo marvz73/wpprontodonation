@@ -40,6 +40,14 @@ class Pronto_donation_Deactivator {
 	    else{
 	    	wp_delete_post( $post_id_A, true ) ;
 	    }
+
+
+	   	$cancel_page_message_postTitle = 'pronto donation cancel page message';
+		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $cancel_page_message_postTitle . "'" );
+	    if(empty($post_id_B)||$post_id_B==null){}
+	    else{
+	    	wp_delete_post( $post_id_B, true ) ;
+	    }
 	    //================ Get Post Page for Messages ==============//
 
 	}
