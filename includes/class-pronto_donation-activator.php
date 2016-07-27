@@ -208,7 +208,7 @@ class Pronto_donation_Activator {
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
-	            'post_type' => '',
+	            'post_type' => 'staff',
 	            'post_category' => array(0)
 	        );
 			$thank_you_page_message_post_id = wp_insert_post($new_post);
