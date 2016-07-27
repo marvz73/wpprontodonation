@@ -25,9 +25,15 @@
 		<p>
 			<label>Donation Custom Amount: </label>
 			<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
-				<input disabled="" type="number" id="pd_custom_amount" name="pd_custom_amount" />
+				<span id="currency">
+					<span><?php echo $this->class->pronto_donation_currency(); ?></span>
+					<input disabled="" type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="0.00"step="0.01"  />
+				</span>
 			<?php else: ?>
-				<input type="number" id="pd_custom_amount" name="pd_custom_amount" />
+				<span id="currency">
+					<span><?php echo $this->class->pronto_donation_currency(); ?></span>
+					<input type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="0.00" step="0.01" />
+				</span>
 			<?php endif; ?>
 		</p>
 		<?php endif; ?>
@@ -114,7 +120,7 @@
 		<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
 		<p>
 			<label>Country</label>
-			<select name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>>
+			<select id="country" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>>
 				<option>Select</option>
 			</select>
 		</p>
@@ -123,7 +129,7 @@
 		<?php if($pronto_donation_user_info['user_state_option'] != 'hide'): ?>
 		<p>
 			<label>State</label>
-			<select name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>>
+			<select id="state"  name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>>
 				<option>Select</option>
 			</select>
 		</p>

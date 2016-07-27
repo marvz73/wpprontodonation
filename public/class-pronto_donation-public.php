@@ -98,11 +98,13 @@ class Pronto_donation_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		//================================ Country And States Library =============================//
+		wp_enqueue_script('countries' , plugin_dir_url( __FILE__ ) . 'js/countries.js', array( 'jquery' ), $this->version, false );
+		//================================ Country And States Library =============================//
+		
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
 
-		
-
+	
 	}
 
 
@@ -127,13 +129,13 @@ class Pronto_donation_Public {
 
 	    		foreach($payment_methods as $index=>$payment)
 	    		{
-	    			if($campaign_data['payment'] == $payment->payment['payment_name'])
+	    			if(strtolower($campaign_data['payment']) == strtolower($payment->payment['payment_name']))
 	    			{
 	    				$campaign_data['payment_info'] = $payment;
 	    			}
 	    		}
 
-	    		$campaign_data['redirectURL'] = get_home_url() . '/p=' . $option['ThankYouPageMessagePage'];
+	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $option['ThankYouPageMessagePage'] . '&payment_gateway=' . $campaign_data['payment'];
 
   				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 
@@ -159,7 +161,7 @@ class Pronto_donation_Public {
 
 			//Campaign fields
 		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
-			
+
 			//Donor user fields
 		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
 
@@ -167,34 +169,51 @@ class Pronto_donation_Public {
 	    }
 	}
 
+	public function pronto_donation_override_template($page_template){
 
-	function pronto_donation_page_template( $page_template )
-	{
+		if (get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage'])
+		{
+    		global $wpdb;
+    		$payment_methods = $this->class->pronto_donation_payment_methods();
+			$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($_GET['PaymentReference']));
+			$campaign = maybe_unserialize($donor[0]->meta_value);
+			
+			if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign)){
 
-		// $option = get_option('pronto_donation_settings');
+	    		foreach($payment_methods as $index=>$payment)
+	    		{
+	    			
+	    			if(strtolower($_GET['payment_gateway']) == strtolower($payment->payment['payment_name']))
+	    			{
+	    				//call payment process complete
+	    				$payment->payment_complete($campaign, $_GET);
 
-		if ( get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage']) {
-			// $page_template = dirname( __FILE__ ) . '/page-shopello.php';
-			echo 123123123;
-			$title = 'test32';
-			$page_template = '<h1>Title</h1>';
+						// Salesforce syncing will be call here...
+
+	    			}
+	    		}
+    		}
+		} //Cancel Transaction
+		else if (isset($_GET['PaymentReference']) && $_GET['PaymentReference'] == 'C' && get_the_ID() == get_option('pronto_donation_settings')['CancelPageMessagePage'])
+		{	
+			echo 'Cancel Transaction...';
 		}
-	    
-	   return $page_template;
+		
 	}
 
 	public function pronto_donation_thank_you_page_message(){
 		global $title;
 		require_once('partials/pronto_donation-thank-you-page-message.php');
 	}
+
 	public function pronto_donation_info_on_offline_payment_panel_page(){
 		global $title;
 		require_once('partials/pronto_donation-public-info-on-offline-payment-panel-page.php');
 	}
+
 	public function pronto_donation_instructions_emailed_to_offline_donor_before_payment(){
 		global $title;
 		require_once('partials/pronto_donation-public-instructions-emailed-to-offline-donor-before-payment.php');
 	}
-
 
 }

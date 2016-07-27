@@ -35,7 +35,7 @@
 
 
 jQuery(function(){
-
+	populateCountries("country", "state");
 	jQuery('.pd_amount').on('change', function(){
 		if(jQuery(this).val() == '0')
 		{

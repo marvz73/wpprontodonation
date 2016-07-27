@@ -1026,4 +1026,5 @@ class CardDetails
 class RefundCardDetails
 {
     public $ExpiryMonth;
-   
+    public $ExpiryYear;
+}
