@@ -288,11 +288,11 @@ class Pronto_donation {
 				foreach(explode(',', $pronto_donation_campaign['amount_level']) as $index=>$amount_level):
 					if($index==0)
 					{
-						$html .= '<label for="pd_amount'.$index.'"><input id="pd_amount'.$index.'" class="pd_amount" type="radio" name="pd_amount" value="'.$amount_level.'" checked="true" />' . $amount_level. '</label>';
+						$html .= '<label for="pd_amount'.$index.'"><input id="pd_amount'.$index.'" class="pd_amount" type="radio" name="pd_amount" value="'.$amount_level.'" checked="true" />' . $this->pronto_donation_currency() . ' ' . $amount_level. '</label>';
 					}
 					else
 					{
-						$html .= '<label for="pd_amount'.$index.'"><input id="pd_amount'.$index.'" class="pd_amount" type="radio" name="pd_amount" value="'.$amount_level.'" />' . $amount_level. '</label>';
+						$html .= '<label for="pd_amount'.$index.'"><input id="pd_amount'.$index.'" class="pd_amount" type="radio" name="pd_amount" value="'.$amount_level.'" />' . $this->pronto_donation_currency() . ' ' . $amount_level. '</label>';
 					}
 
 				endforeach;
@@ -320,52 +320,8 @@ class Pronto_donation {
 	}
 
 
-	public function pronto_donation_user_fields($campaign_id){
-
-		if($campaign_id)
-		{
-			$pronto_donation_user_info = get_post_meta($campaign_id, 'pronto_donation_user_info', true);
-
-// array ( 
-// 'user_donor_type_option' => 'required',
-// 'user_address_option' => show,
-// 'user_email_option' => show,
-// 'user_country_option' => show,
-// 'user_firstname_option' => show,
-// 'user_state_option' => show,
-// 'user_lastname_option' => show,
-// 'user_postcode_option' => show,
-// 'user_phone_option' => show,
-// 'user_suburb_option' => show
-// )
-
-
-			foreach($pronto_donation_user_info as $index=>$field)
-			{
-
-				if(in_array($index, array('user_donor_type_option')))
-				{
-					$html .= '<p>
-								<label>Donor Type</label>
-								<select name="'.$index.'">
-									<option value="personal">Personal</option>
-									<option value="business">Business</option>
-								</select>
-							</p>';
-				}
-				else
-				{
-				$html .= '<p>
-							<label>Email</label>
-							<input type="email" />
-						</p>';
-				}
-
-			}
-			
-
-			echo $html;
-		}
+	public function pronto_donation_currency(){
+		return get_option('pronto_donation_settings')['SetCurrencySymbol'];
 	}
 
 }
