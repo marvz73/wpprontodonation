@@ -291,7 +291,7 @@ class Pronto_donation_Admin {
 			'public' => true,
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'Campaigns'),
-			'show_in_menu' => 'edit.php?post_type=campaign',
+			'show_in_menu' => 'admin.php?page=donation_page',
 			'supports' => array('title')
 			)
 		);
@@ -320,6 +320,10 @@ class Pronto_donation_Admin {
 
 		wp_nonce_field(basename( __FILE__ ), 'pronto_donation_campaign_nonce' );
 		$campaigns = get_post_meta( $post->ID );
+
+		$pronto_donation_settings = get_option('pronto_donation_settings', '');
+ 
+ 		$currency_val = $pronto_donation_settings['SetCurrencySymbol'];
 
 		if( array_key_exists( 'pronto_donation_campaign', $campaigns ) && array_key_exists( 'pronto_donation_user_info', $campaigns ) ) {
 
@@ -417,7 +421,7 @@ class Pronto_donation_Admin {
 										for ($i=0; $i < $sizeofaray; $i++) {
 											?>
 											<p id="amount-level<?php echo $explode_amount_level[$i] ?>"><a class="dashicons-before dashicons-trash" style=" color: #666; cursor: pointer;" 
-												data="<?php echo $explode_amount_level[$i] ?>" id="amount-remove<?php echo $explode_amount_level[$i] ?>"> </a> <?php echo $explode_amount_level[$i] ?> 
+												data="<?php echo $explode_amount_level[$i] ?>" id="amount-remove<?php echo $explode_amount_level[$i] ?>"> </a> <?php echo $currency_val.$explode_amount_level[$i] ?> 
 											</p>
 											<?php
 										}
@@ -664,6 +668,7 @@ class Pronto_donation_Admin {
 				$('#add_amount_btn').click(function(e){
 
 					var data = $('#amount_level').val();
+					var currency_val = "<?php echo $currency_val ?>";
 				 
 					if(data != null && data != '') {
 
@@ -680,7 +685,7 @@ class Pronto_donation_Admin {
 							} else {
 								$('#amount_level_data').val( $('#amount_level_data').val() +" "+ data );
 							}
-							$('#amount_level_display').append('<p id="amount-level'+data+'"><a class="dashicons-before dashicons-trash" style=" color: #666; cursor: pointer;" data="'+data+'"id="amount-remove'+data+'"></a>'+' '+data+'</p>');
+							$('#amount_level_display').append('<p id="amount-level'+data+'"><a class="dashicons-before dashicons-trash" style=" color: #666; cursor: pointer;" data="'+data+'"id="amount-remove'+data+'"></a>'+' '+currency_val+data+'</p>');
 						}
 
 						var datavalue = $('#amount_level_data').val().split(' ');
@@ -815,6 +820,10 @@ class Pronto_donation_Admin {
 		$campaign_info = unserialize( $campaigns['pronto_donation_campaign'][0] );
 		$user_information = unserialize( $campaigns['pronto_donation_user_info'][0] );
 
+		$pronto_donation_settings = get_option('pronto_donation_settings', '');
+ 
+        $currency_val = $pronto_donation_settings['SetCurrencySymbol'];
+
 		switch( $column ) {
 			
 			case 'banner_image' :
@@ -844,7 +853,7 @@ class Pronto_donation_Admin {
 
 			case 'donation_target' :
  				$data_donation_target = $campaign_info['donation_target'];
- 				echo number_format($data_donation_target, 2, '.', ',');
+ 				echo $currency_val . number_format( (int) $data_donation_target, 2, '.', ',');
 			break;
 
 			case 'date_updated' :
@@ -918,14 +927,7 @@ class Pronto_donation_Admin {
 
 	    return $where;
 	}
-
-	public function pronto_donation_shortcode( $atts ) {
-		$a = shortcode_atts( array(
-	        'campaign' => 0,
-	    ), $atts );
-
-	    return "campaign is ". $a['campaign'];
-	}
+ 
 	
 	// EOF campaign
 

@@ -2,3 +2,32 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+
+.donation-status-pending {
+	padding: 4px;
+	text-align: center;
+	text-transform: capitalize;
+	font-weight: bold;
+}
+
+.donation-view-details {
+	font-size: 10px;
+	text-align: center;
+	color: #555;
+}	
+
+.donation-view-details:hover {
+	cursor : pointer;
+	text-decoration: underline;
+}
+
+.donation-details-header {
+	font-weight: bold;
+}
+.donation-details-value {
+	margin-left: 5px;
+}
+.donation-details {
+	margin-bottom: 5px;
+}
