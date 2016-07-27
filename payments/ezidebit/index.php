@@ -67,9 +67,6 @@ class ezidebit{
 		// RedirectURL	
 		// PaymentReference	
 
-	 	// global $wpdb;
-		// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
-
 		$url = $ppd['payment_info']->option['url'];
 
 		$fields = array(
@@ -91,15 +88,10 @@ class ezidebit{
 	}
 
 	// Payment process complete
-	public function payment_complete($params){
-
+	public function payment_complete($campaign, $response){
 		global $wpdb;
 
-		$results = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($params['PaymentReference']));
-		
-		$campaign = maybe_unserialize($results[0]->meta_value);
-
-		if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign)){
+		// if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign)){
 
 			// PaymentReference
 			// BillerID
@@ -110,22 +102,22 @@ class ezidebit{
 			// TransactionFeeCustomer
 
 			$payment_response = array(
-				'PaymentReference'			=> esc_html($params['PaymentReference']),
-				'BillerID'					=> esc_html($params['BillerID']),
-				'TransactionID'				=> esc_html($params['TransactionID']),
-				'PaymentAmount'				=> esc_html($params['PaymentAmount']),
-				'ResultCode' 				=> esc_html($params['ResultCode']),
-				'ResultText'				=> esc_html($params['ResultText']),
-				'TransactionFeeCustomer'	=> esc_html($params['TransactionFeeCustomer'])
+				'PaymentReference'			=> esc_html($response['PaymentReference']),
+				'BillerID'					=> esc_html($response['BillerID']),
+				'TransactionID'				=> esc_html($response['TransactionID']),
+				'PaymentAmount'				=> esc_html($response['PaymentAmount']),
+				'ResultCode' 				=> esc_html($response['ResultCode']),
+				'ResultText'				=> esc_html($response['ResultText']),
+				'TransactionFeeCustomer'	=> esc_html($response['TransactionFeeCustomer'])
 			);
 			
 			$campaign['payment_response'] = $payment_response;
 
-			$campaign['status'] = esc_html($params['ResultText']);
+			$campaign['status'] = esc_html($response['ResultText']);
 
-			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($params['PaymentReference']));
+			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($response['PaymentReference']));
 
-		}
+		// }
 
 	}
 

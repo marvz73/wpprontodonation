@@ -168,19 +168,34 @@ class Pronto_donation_Public {
 
 	public function pronto_donation_override_template($page_template){
 
-		if (get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage']){
-
+		if (get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage'])
+		{
+    		global $wpdb;
     		$payment_methods = $this->class->pronto_donation_payment_methods();
+			$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($_GET['PaymentReference']));
+			$campaign = maybe_unserialize($donor[0]->meta_value);
+			
+			if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign)){
 
-    		foreach($payment_methods as $index=>$payment)
-    		{
-    			//Call the payment function for the process complete
-    			if(strtolower($_GET['payment_gateway']) == strtolower($payment->payment['payment_name']))
-    			{
-    				$payment->payment_complete($_GET);
-    			}
+	    		foreach($payment_methods as $index=>$payment)
+	    		{
+	    			
+	    			if(strtolower($_GET['payment_gateway']) == strtolower($payment->payment['payment_name']))
+	    			{
+	    				//call payment process complete
+	    				$payment->payment_complete($campaign, $_GET);
+
+						// Salesforce syncing will be call here...
+
+	    			}
+	    		}
     		}
+		} //Cancel Transaction
+		else if (isset($_GET['PaymentReference']) && $_GET['PaymentReference'] == 'C' && get_the_ID() == get_option('pronto_donation_settings')['CancelPageMessagePage'])
+		{	
+			echo 'Cancel Transaction...';
 		}
+		
 	}
 
 	public function pronto_donation_thank_you_page_message(){
