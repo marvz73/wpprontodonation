@@ -413,7 +413,7 @@ class Pronto_donation_Admin {
 						<tr>
 							<th scope="row"><label for="hide_custom_amount">Hide Custom Amount</label></th>
 							<td>
-								<label class="" for="hide_custom_amount"><input name="hide_custom_amount" type="checkbox" id="hide_custom_amount" <?php if ( !empty( $campaign_info['banner_image'] ) && $campaign_info['hide_custom_amount'] !== 0 ) echo "checked='checked'" ?>  > Hide custom amount on form </label>
+								<label class="" for="hide_custom_amount"><input name="hide_custom_amount" type="checkbox" id="hide_custom_amount" <?php if ( !empty( $campaign_info['hide_custom_amount'] ) && $campaign_info['hide_custom_amount'] !== 0 ) echo "checked='checked'" ?>  > Hide custom amount on form </label>
 							</td>
 						</tr>
 
@@ -458,6 +458,13 @@ class Pronto_donation_Admin {
 							<td>
 								<input type="text" name="donation_campaign_filter" id="donation_campaign_filter" class="regular-text" value="<?php if( !empty( $campaign_info['donation_campaign_filter'] ) ) echo esc_attr( $campaign_info['donation_campaign_filter'] ); ?>">
 								<p class="description">This field use to filter campaign's donations</p>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><label for="show_gift_field">Show Gift Field</label></th>
+							<td>
+								<label class="" for="show_gift_field"><input name="show_gift_field" type="checkbox" id="show_gift_field" <?php if ( !empty( $campaign_info['show_gift_field'] ) && $campaign_info['show_gift_field'] !== 0 ) echo "checked='checked'" ?>  > Show gift field on frontend </label>
 							</td>
 						</tr>
 
@@ -745,8 +752,6 @@ class Pronto_donation_Admin {
 	*/
 	public function pronto_donation_campagin_save_post( $post_id ) {
 
-		$data = ( isset( $_POST['hide_custom_amount'] ) ) ? 1 : 0 ;
- 
 		$is_autosave = wp_is_post_autosave( $post_id );
 		$is_revision = wp_is_post_revision( $post_id );
 		$is_valid_nonce = ( isset($_POST['pronto_donation_campaign_nonce'] ) && wp_verify_nonce( $_POST['pronto_donation_campaign_nonce'], basename( __FILE__ ) ) ) ? 'true' : 'false';
@@ -772,11 +777,13 @@ class Pronto_donation_Admin {
 			$date = date('M d, Y h:i:s a', time());
 
 			$data = ( isset( $_POST['hide_custom_amount'] ) ) ? 1 : 0 ;
+			$data1 = ( isset( $_POST['show_gift_field'] ) ) ? 1 : 0 ;
 
 			$campaign_data = array();
 			$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'], 2 );
 			$campaign_data['banner_image'] = sanitize_text_field( $_POST['banner_image'] );
 			$campaign_data['hide_custom_amount'] = $data;
+			$campaign_data['show_gift_field'] = $data1;
 			$campaign_data['amount_level'] = $amountdata;
 			$campaign_data['donation_type'] = sanitize_text_field( $_POST['donation_type'] );
 			$campaign_data['donation_campaign_filter'] = sanitize_text_field( $_POST['donation_campaign_filter'] );

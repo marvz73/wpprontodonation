@@ -281,4 +281,8 @@ class Pronto_donation_Public {
 		require_once('partials/pronto_donation-public-instructions-emailed-to-offline-donor-before-payment.php');
 	}
 
+	public function pronto_donation_published_campaign() {
+		require_once('partials/pronto_donation-published-campaign.php');
+	}
+
 }

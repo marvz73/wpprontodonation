@@ -1,16 +1,13 @@
 <?php 
 	require_once('../../../../../wp-blog-header.php' );
 
-    if ( isset( $_GET['donation_meta_key'] ) ) {
+    if ( isset( $_GET['donation_meta_key'] ) && isset( $_GET['currency_symbol'] ) ) {
 
     	global $wpdb;
     	$meta_key = $_GET['donation_meta_key'];
         $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor' AND meta_id=" . $meta_key );
         
         $donation_details = unserialize( $result[0]->meta_value );
-
-        // $donation_details = 'a:22:{s:9:"pd_amount";s:1:"0";s:16:"pd_custom_amount";s:6:"100.51";s:13:"donation_type";s:6:"single";s:10:"donor_type";s:1:"I";s:11:"companyName";s:0:"";s:5:"email";s:17:"marvz73@gmail.com";s:10:"first_name";s:6:"Marvin";s:9:"last_name";s:5:"Ayaay";s:5:"phone";s:10:"9101765857";s:7:"address";s:31:"Brgy. 1, Alima Apartment Door B";s:7:"country";s:6:"Select";s:5:"state";s:6:"Select";s:9:"post_code";s:4:"7214";s:6:"suburb";s:11:"Tangub City";s:7:"payment";s:8:"Ezidebit";s:5:"nonce";s:10:"37d80083b0";s:17:"donation_campaign";s:2:"11";s:6:"action";s:14:"process_donate";s:6:"status";s:18:"INSUFFICIENT_FUNDS";s:12:"payment_info";O:8:"ezidebit":2:{s:7:"payment";a:4:{s:4:"logo";s:8:"logo.png";s:12:"payment_name";s:8:"Ezidebit";s:19:"payment_description";s:35:"This is a payment description here.";s:3:"url";s:0:"";}s:6:"option";a:7:{s:11:"sandboxmode";s:2:"on";s:4:"logo";s:2:"on";s:6:"enable";s:2:"on";s:3:"url";s:45:"https://alphasys-new.pay.demo.ezidebit.com.au";s:12:"payment_type";s:8:"ezidebit";s:6:"action";s:13:"save_settings";s:5:"nonce";s:10:"72fe8642a6";}}s:11:"redirectURL";s:32:"http://localhost/wordpress/?p=61";s:16:"payment_response";a:7:{s:16:"PaymentReference";s:3:"123";s:8:"BillerID";s:8:"10039371";s:13:"TransactionID";s:7:"2669759";s:13:"PaymentAmount";s:6:"100.51";s:10:"ResultCode";s:2:"51";s:10:"ResultText";s:18:"INSUFFICIENT_FUNDS";s:22:"TransactionFeeCustomer";s:4:"0.00";}}';
-        // $donation_details = unserialize( $donation_details );
 
         $pronto_donation_settings = get_option('pronto_donation_settings', '');
         $currency_val = $pronto_donation_settings['SetCurrencySymbol'];
@@ -119,7 +116,7 @@
                                 <label class=""> Amount</label>
                             </th>
                             <td>
-                                <input type="text" class="regular-text donation-details-value" value="<?php echo $currency_val .''. number_format( (int) $donation_details['pd_custom_amount'], 2, '.', ',') ?>" readonly>
+                                <input type="text" class="regular-text donation-details-value" value="<?php echo $_GET['currency_symbol'] .''. number_format( (int) $donation_details['pd_custom_amount'], 2, '.', ',') ?>" readonly>
                             </td>
                         </tr>
                         <?php
@@ -130,7 +127,7 @@
                                 <label class=""> Amount</label>
                             </th>
                             <td>
-                                <input type="text" class="regular-text donation-details-value" value="<?php echo $currency_val .''. number_format( (int) $donation_details['pd_amount'], 2, '.', ',') ?>" readonly>
+                                <input type="text" class="regular-text donation-details-value" value="<?php echo $_GET['currency_symbol'] .''. number_format( (int) $donation_details['pd_amount'], 2, '.', ',') ?>" readonly>
                             </td>
                         </tr>
                         <?php
