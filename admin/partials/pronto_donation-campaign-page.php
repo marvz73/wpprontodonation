@@ -54,9 +54,7 @@ class Pronto_Donation_Campaign_WP_list_Table {
 
                 <?php $exampleListTable->display(); ?>
             </div>
-
-            <?php add_thickbox(); ?>
-
+ 
         <?php
     }
 
@@ -158,7 +156,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
 
             $table_data['status'] = '<div class="donation-status-pending">'. $donor_data['status'] . '</div>
-            <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&width=753&height=550" class="thickbox donation-view-details">view details</a>';
+            <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&height=550&width=753" id="thickbox-my" class="thickbox donation-view-details">view details</a>';
 
             $data[] = $table_data;
         }

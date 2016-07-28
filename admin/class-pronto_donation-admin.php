@@ -249,13 +249,13 @@ class Pronto_donation_Admin {
 	//get data of the current payment
 	function get_payment_settings($payment_type){
 
-			foreach($this->payments as $key=>$payment)
+		foreach($this->payments as $key=>$payment)
+		{
+			if($payment->className == $payment_type)
 			{
-				if($payment->className == $payment_type)
-				{
-					return $payment;
-				}
+				return $payment;
 			}
+		}
 
 	}
 	// EOF Pronto Payments
