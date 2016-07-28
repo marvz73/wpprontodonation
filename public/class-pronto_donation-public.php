@@ -221,6 +221,11 @@ class Pronto_donation_Public {
 		require_once('partials/pronto_donation-thank-you-page-message.php');
 	}
 
+	public function pronto_donation_cancel_page_message(){
+		global $title;
+		require_once('partials/pronto_donation-cancel-page-message.php');
+	}
+
 	public function pronto_donation_info_on_offline_payment_panel_page(){
 		global $title;
 		require_once('partials/pronto_donation-public-info-on-offline-payment-panel-page.php');
