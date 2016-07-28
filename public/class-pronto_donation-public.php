@@ -118,6 +118,7 @@ class Pronto_donation_Public {
 	private $base = __DIR__ . '/../payments/';
 	public function pronto_donation_campaign( $campaign_id ) {
 		$option = get_option('pronto_donation_settings');
+		
 		//Process the payment here...
 
 		$errors = new stdClass();
@@ -131,7 +132,9 @@ class Pronto_donation_Public {
 			if(empty($captcha))
 			{
 				
-				$response=json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LcSLSYTAAAAAA415c_Se4_dFdTmUIJ1aiT9zBVP&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
+				$googleSecret = '6LcSLSYTAAAAAA415c_Se4_dFdTmUIJ1aiT9zBVP';
+
+				$response=json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$googleSecret."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
 		        if($response['success'] == false)
 		        {
 		      		$errors->captcha = "You're a robot.";
@@ -177,13 +180,14 @@ class Pronto_donation_Public {
 	    				$campaign_data['payment_info'] = $payment;
 	    			}
 	    		}
+	    		
+	    		$campaign_data['timestamp'] = time();
 
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $option['ThankYouPageMessagePage'] . '&payment_gateway=' . $campaign_data['payment'];
 
-	    		$campaign_data['CancelUrl']   = get_home_url() . '/?p=' . $option['CancelPageMessagePage']. '&payment_status=C&ref=' . $campaign_data['post_meta_id'];
-
   				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 
+	    		$campaign_data['CancelUrl']   = get_home_url() . '/?p=' . $option['CancelPageMessagePage']. '&payment_status=C&ref=' . $post_meta_id;
   				$campaign_data['post_meta_id'] = $post_meta_id;
 
 	    		// Call the payment function to execute payment action
@@ -222,10 +226,11 @@ class Pronto_donation_Public {
 
 	public function pronto_donation_override_template($page_template){
 
+		global $wpdb;
+
 		if (isset($_GET['payment_gateway']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage'])
 		{
-    		global $wpdb;
-
+   
     		$payment_methods = $this->class->pronto_donation_payment_methods();
 
     		foreach($payment_methods as $index=>$payment)
@@ -241,13 +246,10 @@ class Pronto_donation_Public {
     			}
     		}
 		} //Cancel Transaction
-		else if ($_GET['payment_status'] == 'C' && get_the_ID() == get_option('pronto_donation_settings')['CancelPageMessagePage'])
+		else if (isset($_GET['ref']) && $_GET['payment_status'] == 'C' && get_the_ID() == get_option('pronto_donation_settings')['CancelPageMessagePage'])
 		{	
-
-			$campaign_id = esc_html($_GET['ref']);
-
+			$campaign_id = preg_replace("/[^A-Za-z0-9 ]/", '', $_GET['ref']);
 			$campaignDonor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $campaign_id);
-
 			$campaign = maybe_unserialize($campaignDonor[0]->meta_value);
 			if($campaign['status'] != 'CANCELLED')
 			{
