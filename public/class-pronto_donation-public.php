@@ -119,13 +119,13 @@ class Pronto_donation_Public {
 	public function pronto_donation_campaign( $campaign_id ) {
 		$option = get_option('pronto_donation_settings');
     	$campaignOption = new stdClass();
+		$errors = new stdClass();
 		foreach ($option as $key => $value)
 		{
 		    $campaignOption->$key = $value;
 		}
 
 		//Process the payment here...
-		$errors = new stdClass();
 
 	    if($_POST)
 	    {
@@ -218,8 +218,8 @@ class Pronto_donation_Public {
 	}
 
 	public function pronto_donation_override_template($page_template){
-
 		global $wpdb;
+		global $post;
 
 		if (isset($_GET['payment_gateway']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage'])
 		{
@@ -250,7 +250,29 @@ class Pronto_donation_Public {
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . $campaign_id);
 			}
 		}
+		else if(get_post_type($post->ID) == 'campaign')
+		{
+			$errors = new stdClass();
+		    //Display the donation fields
+			$attrs = shortcode_atts( array(
+		        'campaign' => 0,
+		    ), $post->ID );
 
+			//Payment method
+			$payment_methods = $this->class->pronto_donation_payment_methods();
+
+			//Campaign fields
+		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
+
+			//Donor user fields
+		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
+		    
+		    // $page_template = dirname( __FILE__ ) . '/partials/pronto_donation-public-campaign.php';
+
+		    // require_once('partials/pronto_donation-public-campaign.php');
+		}
+
+		return $page_template;
 	}
 
 	public function pronto_donation_thank_you_page_message(){
