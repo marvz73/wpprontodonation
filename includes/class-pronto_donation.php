@@ -210,6 +210,8 @@ class Pronto_donation {
 		
 		$this->loader->add_shortcode( 'pronto-donation-campaign-list', $plugin_public, 'pronto_donation_campaign_list' );
 
+		$this->loader->add_filter( 'page_template', $plugin_public, 'pronto_donation_page_template' );
+
 	}
 
 	/**

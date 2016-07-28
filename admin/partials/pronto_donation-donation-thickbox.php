@@ -22,6 +22,14 @@
                 <tbody>
                     <tr>
                         <th>
+                            <label class="">Gift</label>
+                        </th>
+                        <td>
+                           <label class="" for="gift"><input class="donation-details-value" name="gift" type="checkbox" id="gift"> </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             <label class="">First Name</label>
                         </th>
                         <td>
