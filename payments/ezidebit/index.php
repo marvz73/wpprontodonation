@@ -70,7 +70,7 @@ class ezidebit{
 		$url = $ppd['payment_info']->option['url'];
 
 		$fields = array(
-			'Type'					=> $ppd['donorType'],
+			'Type'					=> $ppd['donor_type'],
 			'CompanyName'			=> $ppd['companyName'],
 			'FirstName'				=> $ppd['first_name'],
 			'LastName'				=> $ppd['last_name'],

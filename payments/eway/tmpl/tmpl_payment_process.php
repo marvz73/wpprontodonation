@@ -2,7 +2,7 @@
 <script type="text/javascript">
 	
 	setTimeout(function(){
-		window.location.href = "<?php echo $result->SharedPaymentUrl ?>";
+		// window.location.href = "<?php echo $result->SharedPaymentUrl ?>";
 	}, 200)
 
 </script>

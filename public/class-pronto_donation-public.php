@@ -118,7 +118,7 @@ class Pronto_donation_Public {
 	private $base = __DIR__ . '/../payments/';
 	public function pronto_donation_campaign( $campaign_id ) {
 		$option = get_option('pronto_donation_settings');
-		
+
 		//Process the payment here...
 
 		$errors = new stdClass();
@@ -169,7 +169,7 @@ class Pronto_donation_Public {
 				// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
 
 	    		$campaign_data['status'] = 'pending';
-	    		$campaign_data['CurrencyCode'] = $option['CurrencyCode'];
+	    		$campaign_data['CurrencyCode'] = $option['SetCurrencyCode'];
 
 	    		$payment_methods = $this->class->pronto_donation_payment_methods();
 
@@ -188,6 +188,7 @@ class Pronto_donation_Public {
   				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 
 	    		$campaign_data['CancelUrl']   = get_home_url() . '/?p=' . $option['CancelPageMessagePage']. '&payment_status=C&ref=' . $post_meta_id;
+  				
   				$campaign_data['post_meta_id'] = $post_meta_id;
 
 	    		// Call the payment function to execute payment action
