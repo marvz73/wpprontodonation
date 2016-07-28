@@ -101,7 +101,11 @@ class Pronto_donation_Public {
 		//================================ Country And States Library =============================//
 		wp_enqueue_script('countries' , plugin_dir_url( __FILE__ ) . 'js/countries.js', array( 'jquery' ), $this->version, false );
 		//================================ Country And States Library =============================//
-		
+
+
+		//Google g-recaptcha
+		wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js', array( ), $this->version, false );
+
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
 
 	
@@ -115,15 +119,52 @@ class Pronto_donation_Public {
 	public function pronto_donation_campaign( $campaign_id ) {
 		$option = get_option('pronto_donation_settings');
 		//Process the payment here...
+
+		$errors = new stdClass();
+
 	    if($_POST)
 	    {
 	    	$campaign_data = $_POST;
-	    	if($campaign_data['action'] == 'process_donate' && wp_verify_nonce( $campaign_data['nonce'], 'donation'))
+
+			$captcha = $_POST['g-recaptcha-response'];
+
+			if(empty($captcha))
+			{
+				
+				$response=json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LcSLSYTAAAAAA415c_Se4_dFdTmUIJ1aiT9zBVP&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
+		        if($response['success'] == false)
+		        {
+		      		$errors->captcha = "You're a robot.";
+		        }
+
+		    	$campaignOption = new stdClass();
+				foreach ($option as $key => $value)
+				{
+				    $campaignOption->$key = $value;
+				}
+
+			    //Display the donation fields
+				$attrs = shortcode_atts( array(
+			        'campaign' => 0,
+			    ), $campaign_id );
+
+				//Payment method
+				$payment_methods = $this->class->pronto_donation_payment_methods();
+
+				//Campaign fields
+			    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
+
+				//Donor user fields
+			    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
+
+			    require_once('partials/pronto_donation-public-campaign.php');
+			    
+			}
+	    	else if($campaign_data['action'] == 'process_donate' && wp_verify_nonce( $campaign_data['nonce'], 'donation'))
 	    	{
-			
 			 	// global $wpdb;
 				// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
-	    	
+
 	    		$campaign_data['status'] = 'pending';
 	    		$campaign_data['CurrencyCode'] = $option['CurrencyCode'];
 
@@ -148,6 +189,7 @@ class Pronto_donation_Public {
 	    		// Call the payment function to execute payment action
 	    		$campaign_data['payment_info']->payment_process($campaign_data);
 
+	    		
 	    	}
 	    }
 	    else
