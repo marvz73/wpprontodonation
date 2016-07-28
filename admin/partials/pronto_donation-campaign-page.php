@@ -38,9 +38,9 @@ class Pronto_Donation_Campaign_WP_list_Table {
             .column-email {width: 20%}
             .column-campaign_name {width: 20%}
             .column-amount {width: 9%}
-            .column-country {width: 10%}
+            .column-donation_type {width: 8%}
             .column-payment {width: 8%}
-            .column-status {width: 10%}
+            .column-status {width: 12%}
         </style>';
     }
 
@@ -156,11 +156,10 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_custom_amount'], 2, '.', ',');
             }
             
-
             $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
 
             $table_data['status'] = '<div class="donation-status-pending">'. $donor_data['status'] . '</div>
-            <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&width=753&height=550" class="thickbox donation-view-details">View full details</a>';
+            <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&width=753&height=550" class="thickbox donation-view-details">view details</a>';
 
             $data[] = $table_data;
         }

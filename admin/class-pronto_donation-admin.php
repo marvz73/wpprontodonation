@@ -250,6 +250,7 @@ class Pronto_donation_Admin {
 	}
 	// EOF Pronto Payments
 
+
 	// BOF Pronto Donation Campaign 
 	// Author: Danryl T. Carpio
 
@@ -291,7 +292,7 @@ class Pronto_donation_Admin {
 			'public' => true,
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'Campaigns'),
-			'show_in_menu' => 'admin.php?page=donation_page',
+			'show_in_menu' => false,
 			'supports' => array('title')
 			)
 		);
@@ -322,7 +323,6 @@ class Pronto_donation_Admin {
 		$campaigns = get_post_meta( $post->ID );
 
 		$pronto_donation_settings = get_option('pronto_donation_settings', '');
- 
  		$currency_val = $pronto_donation_settings['SetCurrencySymbol'];
 
 		if( array_key_exists( 'pronto_donation_campaign', $campaigns ) && array_key_exists( 'pronto_donation_user_info', $campaigns ) ) {
@@ -927,9 +927,20 @@ class Pronto_donation_Admin {
 
 	    return $where;
 	}
- 
-	
-	// EOF campaign
+  	
+  	/**
+	 * Make parent menu of the custom post type 'Campaign' visible 
+	 * When campaign post type is active
+	 */
+	public function pronto_donation_fix_admin_parent_file($parent_file){
+	    global $submenu_file, $current_screen;
+	    if($current_screen->post_type == 'campaign') {
+	        $submenu_file = 'edit.php?post_type=campaign';
+	        $parent_file = 'donation_page';
+	    }
+	    return $parent_file;
+	}
+	// EOF campaign 
 
 	public function pronto_donation_settings_menu_page(){
 		global $title;

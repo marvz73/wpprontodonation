@@ -14,24 +14,6 @@
         <div class="card">
         	<h2>Donation Details</h2>
  
-         	<?php 
-        	if( array_key_exists('donation_details', $donation_details) && isset( $donation_details['pd_custom_amount'] ) ) {
-        		?>
-        		<div class="donation-details">
-        			<span class="donation-details-header"> Amount:</span>
-        			<span class="donation-details-value"> <?php echo $currency_val .''. number_format( (int) $donation_details['pd_custom_amount'], 2, '.', ',') ?> </span>
-        		</div>
-        		<?php
-        	} else {
-        		?>
-        		<div class="donation-details">
-        			<span class="donation-details-header"> Amount:</span>
-        			<span class="donation-details-value"> <?php echo $currency_val .''. number_format( (int) $donation_details['pd_amount'] , 2, '.', ',') ?> </span>
-        		</div>
-        		<?php
-        	}
-        	?>
-
         	<div class="donation-details">
         		<span class="donation-details-header"> First Name:</span>
         		<span class="donation-details-value"> <?php echo (isset( $donation_details['first_name'] ) ) ? $donation_details['first_name'] : '' ?> </span>
@@ -73,6 +55,23 @@
         		<span class="donation-details-header"> Campaign:</span>
         		<span class="donation-details-value"> <?php echo (isset( $donation_details['donation_campaign'] ) ) ? get_the_title( $donation_details['donation_campaign'] ): '' ?> </span>
         	</div>
+            <?php 
+            if( array_key_exists('donation_details', $donation_details) && isset( $donation_details['pd_custom_amount'] ) ) {
+                ?>
+                <div class="donation-details">
+                    <span class="donation-details-header"> Amount:</span>
+                    <span class="donation-details-value"> <?php echo $currency_val .''. number_format( (int) $donation_details['pd_custom_amount'], 2, '.', ',') ?> </span>
+                </div>
+                <?php
+            } else {
+                ?>
+                <div class="donation-details">
+                    <span class="donation-details-header"> Amount:</span>
+                    <span class="donation-details-value"> <?php echo $currency_val .''. number_format( (int) $donation_details['pd_amount'] , 2, '.', ',') ?> </span>
+                </div>
+                <?php
+            }
+            ?>
         	<div class="donation-details">
         		<span class="donation-details-header"> Payment Reference:</span>
         		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['PaymentReference'] ) ) ? $donation_details['payment_response']['PaymentReference'] : '' ?> </span>

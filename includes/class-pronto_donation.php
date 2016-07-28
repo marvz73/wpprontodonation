@@ -179,6 +179,8 @@ class Pronto_donation {
 		$this->loader->add_action( 'admin_print_scripts', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_scripts' );
 		$this->loader->add_action( 'admin_print_styles', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_styles' );
 
+		$this->loader->add_filter('parent_file', $plugin_admin, 'pronto_donation_fix_admin_parent_file');
+
 	}
 
 
