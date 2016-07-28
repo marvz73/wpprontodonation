@@ -181,6 +181,8 @@ class Pronto_donation {
 
 		$this->loader->add_filter('parent_file', $plugin_admin, 'pronto_donation_fix_admin_parent_file');
 
+		$this->loader->add_action( 'init', $plugin_admin, 'pronto_donation_register_post_type' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'pronto_donation_remove_menu_items' );
 	}
 
 

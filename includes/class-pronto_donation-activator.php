@@ -197,11 +197,6 @@ class Pronto_donation_Activator {
 		);
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
 
-		$args = array(
-	      'public' => true,
-	      'label'  => 'pronto_donation'
-	    );
-	    register_post_type( 'pronto_donation', $args );	
 
 
 		$thank_you_page_message_post_id = '';
