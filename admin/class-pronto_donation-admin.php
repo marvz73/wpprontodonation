@@ -42,6 +42,16 @@ class Pronto_donation_Admin {
 	 */
 	private $version;
 
+	 /**
+	 * The variable containing all the custom function
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $class    The variable container of all the custom functions
+	 */
+
+	private $class;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -49,11 +59,11 @@ class Pronto_donation_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version, $class ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->class = $class;
 	}
 
 	/**

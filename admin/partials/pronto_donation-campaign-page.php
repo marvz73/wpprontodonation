@@ -115,7 +115,6 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
     private function table_data()
     {
-
         global $wpdb;
         $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor'");
 
