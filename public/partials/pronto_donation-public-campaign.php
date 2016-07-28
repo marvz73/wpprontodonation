@@ -68,6 +68,11 @@
 			<?php endif; ?>
 		</p>
 
+		<?php if($pronto_donation_campaign['show_gift_field']): ?>
+			<p>
+				Is this a Gift <input type="checkbox" name="donation_gift" /> 
+			</p>
+		<?php endif; ?>
 
 	</fieldset>
 
@@ -188,12 +193,15 @@
 				endif;
 			?>
 	</fieldset>
+
 	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
 	<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 	<input type="hidden" name="action" value="process_donate"/>
 	
-	<div class="g-recaptcha" data-sitekey="6LcSLSYTAAAAABtwqrE7X6SC8pmWuuygKXaQ2MlS"></div>
-
+	<?php if($campaignOption->GoogleReCaptchaEnable && $campaignOption->GoogleReCaptchaSiteKey && $campaignOption->GoogleReCaptchaSecretKey): ?>
+		<br>
+		<div class="g-recaptcha" data-sitekey="<?php echo $campaignOption->GoogleReCaptchaSiteKey; ?>"></div>
+	<?php endif; ?>
 	<br>
 
 	<p class="submit">

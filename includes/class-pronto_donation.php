@@ -208,7 +208,7 @@ class Pronto_donation {
 
 		$this->loader->add_shortcode( 'pronto-donation-IETODBP', $plugin_public, 'pronto_donation_instructions_emailed_to_offline_donor_before_payment');
 		
-		$this->loader->add_shortcode( 'pronto-donation-campaign-list', $plugin_public, 'pronto_donation_published_campaign' );
+		$this->loader->add_shortcode( 'pronto-donation-campaign-list', $plugin_public, 'pronto_donation_campaign_list' );
 
 	}
 
