@@ -318,7 +318,6 @@ class Pronto_donation {
 		echo ($field == 'required') ? 'required' : '';
 	}
 
-
 	public function pronto_donation_currency(){
 		return get_option('pronto_donation_settings')['SetCurrencySymbol'];
 	}

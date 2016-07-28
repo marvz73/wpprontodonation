@@ -56,7 +56,7 @@
         		<span class="donation-details-value"> <?php echo (isset( $donation_details['donation_campaign'] ) ) ? get_the_title( $donation_details['donation_campaign'] ): '' ?> </span>
         	</div>
             <?php 
-            if( array_key_exists('donation_details', $donation_details) && isset( $donation_details['pd_custom_amount'] ) ) {
+            if( array_key_exists('pd_custom_amount', $donation_details) && isset( $donation_details['pd_custom_amount'] ) ) {
                 ?>
                 <div class="donation-details">
                     <span class="donation-details-header"> Amount:</span>
