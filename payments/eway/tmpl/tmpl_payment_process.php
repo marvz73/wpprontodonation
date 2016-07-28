@@ -7,10 +7,6 @@
 
 </script>
 
-<!-- <form method="post" action="<?php echo $result->SharedPaymentUrl ?>">
-	<button type="submit">Pay Now</button>
-</form> -->
-
 <div style="text-align: center;">
 	<div class="circle-wrapper">
 	  <div class="circle-loader">
