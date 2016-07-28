@@ -88,10 +88,15 @@ class ezidebit{
 	}
 
 	// Payment process complete
-	public function payment_complete($campaign, $response){
+	public function payment_complete($response){
 		global $wpdb;
 
-		// if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign)){
+		$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($response['PaymentReference']));
+		
+		$campaign = maybe_unserialize($donor[0]->meta_value);
+	
+		if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign))
+		{
 
 			// PaymentReference
 			// BillerID
@@ -117,7 +122,7 @@ class ezidebit{
 
 			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($response['PaymentReference']));
 
-		// }
+		}
 
 	}
 

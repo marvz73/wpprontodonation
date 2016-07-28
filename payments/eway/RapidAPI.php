@@ -346,7 +346,7 @@ class RapidAPI
         if ($this->disableSslVerify) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         }
-
+         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         // Ucomment for CURL debugging
         //curl_setopt($ch, CURLOPT_VERBOSE, true);
 

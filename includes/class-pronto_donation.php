@@ -158,7 +158,7 @@ class Pronto_donation {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Pronto_donation_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Pronto_donation_Admin( $this->get_plugin_name(), $this->get_version(), $this );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -179,7 +179,7 @@ class Pronto_donation {
 		$this->loader->add_action( 'admin_print_scripts', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_scripts' );
 		$this->loader->add_action( 'admin_print_styles', $plugin_admin, 'pronto_donation_wp_gear_manager_admin_styles' );
 
-		// $this->loader->add_shortcode( 'pronto-donation', $plugin_admin, 'pronto_donation_shortcode' );
+		$this->loader->add_filter('parent_file', $plugin_admin, 'pronto_donation_fix_admin_parent_file');
 
 	}
 
@@ -202,9 +202,8 @@ class Pronto_donation {
 		$this->loader->add_shortcode( 'pronto-donation-TYPM', $plugin_public, 'pronto_donation_thank_you_page_message');
 		$this->loader->add_shortcode( 'pronto-donation-IOOPPP', $plugin_public, 'pronto_donation_info_on_offline_payment_panel_page');
 		$this->loader->add_shortcode( 'pronto-donation-IETODBP', $plugin_public, 'pronto_donation_instructions_emailed_to_offline_donor_before_payment');
-	
 		$this->loader->add_filter( 'single_template', $plugin_public, 'pronto_donation_override_template' );
-	    	    
+
 	}
 
 	/**
@@ -246,10 +245,6 @@ class Pronto_donation {
 	public function get_version() {
 		return $this->version;
 	}
-
-
-
-
 
 	public function pronto_donation_payment_methods(){
 
@@ -319,9 +314,10 @@ class Pronto_donation {
 		echo ($field == 'required') ? 'required' : '';
 	}
 
-
 	public function pronto_donation_currency(){
 		return get_option('pronto_donation_settings')['SetCurrencySymbol'];
 	}
+
+	
 
 }
