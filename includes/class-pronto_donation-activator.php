@@ -258,13 +258,18 @@ class Pronto_donation_Activator {
 
 		$set_currency = (empty($pronto_donation_settings['SetCurrencyCode'])) ? "" : $pronto_donation_settings['SetCurrencyCode']; 
 		$set_country = (empty($pronto_donation_settings['SetCountry'])) ? "" : $pronto_donation_settings['SetCountry']; 	
+		$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];
+
+		$google_recaptcha_enable = (empty($pronto_donation_settings['GoogleReCaptchaEnable'])) ? "" : $pronto_donation_settings['GoogleReCaptchaEnable']; 
+		$google_recaptcha_site_key = (empty($pronto_donation_settings['GoogleReCaptchaSiteKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSiteKey']; 	
+		$google_recaptcha_secret_key = (empty($pronto_donation_settings['GoogleReCaptchaSecretKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSecretKey'];
 
 		$email_to_be_notify = (empty($pronto_donation_settings['EmailToBeNotify'])) ? "" : $pronto_donation_settings['EmailToBeNotify']; 
-		$email_address = (empty($pronto_donation_settings['EmailAddress'])) ? "" : $pronto_donation_settings['EmailAddress']; 
+		$email_address = (empty($pronto_donation_settings['EmailAddress'])) ? "" : $pronto_donation_settings['EmailAddress'];
 		$email_name = (empty($pronto_donation_settings['EmailName'])) ? "" : $pronto_donation_settings['EmailName']; 	
 
 		$client_id = (empty($pronto_donation_settings['ClientId'])) ? "" : $pronto_donation_settings['ClientId'];
-		$client_secret = (empty($pronto_donation_settings['ClientSecret'])) ? "" : $pronto_donation_settings['ClientSecret'];	
+		$client_secret = (empty($pronto_donation_settings['ClientSecret'])) ? "" : $pronto_donation_settings['ClientSecret'];
 		$redirect_uri = (empty($pronto_donation_settings['RedirectURI'])) ? "" : $pronto_donation_settings['RedirectURI'];	
 		$login_uri = (empty($pronto_donation_settings['LoginURI'])) ? "" : $pronto_donation_settings['LoginURI'];	
 		$salesforce_url = (empty($pronto_donation_settings['SalesforceURL'])) ? "" : $pronto_donation_settings['SalesforceURL'];
@@ -295,9 +300,15 @@ class Pronto_donation_Activator {
 			'ButtonClass'      => stripslashes($button_class),
 			'InputFieldClass'   => stripslashes($input_field_class),
 			'EditButtonCaption'   => stripslashes($edit_button_caption),
+
 			'SetCurrencySymbol'   => $currency_symbols[$set_currency],
 			'SetCurrencyCode'   => stripslashes($set_currency),
 			'SetCountry' => stripslashes($set_country),
+			'EnableAddressValidation' => stripslashes($enable_address_validation),
+
+			'GoogleReCaptchaEnable' => stripslashes($google_recaptcha_enable),
+			'GoogleReCaptchaSiteKey' => stripslashes($google_recaptcha_site_key),
+			'GoogleReCaptchaSecretKey' => stripslashes($google_recaptcha_secret_key),
 
 			'EmailToBeNotify' => stripslashes(str_replace("/","",$email_to_be_notify)),
 			'EmailAddress' => stripslashes(str_replace("/","",$email_address)),

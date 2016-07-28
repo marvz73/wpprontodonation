@@ -468,9 +468,15 @@ if ( isset($_GET['page']) ) {
 			$button_class = (empty($_POST['button_class'])) ? "" : $_POST['button_class'];
 			$input_field_class = (empty($_POST['input_field_class'])) ? "" : $_POST['input_field_class'];
 			$edit_button_caption = (empty($_POST['edit_button_caption'])) ? "" : $_POST['edit_button_caption'];
+
 			$set_currency = (empty($_POST['set_currency'])) ? "" : $_POST['set_currency'];
 			$set_country = (empty($_POST['set_country'])) ? "" : $_POST['set_country'];
-			$enable_address_validation = (empty($_POST['enable_address_validation'])) ? "" : $_POST['enable_address_validation'];	
+			$enable_address_validation = (empty($_POST['enable_address_validation'])) ? "" : $_POST['enable_address_validation'];
+
+			$google_recaptcha_enable = (empty($_POST['google_recaptcha_enable'])) ? "" : $_POST['google_recaptcha_enable'];	
+			$google_recaptcha_site_key = (empty($_POST['google_recaptcha_site_key'])) ? "" : $_POST['google_recaptcha_site_key'];	
+			$google_recaptcha_secret_key = (empty($_POST['google_recaptcha_secret_key'])) ? "" : $_POST['google_recaptcha_secret_key'];	
+
 
 			$email_to_be_notify = (empty($_POST['email_to_be_notify'])) ? "" : $_POST['email_to_be_notify'];
 			$email_address = (empty($_POST['email_address'])) ? "" : $_POST['email_address'];
@@ -505,10 +511,15 @@ if ( isset($_GET['page']) ) {
 				'ButtonClass'      => stripslashes($button_class),
 				'InputFieldClass'   => stripslashes($input_field_class),
 				'EditButtonCaption'   => stripslashes($edit_button_caption),
+
 				'SetCurrencySymbol'   => $currency_symbols[$set_currency],
 				'SetCurrencyCode'   => stripslashes($set_currency),
 				'SetCountry' => stripslashes($set_country),
 				'EnableAddressValidation' => stripslashes($enable_address_validation),
+
+				'GoogleReCaptchaEnable' => stripslashes($google_recaptcha_enable),
+				'GoogleReCaptchaSiteKey' => stripslashes($google_recaptcha_site_key),
+				'GoogleReCaptchaSecretKey' => stripslashes($google_recaptcha_secret_key),
 
 				'EmailToBeNotify' => stripslashes(str_replace("/","",$email_to_be_notify)),
 				'EmailAddress' => stripslashes(str_replace("/","",$email_address)),
@@ -594,6 +605,10 @@ if ( isset($_GET['page']) ) {
 		$set_currency = (empty($pronto_donation_settings['SetCurrencyCode'])) ? "" : $pronto_donation_settings['SetCurrencyCode']; 
 		$set_country = (empty($pronto_donation_settings['SetCountry'])) ? "" : $pronto_donation_settings['SetCountry']; 	
 		$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];
+
+		$google_recaptcha_enable = (empty($pronto_donation_settings['GoogleReCaptchaEnable'])) ? "" : $pronto_donation_settings['GoogleReCaptchaEnable']; 
+		$google_recaptcha_site_key = (empty($pronto_donation_settings['GoogleReCaptchaSiteKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSiteKey']; 	
+		$google_recaptcha_secret_key = (empty($pronto_donation_settings['GoogleReCaptchaSecretKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSecretKey'];
 
 		$email_to_be_notify = (empty($pronto_donation_settings['EmailToBeNotify'])) ? "" : $pronto_donation_settings['EmailToBeNotify']; 
 		$email_address = (empty($pronto_donation_settings['EmailAddress'])) ? "" : $pronto_donation_settings['EmailAddress']; 
@@ -721,6 +736,42 @@ if ( isset($_GET['page']) ) {
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		<br/>
+		<br/>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Google reCaptcha</h2>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<label for="enable_address_validation">Enable reCaptcha</label>
+						</th>
+						<td>
+							<label for="google_recaptcha_enable">
+								<input name="google_recaptcha_enable" type="checkbox" id="google_recaptcha_enable" value="1" <?php if($google_recaptcha_enable==1){echo'checked';}?>>
+							Enable
+							</label>	
+						</td>
+					</tr>	
+					<tr>
+						<th scope="row">
+							<label for="google_recaptcha_site_key">Site Key</label>
+						</th>
+						<td>
+						    <input name="google_recaptcha_site_key" type="text" id="google_recaptcha_site_key" class="regular-text" value="<?php echo $google_recaptcha_site_key; ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="google_recaptcha_secret_key">Secret Key</label>
+						</th>
+						<td>
+						    <input name="google_recaptcha_secret_key" type="text" id="google_recaptcha_secret_key" class="regular-text" value="<?php echo $google_recaptcha_secret_key; ?>">
+						</td>
+					</tr>
+				</tbody>	
+			</table>
 		</div>	
 		<br/>
 		<br/>
@@ -755,7 +806,6 @@ if ( isset($_GET['page']) ) {
 				</tbody>	
 			</table>
 		</div>
-
 		<br/>
 		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">
