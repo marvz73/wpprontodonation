@@ -464,7 +464,7 @@ class Pronto_donation_Admin {
 						<tr>
 							<th scope="row"><label for="show_gift_field">Show Gift Field</label></th>
 							<td>
-								<label class="" for="show_gift_field"><input name="show_gift_field" type="checkbox" id="show_gift_field" <?php if ( !empty( $campaign_info['show_gift_field'] ) && $campaign_info['show_gift_field'] !== 0 ) echo "checked='checked'" ?>  > Show gift field on frontend </label>
+								<label class="" for="show_gift_field"><input name="show_gift_field" type="checkbox" id="show_gift_field" <?php if ( !empty( $campaign_info['show_gift_field'] ) && $campaign_info['show_gift_field'] !== 0 ) echo "checked='checked'" ?>  >  </label>
 							</td>
 						</tr>
 
