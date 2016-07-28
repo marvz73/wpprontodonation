@@ -91,7 +91,7 @@ class eway{
 		$request->Customer->State = $ppd['state'];
 		$request->Customer->PostalCode = $ppd['post_code'];
 
-		$request->Payment->TotalAmount = !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] .'.00' : $ppd['pd_amount'] .'.00';
+		$request->Payment->TotalAmount = !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount']  : $ppd['pd_amount'] ;
 		$request->Payment->InvoiceReference = (string)$ppd['post_meta_id'];
 
 		$request->CustomerReadOnly = true;

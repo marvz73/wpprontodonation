@@ -1,3 +1,14 @@
+
+<div class="pronto_donation_error">
+<?php
+	foreach($errors as $key=>$error)
+	{
+		echo "<p style='color: red;'>* ".$error."</p>";
+	}
+?>
+</div>
+
+
 <!-- <form method="post" action="<?php echo home_url( '/wp-admin/admin-post.php' ) ?>"> -->
 <form method="post" class="<?php echo $campaignOption->FormClass ?>" >
 
@@ -180,7 +191,11 @@
 	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
 	<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 	<input type="hidden" name="action" value="process_donate"/>
+	
+	<div class="g-recaptcha" data-sitekey="6LcSLSYTAAAAABtwqrE7X6SC8pmWuuygKXaQ2MlS"></div>
+
 	<br>
+
 	<p class="submit">
 		<button class="button button-primary <?php echo $campaignOption->ButtonClass ?>"> <?php echo ($campaignOption->EditButtonCaption) ? $campaignOption->EditButtonCaption : 'Donate' ?> </button>
 	</p>
