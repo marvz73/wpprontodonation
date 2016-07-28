@@ -7,7 +7,8 @@
         $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor' AND meta_id=" . $meta_key );
        
         $donation_details = unserialize( $result[0]->meta_value );
-
+        $pronto_donation_settings = get_option('pronto_donation_settings', '');
+        $currency_val = $pronto_donation_settings['SetCurrencySymbol'];
         ?>
 
         <div class="card">
@@ -18,14 +19,14 @@
         		?>
         		<div class="donation-details">
         			<span class="donation-details-header"> Amount:</span>
-        			<span class="donation-details-value"> <?php echo number_format( (int) $donation_details['pd_custom_amount'], 2, '.', ',') ?> </span>
+        			<span class="donation-details-value"> <?php echo $currency_val .''. number_format( (int) $donation_details['pd_custom_amount'], 2, '.', ',') ?> </span>
         		</div>
         		<?php
         	} else {
         		?>
         		<div class="donation-details">
         			<span class="donation-details-header"> Amount:</span>
-        			<span class="donation-details-value"> <?php echo  number_format( (int) $donation_details['pd_amount'] , 2, '.', ',') ?> </span>
+        			<span class="donation-details-value"> <?php echo $currency_val .''. number_format( (int) $donation_details['pd_amount'] , 2, '.', ',') ?> </span>
         		</div>
         		<?php
         	}
@@ -98,7 +99,7 @@
         	</div>
          	<div class="donation-details">
         		<span class="donation-details-header">Transaction Fee Customer:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['TransactionFeeCustomer'] ) ) ? $donation_details['payment_response']['TransactionFeeCustomer'] : '' ?> </span>
+        		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['TransactionFeeCustomer'] ) ) ? $currency_val .''. $donation_details['payment_response']['TransactionFeeCustomer'] : '' ?> </span>
         	</div>
         </div>
 

@@ -150,7 +150,12 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
             $table_data['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );
 
-            $table_data['amount'] = $currency_val . number_format( (int) $donor_data['pd_amount'], 2, '.', ',');
+            if(array_key_exists('pd_amount', $donor_data) && isset( $donor_data['pd_amount'] ) ) {
+                $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_amount'], 2, '.', ',');
+            } else {
+                $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_custom_amount'], 2, '.', ',');
+            }
+            
 
             $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
 

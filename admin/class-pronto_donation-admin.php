@@ -853,7 +853,7 @@ class Pronto_donation_Admin {
 
 			case 'donation_target' :
  				$data_donation_target = $campaign_info['donation_target'];
- 				echo $currency_val . number_format( (int) $data_donation_target, 2, '.', ',');
+ 				echo $currency_val .''. number_format( (int) $data_donation_target, 2, '.', ',');
 			break;
 
 			case 'date_updated' :
