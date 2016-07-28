@@ -123,10 +123,10 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
         $currency_val = $pronto_donation_settings['SetCurrencySymbol'];
 
         $ezidebit_url = plugin_dir_url( __FILE__ ).'../../payments/ezidebit/logo.png';
-        $ezidebit_url = '<img src="'.$ezidebit_url.'" width="70" height="30" alt="">';
+        $ezidebit_url = '<img src="'.$ezidebit_url.'" width="70" height="30" alt="Ezidibit">';
 
         $eway_url = plugin_dir_url( __FILE__ ).'../../payments/eway/logo.png';
-        $eway_url = '<img src="'.$eway_url.'" width="70" height="30" alt="">';
+        $eway_url = '<img src="'.$eway_url.'" width="70" height="30" alt="Eway">';
 
         $redirect_url = plugin_dir_url( __FILE__ ) . "pronto_donation-donation-thickbox.php";
 
