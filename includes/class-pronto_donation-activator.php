@@ -198,6 +198,7 @@ class Pronto_donation_Activator {
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
 
 
+
 		$thank_you_page_message_post_id = '';
 		$thank_you_page_message_postTitle = 'pronto donation thank you page message';
 
@@ -208,7 +209,7 @@ class Pronto_donation_Activator {
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
-	            'post_type' => 'staff',
+	            'post_type' => 'pronto_donation',
 	            'post_category' => array(0)
 	        );
 			$thank_you_page_message_post_id = wp_insert_post($new_post);
@@ -226,7 +227,7 @@ class Pronto_donation_Activator {
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
-	            'post_type' => 'staff',
+	            'post_type' => 'pronto_donation',
 	            'post_category' => array(0)
 	        );
 			$cancel_page_message_post_id = wp_insert_post($new_post);

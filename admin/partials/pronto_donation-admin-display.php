@@ -628,7 +628,9 @@ if ( isset($_GET['page']) ) {
 <div class="wrap">
 	<h1>Pronto Settings</h1>
 	<form method="post">
+		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Campaign From</h2>
 			<table class="form-table">
 				<tbody>
 					<tr>
@@ -665,6 +667,11 @@ if ( isset($_GET['page']) ) {
 					</tr>					
 				</tbody>
 			</table>
+		</div>
+		<br/>
+		<br/>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Country and Currency</h2>
 			<table class="form-table">
 				<tbody>
 					<tr>

@@ -951,7 +951,21 @@ class Pronto_donation_Admin {
 	    return $parent_file;
 	}
 	// EOF campaign 
+	public function pronto_donation_register_post_type(){
 
+		$args = array(
+	      'public' => true,
+	      'label'  => 'pronto_donation'
+	    );
+	    register_post_type( 'pronto_donation', $args );	
+	}
+
+	public function pronto_donation_remove_menu_items() {
+	   
+	    remove_menu_page( 'edit.php?post_type=pronto_donation' );
+
+	}
+	
 	public function pronto_donation_settings_menu_page(){
 		global $title;
 		require_once('partials/pronto_donation-admin-display.php');
