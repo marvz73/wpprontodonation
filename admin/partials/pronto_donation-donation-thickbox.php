@@ -11,96 +11,177 @@
         $currency_val = $pronto_donation_settings['SetCurrencySymbol'];
         ?>
 
-        <div class="card">
+        <div class="wrapper">
         	<h2>Donation Details</h2>
- 
-        	<div class="donation-details">
-        		<span class="donation-details-header"> First Name:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['first_name'] ) ) ? $donation_details['first_name'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Last Name:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['last_name'] ) ) ? $donation_details['last_name'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Email Address:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['email'] ) ) ? $donation_details['email'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Phone:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['phone'] ) ) ? $donation_details['phone'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Address:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['address'] ) ) ? $donation_details['address'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Donor Type:</span>
-        		<span class="donation-details-value"> <?php echo ( isset($donation_details['donor_type']) && $donation_details['donor_type'] == 'I') ? 'Individual' : 'Business' ?> </span>
-        	</div>
-          	<div class="donation-details">
-        		<span class="donation-details-header"> Donation Type:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['donation_type'] ) ) ? $donation_details['donation_type'] : '' ?> </span>
-        	</div>
 
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Company Name:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['companyName'] ) ) ? $donation_details['companyName'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Payment:</span>
-        		<span class="donation-details-value"> <?php echo (isset($donation_details['payment'] ) ) ? $donation_details['payment'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Campaign:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['donation_campaign'] ) ) ? get_the_title( $donation_details['donation_campaign'] ): '' ?> </span>
-        	</div>
-            <?php 
-            if( array_key_exists('pd_custom_amount', $donation_details) && isset( $donation_details['pd_custom_amount'] ) ) {
-                ?>
-                <div class="donation-details">
-                    <span class="donation-details-header"> Amount:</span>
-                    <span class="donation-details-value"> <?php echo $currency_val .''. number_format( (int) $donation_details['pd_custom_amount'], 2, '.', ',') ?> </span>
-                </div>
-                <?php
-            } else {
-                ?>
-                <div class="donation-details">
-                    <span class="donation-details-header"> Amount:</span>
-                    <span class="donation-details-value"> <?php echo $currency_val .''. number_format( (int) $donation_details['pd_amount'] , 2, '.', ',') ?> </span>
-                </div>
-                <?php
-            }
-            ?>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Payment Reference:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['PaymentReference'] ) ) ? $donation_details['payment_response']['PaymentReference'] : '' ?> </span>
-        	</div>
-         	<div class="donation-details">
-        		<span class="donation-details-header"> Biller ID:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['BillerID'] ) ) ? $donation_details['payment_response']['BillerID'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header">Transaction ID:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['TransactionID'] ) ) ? $donation_details['payment_response']['TransactionID'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Payment Amount:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['PaymentAmount'] ) ) ? $donation_details['payment_response']['PaymentAmount'] : '' ?> </span>
-        	</div>
-        	<div class="donation-details">
-        		<span class="donation-details-header"> Result Code:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['ResultCode'] ) ) ? $donation_details['payment_response']['ResultCode'] : '' ?> </span>
-        	</div>
-         	<div class="donation-details">
-        		<span class="donation-details-header">Result Text:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['ResultText'] ) ) ? $donation_details['payment_response']['ResultText'] : '' ?> </span>
-        	</div>
-         	<div class="donation-details">
-        		<span class="donation-details-header">Transaction Fee Customer:</span>
-        		<span class="donation-details-value"> <?php echo (isset( $donation_details['payment_response']['TransactionFeeCustomer'] ) ) ? $currency_val .''. $donation_details['payment_response']['TransactionFeeCustomer'] : '' ?> </span>
-        	</div>
-        </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <th>
+                            <label class="">First Name</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['first_name'] ) ) ? $donation_details['first_name'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class="">Last Name</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['last_name'] ) ) ? $donation_details['last_name'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class="">Email Address</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text" style="margin-left: 10px;" value="<?php echo (isset( $donation_details['email'] ) ) ? $donation_details['email'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class="">Phone</label>
+                        </th>
+                        <td>
+                              <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['phone'] ) ) ? $donation_details['phone'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class="">Address</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['address'] ) ) ? $donation_details['address'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class=""> Company Name</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['companyName'] ) ) ? $donation_details['companyName'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class="">Donor Type</label>
+                        </th>
+                        <td>
+                           <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['donor_type'] ) && $donation_details['donor_type'] == 'B' ) ? 'Business' : 'Personal' ?>" readonly>
+                       </td>
+                   </tr>
+                   <tr>
+                        <th>
+                            <label class="">Donation Type</label>
+                        </th>
+                        <td>
+                           <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['donation_type'] ) ) ? $donation_details['donation_type'] : 'Personal' ?>" readonly>
+                       </td>
+                   </tr>
+                    <tr>
+                        <th>
+                            <label class=""> Payment</label>
+                        </th>
+                        <td>
+                           <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['payment'] ) ) ? $donation_details['payment'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class=""> Campaign</label>
+                        </th>
+                        <td>
+                          <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['donation_campaign'] ) ) ? get_the_title($donation_details['donation_campaign']) : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class=""> Status</label>
+                        </th>
+                        <td>
+                          <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['donation_campaign'] ) ) ? $donation_details['status'] : '' ?>" readonly>
+                      </td>
+                    </tr>
+                    <?php 
+                    if( array_key_exists('pd_custom_amount', $donation_details) && isset( $donation_details['pd_custom_amount'] ) && (int) $donation_details['pd_custom_amount'] > 0 ) {
+                        ?>
+                        <tr>
+                            <th>
+                                <label class=""> Amount</label>
+                            </th>
+                            <td>
+                                <input type="text" class="regular-text donation-details-value" value="<?php echo $currency_val .''. number_format( (int) $donation_details['pd_custom_amount'], 2, '.', ',') ?>" readonly>
+                            </td>
+                        </tr>
+                        <?php
+                    } else {
+                        ?>
+                        <tr>
+                            <th>
+                                <label class=""> Amount</label>
+                            </th>
+                            <td>
+                                <input type="text" class="regular-text donation-details-value" value="<?php echo $currency_val .''. number_format( (int) $donation_details['pd_amount'], 2, '.', ',') ?>" readonly>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+
+                    <tr>
+                        <th>
+                            <label class=""> Payment Reference</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['payment_response']['PaymentReference'] ) ) ? $donation_details['payment_response']['PaymentReference'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label class="">Biller ID</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['payment_response']['BillerID'] ) ) ? $donation_details['payment_response']['BillerID'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class=""> Transaction ID</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['payment_response']['TransactionID'] ) ) ? $donation_details['payment_response']['TransactionID'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class="">Payment Amount</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['payment_response']['PaymentAmount'] ) ) ? $donation_details['payment_response']['PaymentAmount'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class="">Result Code</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['payment_response']['ResultCode'] ) ) ? $donation_details['payment_response']['ResultCode'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label class="">Transaction Fee Customer</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['payment_response']['TransactionFeeCustomer'] ) ) ? $donation_details['payment_response']['TransactionFeeCustomer'] : '' ?>" readonly>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+         </div>
 
         <?php
     }

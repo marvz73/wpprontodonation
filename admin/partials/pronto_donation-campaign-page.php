@@ -36,11 +36,11 @@ class Pronto_Donation_Campaign_WP_list_Table {
             .column-id {width: 5%}
             .column-donor_name {width: 20%}
             .column-email {width: 20%}
-            .column-campaign_name {width: 20%}
-            .column-amount {width: 9%}
-            .column-donation_type {width: 8%}
-            .column-payment {width: 8%}
-            .column-status {width: 12%}
+            .column-campaign_name {width: 17%}
+            .column-amount {width: 12%}
+            .column-donation_type {width: 8%; text-transform: capitalize; text-align: center !important;}
+            .column-payment {width: 8%; text-align: center !important;}
+            .column-status {width:10%; text-align: center !important;}
         </style>';
     }
 
@@ -98,7 +98,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             'amount' => 'Amount',
             'donation_type' => 'Donation Type',
             'payment' => 'Payment',
-            'status' => 'Donation Status'
+            'status' => 'Status'
         );
         return $columns;
     }
@@ -149,7 +149,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
             $table_data['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );
 
-            if(array_key_exists('pd_amount', $donor_data) && isset( $donor_data['pd_amount'] ) ) {
+            if(array_key_exists('pd_amount', $donor_data) && isset( $donor_data['pd_amount'] ) && (int) $donor_data['pd_amount'] > 0 ) {
                 $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_amount'], 2, '.', ',');
             } else {
                 $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_custom_amount'], 2, '.', ',');

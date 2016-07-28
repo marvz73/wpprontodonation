@@ -26,12 +26,9 @@
 	font-weight: bold;
 }
 .donation-details-value {
-	margin-left: 5px;
+	margin-left: 10px;
+	text-transform: capitalize;
 }
 .donation-details {
 	margin-bottom: 5px;
-}
-
-.column-status {
-	text-align: center;
 }
