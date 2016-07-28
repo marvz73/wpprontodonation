@@ -91,7 +91,11 @@ class eway{
 		$request->Customer->State = $ppd['state'];
 		$request->Customer->PostalCode = $ppd['post_code'];
 
-		$request->Payment->TotalAmount = !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount']  : $ppd['pd_amount'] ;
+		$TotalAmount = !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] : $ppd['pd_amount'];
+
+
+
+		$request->Payment->TotalAmount = $TotalAmount .'00';
 		$request->Payment->InvoiceReference = (string)$ppd['post_meta_id'];
 
 		$request->CustomerReadOnly = true;
@@ -148,7 +152,6 @@ class eway{
 			);
 
 			$campaign['payment_response'] = $payment_response;
-
 			$campaign['status'] = esc_html($service->getMessage($transactionsResponse->ResponseMessage));
 
 			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));

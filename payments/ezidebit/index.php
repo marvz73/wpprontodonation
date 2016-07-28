@@ -117,7 +117,6 @@ class ezidebit{
 			);
 			
 			$campaign['payment_response'] = $payment_response;
-
 			$campaign['status'] = esc_html($response['ResultText']);
 
 			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($response['PaymentReference']));
