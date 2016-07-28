@@ -434,7 +434,7 @@ if ( isset($_GET['page']) ) {
 		
 		//================ Get Post Page for Messages ==============//
 		$thank_you_page_message_post_id = '';
-		$thank_you_page_message_postTitle = 'pronto donation thank you page message';
+		$thank_you_page_message_postTitle = 'pronto-donation-thank-you';
 		$post_id_A = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $thank_you_page_message_postTitle . "'" );
 
 	    if(empty($post_id_A)||$post_id_A==null){}
@@ -445,7 +445,7 @@ if ( isset($_GET['page']) ) {
 
 
 	   	$cancel_page_message_post_id = '';
-		$cancel_page_message_postTitle = 'pronto donation cancel page message';
+		$cancel_page_message_postTitle = 'pronto-donation-cancelled';
 		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $cancel_page_message_postTitle . "'" );
 
 	    if(empty($post_id_B)||$post_id_B==null){}
@@ -811,7 +811,7 @@ if ( isset($_GET['page']) ) {
 		<br/>
 		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">
-			<h2 class="title">Thank you Page Messages</h2>
+			<h2 class="title">Pronto Donation Thank You</h2>
 			<table class="form-table">
 				<tbody>
 					<tr>
@@ -832,7 +832,7 @@ if ( isset($_GET['page']) ) {
 		<br/>
 		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">
-			<h2 class="title">Cancel Page Messages</h2>
+			<h2 class="title">Pronto Donation Cancelled Page</h2>
 			<table class="form-table">
 				<tbody>
 					<tr>
