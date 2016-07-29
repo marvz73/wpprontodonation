@@ -1030,7 +1030,7 @@ class Pronto_donation_Admin {
 		die();
 	}
 
-		public function proto_donation_remove_campaign_banner() {
+	public function proto_donation_remove_campaign_banner() {
 
     	global $wpdb;
 

@@ -90,7 +90,7 @@ class ezidebit{
 	// Payment process complete
 	public function payment_complete($response){
 		global $wpdb;
-
+		
 		$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($response['PaymentReference']));
 		
 		$campaign = maybe_unserialize($donor[0]->meta_value);

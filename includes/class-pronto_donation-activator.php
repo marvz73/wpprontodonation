@@ -217,7 +217,7 @@ class Pronto_donation_Activator {
 	    } 
 
 
-	   	$cancel_message_post_id = '';
+	   	$cancel_page_message_post_id = '';
 		$cancel_page_message_postTitle = 'pronto-donation-cancelled';
 
 	    if (get_page_by_title($cancel_page_message_postTitle) == NULL) {
@@ -249,8 +249,6 @@ class Pronto_donation_Activator {
 
 
 	    //================ Get All Data In Pronto Donation Settings Option ==============//
-	    
-
 		$form_class = (empty($pronto_donation_settings['FormClass'])) ? "" : $pronto_donation_settings['FormClass'];
 		$button_class = (empty($pronto_donation_settings['ButtonClass'])) ? "" : $pronto_donation_settings['ButtonClass'];
 		$input_field_class = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : $pronto_donation_settings['InputFieldClass'];
@@ -259,6 +257,7 @@ class Pronto_donation_Activator {
 		$set_currency = (empty($pronto_donation_settings['SetCurrencyCode'])) ? "" : $pronto_donation_settings['SetCurrencyCode']; 
 		$set_country = (empty($pronto_donation_settings['SetCountry'])) ? "" : $pronto_donation_settings['SetCountry']; 	
 		$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];
+		$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
 
 		$google_recaptcha_enable = (empty($pronto_donation_settings['GoogleReCaptchaEnable'])) ? "" : $pronto_donation_settings['GoogleReCaptchaEnable']; 
 		$google_recaptcha_site_key = (empty($pronto_donation_settings['GoogleReCaptchaSiteKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSiteKey']; 	
@@ -279,7 +278,7 @@ class Pronto_donation_Activator {
 		$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
 		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];
 
-		$cancel_page_message_page = (empty($cancel_message_post_id)) ? "" : $cancel_message_post_id;
+		$cancel_page_message_page = (empty($cancel_page_message_post_id)) ? "" : $cancel_page_message_post_id;
 		$cancel_page_message = (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'];
 
 
@@ -305,6 +304,7 @@ class Pronto_donation_Activator {
 			'SetCurrencyCode'   => stripslashes($set_currency),
 			'SetCountry' => stripslashes($set_country),
 			'EnableAddressValidation' => stripslashes($enable_address_validation),
+			'GoogleGeocodeAPIKey' => stripslashes($google_geocode_api_key),
 
 			'GoogleReCaptchaEnable' => stripslashes($google_recaptcha_enable),
 			'GoogleReCaptchaSiteKey' => stripslashes($google_recaptcha_site_key),
