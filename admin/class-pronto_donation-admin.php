@@ -331,6 +331,7 @@ class Pronto_donation_Admin {
 
 		wp_nonce_field(basename( __FILE__ ), 'pronto_donation_campaign_nonce' );
 		$campaigns = get_post_meta( $post->ID );
+		$content_post = get_post( $post->ID );
 
 		$pronto_donation_settings = get_option('pronto_donation_settings', '');
  		$currency_val = $pronto_donation_settings['SetCurrencySymbol'];
@@ -399,12 +400,20 @@ class Pronto_donation_Admin {
 						</tr>
 
 						<tr>
+							<th scope="row"><label for="show_gift_field">Description</label></th>
+							<td>
+								<textarea rows="5" cols="52" id="campagin_description" name="campagin_description"><?php echo $content_post->post_content; ?></textarea>
+							</td>
+						</tr>
+
+						<tr>
 							<th scope="row"><label for="banner_image_btn">Banner Image</label></th>
 							<td>
 								<p><img id="banner_image_img" src="<?php if( !empty( $campaign_info['banner_image'] ) ) echo esc_attr( $campaign_info['banner_image'] ); ?>" width="100" height="100" alt=""></p>
 								<div style="display: inline-flex;">
 									<input style="font-size: 12px;" readonly id="banner_image" type="text" size="36" name="banner_image" value="<?php if( !empty( $campaign_info['banner_image'] ) ) echo esc_attr( $campaign_info['banner_image'] ); ?>" />
-									&nbsp;<input class="button button-primary" id="upload_image_button" type="button" value="Upload Image" />
+									&nbsp;<input class="button button-primary" id="removed_image" type="button" value="Remove" />
+									&nbsp;<input class="button button-primary" id="upload_image_button" type="button" value="Upload" />
 								</div>
 								<p class="description">Select banner image on wordpress media</p>
 							</td>
@@ -739,6 +748,35 @@ class Pronto_donation_Admin {
 					$('#banner_image_img').attr("src", imgurl);
 					tb_remove();
 				}
+
+				$('#removed_image').click(function(){
+					if (confirm('Are you sure you want to remove the banner of this campaign?')) {
+						$.ajax({
+							type:"POST",
+							url: ajaxurl,
+							data: {
+								action: "remove_campaign_banner",
+								param : {
+									'post_id' : "<?php echo $post->ID ?>",
+								}
+							},
+							success: function (data) {
+								// console.log("success", data)
+								if(data.data.result) {
+									$('#banner_image_img').attr('src','');
+									$('#banner_image').val('');
+								}
+							},
+							error : function (data) {
+								console.log("error", data)
+							}
+						});
+
+					} else {
+					    // Do nothing!
+					}
+
+				});
 			});
 		</script>
 
@@ -751,6 +789,8 @@ class Pronto_donation_Admin {
 	* for every campaign created
 	*/
 	public function pronto_donation_campagin_save_post( $post_id ) {
+
+		global $wpdb;
 
 		$is_autosave = wp_is_post_autosave( $post_id );
 		$is_revision = wp_is_post_revision( $post_id );
@@ -780,7 +820,7 @@ class Pronto_donation_Admin {
 			$data1 = ( isset( $_POST['show_gift_field'] ) ) ? 1 : 0 ;
 
 			$campaign_data = array();
-			$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'], 2 );
+			$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'] );
 			$campaign_data['banner_image'] = sanitize_text_field( $_POST['banner_image'] );
 			$campaign_data['hide_custom_amount'] = $data;
 			$campaign_data['show_gift_field'] = $data1;
@@ -790,6 +830,10 @@ class Pronto_donation_Admin {
 			$campaign_data['campaign_shortcode'] = '[pronto-donation campaign=' . $post_id .']';
 			$campaign_data['date_updated'] = $date;
 			update_post_meta( $post_id, 'pronto_donation_campaign', $campaign_data );
+
+			if(isset($_POST['campagin_description']) && !empty($_POST['campagin_description'])) {
+				$result = $wpdb->query("UPDATE {$wpdb->prefix}posts SET post_content='".stripcslashes( $_POST['campagin_description'] )."' WHERE ID=".$post_id."");
+			}
 
 			$user_information = array();
 			$user_information['user_donor_type_option'] = sanitize_text_field( $_POST['user_donor_type_option'] );
@@ -803,6 +847,8 @@ class Pronto_donation_Admin {
 			$user_information['user_phone_option'] = sanitize_text_field( $_POST['user_phone_option'] );
 			$user_information['user_suburb_option'] = sanitize_text_field( $_POST['user_suburb_option'] );
 			update_post_meta( $post_id, 'pronto_donation_user_info', $user_information );
+
+
 		}
 	}
 
@@ -957,6 +1003,58 @@ class Pronto_donation_Admin {
 	    }
 	    return $parent_file;
 	}
+
+	public function proto_donation_change_donation_status() {
+
+    	global $wpdb;
+
+        $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor' AND meta_id=" . $_POST['param']['donation_meta_key'] );
+        
+        $donation_details = unserialize( $result[0]->meta_value );
+ 		$donation_details['status'] = $_POST['param']['donation_new_status'];
+
+ 		$status = $wpdb->query("UPDATE {$wpdb->prefix}postmeta SET meta_value='".serialize($donation_details)."' WHERE meta_key='pronto_donation_donor' AND meta_id=" . $_POST['param']['donation_meta_key'] ."");
+
+ 		$return_sucess = array(
+ 			'status' => 'Success',
+ 			'result' => $status
+ 			);
+
+ 		$return_error = array(
+ 			'status' => 'Error',
+ 			'result' => $status
+ 			);
+ 		
+ 		wp_send_json_success( $return_sucess );
+ 		wp_send_json_error( $return_error );
+		die();
+	}
+
+		public function proto_donation_remove_campaign_banner() {
+
+    	global $wpdb;
+
+        $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_campaign' AND post_id=" . $_POST['param']['post_id'] );
+        $campaign_details = unserialize( $result[0]->meta_value );
+        $campaign_details['banner_image'] = '';
+
+ 		$status = $wpdb->query("UPDATE {$wpdb->prefix}postmeta SET meta_value='".serialize($campaign_details)."' WHERE meta_key='pronto_donation_campaign' AND meta_id=" . $result[0]->meta_id ."");
+
+ 		$return_sucess = array(
+ 			'status' => 'Success',
+ 			'result' => $status
+ 			);
+
+ 		$return_error = array(
+ 			'status' => 'Error',
+ 			'result' => $status
+ 			);
+ 		
+ 		wp_send_json_success( $return_sucess );
+ 		wp_send_json_error( $return_error );
+		die();
+	}
+
 	// EOF campaign 
 	public function pronto_donation_register_post_type(){
 

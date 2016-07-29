@@ -183,6 +183,8 @@ class Pronto_donation {
 
 		$this->loader->add_action( 'init', $plugin_admin, 'pronto_donation_register_post_type' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'pronto_donation_remove_menu_items' );
+		$this->loader->add_action( 'wp_ajax_change_donation_status', $plugin_admin, 'proto_donation_change_donation_status' );
+		$this->loader->add_action( 'wp_ajax_remove_campaign_banner', $plugin_admin, 'proto_donation_remove_campaign_banner' );
 	}
 
 
@@ -209,8 +211,6 @@ class Pronto_donation {
 		$this->loader->add_shortcode( 'pronto-donation-IETODBP', $plugin_public, 'pronto_donation_instructions_emailed_to_offline_donor_before_payment');
 		
 		$this->loader->add_shortcode( 'pronto-donation-campaign-list', $plugin_public, 'pronto_donation_published_campaign' );
-
-		$this->loader->add_filter( 'page_template', $plugin_public, 'pronto_donation_page_template' );
 
 	}
 
@@ -326,6 +326,49 @@ class Pronto_donation {
 		return get_option('pronto_donation_settings')['SetCurrencySymbol'];
 	}
 
-	
+	/*
+	* This function will return the total donation amount
+	* and the total donator
+	* @params $campaign_id (the campaign post id)
+	* return value array(total_donation_amount, total_donator)
+	*/
+	public function pronto_donation_get_donation_details( $campaign_id ) {
 
+		global $wpdb;
+
+		$result_arr = array();
+
+		if( !empty( $campaign_id ) ) {
+			$result_donation = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor' AND post_id=".$campaign_id."");
+			$size = sizeof( $result_donation );
+
+			$total_donation_amount = 0;
+			$total_donator = 0;
+
+			foreach ($result_donation as $key => $donor_value) {
+
+				$donation_details = unserialize( $donor_value->meta_value );
+
+				if( strtolower( $donation_details['status'] ) === 'approved' ) {
+					$total_donator++;
+					if(array_key_exists('pd_amount', $donation_details)
+						&& isset( $donation_details['pd_amount'] )
+						&& (int) $donation_details['pd_amount'] > 0 )
+					{
+						$total_donation_amount += (int) $donation_details['pd_amount'];
+					} else if( array_key_exists('pd_custom_amount', $donation_details) 
+						&& isset( $donation_details['pd_custom_amount'] ) 
+						&& (int) $donation_details['pd_custom_amount'] > 0 )
+					{
+						$total_donation_amount += (int) $donation_details['pd_custom_amount'];
+					}
+				}
+			}
+
+			$result_arr['total_donation_amount'] = $total_donation_amount;
+			$result_arr['total_donator'] = $total_donator;
+		}
+
+		return $result_arr;
+	}
 }

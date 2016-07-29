@@ -47,14 +47,25 @@ class Pronto_Donation_Campaign_WP_list_Table {
     public function pronto_donation_campaign_list_table_page()
     {
         $exampleListTable = new Pronto_Donation_Campaign_WP_Table();
-        $exampleListTable->prepare_items();
+
+        if( isset($_POST['s']) ){
+            $exampleListTable->prepare_items($_POST['s']);
+        } else {
+            $exampleListTable->prepare_items();
+        }
+     
         ?>
             <div class="wrap">
            		<h2>Donation List</h2>
 
+                <form method="post">
+                  <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
+                  <?php $exampleListTable->search_box('search', 'search_id'); ?>
+                </form>
+
                 <?php $exampleListTable->display(); ?>
             </div>
- 
+            
         <?php
     }
 
@@ -67,12 +78,22 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 {
 
-	public function prepare_items()
+	public function prepare_items($search = NULL)
     {
+        global $wpdb;
         $columns = $this->get_columns();
         $hidden = $this->get_hidden_columns();
         $sortable = $this->get_sortable_columns();
+
         $data = $this->table_data();
+
+        // execute seach donation
+        if( $search != NULL ){
+            $search = trim($search);
+            $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor'");
+            $data = $this->get_seach_donation_list( $result , $search );
+        }
+
         usort( $data, array( &$this, 'sort_data' ) );
         $perPage = 10;
         $currentPage = $this->get_pagenum();
@@ -116,8 +137,8 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
     {
         global $wpdb;
         $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor'");
- 
         
+        $data = array();
 
         $ezidebit_url = plugin_dir_url( __FILE__ ).'../../payments/ezidebit/logo.png';
         $ezidebit_url = '<img src="'.$ezidebit_url.'" width="70" height="30" alt="Ezidibit">';
@@ -159,7 +180,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             
             $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
 
-            $table_data['status'] = '<div class="donation-status-pending">'. $donor_data['status'] . '</div>
+            $table_data['status'] = '<div id="status'.$donor_value->meta_id.'" class="donation-status-pending">'. $donor_data['status'] . '</div>
             <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&currency_symbol='.$currency_val.'&height=550&width=753" id="thickbox-my" class="thickbox donation-view-details">view details</a>';
 
             $data[] = $table_data;
@@ -393,6 +414,101 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             }
         }
         return $data_symbol;
+    }
+
+    public function pronto_search_donation( $array, $search ) {
+        $detect_like = 0;
+        $accepted_keylist = array(
+            'pd_amount',
+            'donation_type',
+            'donor_type',
+            'companyName',
+            'email',
+            'first_name',
+            'last_name',
+            'address',
+            'country',
+            'state',
+            'post_code',
+            'suburb',
+            'payment',
+            'donation_campaign',
+            'status',
+            'CurrencyCode'
+            );
+
+        foreach ($array as $key => $value) {
+            if( in_array($key, $accepted_keylist) ) {
+                if( $key === 'donation_campaign' ) {
+                    $the_title = get_the_title( $value );
+                    if( stripos( strtolower( $the_title ) , strtolower( $search ) ) !== false ) {
+                        $detect_like+=1;
+                    }
+                } else if( ($key === 'donation_type'
+                    || $key === 'first_name'
+                    || $key === 'last_name'
+                    || $key === 'address'
+                    || $key === 'status' ) && stripos( strtolower( $value ) , strtolower( $search ) ) ) 
+                {
+                    $detect_like+=1;
+                } else if( stripos($value, $search) !== false ) {
+                    $detect_like+=1;
+                }
+            }
+        }
+        return $detect_like;
+    }
+
+    public function get_seach_donation_list( $result, $search ) {
+        $search_data = array();
+        $ezidebit_url = plugin_dir_url( __FILE__ ).'../../payments/ezidebit/logo.png';
+        $ezidebit_url = '<img src="'.$ezidebit_url.'" width="70" height="30" alt="Ezidibit">';
+
+        $eway_url = plugin_dir_url( __FILE__ ).'../../payments/eway/logo.png';
+        $eway_url = '<img src="'.$eway_url.'" width="70" height="30" alt="Eway">';
+
+        $redirect_url = plugin_dir_url( __FILE__ ) . "pronto_donation-donation-thickbox.php";
+
+        foreach ($result as $key => $donor_value) {
+            $donor_data = unserialize( $donor_value->meta_value );
+            $detect_like = $this->pronto_search_donation( $donor_data, $search );
+
+            if( $detect_like > 0 ) {
+                $table_search = array();
+                $currencycode = ( isset($donor_data['CurrencyCode']) ? $donor_data['CurrencyCode'] : '' );
+                $currency_val = $this->pronto_donation_get_currency_symbol( $currencycode );
+
+                $table_search['id'] = $donor_value->meta_id;
+
+                $table_search['date'] = ( isset( $donor_data['timestamp'] ) ) ? date('M d, Y', $donor_data['timestamp'] ) : '';
+
+                $table_search['donor_name'] = ( array_key_exists( 'donor_type', $donor_data ) && $donor_data['donor_type'] == 'B' ) ? 
+
+                $donor_data['companyName'] : $table_search['donor_name'] = $donor_data['first_name'] . " " .  $donor_data['last_name'];
+
+                $table_search['payment'] = ( $donor_data['payment'] == 'Ezidebit' ) ? $ezidebit_url : $eway_url;
+
+                $table_search['email'] = $donor_data['email'];
+
+                $table_search['campaignid'] = $donor_data['donation_campaign'];
+
+                $table_search['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );
+
+                if(array_key_exists('pd_amount', $donor_data) && isset( $donor_data['pd_amount'] ) && (int) $donor_data['pd_amount'] > 0 ) {
+                    $table_search['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_amount'], 2, '.', ',');
+                } else {
+                    $table_search['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_custom_amount'], 2, '.', ',');
+                }
+
+                $table_search['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
+
+                $table_search['status'] = '<div id="status'.$donor_value->meta_id.'" class="donation-status-pending">'. $donor_data['status'] . '</div>
+                <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&currency_symbol='.$currency_val.'&height=550&width=753" id="thickbox-my" class="thickbox donation-view-details">view details</a>';
+
+                $search_data[] = $table_search;
+            }
+        }
+        return$search_data;
     }
 
 }
