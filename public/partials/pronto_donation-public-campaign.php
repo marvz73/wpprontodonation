@@ -12,6 +12,16 @@
 <!-- <form method="post" action="<?php echo home_url( '/wp-admin/admin-post.php' ) ?>"> -->
 <form method="post" class="<?php echo $campaignOption->FormClass ?>" >
 
+
+<!-- //===================== Address Validation ======================================//  -->
+	<?php
+	$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+	$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];?>
+	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
+<!-- //===================== Address Validation ======================================//  -->	
+
+
+
 	<!-- Donor Information -->
 	<fieldset>
 		<legend><h3>Donation Information</h3></legend>
@@ -128,7 +138,8 @@
 		<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
 		<p>
 			<label>Address</label>
-			<input name="address" class="<?php echo $campaignOption->InputFieldClass ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
+			<input id="address" name="address" class="<?php echo $campaignOption->InputFieldClass ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
+			<span id="adress_validation"></span>
 		</p>
 		<?php endif; ?>
 
@@ -136,8 +147,9 @@
 		<p>
 			<label>Country</label>
 			<select id="country" class="<?php echo $campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>>
-				<option>Select</option>
+				
 			</select>
+			<span id="country_validation"></span>
 		</p>
 		<?php endif; ?>
 
@@ -145,8 +157,17 @@
 		<p>
 			<label>State</label>
 			<select id="state"  class="<?php echo $campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>>
-				<option>Select</option>
+				
 			</select>
+			<span id="state_validation"></span>
+		</p>
+		<?php endif; ?>
+
+		<?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
+		<p>
+			<label>Suburb</label>
+			<input id="suburb" name="suburb" class="<?php echo $campaignOption->InputFieldClass ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
+			<span id="suburb_validation"></span>
 		</p>
 		<?php endif; ?>
 
@@ -154,13 +175,6 @@
 		<p>
 			<label>Post Code</label>
 			<input name="post_code" class="<?php echo $campaignOption->InputFieldClass ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
-		</p>
-		<?php endif; ?>
-
-		<?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
-		<p>
-			<label>Suburb</label>
-			<input name="suburb" class="<?php echo $campaignOption->InputFieldClass ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
 		</p>
 		<?php endif; ?>
 
