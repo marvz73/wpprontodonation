@@ -136,21 +136,19 @@ class Pronto_donation_Public {
 		//Process the payment here...
 	    if($_POST)
 	    {
+
 	    	$campaign_data = $_POST;
 
 			$captcha = isset($campaign_data['g-recaptcha-response']) ? $campaign_data['g-recaptcha-response'] : "";
 
-			if($campaign_data['suburb']){
-				$this->errors->suburb = 'Suburb required field.';
-			}
-			else if(empty($captcha) && $this->campaignOption->GoogleReCaptchaEnable)
+			if(empty($captcha) && $this->campaignOption->GoogleReCaptchaEnable)
 			{
 				$googleSecret = $this->campaignOption->GoogleReCaptchaSecretKey;
 				$response=json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$googleSecret."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
 		        if($response['success'] == false){
 		      		$this->errors->captcha = "You're a robot.";
 		        }
-
+		        
 		        $this->_pronto_donation_campaign($campaign_id, 'full');
 			}
 	    	else if($campaign_data['action'] == 'process_donate' && wp_verify_nonce( $campaign_data['nonce'], 'donation'))
