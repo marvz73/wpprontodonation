@@ -472,6 +472,7 @@ if ( isset($_GET['page']) ) {
 			$set_currency = (empty($_POST['set_currency'])) ? "" : $_POST['set_currency'];
 			$set_country = (empty($_POST['set_country'])) ? "" : $_POST['set_country'];
 			$enable_address_validation = (empty($_POST['enable_address_validation'])) ? "" : $_POST['enable_address_validation'];
+			$google_geocode_api_key = (empty($_POST['google_geocode_api_key'])) ? "" : $_POST['google_geocode_api_key'];
 
 			$google_recaptcha_enable = (empty($_POST['google_recaptcha_enable'])) ? "" : $_POST['google_recaptcha_enable'];	
 			$google_recaptcha_site_key = (empty($_POST['google_recaptcha_site_key'])) ? "" : $_POST['google_recaptcha_site_key'];	
@@ -516,6 +517,7 @@ if ( isset($_GET['page']) ) {
 				'SetCurrencyCode'   => stripslashes($set_currency),
 				'SetCountry' => stripslashes($set_country),
 				'EnableAddressValidation' => stripslashes($enable_address_validation),
+				'GoogleGeocodeAPIKey' => stripslashes($google_geocode_api_key),
 
 				'GoogleReCaptchaEnable' => stripslashes($google_recaptcha_enable),
 				'GoogleReCaptchaSiteKey' => stripslashes($google_recaptcha_site_key),
@@ -605,6 +607,8 @@ if ( isset($_GET['page']) ) {
 		$set_currency = (empty($pronto_donation_settings['SetCurrencyCode'])) ? "" : $pronto_donation_settings['SetCurrencyCode']; 
 		$set_country = (empty($pronto_donation_settings['SetCountry'])) ? "" : $pronto_donation_settings['SetCountry']; 	
 		$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];
+		$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
+		
 
 		$google_recaptcha_enable = (empty($pronto_donation_settings['GoogleReCaptchaEnable'])) ? "" : $pronto_donation_settings['GoogleReCaptchaEnable']; 
 		$google_recaptcha_site_key = (empty($pronto_donation_settings['GoogleReCaptchaSiteKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSiteKey']; 	
@@ -734,6 +738,15 @@ if ( isset($_GET['page']) ) {
 							</label>	
 						</td>
 					</tr>
+					<tr>
+						<th scope="row">
+							<label for="google_geocode_api_key">Google Geocode Api Key</label>
+						</th>
+						<td>
+							<input name="google_geocode_api_key" placeholder="API Key Here" type="text" class="regular-text" id="google_geocode_api_key" value="<?php echo $google_geocode_api_key; ?>">
+							<p class="description">Please Provide Google Geocoding Server API Key For Address Validation.</p>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -745,7 +758,7 @@ if ( isset($_GET['page']) ) {
 				<tbody>
 					<tr>
 						<th scope="row">
-							<label for="enable_address_validation">Enable reCaptcha</label>
+							<label for="google_recaptcha_enable">Enable reCaptcha</label>
 						</th>
 						<td>
 							<label for="google_recaptcha_enable">

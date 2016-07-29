@@ -1,6 +1,8 @@
+
 <div id="campaign_banner">
 	<img src="<?php echo $pronto_donation_campaign['banner_image'] ?>" alt="<?php echo $post->post_title ?>">
 </div>
+
 
 <h3 id="pronto-donation-title" ><?php echo $pronto_donation_campaign['post']['post_title'] ?></h3>
 
