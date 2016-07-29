@@ -727,6 +727,15 @@ if ( isset($_GET['page']) ) {
 							</select>
 						</td>
 					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br/>
+		<br/>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+			<h2 class="title">Address Validation</h2>
+			<table class="form-table">
+				<tbody>
 					<tr>
 						<th scope="row">
 							<label for="enable_address_validation">Address Validation</label>
@@ -740,7 +749,7 @@ if ( isset($_GET['page']) ) {
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="google_geocode_api_key">Google Geocode Api Key</label>
+							<label for="google_geocode_api_key">Address Validation Api Key</label>
 						</th>
 						<td>
 							<input name="google_geocode_api_key" placeholder="API Key Here" type="text" class="regular-text" id="google_geocode_api_key" value="<?php echo $google_geocode_api_key; ?>">
