@@ -6,7 +6,7 @@ setTimeout(function(){
 
 <form id="payment" method="post" action="<?php echo $url ?>" style="text-align: center">
 
-	<input type="hidden" name="Type" value="<?php echo $fields['donorType'] ?>" />
+	<input type="hidden" name="Type" value="<?php echo $fields['Type'] ?>" />
 	<input type="hidden" name="CompanyName" value="<?php echo $fields['CompanyName'] ?>" />
 	<input type="hidden" name="FirstName" value="<?php echo $fields['FirstName'] ?>" />
 	<input type="hidden" name="LastName" value="<?php echo $fields['LastName'] ?>" />

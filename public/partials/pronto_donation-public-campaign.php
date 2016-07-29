@@ -1,7 +1,7 @@
 
 <div class="pronto_donation_error">
 <?php
-	foreach($errors as $key=>$error)
+	foreach($this->errors as $key=>$error)
 	{
 		echo "<p style='color: red;'>* ".$error."</p>";
 	}
@@ -9,9 +9,13 @@
 </div>
 
 
-<!-- <form method="post" action="<?php echo home_url( '/wp-admin/admin-post.php' ) ?>"> -->
-<form method="post" class="<?php echo $campaignOption->FormClass ?>" >
 
+<<<<<<< HEAD
+
+<div id="campaign_banner">
+	<img src="<?php echo $pronto_donation_campaign['banner_image'] ?>" alt="<?php echo $post->post_title ?>">
+</div>
+=======
 
 <!-- //===================== Address Validation ======================================//  -->
 	<?php
@@ -207,19 +211,10 @@
 				endif;
 			?>
 	</fieldset>
+>>>>>>> 1f1c3ed864a97ec558cba9b13df68cecb597476d
 
-	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
-	<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
-	<input type="hidden" name="action" value="process_donate"/>
-	
-	<?php if($campaignOption->GoogleReCaptchaEnable && $campaignOption->GoogleReCaptchaSiteKey && $campaignOption->GoogleReCaptchaSecretKey): ?>
-		<br>
-		<div class="g-recaptcha" data-sitekey="<?php echo $campaignOption->GoogleReCaptchaSiteKey; ?>"></div>
-	<?php endif; ?>
-	<br>
+<h3 id="pronto-donation-title" ><?php echo $pronto_donation_campaign['post']['post_title'] ?></h3>
 
-	<p class="submit">
-		<button class="button button-primary <?php echo $campaignOption->ButtonClass ?>"> <?php echo ($campaignOption->EditButtonCaption) ? $campaignOption->EditButtonCaption : 'Donate' ?> </button>
-	</p>
+<p id="pronto-donation-description"><?php echo $pronto_donation_campaign['post']['post_content'] ?></p>
 
-</form>
+<a id="pronto-donation-link" href="<?php echo get_home_url() . '?campaign='.$pronto_donation_campaign['post']['post_name'] ?>">Donate Now</a>
