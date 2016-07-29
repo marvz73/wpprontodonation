@@ -1,10 +1,3 @@
-<!-- //===================== Address Validation ======================================//  -->
-	<?php
-	$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-	$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];?>
-	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
-<!-- //===================== Address Validation ======================================//  -->	
-
 <?php if(isset($this->errors)): ?>
 	
 <div class="pronto_donation_error">
@@ -27,6 +20,20 @@
 
 <!-- <form method="post" action="<?php echo home_url( '/wp-admin/admin-post.php' ) ?>"> -->
 <form method="post" class="<?php echo $this->campaignOption->FormClass ?>" >
+
+
+<!-- //===================== Address Validation ======================================//  -->
+	<?php
+	$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+	$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];
+	$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
+	?>
+
+	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
+	<input id="google_geocode_api_key" value="<?php echo $google_geocode_api_key;?>" hidden/>
+<!-- //===================== Address Validation ======================================//  -->	
+
+
 
 	<!-- Donor Information -->
 	
@@ -168,7 +175,6 @@
 		<p>
 			<label>Country</label>
 			<select id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>>
-				<option>Select</option>
 			</select>
 			<span id="country_validation"></span>
 		</p>
@@ -181,7 +187,6 @@
 		<p>
 			<label>State</label>
 			<select id="state"  class="<?php echo $this->campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>>
-				<option>Select</option>
 			</select>
 			<span id="state_validation"></span>
 		</p>
@@ -204,6 +209,7 @@
 		<p>
 			<label>Suburb</label>
 			<input name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
+			<span id="suburb_validation"></span>
 		</p>
 		<?php endif; ?>
 
