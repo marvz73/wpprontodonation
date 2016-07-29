@@ -152,7 +152,19 @@ class eway{
 			);
 
 			$campaign['payment_response'] = $payment_response;
-			$campaign['status'] = esc_html($service->getMessage($transactionsResponse->ResponseMessage));
+
+			$ApproveTransaction = array('A2000', 'A2008', 'A2010', 'A2011', 'A2016');
+			
+			if(in_array($response['ResponseCode'], $ApproveTransaction))
+			{
+				$campaign['statusCode'] = 1;
+			}
+			else
+			{
+				$campaign['statusCode'] = 0;
+			}
+
+			$campaign['statusText'] = esc_html($service->getMessage($transactionsResponse->ResponseMessage));
 
 			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
 		}

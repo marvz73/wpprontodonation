@@ -117,7 +117,18 @@ class ezidebit{
 			);
 			
 			$campaign['payment_response'] = $payment_response;
-			$campaign['status'] = esc_html($response['ResultText']);
+
+			$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000','003');
+			
+			if(in_array($response['ResultCode'], $ApproveTransaction)){
+				$campaign['statusCode'] = 1;
+			}
+			else
+			{
+				$campaign['statusCode'] = 0;
+			}
+
+			$campaign['statusText'] = esc_html($response['ResultText']);
 
 			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($response['PaymentReference']));
 
