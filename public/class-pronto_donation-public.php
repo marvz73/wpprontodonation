@@ -118,33 +118,32 @@ class Pronto_donation_Public {
 	private $base = __DIR__ . '/../payments/';
 	public function pronto_donation_campaign( $campaign_id ) {
 		$option = get_option('pronto_donation_settings');
+    	$campaignOption = new stdClass();
+		$errors = new stdClass();
+		foreach ($option as $key => $value)
+		{
+		    $campaignOption->$key = $value;
+		}
 
 		//Process the payment here...
-
-		$errors = new stdClass();
 
 	    if($_POST)
 	    {
 	    	$campaign_data = $_POST;
 
-			$captcha = $_POST['g-recaptcha-response'];
+			$captcha = isset($campaign_data['g-recaptcha-response']) ? $campaign_data['g-recaptcha-response'] : "";
 
-			if(empty($captcha))
+			if(empty($captcha) && $campaignOption->GoogleReCaptchaEnable)
 			{
-				
-				$googleSecret = '6LcSLSYTAAAAAA415c_Se4_dFdTmUIJ1aiT9zBVP';
+
+				$googleSecret = $option['GoogleReCaptchaSecretKey'];
 
 				$response=json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$googleSecret."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
+		        
 		        if($response['success'] == false)
 		        {
 		      		$errors->captcha = "You're a robot.";
 		        }
-
-		    	$campaignOption = new stdClass();
-				foreach ($option as $key => $value)
-				{
-				    $campaignOption->$key = $value;
-				}
 
 			    //Display the donation fields
 				$attrs = shortcode_atts( array(
@@ -194,17 +193,10 @@ class Pronto_donation_Public {
 	    		// Call the payment function to execute payment action
 	    		$campaign_data['payment_info']->payment_process($campaign_data);
 
-	    		
 	    	}
 	    }
 	    else
 	    {
-
-	    	$campaignOption = new stdClass();
-			foreach ($option as $key => $value)
-			{
-			    $campaignOption->$key = $value;
-			}
 
 		    //Display the donation fields
 			$attrs = shortcode_atts( array(
@@ -226,8 +218,8 @@ class Pronto_donation_Public {
 	}
 
 	public function pronto_donation_override_template($page_template){
-
 		global $wpdb;
+		global $post;
 
 		if (isset($_GET['payment_gateway']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage'])
 		{
@@ -258,7 +250,29 @@ class Pronto_donation_Public {
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . $campaign_id);
 			}
 		}
+		else if(get_post_type($post->ID) == 'campaign')
+		{
+			$errors = new stdClass();
+		    //Display the donation fields
+			$attrs = shortcode_atts( array(
+		        'campaign' => 0,
+		    ), $post->ID );
 
+			//Payment method
+			$payment_methods = $this->class->pronto_donation_payment_methods();
+
+			//Campaign fields
+		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
+
+			//Donor user fields
+		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
+		    
+		    // $page_template = dirname( __FILE__ ) . '/partials/pronto_donation-public-campaign.php';
+
+		    // require_once('partials/pronto_donation-public-campaign.php');
+		}
+
+		return $page_template;
 	}
 
 	public function pronto_donation_thank_you_page_message(){
@@ -281,8 +295,14 @@ class Pronto_donation_Public {
 		require_once('partials/pronto_donation-public-instructions-emailed-to-offline-donor-before-payment.php');
 	}
 
-	public function pronto_donation_published_campaign() {
-		require_once('partials/pronto_donation-published-campaign.php');
+	public function pronto_donation_campaign_list() {
+	  	global $wpdb;
+	 
+	    $result = $wpdb->get_results("Select * FROM $wpdb->posts where post_type='campaign' AND post_status='publish'");
+	 	
+	 	$query_size = sizeof($result);
+
+		require_once('partials/pronto_donation-campaign-list.php');
 	}
 
 }
