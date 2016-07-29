@@ -1,11 +1,14 @@
+<!-- //===================== Address Validation ======================================//  -->
+	<?php
+	$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+	$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];?>
+	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
+<!-- //===================== Address Validation ======================================//  -->	
 
 <?php if(isset($this->errors)): ?>
-	<h6>Required Fields:</h6>
+	
 <div class="pronto_donation_error">
-
 <?php
-print_r($this->errors);
-
 	foreach($this->errors as $key=>$error)
 	{
 		echo "<p style='color: red;'>* ".$error."</p>";
@@ -154,6 +157,7 @@ print_r($this->errors);
 		<p>
 			<label>Address</label>
 			<input name="address" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
+			<span id="adress_validation"></span>
 		</p>
 		<?php endif; ?>
 
@@ -166,6 +170,7 @@ print_r($this->errors);
 			<select id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>>
 				<option>Select</option>
 			</select>
+			<span id="country_validation"></span>
 		</p>
 		<?php endif; ?>
 
@@ -178,6 +183,7 @@ print_r($this->errors);
 			<select id="state"  class="<?php echo $this->campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>>
 				<option>Select</option>
 			</select>
+			<span id="state_validation"></span>
 		</p>
 		<?php endif; ?>
 

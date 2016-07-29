@@ -244,10 +244,12 @@ class Pronto_donation_Public {
 		else if(get_post_type($post->ID) == 'campaign')
 		{
 		    // $page_template = dirname( __FILE__ ) . '/partials/pronto_donation-public-display.php';
-			add_filter('the_title', function($title){
-				$title = '';
-				return $title;
-			});
+			
+			// add_filter('the_title', function($title){
+			// 	$title = '';
+			// 	return $title;
+			// });
+
 		    add_filter('the_content', function($content){
 		    	global $post;
 		    	$content = "[pronto-donation-full campaign=".$post->ID."]";
