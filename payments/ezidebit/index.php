@@ -118,8 +118,9 @@ class ezidebit{
 			
 			$campaign['payment_response'] = $payment_response;
 
+			//Approve status code
 			$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000','003');
-			
+
 			if(in_array($response['ResultCode'], $ApproveTransaction)){
 				$campaign['statusCode'] = 1;
 			}
