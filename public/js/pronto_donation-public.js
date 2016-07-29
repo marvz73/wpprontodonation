@@ -61,13 +61,14 @@ jQuery(function(){
 
 	//===================== Address Validation ======================================//
 	if(jQuery('#enable_address_validation').val()=='1'){
+		var google_geocode_api_key = jQuery('#google_geocode_api_key').val();
 		jQuery('#address').on('focusout', function(){
 			var address_value = jQuery('#address').val();
 			if(jQuery.trim(jQuery('#address').val()) ==''){
 				jQuery('#adress_validation').text('');
 			}
 			else{	
-				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key=AIzaSyBZ2FHNy5Ia_gv_AWsczJkuhrYDi9h7-EM', function (data) {
+				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
 			    	console.log(data['results']);
 			    	console.log(data['status']);
 			    	if(data['status']=='ZERO_RESULTS'){
@@ -86,7 +87,7 @@ jQuery(function(){
 				jQuery('#country_validation').text('');
 			}
 			else{	
-				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key=AIzaSyBZ2FHNy5Ia_gv_AWsczJkuhrYDi9h7-EM', function (data) {
+				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
 			    	console.log(data['results']);
 			    	console.log(data['status']);
 			    	if(data['status']=='ZERO_RESULTS'){
@@ -108,7 +109,7 @@ jQuery(function(){
 				jQuery('#state_validation').text('');
 			}
 			else{	
-				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key=AIzaSyBZ2FHNy5Ia_gv_AWsczJkuhrYDi9h7-EM', function (data) {
+				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
 			    	console.log(data['results']);
 			    	console.log(data['status']);
 			    	if(data['status']=='ZERO_RESULTS'){
@@ -127,7 +128,7 @@ jQuery(function(){
 				jQuery('#suburb_validation').text('');
 			}
 			else{	
-				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key=AIzaSyBZ2FHNy5Ia_gv_AWsczJkuhrYDi9h7-EM', function (data) {
+				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
 			    	console.log(data['results']);
 			    	console.log(data['status']);
 

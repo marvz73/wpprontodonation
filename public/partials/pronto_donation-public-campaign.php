@@ -10,18 +10,20 @@
 
 
 
-<<<<<<< HEAD
-
 <div id="campaign_banner">
 	<img src="<?php echo $pronto_donation_campaign['banner_image'] ?>" alt="<?php echo $post->post_title ?>">
 </div>
-=======
+
 
 <!-- //===================== Address Validation ======================================//  -->
 	<?php
 	$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-	$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];?>
+	$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];
+	$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
+	?>
+
 	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
+	<input id="google_geocode_api_key" value="<?php echo $google_geocode_api_key;?>" hidden/>
 <!-- //===================== Address Validation ======================================//  -->	
 
 
@@ -211,7 +213,7 @@
 				endif;
 			?>
 	</fieldset>
->>>>>>> 1f1c3ed864a97ec558cba9b13df68cecb597476d
+
 
 <h3 id="pronto-donation-title" ><?php echo $pronto_donation_campaign['post']['post_title'] ?></h3>
 
