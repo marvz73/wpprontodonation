@@ -1,10 +1,3 @@
-<!-- //===================== Address Validation ======================================//  -->
-	<?php
-	$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-	$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];?>
-	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
-<!-- //===================== Address Validation ======================================//  -->	
-
 <?php if(isset($this->errors)): ?>
 	
 <div class="pronto_donation_error">
