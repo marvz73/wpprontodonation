@@ -346,8 +346,7 @@ class Pronto_donation {
 		$result_arr = array();
 
 		if( !empty( $campaign_id ) ) {
-			$result_donation = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor' AND post_id=".$campaign_id."");
-			$size = sizeof( $result_donation );
+			$result_donation = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor' AND post_id=71");
 
 			$total_donation_amount = 0;
 			$total_donator = 0;

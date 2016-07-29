@@ -329,6 +329,11 @@ class Pronto_donation_Admin {
 	*/
 	public function pronto_donation_meta_box_callback($post) {
 
+		$donation_data = $this->class->pronto_donation_get_donation_details( $post );
+
+		print_r($donation_data);
+		exit();
+
 		wp_nonce_field(basename( __FILE__ ), 'pronto_donation_campaign_nonce' );
 		$campaigns = get_post_meta( $post->ID );
 		$content_post = get_post( $post->ID );
