@@ -292,15 +292,18 @@ class Pronto_donation_Public {
      * Desc: Helper and redundancy function
 	 */
 
-	function _pronto_donation_campaign($campaign_id, $type){
+	function _pronto_donation_campaign($campaign, $type){
 
 		if($type=='short')
 		{
 		    //Display the donation fields
 			$attrs = shortcode_atts( array(
-		        'campaign' => 0,
-		    ), $campaign_id );
-
+		        'campaign' 		=> 0,
+		        'hidetitle' 	=> false,
+		        'hidebanner' 	=> false,
+		        'hidedesc' 		=> false
+		    ), $campaign );
+	
 			//Campaign fields
 		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
 
@@ -312,8 +315,11 @@ class Pronto_donation_Public {
 		{
 		    //Display the donation fields
 			$attrs = shortcode_atts( array(
-		        'campaign' => 0,
-		    ), $campaign_id );
+		        'campaign' 		=> 0,
+		        'hidetitle' 	=> false,
+		        'hidebanner' 	=> false,
+		        'hidedesc' 		=> false
+		    ), $campaign );
 
 			//Payment method
 			$payment_methods = $this->class->pronto_donation_payment_methods();
