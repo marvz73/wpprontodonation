@@ -163,7 +163,7 @@
 		<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
 		<p>
 			<label>Address</label>
-			<input name="address" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
+			<input id="address" name="address" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
 			<span id="adress_validation"></span>
 		</p>
 		<?php endif; ?>
@@ -208,7 +208,7 @@
 		<?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
 		<p>
 			<label>Suburb</label>
-			<input name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
+			<input id="suburb" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
 			<span id="suburb_validation"></span>
 		</p>
 		<?php endif; ?>
