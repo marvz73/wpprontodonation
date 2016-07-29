@@ -139,6 +139,7 @@ jQuery(function(){
 			    		jQuery.each( data['results'][0]['address_components'], function( key, value ) {
 				    		if(value['types'][0]=='country'){
 				    			jQuery('#country').val(value['long_name']);
+				    			jQuery('#state').val('');
 				    		}
 					  	
 						});
