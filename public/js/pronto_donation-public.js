@@ -30,7 +30,6 @@
 	 */
 
 
-
 })( jQuery );
 
 
@@ -58,5 +57,99 @@ jQuery(function(){
 	});
 
 
+
+
+	//===================== Address Validation ======================================//
+	if(jQuery('#enable_address_validation').val()=='1'){
+		jQuery('#address').on('focusout', function(){
+			var address_value = jQuery('#address').val();
+			if(jQuery.trim(jQuery('#address').val()) ==''){
+				jQuery('#adress_validation').text('');
+			}
+			else{	
+				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key=AIzaSyBZ2FHNy5Ia_gv_AWsczJkuhrYDi9h7-EM', function (data) {
+			    	console.log(data['results']);
+			    	console.log(data['status']);
+			    	if(data['status']=='ZERO_RESULTS'){
+			    		jQuery('#adress_validation').text('Invalid');
+			    	}else{
+			    		jQuery('#adress_validation').text('Valid');
+			    	}
+			    	
+			    });
+			}
+
+		});
+		jQuery('#country').on('focusout', function(){
+			var address_value = jQuery('#country').val();
+			if(jQuery.trim(jQuery('#country').val()) =='-1'){
+				jQuery('#country_validation').text('');
+			}
+			else{	
+				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key=AIzaSyBZ2FHNy5Ia_gv_AWsczJkuhrYDi9h7-EM', function (data) {
+			    	console.log(data['results']);
+			    	console.log(data['status']);
+			    	if(data['status']=='ZERO_RESULTS'){
+			    		jQuery('#country_validation').text('Invalid');
+			    	}else{
+			    		jQuery('#country_validation').text('Valid');
+			    	}
+			    	
+			    });
+			}
+
+		});
+		jQuery('#country').on('click', function(){
+			jQuery('#state_validation').text('');
+		});
+		jQuery('#state').on('focusout', function(){
+			var address_value = jQuery('#state').val();
+			if(jQuery.trim(jQuery('#state').val()) ==''){
+				jQuery('#state_validation').text('');
+			}
+			else{	
+				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key=AIzaSyBZ2FHNy5Ia_gv_AWsczJkuhrYDi9h7-EM', function (data) {
+			    	console.log(data['results']);
+			    	console.log(data['status']);
+			    	if(data['status']=='ZERO_RESULTS'){
+			    		jQuery('#state_validation').text('Invalid');
+			    	}else{
+			    		jQuery('#state_validation').text('Valid');
+			    	}
+			    	
+			    });
+			}
+
+		});
+		jQuery('#suburb').on('focusout', function(){
+			var address_value = jQuery('#suburb').val();
+			if(jQuery.trim(jQuery('#suburb').val()) ==''){
+				jQuery('#suburb_validation').text('');
+			}
+			else{	
+				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key=AIzaSyBZ2FHNy5Ia_gv_AWsczJkuhrYDi9h7-EM', function (data) {
+			    	console.log(data['results']);
+			    	console.log(data['status']);
+
+					if(data['status']=='ZERO_RESULTS'){
+			    		jQuery('#suburb_validation').text('Invalid');
+			    	}else{
+			    		jQuery('#suburb_validation').text('Valid');
+			    		jQuery.each( data['results'][0]['address_components'], function( key, value ) {
+				    		if(value['types'][0]=='country'){
+				    			jQuery('#country').val(value['long_name']);
+				    		}
+					  	
+						});
+			    	}
+
+			    });
+			}
+		});
+	}
+	//===================== Address Validation ======================================//
+// jQuery.getJSON('https://raw.githubusercontent.com/David-Haim/CountriesToCitiesJSON/master/countriesToCities.json', function (data) {
+// 	console.log(data);
+// 	});
 
 });

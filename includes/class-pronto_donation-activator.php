@@ -217,7 +217,7 @@ class Pronto_donation_Activator {
 	    } 
 
 
-	   	$cancel_message_post_id = '';
+	   	$cancel_page_message_post_id = '';
 		$cancel_page_message_postTitle = 'pronto-donation-cancelled';
 
 	    if (get_page_by_title($cancel_page_message_postTitle) == NULL) {
@@ -279,7 +279,7 @@ class Pronto_donation_Activator {
 		$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
 		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];
 
-		$cancel_page_message_page = (empty($cancel_message_post_id)) ? "" : $cancel_message_post_id;
+		$cancel_page_message_page = (empty($cancel_page_message_post_id)) ? "" : $cancel_page_message_post_id;
 		$cancel_page_message = (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'];
 
 
