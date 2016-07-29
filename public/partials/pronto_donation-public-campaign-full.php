@@ -14,8 +14,6 @@
 	<img src="<?php echo $pronto_donation_campaign['banner_image'] ?>">
 </div>
 
-<h3><?php echo $pronto_donation_campaign['post']['post_title'] ?></h3>
-
 <p><?php echo $pronto_donation_campaign['post']['post_content'] ?></p>
 
 <!-- <form method="post" action="<?php echo home_url( '/wp-admin/admin-post.php' ) ?>"> -->
