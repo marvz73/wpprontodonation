@@ -743,7 +743,7 @@ class Pronto_donation_Admin {
  				*  the selected wordpress media image
  				*/
 				window.send_to_editor = function(html) {
-					imgurl = $('img',html).attr('src');
+					imgurl = $(html).attr('src');
 					$('#banner_image').val(imgurl);
 					$('#banner_image_img').attr("src", imgurl);
 					tb_remove();
@@ -761,8 +761,8 @@ class Pronto_donation_Admin {
 								}
 							},
 							success: function (data) {
-								// console.log("success", data)
-								if(data.data.result) {
+								console.log("success", data)
+								if(data.data.status == "Success") {
 									$('#banner_image_img').attr('src','');
 									$('#banner_image').val('');
 								}
@@ -1011,7 +1011,34 @@ class Pronto_donation_Admin {
         $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor' AND meta_id=" . $_POST['param']['donation_meta_key'] );
         
         $donation_details = unserialize( $result[0]->meta_value );
- 		$donation_details['status'] = $_POST['param']['donation_new_status'];
+
+        if( $_POST['param']['donation_new_status'] == 'approved' ) {
+        	$donation_details['statusCode'] = 1;
+        	$donation_details['statusText'] = $_POST['param']['donation_new_status'];
+        } else {
+        	$donation_details['statusCode'] = 0;
+        	$donation_details['statusText'] = $_POST['param']['donation_new_status'];
+        }
+
+        $current_user = wp_get_current_user();
+        $t = time();
+        $t = date("M d, Y h:m:s",$t);
+
+        if(array_key_exists('StatusLogs', $donation_details)) {
+        	array_push($donation_details['StatusLogs'], array(
+        		'date' => $t,
+        		'old_status' => $_POST['param']['donation_old_status'],
+        		'new_status' => $_POST['param']['donation_new_status'],
+        		'user' => $current_user->user_email
+        	));
+        } else {
+        	$donation_details['StatusLogs'] = array(array(
+        		'date' => $t,
+        		'old_status' => $_POST['param']['donation_old_status'],
+        		'new_status' => $_POST['param']['donation_new_status'],
+        		'user' => $current_user->user_email
+        	));
+        }
 
  		$status = $wpdb->query("UPDATE {$wpdb->prefix}postmeta SET meta_value='".serialize($donation_details)."' WHERE meta_key='pronto_donation_donor' AND meta_id=" . $_POST['param']['donation_meta_key'] ."");
 
@@ -1035,6 +1062,7 @@ class Pronto_donation_Admin {
     	global $wpdb;
 
         $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_campaign' AND post_id=" . $_POST['param']['post_id'] );
+        
         $campaign_details = unserialize( $result[0]->meta_value );
         $campaign_details['banner_image'] = '';
 

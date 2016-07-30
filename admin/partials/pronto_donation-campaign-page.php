@@ -37,10 +37,10 @@ class Pronto_Donation_Campaign_WP_list_Table {
             .column-donor_name {width: 20%}
             .column-email {width: 20%}
             .column-campaign_name {width: 17%}
-            .column-amount {width: 12%}
+            .column-amount {width: 8%}
             .column-donation_type {width: 8%; text-transform: capitalize; text-align: center !important;}
             .column-payment {width: 8%; text-align: center !important;}
-            .column-status {width:10%; text-align: center !important;}
+            .column-status {width:12%; text-align: center !important;}
         </style>';
     }
 
@@ -118,7 +118,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             'amount' => 'Amount',
             'donation_type' => 'Donation Type',
             'payment' => 'Payment',
-            'status' => 'Status'
+            'status' => 'Status',
         );
         return $columns;
     }
@@ -158,7 +158,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
             $table_data['id'] = $donor_value->meta_id;
 
-            $table_data['date'] = ( isset( $donor_data['timestamp'] ) ) ? date('M d, Y', $donor_data['timestamp'] ) : '';
+            $table_data['date'] = ( isset( $donor_data['timestamp'] ) ) ? date('M d, Y h:m:s', $donor_data['timestamp'] ) : '';
 
             $table_data['donor_name'] = ( array_key_exists( 'donor_type', $donor_data ) && $donor_data['donor_type'] == 'B' ) ? 
 
@@ -180,10 +180,18 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             
             $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
 
-            $table_data['status'] = '<div id="status'.$donor_value->meta_id.'" class="donation-status-pending">'. $donor_data['status'] . '</div>
+            $status = "";
+            if( array_key_exists('statusCode', $donor_data) ) {
+                $status = $donor_data['statusText'];
+            } else {
+                $status = "Pending";
+            }
+
+            $table_data['status'] = '<div id="status'.$donor_value->meta_id.'" class="donation-status-pending">'. $status . '</div>
             <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&currency_symbol='.$currency_val.'&height=550&width=753" id="thickbox-my" class="thickbox donation-view-details">view details</a>';
 
             $data[] = $table_data;
+          
         }
         return $data;
     }
@@ -433,8 +441,8 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             'suburb',
             'payment',
             'donation_campaign',
-            'status',
-            'CurrencyCode'
+            'CurrencyCode',
+            'statusText'
             );
 
         foreach ($array as $key => $value) {
@@ -447,8 +455,8 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 } else if( ($key === 'donation_type'
                     || $key === 'first_name'
                     || $key === 'last_name'
-                    || $key === 'address'
-                    || $key === 'status' ) && stripos( strtolower( $value ) , strtolower( $search ) ) ) 
+                    || $key === 'statusText'
+                    || $key === 'address' ) && stripos( strtolower( $value ) , strtolower( $search ) ) ) 
                 {
                     $detect_like+=1;
                 } else if( stripos($value, $search) !== false ) {
@@ -502,7 +510,14 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
                 $table_search['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
 
-                $table_search['status'] = '<div id="status'.$donor_value->meta_id.'" class="donation-status-pending">'. $donor_data['status'] . '</div>
+                $status = "";
+                if( array_key_exists('statusCode', $donor_data) ) {
+                    $status = $donor_data['statusText'];
+                } else {
+                    $status = "Pending";
+                }
+
+                $table_search['status'] = '<div id="status'.$donor_value->meta_id.'" class="donation-status-pending">'. $status . '</div>
                 <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&currency_symbol='.$currency_val.'&height=550&width=753" id="thickbox-my" class="thickbox donation-view-details">view details</a>';
 
                 $search_data[] = $table_search;
