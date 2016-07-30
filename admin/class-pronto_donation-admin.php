@@ -744,7 +744,8 @@ class Pronto_donation_Admin {
  				*  the selected wordpress media image
  				*/
 				window.send_to_editor = function(html) {
-					imgurl = $(html).attr('src');
+					var array = html.split('"');
+					imgurl = $(array[1]).attr('src');
 					$('#banner_image').val(imgurl);
 					$('#banner_image_img').attr("src", imgurl);
 					tb_remove();
@@ -833,7 +834,8 @@ class Pronto_donation_Admin {
 			update_post_meta( $post_id, 'pronto_donation_campaign', $campaign_data );
 
 			if(isset($_POST['campagin_description']) && !empty($_POST['campagin_description'])) {
-				$result = $wpdb->query("UPDATE {$wpdb->prefix}posts SET post_content='".stripcslashes( $_POST['campagin_description'] )."' WHERE ID=".$post_id."");
+				$result = $wpdb->query("UPDATE {$wpdb->prefix}posts SET post_content='".sanitize_text_field( $_POST['campagin_description'] )."' WHERE ID=".$post_id."");
+				print_r($result);
 			}
 
 			$user_information = array();
