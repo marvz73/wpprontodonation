@@ -7,7 +7,7 @@
 .donation-status-pending {
 	padding: 4px;
 	text-align: center;
-	text-transform: capitalize;
+	text-transform: uppercase;
 	font-weight: bold;
 }
 

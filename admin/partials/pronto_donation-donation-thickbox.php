@@ -8,14 +8,18 @@
         $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor' AND meta_id=" . $meta_key );
         
         $donation_details = unserialize( $result[0]->meta_value );
-
+        // echo "<pre>";
+        // print_r($donation_details);
         ?>
 
         <script type="text/javascript">
 
         jQuery(document).ready(function($){
 
-            $('#donation_status').change(function(){
+            var oldvalue;
+            $('#donation_status').on('focus', function () {
+                oldvalue = this.value;
+            }).change(function(){
                 var status = $(this).val();
                 $.ajax({
                     type:"POST",
@@ -24,11 +28,12 @@
                         action: "change_donation_status",
                         param : {
                             'donation_meta_key' : "<?php echo $_GET['donation_meta_key'] ?>",
-                            'donation_new_status' : status
+                            'donation_new_status' : status,
+                            'donation_old_status' : oldvalue
                         }
                     },
                     success: function (data) {
-
+                        console.log(data)
                         $('#status'+"<?php echo $_GET['donation_meta_key'] ?>").text(status);
                         $('.status-ajax').text('Donation status already updated');
                         $('.status-ajax').css('color','#409c3a');
@@ -69,6 +74,14 @@
 
             <table>
                 <tbody>
+                    <tr>
+                        <th>
+                        <label class="">Date</label>
+                        </th>
+                        <td>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['timestamp'] ) ) ? date('M d, Y h:m:s' , $donation_details['timestamp'] ) : '' ?>" readonly>
+                        </td>
+                    </tr>
                     <tr>
                         <th>
                             <label class="">Gift</label>
@@ -163,9 +176,9 @@
                         </th>
                         <td>
                             <select class="regular-text donation-details-value" name="donation_status" id="donation_status">
-                                <option value="pending" <?php if( !empty( $donation_details['status'] ) && esc_attr($donation_details['status']) == 'pending' ) echo "selected='selected'"; ?> >Pending</option>
-                                <option value="approved" <?php if( !empty( $donation_details['status'] ) && esc_attr($donation_details['status']) == 'approved' ) echo "selected='selected'"; ?> >Approved</option>
-                                <option value="canceled" <?php if( !empty( $donation_details['status'] ) && esc_attr($donation_details['status']) == 'canceled' ) echo "selected='selected'"; ?> >Canceled</option>
+                                <option value="pending" <?php if( strtolower( $donation_details['statusText'] ) == 'pending'  && $donation_details['statusCode'] != 1 ) echo "selected='selected'"; ?> >Pending</option>
+                                <option value="canceled" <?php if( strtolower( $donation_details['statusText'] ) == 'canceled' && $donation_details['statusCode'] != 1 ) echo "selected='selected'"; ?> >Canceled</option>
+                                <option value="approved" <?php if( strtolower( $donation_details['statusText'] ) == 'approved' && $donation_details['statusCode'] == 1 ) echo "selected='selected'"; ?> >Approved</option>
                             </select>
                             <span class="status-ajax"></span>
                         </td>
@@ -195,10 +208,14 @@
                         <?php
                     }
                     ?>
-
+                    <tr>
+                        <th>
+                            <h3 class=""> Payment Response</h3>
+                        </th>
+                    </tr>
                     <?php
 
-                    if( array_key_exists( 'payment_response', $donation_details ) ) {
+                    if( array_key_exists( 'payment_response', $donation_details ) && !empty($donation_details['payment_response'])) {
 
                         foreach ($donation_details['payment_response'] as $key => $payment_response) {
                             ?>
@@ -212,6 +229,40 @@
                             </tr>
                             <?php
                         }
+                    } else {
+                        ?>
+                        <th>
+                            <h5 class=""> No payment response</h5>
+                        </th>
+                        <?php
+                    }
+                    ?>
+                    <tr>
+                        <th>
+                            <h3 class="">Status Logs</h3>
+                        </th>
+                    </tr>
+
+                    <?php 
+                    if( array_key_exists( 'StatusLogs', $donation_details ) && !empty($donation_details['StatusLogs']) ) {
+                        foreach ($donation_details['StatusLogs'] as $key => $status_logs) {
+                            ?>
+                            <tr>
+                                <th>
+                                    <label class=""> <?php echo $status_logs['date'] ?></label>
+                                </th>
+                                <td>
+                                    <p><?php echo $status_logs['user'] .' changed the status of this donation from '.$status_logs['old_status']. ' to '. $status_logs['new_status'] ?></p>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                    } else {
+                        ?>
+                        <th>
+                            <h5 class=""> No status logs</h5>
+                        </th>
+                        <?php
                     }
                     ?>
                 </tbody>
