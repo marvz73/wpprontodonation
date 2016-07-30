@@ -176,8 +176,11 @@
                         </th>
                         <td>
                             <select class="regular-text donation-details-value" name="donation_status" id="donation_status">
-                                <option value="pending" <?php if( array_key_exists('statusText', $donation_details) && strtolower( $donation_details['statusText'] ) == 'pending'  && $donation_details['statusCode'] != 1 ) echo "selected='selected'"; ?> >Pending</option>
-                                <option value="canceled" <?php if( array_key_exists('statusText', $donation_details) && strtolower( $donation_details['statusText'] ) == 'canceled' && $donation_details['statusCode'] != 1 ) echo "selected='selected'"; ?> >Canceled</option>
+                                <option value="pending" <?php if( array_key_exists('statusText', $donation_details ) && strtolower( $donation_details['statusText'] ) == 'pending'  && $donation_details['statusCode'] != 1 ) echo "selected='selected'"; ?> >Pending</option>
+                                <option value="canceled" <?php 
+                                if( (array_key_exists('statusText', $donation_details) && strtolower( $donation_details['statusText'] ) == 'canceled' && $donation_details['statusCode'] != 1 ) || ($donation_details['payment'] == 'eWay' && strtolower($donation_details['status'] ) ) == 'cancelled') echo "selected='selected'"; 
+                                ?> 
+                                >Canceled</option>
                                 <option value="approved" <?php if( array_key_exists('statusText', $donation_details) && strtolower( $donation_details['statusText'] ) == 'approved' && $donation_details['statusCode'] == 1 ) echo "selected='selected'"; ?> >Approved</option>
                             </select>
                             <span class="status-ajax"></span>
