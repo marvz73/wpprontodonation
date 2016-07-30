@@ -226,7 +226,7 @@
 		<?php if($pronto_donation_user_info['user_postcode_option'] != 'hide'): ?>
 			<div class="pronto-donation-group">
 				<label>Post Code</label>
-				<input name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
+				<input id="postal_code" name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
 			</div>
 		<?php endif; ?>
 

@@ -62,6 +62,7 @@ function fillInAddress() {
 		if (componentForm[addressType]) {
 			val = place.address_components[i][componentForm[addressType]];
 			document.getElementById(addressType).value = val;
+			console.log(addressType+'-'+val);
 			if(addressType=='route'){
 				document.getElementById('autocomplete').value = val;
 			}
