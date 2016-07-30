@@ -249,10 +249,10 @@
                             ?>
                             <tr>
                                 <th>
-                                    <label class=""> <?php echo $status_logs['date'] ?></label>
+                                    <small style="font-weight: bold;"> <?php echo $status_logs['date'] ?></small>
                                 </th>
                                 <td>
-                                    <p><?php echo $status_logs['user'] .' changed the status of this donation from '.$status_logs['old_status']. ' to '. $status_logs['new_status'] ?></p>
+                                    <small><?php echo $status_logs['user'] .' changed the status of this donation from '.$status_logs['old_status']. ' to '. $status_logs['new_status'] ?></small>
                                 </td>
                             </tr>
                             <?php

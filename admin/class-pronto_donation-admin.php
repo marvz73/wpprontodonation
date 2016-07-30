@@ -761,7 +761,7 @@ class Pronto_donation_Admin {
 								}
 							},
 							success: function (data) {
-								console.log("success", data)
+								//console.log("success", data)
 								if(data.data.status == "Success") {
 									$('#banner_image_img').attr('src','');
 									$('#banner_image').val('');
