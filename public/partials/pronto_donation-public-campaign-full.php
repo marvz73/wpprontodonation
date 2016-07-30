@@ -264,8 +264,5 @@
         <td class="wideField" colspan="2"><input class="field" id="route"
               disabled="true"></input></td>
       </tr>
-
-
-
     </table>
 </form>

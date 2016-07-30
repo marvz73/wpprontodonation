@@ -37,7 +37,7 @@ for (var i = 0; i < place.address_components.length; i++) {
 	  if (componentForm[addressType]) {
 	    var val = place.address_components[i][componentForm[addressType]];
 	    document.getElementById(addressType).value = val;
-	    console.log(val);
+	    //console.log(val);
 	  }
 	}
 }
@@ -60,18 +60,6 @@ function geolocate() {
 	}
 }
 //========================= Google Maps Autocomplete =======================//
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
