@@ -106,6 +106,7 @@ class eway{
 		$request->Method = 'ProcessPayment';
 
 		$eway_params = array();
+		
 		if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
 
 		$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);

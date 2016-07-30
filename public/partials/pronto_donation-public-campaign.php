@@ -4,7 +4,6 @@
 </div>
 <?php endif; ?>
 
-
 <div class="pd-container pronto-donation-campaign">
 
 	<div class='pd-col s12 m8 l8 pronto-donation-contents'>
@@ -27,12 +26,12 @@
 		<?php endif; ?>
 
 		<div id="pronto-donation-amount">
-			<div>Amount</div> <strong>$934626262</strong>
+			<div>Amount</div> <strong><?php echo $pd_donation_details['total_donation_amount'] ?></strong>
 				
 		</div>
 
 		<div id="pronto-donation-backers">
-			<div>Backers</div> <strong>23</strong>
+			<div>Backers</div> <strong><?php echo $pd_donation_details['total_donator'] ?></strong>
 		</div>
 			<a id="pronto-donation-link" class="pronto-donation-btn btn" href="<?php echo get_home_url() . '?campaign='.$pronto_donation_campaign['post']['post_name'] ?>">Donate Now</a>
 	</div>
