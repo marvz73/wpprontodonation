@@ -171,15 +171,15 @@ class Pronto_donation_Admin {
 		}
 
 		$post_data = $_POST;
-		$payment_type = $_GET['payment'];
 
-		if($_GET['action']!=1)
+	
+		if(!isset($_GET['action']))
 		{
 			require_once('partials/pronto_donation-payment-display.php');
 		}
-		else if($post_data['action'] == 'save_settings' &&  wp_verify_nonce( $post_data['nonce'], 'payment_'.$post_data['payment_type']))
+		else if(!empty($post_data) && $post_data['action'] == 'save_settings' &&  wp_verify_nonce( $post_data['nonce'], 'payment_'.$post_data['payment_type']))
 		{
-
+			$payment_type = $_GET['payment'];
 			//payment option exist, update
 			if ( in_array( 
 			   	'payment_option_'.$post_data['payment_type']
@@ -204,6 +204,7 @@ class Pronto_donation_Admin {
 		}
 		else
 		{
+				$payment_type = $_GET['payment'];
 			$payment_settings = array();
 
 			$form_builder = new form_builder();

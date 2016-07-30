@@ -32,12 +32,12 @@ class ezidebit{
 	function get_form_fields(){
 
 		return $form = array(
-			array(
-				'type'  => 'checkbox',
-				'value' => false,
-				'name'	=> 'sandboxmode',
-				'label'	=> 'Sanbox Mode'
-			),
+			// array(
+			// 	'type'  => 'checkbox',
+			// 	'value' => false,
+			// 	'name'	=> 'sandboxmode',
+			// 	'label'	=> 'Sanbox Mode'
+			// ),
 			array(
 				'type'  => 'checkbox',
 				'value' => '',
