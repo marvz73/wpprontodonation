@@ -156,7 +156,7 @@ class eway{
 			//Approve status code
 			$ApproveTransaction = array('A2000', 'A2008', 'A2010', 'A2011', 'A2016');
 			
-			if(in_array($transactionsResponse->ResponseCode, $ApproveTransaction))
+			if(in_array($transactionsResponse->ResponseMessage, $ApproveTransaction))
 			{
 				$campaign['statusCode'] = 1;
 			}
