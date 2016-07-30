@@ -1,3 +1,68 @@
+//========================= Google Maps Autocomplete =======================//
+var placeSearch, autocomplete;
+var componentForm = {
+	street_number: 'short_name',
+	route: 'long_name',
+	locality: 'long_name',
+	administrative_area_level_1: 'short_name',
+	country: 'long_name',
+	postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+	// Create the autocomplete object, restricting the search to geographical
+	// location types.
+	autocomplete = new google.maps.places.Autocomplete(
+	    /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+	    {types: ['geocode']});
+
+	// When the user selects an address from the dropdown, populate the address
+	// fields in the form.
+	autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+// Get the place details from the autocomplete object.
+var place = autocomplete.getPlace();
+
+for (var component in componentForm) {
+  document.getElementById(component).value = '';
+  document.getElementById(component).disabled = false;
+}
+
+// Get each component of the address from the place details
+// and fill the corresponding field on the form.
+for (var i = 0; i < place.address_components.length; i++) {
+	  var addressType = place.address_components[i].types[0];
+	  if (componentForm[addressType]) {
+	    var val = place.address_components[i][componentForm[addressType]];
+	    document.getElementById(addressType).value = val;
+	    //console.log(val);
+	  }
+	}
+}
+
+// Bias the autocomplete object to the user's geographical location,
+// as supplied by the browser's 'navigator.geolocation' object.
+function geolocate() {
+	if (navigator.geolocation) {
+	  navigator.geolocation.getCurrentPosition(function(position) {
+	    var geolocation = {
+	      lat: position.coords.latitude,
+	      lng: position.coords.longitude
+	    };
+	    var circle = new google.maps.Circle({
+	      center: geolocation,
+	      radius: position.coords.accuracy
+	    });
+	    autocomplete.setBounds(circle.getBounds());
+	  });
+	}
+}
+//========================= Google Maps Autocomplete =======================//
+
+
+
 (function( $ ) {
 	'use strict';
 
@@ -34,7 +99,7 @@
 
 
 jQuery(function(){
-	populateCountries("country", "state");
+	initAutocomplete();
 	jQuery('.pd_amount').on('change', function(){
 		if(jQuery(this).val() == '0')
 		{
@@ -55,103 +120,5 @@ jQuery(function(){
 			companyName.show();
 		}
 	});
-
-
-
-
-	//===================== Address Validation ======================================//
-	if(jQuery('#enable_address_validation').val()=='1'){
-		var google_geocode_api_key = jQuery('#google_geocode_api_key').val();
-		jQuery('#address').on('focusout', function(){
-			var address_value = jQuery('#address').val();
-			if(jQuery.trim(jQuery('#address').val()) ==''){
-				jQuery('#adress_validation').text('');
-			}
-			else{	
-				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
-			    	console.log(data['results']);
-			    	console.log(data['status']);
-			    	if(data['status']=='ZERO_RESULTS'){
-			    		jQuery('#adress_validation').text('Invalid');
-			    	}else{
-			    		jQuery('#adress_validation').text('Valid');
-			    	}
-			    	
-			    });
-			}
-
-		});
-		jQuery('#country').on('focusout', function(){
-			var address_value = jQuery('#country').val();
-			if(jQuery.trim(jQuery('#country').val()) =='-1'){
-				jQuery('#country_validation').text('');
-			}
-			else{	
-				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
-			    	console.log(data['results']);
-			    	console.log(data['status']);
-			    	if(data['status']=='ZERO_RESULTS'){
-			    		jQuery('#country_validation').text('Invalid');
-			    	}else{
-			    		jQuery('#country_validation').text('Valid');
-			    	}
-			    	
-			    });
-			}
-
-		});
-		jQuery('#country').on('click', function(){
-			jQuery('#state_validation').text('');
-		});
-		jQuery('#state').on('focusout', function(){
-			var address_value = jQuery('#state').val();
-			if(jQuery.trim(jQuery('#state').val()) ==''){
-				jQuery('#state_validation').text('');
-			}
-			else{	
-				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
-			    	console.log(data['results']);
-			    	console.log(data['status']);
-			    	if(data['status']=='ZERO_RESULTS'){
-			    		jQuery('#state_validation').text('Invalid');
-			    	}else{
-			    		jQuery('#state_validation').text('Valid');
-			    	}
-			    	
-			    });
-			}
-
-		});
-		jQuery('#suburb').on('focusout', function(){
-			var address_value = jQuery('#suburb').val();
-			if(jQuery.trim(jQuery('#suburb').val()) ==''){
-				jQuery('#suburb_validation').text('');
-			}
-			else{	
-				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
-			    	console.log(data['results']);
-			    	console.log(data['status']);
-
-					if(data['status']=='ZERO_RESULTS'){
-			    		jQuery('#suburb_validation').text('Invalid');
-			    	}else{
-			    		jQuery('#suburb_validation').text('Valid');
-			    		jQuery.each( data['results'][0]['address_components'], function( key, value ) {
-				    		if(value['types'][0]=='country'){
-				    			jQuery('#country').val(value['long_name']);
-				    			jQuery('#state').val('');
-				    		}
-					  	
-						});
-			    	}
-
-			    });
-			}
-		});
-	}
-	//===================== Address Validation ======================================//
-// jQuery.getJSON('https://raw.githubusercontent.com/David-Haim/CountriesToCitiesJSON/master/countriesToCities.json', function (data) {
-// 	console.log(data);
-// 	});
 
 });
