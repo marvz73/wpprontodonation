@@ -36,10 +36,10 @@ class Pronto_Donation_Campaign_WP_list_Table {
             .column-id {width: 5%}
             .column-donor_name {width: 20%}
             .column-email {width: 20%}
-            .column-campaign_name {width: 17%}
+            .column-campaign_name {width: 15%}
             .column-amount {width: 8%}
-            .column-donation_type {width: 8%; text-transform: capitalize; text-align: center !important;}
-            .column-payment {width: 8%; text-align: center !important;}
+            .column-donation_type {width: 10%; text-transform: capitalize; text-align: center !important;}
+            .column-payment {width: 10%; text-align: center !important;}
             .column-status {width:12%; text-align: center !important;}
         </style>';
     }
@@ -152,10 +152,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
             $donor_data = unserialize( $donor_value->meta_value );
             $table_data = array();
-
-            echo "<pre>";
-            print_r($donor_data);
-
+ 
             $currencycode = ( isset($donor_data['CurrencyCode']) ? $donor_data['CurrencyCode'] : '' );
             $currency_val = $this->pronto_donation_get_currency_symbol( $currencycode );
 
