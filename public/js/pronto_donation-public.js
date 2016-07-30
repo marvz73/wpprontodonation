@@ -100,6 +100,14 @@ function geolocate() {
 
 jQuery(function(){
 	initAutocomplete();
+	jQuery('#autocomplete').on('focusout', function(){
+		if(jQuery.trim(jQuery('#autocomplete').val()) ==''){
+			jQuery('#country').val('');
+			jQuery('#administrative_area_level_1').val('');
+			jQuery('#postal_code').val('');
+			jQuery('#locality').val('');
+		}
+	});	
 	jQuery('.pd_amount').on('change', function(){
 		if(jQuery(this).val() == '0')
 		{
@@ -120,5 +128,7 @@ jQuery(function(){
 			companyName.show();
 		}
 	});
+
+
 
 });
