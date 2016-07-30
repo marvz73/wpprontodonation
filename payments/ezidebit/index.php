@@ -91,50 +91,41 @@ class ezidebit{
 	public function payment_complete($response){
 		global $wpdb;
 		
-		$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($response['PaymentReference']));
-		
-		$campaign = maybe_unserialize($donor[0]->meta_value);
-	
-		if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign))
+		if(!empty($response['PaymentReference']))
 		{
-
-			// PaymentReference
-			// BillerID
-			// TransactionID
-			// PaymentAmount
-			// ResultCode 
-			// ResultText
-			// TransactionFeeCustomer
-
-			$payment_response = array(
-				'PaymentReference'			=> esc_html($response['PaymentReference']),
-				'BillerID'					=> esc_html($response['BillerID']),
-				'TransactionID'				=> esc_html($response['TransactionID']),
-				'PaymentAmount'				=> esc_html($response['PaymentAmount']),
-				'ResultCode' 				=> esc_html($response['ResultCode']),
-				'ResultText'				=> esc_html($response['ResultText']),
-				'TransactionFeeCustomer'	=> esc_html($response['TransactionFeeCustomer'])
-			);
+			$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($response['PaymentReference']));
 			
-			$campaign['payment_response'] = $payment_response;
-
-			//Approve status code
-			$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000','003');
-
-			if(in_array($response['ResultCode'], $ApproveTransaction)){
-				$campaign['statusCode'] = 1;
-			}
-			else
+			$campaign = maybe_unserialize($donor[0]->meta_value);
+		
+			if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign))
 			{
-				$campaign['statusCode'] = 0;
+
+				$payment_response = array(
+					'PaymentReference'			=> esc_html($response['PaymentReference']),
+					'BillerID'					=> esc_html($response['BillerID']),
+					'TransactionID'				=> esc_html($response['TransactionID']),
+					'PaymentAmount'				=> esc_html($response['PaymentAmount']),
+					'ResultCode' 				=> esc_html($response['ResultCode']),
+					'ResultText'				=> esc_html($response['ResultText']),
+					'TransactionFeeCustomer'	=> esc_html($response['TransactionFeeCustomer'])
+				);
+				
+				$campaign['payment_response'] = $payment_response;
+
+				//Approve status code
+				$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000','003');
+
+				if(in_array($response['ResultCode'], $ApproveTransaction)){
+					$campaign['statusCode'] = 1;
+				}else{
+					$campaign['statusCode'] = 0;
+				}
+
+				$campaign['statusText'] = esc_html($response['ResultText']);
+
+				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($response['PaymentReference']));
 			}
-
-			$campaign['statusText'] = esc_html($response['ResultText']);
-
-			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($response['PaymentReference']));
-
 		}
 
 	}
-
 }

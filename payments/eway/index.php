@@ -66,7 +66,6 @@ class eway{
 				'name'	=> 'ewayapipassword',
 				'label'	=> 'eWay API Password'
 			),
-
 		);
 
 	}
@@ -76,9 +75,7 @@ class eway{
 		$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
 		$EwayAPIPassword = $ppd['payment_info']->option['ewayapipassword'];
 		$EwaySanboxMode = $ppd['payment_info']->option['ewaysandboxmode'];
-
 		$request = new eWAY\CreateAccessCodesSharedRequest();
-			
 		$request->Customer->Reference = (string)$ppd['post_meta_id'];
 		$request->Customer->CompanyName = $ppd['companyName'];
 		$request->Customer->Email = $ppd['email'];
@@ -90,38 +87,30 @@ class eway{
 		$request->Customer->City = $ppd['suburb'];
 		$request->Customer->State = $ppd['state'];
 		$request->Customer->PostalCode = $ppd['post_code'];
-
 		$TotalAmount = !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] : $ppd['pd_amount'];
-
-
-
 		$request->Payment->TotalAmount = $TotalAmount .'00';
 		$request->Payment->InvoiceReference = (string)$ppd['post_meta_id'];
-
 		$request->CustomerReadOnly = true;
-
 		$request->RedirectUrl = $ppd['redirectURL'];
 		$request->CancelUrl   = $ppd['CancelUrl'];
-
 		$request->Method = 'ProcessPayment';
-
 		$eway_params = array();
-		
 		if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
-
 		$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);
-
 		$result = $service->CreateAccessCodesShared($request);
-		
 		require_once('tmpl/tmpl_payment_process.php');
+
 	}
 
 	// Payment process complete
 	public function payment_complete($response){
 		global $wpdb;
 
-		$pm_settings = get_option( 'payment_option_'.strtolower($response['payment_gateway']));
+		if(empty($response)){
+			return false;
+		}
 
+		$pm_settings = get_option( 'payment_option_'.strtolower($response['payment_gateway']));
 		$EwayAPIKey = $pm_settings['ewayapikey'];
 		$EwayAPIPassword = $pm_settings['ewayapipassword'];
 		$EwaySanboxMode = $pm_settings['ewaysandboxmode'];
@@ -131,13 +120,9 @@ class eway{
 		$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);
 		// Query the transaction result.
 		$response = $service->TransactionQuery($response['AccessCode']);
-
 		$transactionsResponse = $response->Transactions[0];
-
 		$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
-
 		$campaign = maybe_unserialize($donor[0]->meta_value);
-
 		if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign))
 		{
 			$payment_response = array(
@@ -151,23 +136,15 @@ class eway{
 				'TransactionStatus'		=> $transactionsResponse->TransactionStatus,
 				'TokenCustomerID'		=> $transactionsResponse->TokenCustomerID
 			);
-
 			$campaign['payment_response'] = $payment_response;
-
 			//Approve status code
 			$ApproveTransaction = array('A2000', 'A2008', 'A2010', 'A2011', 'A2016');
-			
-			if(in_array($transactionsResponse->ResponseMessage, $ApproveTransaction))
-			{
+			if(in_array($transactionsResponse->ResponseMessage, $ApproveTransaction)){
 				$campaign['statusCode'] = 1;
-			}
-			else
-			{
+			}else{
 				$campaign['statusCode'] = 0;
 			}
-
 			$campaign['statusText'] = esc_html($service->getMessage($transactionsResponse->ResponseMessage));
-
 			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
 		}
 
