@@ -18,6 +18,11 @@
 	margin-top: 0.6rem;
 }
 
+/*Form title*/
+.pronto-donation-form h3{
+	margin-top: 3.5rem;
+}
+
 /*Form fields*/
 .pronto-donation-form input[type=number],
 .pronto-donation-form input[type=email],
@@ -31,6 +36,18 @@
     width: 100%;
 }
 
+/*Form group*/
+.pronto-donation-group{
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.pronto-donation-group label{
+	margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+/*Buttons*/
 .pronto-donation-btn,
 a.pronto-donation-btn{
 	border: 1px solid #ccc !important;
@@ -46,10 +63,6 @@ a.pronto-donation-btn{
 }
 
 /*Pronto Donation Campaign*/
-.pronto-donation-campaign{
-
-}
-
 .pronto-donation-attributes{
 	text-align: right;
 }
@@ -65,28 +78,16 @@ a.pronto-donation-btn{
 	margin-bottom: 2rem;
 }
 
-/*Form title*/
-.pronto-donation-form h3{
-	margin-top: 3.5rem;
-}
-
+/*Banner*/
 #pronto-donation-banner{
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
 
-.pronto-donation-group{
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-}
-
-.pronto-donation-group label{
-	margin-bottom: 0.5rem;
-    display: inline-block;
-}
-
+/*Donation Type*/
 .pronto-donation-type input[type="radio"]:checked + label {
-   background: #eee;
+	border: 1px solid #00c853 ;
+	background-color: #b9f6ca;
 }
 
 .pronto-donation-type label{
@@ -116,9 +117,9 @@ a.pronto-donation-btn{
   float: left;
 }
 
-.pronto-donation-gift input[type=checkbox] + label ~ label {
+/*.pronto-donation-gift input[type=checkbox] + label ~ label {
   margin: 0 0 0 40px;
-}
+}*/
 
 .pronto-donation-gift input[type=checkbox] + label::before {
   content: ' ';
@@ -160,8 +161,9 @@ a.pronto-donation-btn{
 
 /*Amount level*/
 .pronto-donation-amount-level input[type="radio"]:checked + label {
-   background: #eee;
- }
+	border: 1px solid #00c853 ;
+	background-color: #b9f6ca;
+}
 
 .pd-amount{
 	margin: 0.2rem;
@@ -191,44 +193,43 @@ input[type=radio].pd-level-amount{
 }
 
 /*Payment Method*/
-.payments input[type="radio"]:checked + label {
-	border: 1px solid #888;
-	position: relative;
- }
+.payments label {
+  overflow: hidden;
+}
 
-.payments input[type="radio"]:checked + label::after {
+.payments input[type="radio"]:checked + label {
+	border: 1px solid #00c853 ;
+	background-color: #b9f6ca;
+	position: relative;
+}
+
+.payments input[type=radio] + label::after {
 	content: ' ';
 	position: absolute;
-	top: 0.7rem;
-	right: 1rem;
+	top: 50%;
+	right: 0rem;
 	width: 23px;
 	height: 23px;
 	display: block;
 	z-index: 1;
 	background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjE4MS4yIDI3MyAxNyAxNiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAxODEuMiAyNzMgMTcgMTYiPjxwYXRoIGQ9Ik0tMzA2LjMgNTEuMmwtMTEzLTExM2MtOC42LTguNi0yNC04LjYtMzQuMyAwbC01MDYuOSA1MDYuOS0yMTIuNC0yMTIuNGMtOC42LTguNi0yNC04LjYtMzQuMyAwbC0xMTMgMTEzYy04LjYgOC42LTguNiAyNCAwIDM0LjNsMjMxLjIgMjMxLjIgMTEzIDExM2M4LjYgOC42IDI0IDguNiAzNC4zIDBsMTEzLTExMyA1MjQtNTI0YzctMTAuMyA3LTI1LjctMS42LTM2eiIvPjxwYXRoIGZpbGw9IiMzNzM3MzciIGQ9Ik0xOTcuNiAyNzcuMmwtMS42LTEuNmMtLjEtLjEtLjMtLjEtLjUgMGwtNy40IDcuNC0zLjEtMy4xYy0uMS0uMS0uMy0uMS0uNSAwbC0xLjYgMS42Yy0uMS4xLS4xLjMgMCAuNWwzLjMgMy4zIDEuNiAxLjZjLjEuMS4zLjEuNSAwbDEuNi0xLjYgNy42LTcuNmMuMy0uMS4zLS4zLjEtLjV6Ii8+PHBhdGggZD0iTTExODcuMSAxNDMuN2wtNTYuNS01Ni41Yy01LjEtNS4xLTEyLTUuMS0xNy4xIDBsLTI1My41IDI1My41LTEwNi4yLTEwNi4yYy01LjEtNS4xLTEyLTUuMS0xNy4xIDBsLTU2LjUgNTYuNWMtNS4xIDUuMS01LjEgMTIgMCAxNy4xbDExNC43IDExNC43IDU2LjUgNTYuNWM1LjEgNS4xIDEyIDUuMSAxNy4xIDBsNTYuNS01Ni41IDI2Mi0yNjJjNS4yLTMuNCA1LjItMTIgLjEtMTcuMXpNMTYzNC4xIDE2OS40bC0zNy43LTM3LjdjLTMuNC0zLjQtOC42LTMuNC0xMiAwbC0xNjkuNSAxNjkuNS03MC4yLTcxLjljLTMuNC0zLjQtOC42LTMuNC0xMiAwbC0zNy43IDM3LjdjLTMuNCAzLjQtMy40IDguNiAwIDEybDc3LjEgNzcuMSAzNy43IDM3LjdjMy40IDMuNCA4LjYgMy40IDEyIDBsMzcuNy0zNy43IDE3NC43LTE3Ni40YzEuNi0xLjcgMS42LTYuOS0uMS0xMC4zeiIvPjwvc3ZnPg==') no-repeat center center;
-	-ms-transition: all .2s ease;
-	-webkit-transition: all .2s ease;
-	transition: all .3s ease;
-	-ms-transform: scale(0);
+	-ms-transition: right .2s ease;
+	-webkit-transition: right .2s ease;
+	transition: right .3s ease;
+/*	-ms-transform: scale(0);
 	-webkit-transform: scale(0);
-	transform: scale(0);
+	transform: scale(0);*/
 	opacity: 0;
 }
 
-.payments input[type="radio"]:checked + label::after {
-  -ms-transform: scale(1);
+.payments input[type=radio]:checked + label::after {
+  /*-ms-transform: scale(1);
   -webkit-transform: scale(1);
-  transform: scale(1);
+  transform: scale(1);*/
+  right: 1rem;
+  transform: translateY(-50%);
   opacity: 1;
 }
-
-
-
-
-
-
-
-
 
 .payment-method{
 	border: 1px solid #ccc;
