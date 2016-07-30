@@ -3,15 +3,212 @@
  * included in this file.
  */
 
+.clearfix:after,
+.clearfix:before{
+    display: table;
+    content: " "
+}
+
+.clearfix:after{
+	clear: both
+}
+
+/*Form fields*/
+.pronto-donation-form input[type=number],
+.pronto-donation-form input[type=email],
+.pronto-donation-form input[type=text],
+.pronto-donation-form select{
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    color: #2b2b2b;
+    padding: 8px 10px 7px;
+    display: block;
+    width: 100%;
+}
+
+.pronto-donation-btn,
+a.pronto-donation-btn{
+	border: 1px solid #ccc !important;
+	border-radius: 3px;
+	text-decoration: none !important;
+    padding: 0.7rem 0.9rem;
+	display: inline-block;
+	text-align: center;
+}
+
+.pronto-donation-btn:hover{
+	border: 1px solid #999 !important;
+}
+
+/*Pronto Donation Campaign*/
+.pronto-donation-campaign{
+
+}
+
+.pronto-donation-attributes{
+	text-align: right;
+}
+
+#pronto-donation-target,
+#pronto-donation-amount{
+
+	padding-bottom: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+#pronto-donation-backers{
+	margin-bottom: 2rem;
+}
+
+/*Form title*/
+.pronto-donation-form h3{
+	margin-top: 3.5rem;
+}
+
+#pronto-donation-banner{
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.pronto-donation-group{
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.pronto-donation-group label{
+	margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.pronto-donation-type input[type="radio"]:checked + label {
+   background: #eee;
+}
+
+.pronto-donation-type label{
+	margin: 0.2rem;
+	border: 1px solid #ccc;
+	padding: 0.5rem 4rem;
+	width: 100%;
+	float: left;
+	cursor: pointer;
+	display: inline-block;
+	text-align: center;
+}
+
+.pronto-donation-type input[type="radio"]{
+	display: none;
+}
+
+.pronto-donation-gift input[type=checkbox] {
+  opacity: 0;
+  float:left;
+}
+
+.pronto-donation-gift input[type=checkbox] + label {
+  margin: 0 0 0 20px;
+  position: relative;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: monospace;
+  float: left;
+}
+
+.pronto-donation-gift input[type=checkbox] + label ~ label {
+  margin: 0 0 0 40px;
+}
+
+.pronto-donation-gift input[type=checkbox] + label::before {
+  content: ' ';
+  position: absolute;
+  left: -35px;
+  top: -3px;
+  width: 25px;
+  height: 25px;
+  display: block;
+  background: white;
+  border: 1px solid #A9A9A9;
+}
+
+.pronto-donation-gift input[type=checkbox] + label::after {
+  content: ' ';
+  position: absolute;
+  left: -35px;
+  top: -3px;
+  width: 23px;
+  height: 23px;
+  display: block;
+  z-index: 1;
+  background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjE4MS4yIDI3MyAxNyAxNiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAxODEuMiAyNzMgMTcgMTYiPjxwYXRoIGQ9Ik0tMzA2LjMgNTEuMmwtMTEzLTExM2MtOC42LTguNi0yNC04LjYtMzQuMyAwbC01MDYuOSA1MDYuOS0yMTIuNC0yMTIuNGMtOC42LTguNi0yNC04LjYtMzQuMyAwbC0xMTMgMTEzYy04LjYgOC42LTguNiAyNCAwIDM0LjNsMjMxLjIgMjMxLjIgMTEzIDExM2M4LjYgOC42IDI0IDguNiAzNC4zIDBsMTEzLTExMyA1MjQtNTI0YzctMTAuMyA3LTI1LjctMS42LTM2eiIvPjxwYXRoIGZpbGw9IiMzNzM3MzciIGQ9Ik0xOTcuNiAyNzcuMmwtMS42LTEuNmMtLjEtLjEtLjMtLjEtLjUgMGwtNy40IDcuNC0zLjEtMy4xYy0uMS0uMS0uMy0uMS0uNSAwbC0xLjYgMS42Yy0uMS4xLS4xLjMgMCAuNWwzLjMgMy4zIDEuNiAxLjZjLjEuMS4zLjEuNSAwbDEuNi0xLjYgNy42LTcuNmMuMy0uMS4zLS4zLjEtLjV6Ii8+PHBhdGggZD0iTTExODcuMSAxNDMuN2wtNTYuNS01Ni41Yy01LjEtNS4xLTEyLTUuMS0xNy4xIDBsLTI1My41IDI1My41LTEwNi4yLTEwNi4yYy01LjEtNS4xLTEyLTUuMS0xNy4xIDBsLTU2LjUgNTYuNWMtNS4xIDUuMS01LjEgMTIgMCAxNy4xbDExNC43IDExNC43IDU2LjUgNTYuNWM1LjEgNS4xIDEyIDUuMSAxNy4xIDBsNTYuNS01Ni41IDI2Mi0yNjJjNS4yLTMuNCA1LjItMTIgLjEtMTcuMXpNMTYzNC4xIDE2OS40bC0zNy43LTM3LjdjLTMuNC0zLjQtOC42LTMuNC0xMiAwbC0xNjkuNSAxNjkuNS03MC4yLTcxLjljLTMuNC0zLjQtOC42LTMuNC0xMiAwbC0zNy43IDM3LjdjLTMuNCAzLjQtMy40IDguNiAwIDEybDc3LjEgNzcuMSAzNy43IDM3LjdjMy40IDMuNCA4LjYgMy40IDEyIDBsMzcuNy0zNy43IDE3NC43LTE3Ni40YzEuNi0xLjcgMS42LTYuOS0uMS0xMC4zeiIvPjwvc3ZnPg==') no-repeat center center;
+  -ms-transition: all .2s ease;
+  -webkit-transition: all .2s ease;
+  transition: all .3s ease;
+  -ms-transform: scale(0);
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  opacity: 0;
+}
+
+.pronto-donation-gift input[type=checkbox]:checked + label::after {
+  -ms-transform: scale(1);
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  opacity: 1;
+}
+
+/*Amount level*/
+.pronto-donation-amount-level input[type="radio"]:checked + label {
+   background: #eee;
+ }
+
+.pd-amount{
+	margin: 0.2rem;
+	border: 1px solid #ccc;
+	padding: 1rem;
+	cursor: pointer;
+	display: inline-block;
+}
+
+input[type=radio].pd-level-amount{
+	display: none;
+}
 
 /*Custom amount currency*/
+#currency{ 
+	position: relative;
+	color: #888;
+}
 #currency span{
-    position: relative;
-    right: -20px;
+	position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 #currency input[type=number]{
-	padding-left: 20px;
+	padding-left: 25px;
 }
+
+/*Payment Method*/
+.payments input[type="radio"]:checked + label {
+   border: 1px solid #888;
+   background-color: #eee;
+ }
+.payment-method{
+	border: 1px solid #ccc;
+	padding: 0.3rem;
+	display: block;
+	margin-bottom: 0.5rem;
+	cursor: pointer;
+}
+
+.payment-method img{
+	width: 20%;
+}
+
+.payments input[type=radio]{
+	display: none;
+}
+
+
 
 /* 
 =======================
@@ -77,42 +274,49 @@
   50% { transform: rotate(360deg) scale(0.8); }	
 }
 
+/*Grid System*/
+.pd-responsive{overflow-x:auto}
+.pd-container:after{content:"";display:table;clear:both}
+.pd-container-padding > .pd-col{padding:0 8px}
+.pd-col{float:left;width:100%}
+.pd-col.s1{width:8.33333%}
+.pd-col.s2{width:16.66666%}
+.pd-col.s3{width:24.99999%}
+.pd-col.s4{width:33.33333%}
+.pd-col.s5{width:41.66666%}
+.pd-col.s6{width:49.99999%}
+.pd-col.s7{width:58.33333%}
+.pd-col.s8{width:66.66666%}
+.pd-col.s9{width:74.99999%}
+.pd-col.s10{width:83.33333%}
+.pd-col.s11{width:91.66666%}
+.pd-col.s12{width:99.99999%}
+@media only screen and (min-width:601px){
+.pd-col.m1{width:8.33333%}
+.pd-col.m2{width:16.66666%}
+.pd-col.m3,.pd-quarter{width:24.99999%}
+.pd-col.m4,.pd-third{width:33.33333%}
+.pd-col.m5{width:41.66666%}
+.pd-col.m6,.pd-half{width:49.99999%}
+.pd-col.m7{width:58.33333%}
+.pd-col.m8,.pd-twothird{width:66.66666%}
+.pd-col.m9,.pd-threequarter{width:74.99999%}
+.pd-col.m10{width:83.33333%}
+.pd-col.m11{width:91.66666%}
+.pd-col.m12{width:99.99999%}}
+@media only screen and (min-width:993px){
+.pd-col.l1{width:8.33333%}
+.pd-col.l2{width:16.66666%}
+.pd-col.l3,.pd-quarter{width:24.99999%}
+.pd-col.l4,.pd-third{width:33.33333%}
+.pd-col.l5{width:41.66666%}
+.pd-col.l6,.pd-half{width:49.99999%}
+.pd-col.l7{width:58.33333%}
+.pd-col.l8,.pd-twothird{width:66.66666%}
+.pd-col.l9,.pd-threequarter{width:74.99999%}
+.pd-col.l10{width:83.33333%}
+.pd-col.l11{width:91.66666%}
+.pd-col.l12{width:99.99999%}}
 
-
-<<<<<<< Updated upstream
-/* 
-=======================
-   Grid System
-=======================
-*/
-
-.row::after {
-    content: "";
-    clear: both;
-    display: block;
-}
-
-[class*="col-"] {
-    float: left;
-    padding: 15px;
-    border: 1px solid #ccc;
-    margin: 0.3rem;
-}
-
-.col-1 {width: 8.33%;}
-.col-2 {width: 16.66%;}
-.col-3 {width: 25%;}
-.col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;}
-.col-6 {width: 50%;}
-.col-7 {width: 58.33%;}
-.col-8 {width: 66.66%;}
-.col-9 {width: 75%;}
-.col-10 {width: 83.33%;}
-.col-11 {width: 91.66%;}
-.col-12 {width: 100%;}
-=======
-
->>>>>>> Stashed changes
 
 

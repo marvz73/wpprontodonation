@@ -299,11 +299,11 @@ class Pronto_donation {
 				foreach(explode(',', $pronto_donation_campaign['amount_level']) as $index=>$amount_level):
 					if($index==0)
 					{
-						$html .= '<label for="pd_amount'.$index.'"><input id="pd_amount'.$index.'" class="pd_amount" type="radio" name="pd_amount" value="'.$amount_level.'" checked="true" />' . $this->pronto_donation_currency() . ' ' . $amount_level. '</label>';
+						$html .= '<input id="pd_amount'.$index.'" class="pd-level-amount" type="radio" name="pd_amount" value="'.$amount_level.'" checked="true" /><label class="pd-amount" for="pd_amount'.$index.'">' . $this->pronto_donation_currency() . $amount_level. '</label>';
 					}
 					else
 					{
-						$html .= '<label for="pd_amount'.$index.'"><input id="pd_amount'.$index.'" class="pd_amount" type="radio" name="pd_amount" value="'.$amount_level.'" />' . $this->pronto_donation_currency() . ' ' . $amount_level. '</label>';
+						$html .= '<input id="pd_amount'.$index.'" class="pd-level-amount" type="radio" name="pd_amount" value="'.$amount_level.'" /><label class="pd-amount" for="pd_amount'.$index.'">' . $this->pronto_donation_currency() . $amount_level. '</label>';
 					}
 
 				endforeach;
