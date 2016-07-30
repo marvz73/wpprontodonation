@@ -26,7 +26,7 @@
 		<?php endif; ?>
 
 		<div id="pronto-donation-amount">
-			<div>Amount</div> <strong><?php echo $pd_donation_details['total_donation_amount'] ?></strong>
+			<div>Amount</div> <strong><?php echo $pronto_donation_campaign['currency'] ?><?php echo $pd_donation_details['total_donation_amount'] ?></strong>
 				
 		</div>
 
