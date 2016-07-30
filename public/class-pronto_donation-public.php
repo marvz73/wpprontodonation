@@ -107,17 +107,20 @@ class Pronto_donation_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		//================================ Country And States Library =============================//
-		wp_enqueue_script('countries' , plugin_dir_url( __FILE__ ) . 'js/countries.js', array( 'jquery' ), $this->version, false );
-		//================================ Country And States Library =============================//
-
-
 		//Google g-recaptcha
 		wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js', array( ), $this->version, false );
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
+			
 
-	
+		//========================= Google Maps Autocomplete =======================//
+		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+
+		$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
+		if(empty($google_geocode_api_key)||$google_geocode_api_key==''){}else{
+			wp_enqueue_script( 'googlemaps', 'https://maps.googleapis.com/maps/api/js?key='.$google_geocode_api_key.'&libraries=places&callback=initAutocomplete', array(), $this->version, false );
+		}
+		//========================= Google Maps Autocomplete =======================//
 	}
 
 	//

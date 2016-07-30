@@ -27,7 +27,7 @@
 	$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
 	?>
 
-	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
+	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>"/>
 	<input id="google_geocode_api_key" value="<?php echo $google_geocode_api_key;?>" hidden/>
 <!-- //===================== Address Validation ======================================//  -->	
 
@@ -159,9 +159,10 @@
 
 
 		<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
-		<p>
+		<p id="locationField">
 			<label>Address</label>
-			<input id="address" name="address" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
+			<input id="autocomplete" name="address"  placeholder="Enter your address"
+             onFocus="geolocate()" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
 			<span id="adress_validation"></span>
 		</p>
 		<?php endif; ?>
@@ -172,8 +173,7 @@
 		<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
 		<p>
 			<label>Country</label>
-			<select id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>>
-			</select>
+			<input id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>/>
 			<span id="country_validation"></span>
 		</p>
 		<?php endif; ?>
@@ -184,8 +184,7 @@
 		<?php if($pronto_donation_user_info['user_state_option'] != 'hide'): ?>
 		<p>
 			<label>State</label>
-			<select id="state"  class="<?php echo $this->campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>>
-			</select>
+			<input id="administrative_area_level_1" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>/>
 			<span id="state_validation"></span>
 		</p>
 		<?php endif; ?>
@@ -196,7 +195,7 @@
 		<?php if($pronto_donation_user_info['user_postcode_option'] != 'hide'): ?>
 		<p>
 			<label>Post Code</label>
-			<input name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
+			<input id="postal_code" name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
 		</p>
 		<?php endif; ?>
 
@@ -206,7 +205,7 @@
 		<?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
 		<p>
 			<label>Suburb</label>
-			<input id="suburb" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
+			<input id="locality" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
 			<span id="suburb_validation"></span>
 		</p>
 		<?php endif; ?>
@@ -254,4 +253,19 @@
 		<button class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
 	</p>
 
+
+
+
+    <table id="address">
+      <tr>
+        <td class="label">Street address</td>
+        <td class="slimField"><input class="field" id="street_number"
+              disabled="true"></input></td>
+        <td class="wideField" colspan="2"><input class="field" id="route"
+              disabled="true"></input></td>
+      </tr>
+
+
+
+    </table>
 </form>
