@@ -127,6 +127,9 @@ class Pronto_donation_Public {
 	// Desc: Pronto Campaign
 	// Author: Marvin Aya-ay
 	public function pronto_donation_campaign( $campaign_id ){
+
+		
+
 		$this->_pronto_donation_campaign($campaign_id, 'short');
 	}
 
@@ -160,6 +163,7 @@ class Pronto_donation_Public {
 				// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
 
 	    		$campaign_data['status'] = 'pending';
+	    		
 	    		$campaign_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
 
 	    		$payment_methods = $this->class->pronto_donation_payment_methods();
@@ -172,6 +176,8 @@ class Pronto_donation_Public {
 	    			}
 	    		}
 	    		
+	    		$campaign['statusCode'] = 0;
+
 	    		$campaign_data['timestamp'] = time();
 
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
@@ -304,7 +310,9 @@ class Pronto_donation_Public {
 		        'hidebanner' 	=> false,
 		        'hidedesc' 		=> false
 		    ), $campaign );
-	
+			
+			$pd_donation_details = $this->class->pronto_donation_get_donation_details($attrs['campaign']);
+
 			//Campaign fields
 		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
 		    $pronto_donation_campaign['currency'] = $this->class->pronto_donation_currency();
