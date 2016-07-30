@@ -152,7 +152,9 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
             $donor_data = unserialize( $donor_value->meta_value );
             $table_data = array();
- 
+            // echo "<pre>";
+            // print_r($donor_data);
+
             $currencycode = ( isset($donor_data['CurrencyCode']) ? $donor_data['CurrencyCode'] : '' );
             $currency_val = $this->pronto_donation_get_currency_symbol( $currencycode );
 
@@ -183,6 +185,8 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             $status = "";
             if( array_key_exists('statusCode', $donor_data) ) {
                 $status = $donor_data['statusText'];
+            } else if( !array_key_exists('statusCode', $donor_data) && $donor_data['payment'] == 'eWay') {
+                $status = $donor_data['status'];
             } else {
                 $status = "Pending";
             }
@@ -513,6 +517,8 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 $status = "";
                 if( array_key_exists('statusCode', $donor_data) ) {
                     $status = $donor_data['statusText'];
+                } else if( !array_key_exists('statusCode', $donor_data) && $donor_data['payment'] == 'eWay') {
+                    $status = $donor_data['status'];
                 } else {
                     $status = "Pending";
                 }

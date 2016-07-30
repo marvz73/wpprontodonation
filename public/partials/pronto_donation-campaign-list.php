@@ -7,8 +7,10 @@
 			<h5 id="pronto-donation-title"><?php echo $campaign->post_title ?></h5> 
 
 			<p id="pronto-donation-description"><?php echo substr( $campaign->post_content,0,140 ) . "..";  ?></p>
-
-			<a id="pronto-donation-link" href="<?php echo get_home_url() . '?campaign='.$campaign->post_name ?>" class="button btn button-primary">Donate Now</a>
+			<p>
+				
+			<a class="pronto-donation-btn" href="<?php echo get_home_url() . '?campaign='.$campaign->post_name ?>" class="button btn button-primary">Donate Now</a>
+			</p>
 		</div>
  	<?php
  		endforeach;

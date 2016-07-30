@@ -1,5 +1,34 @@
+/**
+ * All of the code for your public-facing JavaScript source
+ * should reside in this file.
+ *
+ * Note: It has been assumed you will write jQuery code here, so the
+ * $ function reference has been prepared for usage within the scope
+ * of this function.
+ *
+ * This enables you to define handlers, for when the DOM is ready:
+ *
+ * $(function() {
+ *
+ * });
+ *
+ * When the window is loaded:
+ *
+ * $( window ).load(function() {
+ *
+ * });
+ *
+ * ...and/or other possibilities.
+ *
+ * Ideally, it is not considered best practise to attach more than a
+ * single DOM-ready or window-load handler for a particular page.
+ * Although scripts in the WordPress core, Plugins and Themes may be
+ * practising this, we should strive to set a better example in our own work.
+ */
+
+
 //========================= Google Maps Autocomplete =======================//
-var placeSearch, autocomplete;
+var placeSearch, autocomplete, component;
 var componentForm = {
 	street_number: 'short_name',
 	route: 'long_name',
@@ -25,11 +54,6 @@ function fillInAddress() {
 // Get the place details from the autocomplete object.
 var place = autocomplete.getPlace();
 
-for (var component in componentForm) {
-  document.getElementById(component).value = '';
-  document.getElementById(component).disabled = false;
-}
-
 // Get each component of the address from the place details
 // and fill the corresponding field on the form.
 for (var i = 0; i < place.address_components.length; i++) {
@@ -37,7 +61,6 @@ for (var i = 0; i < place.address_components.length; i++) {
 	  if (componentForm[addressType]) {
 	    var val = place.address_components[i][componentForm[addressType]];
 	    document.getElementById(addressType).value = val;
-	    //console.log(val);
 	  }
 	}
 }
@@ -62,43 +85,8 @@ function geolocate() {
 //========================= Google Maps Autocomplete =======================//
 
 
-
-(function( $ ) {
-	'use strict';
-
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
-
-
-})( jQuery );
-
-
 jQuery(function(){
+
 	initAutocomplete();
 	jQuery('#autocomplete').on('focusout', function(){
 		if(jQuery.trim(jQuery('#autocomplete').val()) ==''){
@@ -108,7 +96,10 @@ jQuery(function(){
 			jQuery('#locality').val('');
 		}
 	});	
-	jQuery('.pd_amount').on('change', function(){
+
+	// populateCountries("country", "state");
+
+	jQuery('.pd-level-amount').on('change', function(){
 		if(jQuery(this).val() == '0')
 		{
 			jQuery('#pd_custom_amount').removeAttr('disabled', 'disabled');
