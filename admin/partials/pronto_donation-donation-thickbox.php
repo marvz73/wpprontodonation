@@ -15,12 +15,15 @@
         <script type="text/javascript">
 
         jQuery(document).ready(function($){
-
             var oldvalue;
-            $('#donation_status').on('focus', function () {
-                oldvalue = this.value;
-            }).change(function(){
+
+            $("#donation_status").attr('prev', $("#donation_status").val());
+            $('#donation_status').change(function(){
+                
+                oldvalue = $("#donation_status").attr('prev');
                 var status = $(this).val();
+                $("#donation_status").attr('prev', $("#donation_status").val());
+
                 $.ajax({
                     type:"POST",
                     url: ajaxurl,
@@ -33,7 +36,7 @@
                         }
                     },
                     success: function (data) {
-                        console.log(data)
+                        // console.log(data)
                         $('#status'+"<?php echo $_GET['donation_meta_key'] ?>").text(status);
                         $('.status-ajax').text('Donation status already updated');
                         $('.status-ajax').css('color','#409c3a');
@@ -55,7 +58,6 @@
                     }
                 });
             });
-
         });
 
         </script>
@@ -184,17 +186,18 @@
                                     && $donation_details['statusCode'] == 0 ) )
                                 {
                                     echo "selected='selected'"; 
-                                } else if( !array_key_exists('statusText', $donation_details ) 
-                                    && $donation_details['payment'] == "Ezidebit"
-                                    && $donation_details['status'] == 'pending'
-                                 ) {
+                                } else if( (!array_key_exists('statusText', $donation_details )
+                                    && $donation_details['status'] == 'pending') ||
+                                    (!array_key_exists('statusText', $donation_details )
+                                    && $donation_details['status'] == 'Ezidebit')
+                                ) {
                                     echo "selected='selected'"; 
                                 }
 
-                                ?> 
+                                ?>
                                 >Pending</option>
 
-                                <option value="cancelled" 
+                                <option value="cancelled"
 
                                 <?php 
 
@@ -203,7 +206,7 @@
                                     && $donation_details['statusCode'] == 0 ) ) 
                                 {
                                     echo "selected='selected'";
-                                } else if( $donation_details['payment'] == 'eWay'  
+                                } else if(!array_key_exists('statusText', $donation_details )
                                     && strtolower($donation_details['status'] ) == 'cancelled' )
                                 {
                                     echo "selected='selected'";

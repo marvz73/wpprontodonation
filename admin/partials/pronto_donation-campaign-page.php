@@ -183,9 +183,10 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
 
             $status = "";
+
             if( array_key_exists('statusCode', $donor_data) ) {
                 $status = $donor_data['statusText'];
-            } else if( !array_key_exists('statusCode', $donor_data) && $donor_data['payment'] == 'eWay') {
+            } else if( !array_key_exists('statusCode', $donor_data) ) {
                 $status = $donor_data['status'];
             } else {
                 $status = "Pending";
@@ -480,7 +481,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
         $eway_url = '<img src="'.$eway_url.'" width="70" height="30" alt="Eway">';
 
         $redirect_url = plugin_dir_url( __FILE__ ) . "pronto_donation-donation-thickbox.php";
-
+        
         foreach ($result as $key => $donor_value) {
             $donor_data = unserialize( $donor_value->meta_value );
             $detect_like = $this->pronto_search_donation( $donor_data, $search );
@@ -517,7 +518,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 $status = "";
                 if( array_key_exists('statusCode', $donor_data) ) {
                     $status = $donor_data['statusText'];
-                } else if( !array_key_exists('statusCode', $donor_data) && $donor_data['payment'] == 'eWay') {
+                } else if( !array_key_exists('statusCode', $donor_data) ) {
                     $status = $donor_data['status'];
                 } else {
                     $status = "Pending";
