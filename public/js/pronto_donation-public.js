@@ -124,10 +124,22 @@ jQuery(function(){
 				    	//console.log(data['results']);
 				    	//console.log(data['status']);
 				    	if(data['status']=='ZERO_RESULTS'){
-				    		console.log("asdaw");
 				    		jQuery('#adress_validation').text('* Invalid address');
 				    	}else{
-				    		jQuery('#adress_validation').text('');
+				    		jQuery.each( data['results'][0]['address_components'], function( key, value ) {
+					    		if(value['types'][0]=='country'){
+					    			//console.log(value['long_name']);
+					    			//jQuery('#country').val(value['long_name']);
+					    			if(value['long_name']==jQuery('#country').val()){
+					    				jQuery('#adress_validation').text('');
+					    			}
+					    			else{
+					    				jQuery('#adress_validation').text('* Invalid address');
+					    			}
+					    		}
+						  	
+							});
+				    		
 				    	}
 				    	
 				});
