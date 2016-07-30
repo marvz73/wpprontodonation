@@ -28,7 +28,7 @@
 
 
 //========================= Google Maps Autocomplete =======================//
-var placeSearch, autocomplete, component;
+var placeSearch, autocomplete, component,val,place,addressType,hasRoute;
 var componentForm = {
 	street_number: 'short_name',
 	route: 'long_name',
@@ -51,35 +51,53 @@ function initAutocomplete() {
 }
 
 function fillInAddress() {
-// Get the place details from the autocomplete object.
-var place = autocomplete.getPlace();
+	// Get the place details from the autocomplete object.
+	place = autocomplete.getPlace();
 
-// Get each component of the address from the place details
-// and fill the corresponding field on the form.
-for (var i = 0; i < place.address_components.length; i++) {
-	  var addressType = place.address_components[i].types[0];
-	  if (componentForm[addressType]) {
-	    var val = place.address_components[i][componentForm[addressType]];
-	    document.getElementById(addressType).value = val;
-	  }
+
+	// Get each component of the address from the place details
+	// and fill the corresponding field on the form.
+	for (var i = 0; i < place.address_components.length; i++) {
+	    addressType = place.address_components[i].types[0];
+		if (componentForm[addressType]) {
+			val = place.address_components[i][componentForm[addressType]];
+			document.getElementById(addressType).value = val;
+			if(addressType=='route'){
+				document.getElementById('autocomplete').value = val;
+			}
+		}
 	}
+	for (var i = 0; i < place.address_components.length; i++) {
+	    addressType = place.address_components[i].types[0];
+	    hasRoute = false;
+	    if(addressType=='route'){
+	    	hasRoute = true;
+	    	break;
+	    }
+	    
+	}
+	if(hasRoute==false){
+		document.getElementById('autocomplete').value='';
+	}
+	
+
 }
 
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
 function geolocate() {
 	if (navigator.geolocation) {
-	  navigator.geolocation.getCurrentPosition(function(position) {
-	    var geolocation = {
-	      lat: position.coords.latitude,
-	      lng: position.coords.longitude
-	    };
-	    var circle = new google.maps.Circle({
-	      center: geolocation,
-	      radius: position.coords.accuracy
-	    });
-	    autocomplete.setBounds(circle.getBounds());
-	  });
+		navigator.geolocation.getCurrentPosition(function(position) {
+		    var geolocation = {
+		    	lat: position.coords.latitude,
+		    	lng: position.coords.longitude
+		    };
+		    var circle = new google.maps.Circle({
+		    	center: geolocation,
+		    	radius: position.coords.accuracy
+		    });
+		    autocomplete.setBounds(circle.getBounds());
+		});
 	}
 }
 //========================= Google Maps Autocomplete =======================//
@@ -90,14 +108,19 @@ jQuery(function(){
 	initAutocomplete();
 	jQuery('#autocomplete').on('focusout', function(){
 		if(jQuery.trim(jQuery('#autocomplete').val()) ==''){
+			jQuery('#street_number').val('');
+			jQuery('#route').val('');
 			jQuery('#country').val('');
 			jQuery('#administrative_area_level_1').val('');
 			jQuery('#postal_code').val('');
 			jQuery('#locality').val('');
 		}
-	});	
 
-	// populateCountries("country", "state");
+	});	
+	jQuery('#autocomplete').on('click', function(){
+		jQuery('#route').val('');
+	});		
+
 
 	jQuery('.pd-level-amount').on('change', function(){
 		if(jQuery(this).val() == '0')

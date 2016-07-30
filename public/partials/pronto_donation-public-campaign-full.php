@@ -177,7 +177,7 @@
 		<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
 			<div class="pronto-donation-group">
 				<label>Address</label>
-				<input type="text" id="autocomplete" name="address" placeholder=""
+				<input type="text" id="<?php if($enable_address_validation==1){ echo 'autocomplete';}else{}?>" name="address" placeholder=""
 	             onFocus="geolocate()" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
 				<span id="adress_validation"></span>
 			</div>
@@ -185,13 +185,15 @@
 		
 
 		<!-- Addittional Autocomplete Values on Field ( Hidden )-->
-		<table id="address" hidden="">
+		<table id="address">
 	      <tr>
 	        <td class="label">Street address</td>
-	        <td class="slimField"><input class="field" id="street_number"
-	              disabled="true"></input></td>
-	        <td class="wideField" colspan="2"><input class="field" id="route"
-	              disabled="true"></input></td>
+	        <td class="slimField">
+	        	<input class="field" type="text"  id="street_number"></input>
+	        </td>
+	        <td class="wideField" colspan="2">
+	        	<input class="field" type="text" id="route"></input>
+	        </td>
 	      </tr>
 	    </table>
 	    <!-- Addittional Autocomplete Values on Field ( Hidden )-->
