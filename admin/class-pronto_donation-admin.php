@@ -745,7 +745,7 @@ class Pronto_donation_Admin {
  				*/
 				window.send_to_editor = function(html) {
 					var array = html.split('"');
-					imgurl = $(array[1]).attr('src');
+					imgurl = array[1];
 					$('#banner_image').val(imgurl);
 					$('#banner_image_img').attr("src", imgurl);
 					tb_remove();
