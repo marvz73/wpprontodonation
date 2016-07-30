@@ -118,7 +118,7 @@ class Pronto_donation_Public {
 
 		$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
 		if(empty($google_geocode_api_key)||$google_geocode_api_key==''){}else{
-			wp_enqueue_script( 'googlemaps', 'https://maps.googleapis.com/maps/api/js?key='.$google_geocode_api_key.'&libraries=places&callback=initAutocomplete', array(), $this->version, false );
+			wp_enqueue_script( 'googlemaps', 'https://maps.googleapis.com/maps/api/js?key='.$google_geocode_api_key.'&language=en&libraries=places&callback=initAutocomplete', array(), $this->version, false );
 		}
 		//========================= Google Maps Autocomplete =======================//
 	}
