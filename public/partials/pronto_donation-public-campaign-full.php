@@ -166,6 +166,19 @@
 			<span id="adress_validation"></span>
 		</p>
 		<?php endif; ?>
+		
+
+		<!-- Addittional Autocomplete Values on Field ( Hidden )-->
+		<table id="address" hidden="">
+	      <tr>
+	        <td class="label">Street address</td>
+	        <td class="slimField"><input class="field" id="street_number"
+	              disabled="true"></input></td>
+	        <td class="wideField" colspan="2"><input class="field" id="route"
+	              disabled="true"></input></td>
+	      </tr>
+	    </table>
+	    <!-- Addittional Autocomplete Values on Field ( Hidden )-->
 
 
 
@@ -256,13 +269,5 @@
 
 
 
-    <table id="address">
-      <tr>
-        <td class="label">Street address</td>
-        <td class="slimField"><input class="field" id="street_number"
-              disabled="true"></input></td>
-        <td class="wideField" colspan="2"><input class="field" id="route"
-              disabled="true"></input></td>
-      </tr>
-    </table>
+
 </form>
