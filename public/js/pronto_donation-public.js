@@ -62,7 +62,7 @@ function fillInAddress() {
 		if (componentForm[addressType]) {
 			val = place.address_components[i][componentForm[addressType]];
 			document.getElementById(addressType).value = val;
-			console.log(addressType+'-'+val);
+			//console.log(addressType+'-'+val);
 			if(addressType=='route'){
 				document.getElementById('autocomplete').value = val;
 			}
@@ -116,6 +116,23 @@ jQuery(function(){
 			jQuery('#postal_code').val('');
 			jQuery('#locality').val('');
 		}
+		else{
+			if(jQuery('#enable_address_validation').val()=='1'){
+				var address_value = jQuery('#autocomplete').val();
+				var google_geocode_api_key = jQuery('#google_geocode_api_key').val();
+				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
+				    	//console.log(data['results']);
+				    	//console.log(data['status']);
+				    	if(data['status']=='ZERO_RESULTS'){
+				    		console.log("asdaw");
+				    		jQuery('#adress_validation').text('* Invalid address');
+				    	}else{
+				    		jQuery('#adress_validation').text('');
+				    	}
+				    	
+				});
+			}	
+		}
 
 	});	
 	jQuery('#autocomplete').on('click', function(){
@@ -143,7 +160,5 @@ jQuery(function(){
 			companyName.show();
 		}
 	});
-
-
 
 });
