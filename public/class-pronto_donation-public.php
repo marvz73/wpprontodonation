@@ -151,7 +151,7 @@ class Pronto_donation_Public {
 		        if($response['success'] == false){
 		      		$this->errors->captcha = "You're a robot.";
 		        }
-		        
+
 		        $this->_pronto_donation_campaign($campaign_id, 'full');
 			}
 	    	else if($campaign_data['action'] == 'process_donate' && wp_verify_nonce( $campaign_data['nonce'], 'donation'))
@@ -307,8 +307,10 @@ class Pronto_donation_Public {
 	
 			//Campaign fields
 		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
-
+		    $pronto_donation_campaign['currency'] = $this->class->pronto_donation_currency();
 		    $pronto_donation_campaign['post'] = get_post($attrs['campaign'], true);
+
+
 
 			require_once('partials/pronto_donation-public-campaign.php');
 		}

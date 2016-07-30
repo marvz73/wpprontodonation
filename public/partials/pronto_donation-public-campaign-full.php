@@ -10,14 +10,15 @@
 </div>
 <?php endif; ?>
 
-<div id="campaign_banner">
+<div id="pronto-donation-banner">
 	<img src="<?php echo $pronto_donation_campaign['banner_image'] ?>">
 </div>
 
 <p><?php echo $pronto_donation_campaign['post']['post_content'] ?></p>
 
 <!-- <form method="post" action="<?php echo home_url( '/wp-admin/admin-post.php' ) ?>"> -->
-<form method="post" class="<?php echo $this->campaignOption->FormClass ?>" >
+<form method="post" class="pronto-donation-form <?php echo $this->campaignOption->FormClass ?>" >
+
 
 
 <!-- //===================== Address Validation ======================================//  -->
@@ -31,69 +32,85 @@
 	<input id="google_geocode_api_key" value="<?php echo $google_geocode_api_key;?>" hidden/>
 <!-- //===================== Address Validation ======================================//  -->	
 
-
-
 	<!-- Donor Information -->
 	
 	<h3>Donation Information</h3>
 	<hr>
-		<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
-			<p>
-				<label>Donation Amount </label>
 
-				<?php
-					$this->class->pronto_donation_payment_amount_level($attrs['campaign']);
-				?>
-				<?php if(!$pronto_donation_campaign['hide_custom_amount']): ?>
-				<label for="other_amount"><input id="other_amount" class="pd_amount" type="radio" name="pd_amount" value="0" />Other</label>
-				<?php endif; ?>
-			</p>
+
+		<?php if($pronto_donation_campaign['show_gift_field']): ?>
+			<div class="pronto-donation-group pronto-donation-gift clearfix">
+				<input id="mushrooms" type="checkbox" name="donation_gift">
+				<label for="mushrooms">Is this a Gift</label>
+			</div>
 		<?php endif; ?>
 
-		<?php 
+		<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
+			<div class="clearfix pronto-donation-group pronto-donation-amount-level">
+				<label>Donation Amount </label>
 
-		if(!$pronto_donation_campaign['hide_custom_amount']): ?>
-		<p>
+				<div class="clearfix">
+					<?php
+						$this->class->pronto_donation_payment_amount_level($attrs['campaign']);
+					?>
+					<?php if(!$pronto_donation_campaign['hide_custom_amount']): ?>
+					<input id="other_amount" class="pd-level-amount" type="radio" name="pd_amount" value="0" />
+					<label class="pd-amount" for="other_amount">Other</label>
+					<?php endif; ?>
+				</div>
+			</div>
+		<?php endif; ?>
+
+		<?php if(!$pronto_donation_campaign['hide_custom_amount']): ?>
+		<div class="clearfix pronto-donation-group">
 			<label>Donation Custom Amount </label>
 			<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
-				<span id="currency" class="<?php echo $this->campaignOption->InputFieldClass ?>">
+				<div id="currency" class="<?php echo $this->campaignOption->InputFieldClass ?>">
 					<span><?php echo $this->class->pronto_donation_currency(); ?></span>
 					<input  disabled="" type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="00" />
-				</span>
+				</div>
 			<?php else: ?>
 				<span id="currency" class="<?php echo $this->campaignOption->InputFieldClass ?>">
 					<span><?php echo $this->class->pronto_donation_currency(); ?></span>
 					<input type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="00"  />
 				</span>
 			<?php endif; ?>
-		</p>
+		</div>
 		<?php endif; ?>
 		
-		<p>
+		<div class="pronto-donation-group">
 			<label>Donation Type</label>
-			<?php if($pronto_donation_campaign['donation_type'] == 'both'): ?>	
-					<label>
-						<input type="radio" name="donation_type" value="single" checked="true" /> Single
-					</label>
-					<label>
-						<input type="radio" name="donation_type" value="recurring" /> Recurring
-					</label>
-			<?php elseif($pronto_donation_campaign['donation_type'] == 'single'): ?>
-				<label>
-					<input type="radio" name="donation_type" value="single" /> Single
-				</label>
-			<?php elseif($pronto_donation_campaign['donation_type'] == 'recurring'): ?>	
-				<label>
-					<input type="radio" name="donation_type" value="recurring" /> Recurring
-				</label>
-			<?php endif; ?>
-		</p>
+			<div class="pronto-donation-type clearfix">
+				<?php if($pronto_donation_campaign['donation_type'] == 'both'): ?>	
+					<div class="pd-container-padding">
+						<div class="pd-col s6">
+							<input id="pronto-donation-type-single" type="radio" name="donation_type" value="single" checked="true" />
+							<label for="pronto-donation-type-single" >Single</label>
+						</div>
+						<div class="pd-col s6">
+							<input  id="pronto-donation-type-recurring" type="radio" name="donation_type" value="recurring" />
+							<label for="pronto-donation-type-recurring" >Recurring</label>
+						</div>
+					</div>
 
-		<?php if($pronto_donation_campaign['show_gift_field']): ?>
-			<p>
-				Is this a Gift <input type="checkbox" name="donation_gift" /> 
-			</p>
-		<?php endif; ?>
+				<?php elseif($pronto_donation_campaign['donation_type'] == 'single'): ?>
+				<div class="pd-container-padding">
+					<div class="pd-col s6">
+					<input  id="pronto-donation-type-single" type="radio" name="donation_type" value="single" checked="true"/> 
+					<label for="pronto-donation-type-single" >Single</label>
+					</div>
+				</div>
+				<?php elseif($pronto_donation_campaign['donation_type'] == 'recurring'): ?>	
+				<div class="pd-container-padding">
+					<div class="pd-col s6">&nbsp;</div>
+					<div class="pd-col s6">
+					<input  id="pronto-donation-type-recurring" type="radio" name="donation_type" value="recurring" checked="true" /> 
+					<label for="pronto-donation-type-recurring" >Recurring</label>
+					</div>
+				</div>
+				<?php endif; ?>
+			</div>
+		</div>
 
 
 
@@ -101,70 +118,69 @@
 	<h3>Donor Information</h3>
 	<hr>
 		<?php if($pronto_donation_user_info['user_donor_type_option'] != 'hide'): ?>
-			<p>
+			<div class="pronto-donation-group">
 				<label>Donor Type</label>
 				<select id="donorType" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="donor_type" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_donor_type_option']) ?> >
 					<option value="I">Individual</option>
 					<option value="B">Business</option>
 				</select>
-			</p>
+			</div>
 
-			<p id="companyName" style="display: none;">
+			<div class="pronto-donation-group" id="companyName" style="display: none;">
 				<label>Company Name</label> 
 				<input class="<?php echo $this->campaignOption->InputFieldClass ?>" name="companyName" type="text" />	
-			</p>
+			</div>
 
 		<?php endif; ?>
 
 
 
 		<?php if($pronto_donation_user_info['user_email_option'] != 'hide'): ?>
-		<p>
+		<div class="pronto-donation-group">
 			<label>Email</label>
 			<input name="email" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'email') ?>" type="email" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_email_option']) ?>/>
-		</p>
+		</div>
 		<?php endif; ?>
 
 
 
 
 		<?php if($pronto_donation_user_info['user_firstname_option'] != 'hide'): ?>
-		<p>
+		<div class="pronto-donation-group">
 			<label>First Name</label>
 			<input name="first_name" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'first_name') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_firstname_option']) ?>/>
-		</p>
+		</div>
 		<?php endif; ?>
 
 
 
 
 		<?php if($pronto_donation_user_info['user_lastname_option'] != 'hide'): ?>
-		<p>
+		<div class="pronto-donation-group">
 			<label>Last Name</label>
 			<input name="last_name" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'last_name') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_lastname_option']) ?>/>
-		</p>
+		</div>
 		<?php endif; ?>
 
 
 
 
 		<?php if($pronto_donation_user_info['user_phone_option'] != 'hide'): ?>
-		<p>
+		<div class="pronto-donation-group">
 			<label>Phone</label>
 			<input name="phone" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'phone') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_phone_option']) ?>/>
-		</p>
+		</div>
 		<?php endif; ?>
 
 
 
-
 		<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
-		<p id="locationField">
-			<label>Address</label>
-			<input id="autocomplete" name="address"  placeholder="Enter your address"
-             onFocus="geolocate()" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
-			<span id="adress_validation"></span>
-		</p>
+			<div class="pronto-donation-group">
+				<label>Address</label>
+				<input type="text" id="autocomplete" name="address" placeholder=""
+	             onFocus="geolocate()" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
+				<span id="adress_validation"></span>
+			</div>
 		<?php endif; ?>
 		
 
@@ -181,46 +197,43 @@
 	    <!-- Addittional Autocomplete Values on Field ( Hidden )-->
 
 
-
-
 		<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
-		<p>
+		<div class="pronto-donation-group">
 			<label>Country</label>
-			<input id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>/>
+			<input type="text" id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>/>
 			<span id="country_validation"></span>
-		</p>
+		</div>
 		<?php endif; ?>
 
 
 
-
 		<?php if($pronto_donation_user_info['user_state_option'] != 'hide'): ?>
-		<p>
+		<div class="pronto-donation-group">
 			<label>State</label>
-			<input id="administrative_area_level_1" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>/>
+			<input type="text" id="administrative_area_level_1" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>/>
 			<span id="state_validation"></span>
-		</p>
+		</div>
 		<?php endif; ?>
 
 
 
 
 		<?php if($pronto_donation_user_info['user_postcode_option'] != 'hide'): ?>
-		<p>
-			<label>Post Code</label>
-			<input id="postal_code" name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
-		</p>
+			<div class="pronto-donation-group">
+				<label>Post Code</label>
+				<input name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
+			</div>
 		<?php endif; ?>
 
 
 
 
 		<?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
-		<p>
+		<div class="pronto-donation-group">
 			<label>Suburb</label>
 			<input id="locality" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
 			<span id="suburb_validation"></span>
-		</p>
+		</div>
 		<?php endif; ?>
 
 
@@ -229,21 +242,21 @@
 
 		<h3>Payment</h3>
 		<hr>
+		<div class="payments clearfix">
 			<?php
 				if(!empty($payment_methods)):
 				foreach($payment_methods as $index=>$payment):
 			?>
-						<div>
-							<label>
-								<input <?php echo ($index==0) ? 'checked="true"' : '' ?> type="radio" name="payment" value="<?php echo $payment->get_payment_name() ?>" />
-								
-								<?php if($payment->option['logo']): ?>
-									<img src="<?php echo $payment->get_payment_logo() ?>" width="20%" alt="<?php echo $payment->get_payment_name() ?>" />
-								<?php else: 
-										echo $payment->get_payment_name();
-								      endif; ?>
-							</label>
-						</div>
+				<input class="payment-input" id="payment<?php echo $index ?>" <?php echo ($index==0) ? 'checked="true"' : '' ?> type="radio" name="payment" value="<?php echo $payment->get_payment_name() ?>" />
+				<label class="payment-method" for="payment<?php echo $index ?>">
+					
+					<?php if($payment->option['logo']): ?>
+						<img src="<?php echo $payment->get_payment_logo() ?>" width="100%" alt="<?php echo $payment->get_payment_name() ?>" />
+					<?php else: 
+							echo $payment->get_payment_name();
+					      endif; ?>
+				</label>
+						
 			<?php
 				endforeach;
 				else:
@@ -251,7 +264,7 @@
 				endif;
 			?>
 
-
+		</div>
 	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
 	<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 	<input type="hidden" name="action" value="process_donate"/>
