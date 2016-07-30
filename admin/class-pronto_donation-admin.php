@@ -881,50 +881,53 @@ class Pronto_donation_Admin {
 
 		$campaigns = get_post_meta( $post_id );
 
-		$campaign_info = unserialize( $campaigns['pronto_donation_campaign'][0] );
-		$user_information = unserialize( $campaigns['pronto_donation_user_info'][0] );
+		if( array_key_exists( 'pronto_donation_campaign', $campaigns ) && array_key_exists( 'pronto_donation_user_info', $campaigns ) ) {
 
-		$pronto_donation_settings = get_option('pronto_donation_settings', '');
- 
-        $currency_val = $pronto_donation_settings['SetCurrencySymbol'];
+			$campaign_info = unserialize( $campaigns['pronto_donation_campaign'][0] );
+			$user_information = unserialize( $campaigns['pronto_donation_user_info'][0] );
 
-		switch( $column ) {
-			
-			case 'banner_image' :
- 				$data_banner = $campaign_info['banner_image'];
- 				echo '<img id="banner_image_img" src="'. $data_banner .'" width="50" height="50" alt="">';
-			break;
-			
-			case 'title' :
+			$pronto_donation_settings = get_option('pronto_donation_settings', '');
+	 
+	        $currency_val = $pronto_donation_settings['SetCurrencySymbol'];
 
-			break;
-			
-			case 'campaign_shortcode' :
- 				$data_shortcode = $campaign_info['campaign_shortcode'];
- 				echo $data_shortcode;
-			break;
-			
-			case 'donation_type' :
- 				$data_donation_type = $campaign_info['donation_type'];
- 				if($data_donation_type == 'recurring') {
- 					echo 'Recurring';
- 				} elseif($data_donation_type == 'single') {
- 					echo 'Single';
- 				} elseif($data_donation_type == 'both') {
- 					echo 'Both';
- 				}
-			break;
+			switch( $column ) {
+				
+				case 'banner_image' :
+	 				$data_banner = $campaign_info['banner_image'];
+	 				echo '<img id="banner_image_img" src="'. $data_banner .'" width="50" height="50" alt="">';
+				break;
+				
+				case 'title' :
 
-			case 'donation_target' :
- 				$data_donation_target = $campaign_info['donation_target'];
- 				echo $currency_val .''. number_format( (int) $data_donation_target, 2, '.', ',');
-			break;
+				break;
+				
+				case 'campaign_shortcode' :
+	 				$data_shortcode = $campaign_info['campaign_shortcode'];
+	 				echo $data_shortcode;
+				break;
+				
+				case 'donation_type' :
+	 				$data_donation_type = $campaign_info['donation_type'];
+	 				if($data_donation_type == 'recurring') {
+	 					echo 'Recurring';
+	 				} elseif($data_donation_type == 'single') {
+	 					echo 'Single';
+	 				} elseif($data_donation_type == 'both') {
+	 					echo 'Both';
+	 				}
+				break;
 
-			case 'date_updated' :
-				$date_date_created = $campaign_info['date_updated'];
- 				echo $date_date_created;
-			break;
- 
+				case 'donation_target' :
+	 				$data_donation_target = $campaign_info['donation_target'];
+	 				echo $currency_val .''. number_format( (int) $data_donation_target, 2, '.', ',');
+				break;
+
+				case 'date_updated' :
+					$date_date_created = $campaign_info['date_updated'];
+	 				echo $date_date_created;
+				break;
+	 
+			}
 		}
 
 	}
