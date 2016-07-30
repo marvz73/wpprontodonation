@@ -82,6 +82,7 @@
 			<label>Donation Type</label>
 			<div class="pronto-donation-type clearfix">
 				<?php if($pronto_donation_campaign['donation_type'] == 'both'): ?>	
+					
 					<div class="pd-container-padding">
 						<div class="pd-col s6">
 							<input id="pronto-donation-type-single" type="radio" name="donation_type" value="single" checked="true" />
@@ -185,8 +186,10 @@
 		
 
 		<!-- Addittional Autocomplete Values on Field ( Hidden )-->
-		<table id="address">
-	      <tr>
+
+		<table id="address" hidden>
+	      <tr>	
+
 	        <td class="label">Street address</td>
 	        <td class="slimField">
 	        	<input class="field" type="text"  id="street_number"></input>
