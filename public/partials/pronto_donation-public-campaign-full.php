@@ -180,7 +180,7 @@
 				<label>Address</label>
 				<input type="text" id="<?php if($enable_address_validation==1){ echo 'autocomplete';}else{}?>" name="address" placeholder=""
 	             onFocus="geolocate()" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
-				<span id="adress_validation"></span>
+				<span id="adress_validation" class="invalid-address">* Invalid address</span>
 			</div>
 		<?php endif; ?>
 		
