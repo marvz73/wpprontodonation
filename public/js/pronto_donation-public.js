@@ -105,7 +105,10 @@ function geolocate() {
 
 
 jQuery(function(){
-
+	// jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+'yoWQEQrk str43FDSeetxxxxxxxxxx'+'&key='+jQuery('#google_geocode_api_key').val(), function (data) {
+	// 	console.log(data['results']);
+	// 	console.log(data['status']);	    	
+	// });
 	initAutocomplete();
 	jQuery('#autocomplete').on('focusout', function(){
 		if(jQuery.trim(jQuery('#autocomplete').val()) ==''){
@@ -120,29 +123,46 @@ jQuery(function(){
 			if(jQuery('#enable_address_validation').val()=='1'){
 				var address_value = jQuery('#autocomplete').val();
 				var google_geocode_api_key = jQuery('#google_geocode_api_key').val();
-				jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
+				var specify_country ='';
+
+				if(jQuery('#country').val()==''||jQuery('#country').val().length === 0){
+					jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+'&key='+google_geocode_api_key, function (data) {
+    	
 				    	//console.log(data['results']);
 				    	//console.log(data['status']);
 				    	if(data['status']=='ZERO_RESULTS'){
 				    		jQuery('#adress_validation').text('* Invalid address');
 				    	}else{
-				    		jQuery.each( data['results'][0]['address_components'], function( key, value ) {
-					    		if(value['types'][0]=='country'){
-					    			//console.log(value['long_name']);
-					    			//jQuery('#country').val(value['long_name']);
-					    			if(value['long_name']==jQuery('#country').val()){
-					    				jQuery('#adress_validation').text('');
-					    			}
-					    			else{
-					    				jQuery('#adress_validation').text('* Invalid address');
-					    			}
-					    		}
-						  	
-							});
-				    		
+					    	jQuery('#adress_validation').text('');
+		
 				    	}
-				    	
-				});
+					    	
+					});
+				}
+				else{
+					jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+jQuery('#country').val()+'&key='+google_geocode_api_key, function (data) {
+						jQuery.each( data['results'][0]['address_components'], function( key, value ) {
+							if(value['types'][0]=='country'){
+								var specify_country = '&components=country:'+value['short_name'];
+
+							}
+						});
+					});
+					jQuery.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+address_value+specify_country+'&key='+google_geocode_api_key, function (data) {
+    	
+				    	//console.log(data['results']);
+				    	//console.log(data['status']);
+				    	if(data['status']=='ZERO_RESULTS'){
+				    		jQuery('#adress_validation').text('* Invalid address');
+				    	}else{
+					    	jQuery('#adress_validation').text('');
+		
+				    	}
+					    	
+					});
+					
+				}
+				
 			}	
 		}
 
