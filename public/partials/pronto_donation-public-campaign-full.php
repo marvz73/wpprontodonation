@@ -27,7 +27,7 @@
 	$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
 	?>
 
-	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>"/>
+	<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
 	<input id="google_geocode_api_key" value="<?php echo $google_geocode_api_key;?>" hidden/>
 <!-- //===================== Address Validation ======================================//  -->	
 
