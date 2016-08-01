@@ -334,7 +334,7 @@ class Pronto_donation_Public {
 			//Donor user fields
 		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
 
-		    require_once('partials/pronto_donation-public-campaign-full.php');
+		    require_once('partials/pronto_donation-public-campaign-style2-full.php');
 		}
 	}
 
