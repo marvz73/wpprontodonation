@@ -499,12 +499,12 @@ if ( isset($_GET['page']) ) {
 
 			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];
 
-			$info_on_offline_payment_panel_page = (empty($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;
-			$info_on_offline_payment_panel_enable_offline_payment = (empty($_POST['enable_offline_payment'])) ? "" : $_POST['enable_offline_payment'];
-			$info_on_offline_payment_panel = (empty($_POST['info_on_offline_payment_panel'])) ? "" : $_POST['info_on_offline_payment_panel'];
+			// $info_on_offline_payment_panel_page = (empty($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;
+			// $info_on_offline_payment_panel_enable_offline_payment = (empty($_POST['enable_offline_payment'])) ? "" : $_POST['enable_offline_payment'];
+			// $info_on_offline_payment_panel = (empty($_POST['info_on_offline_payment_panel'])) ? "" : $_POST['info_on_offline_payment_panel'];
 
-			$instructions_emailed_to_offline_donor_before_payment_page = (empty($instructions_emailed_to_offline_donor_before_payment_post_id)) ? "" : $instructions_emailed_to_offline_donor_before_payment_post_id;
-			$instructions_emailed_to_offline_donor_before_payment = (empty($_POST['instructions_emailed_to_offline_donor_before_payment'])) ? "" : $_POST['instructions_emailed_to_offline_donor_before_payment'];				
+			// $instructions_emailed_to_offline_donor_before_payment_page = (empty($instructions_emailed_to_offline_donor_before_payment_post_id)) ? "" : $instructions_emailed_to_offline_donor_before_payment_post_id;
+			// $instructions_emailed_to_offline_donor_before_payment = (empty($_POST['instructions_emailed_to_offline_donor_before_payment'])) ? "" : $_POST['instructions_emailed_to_offline_donor_before_payment'];				
 
 
 			$pronto_donation_settings = array(
@@ -541,14 +541,14 @@ if ( isset($_GET['page']) ) {
 				'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
 				'CancelPageMessage' => stripslashes($cancel_page_message),
 
-				'ThankYouMailMessage' => stripslashes($thank_you_email_message),
+				'ThankYouMailMessage' => stripslashes($thank_you_email_message)
 
-				'InfoOnOfflinePaymentPanelPage' => stripslashes($info_on_offline_payment_panel_page),
-				'InfoOnOfflinePaymentPanelEnableOfflinePayment' => stripslashes($info_on_offline_payment_panel_enable_offline_payment),
-				'InfoOnOfflinePaymentPanel' => stripslashes($info_on_offline_payment_panel),
+				// 'InfoOnOfflinePaymentPanelPage' => stripslashes($info_on_offline_payment_panel_page),
+				// 'InfoOnOfflinePaymentPanelEnableOfflinePayment' => stripslashes($info_on_offline_payment_panel_enable_offline_payment),
+				// 'InfoOnOfflinePaymentPanel' => stripslashes($info_on_offline_payment_panel),
 
-				'InstructionsEmailedToOfflineDonorBeforePaymentPage' => stripslashes($instructions_emailed_to_offline_donor_before_payment_page),
-				'InstructionsEmailedToOfflineDonorBeforePayment' => stripslashes($instructions_emailed_to_offline_donor_before_payment)
+				// 'InstructionsEmailedToOfflineDonorBeforePaymentPage' => stripslashes($instructions_emailed_to_offline_donor_before_payment_page),
+				// 'InstructionsEmailedToOfflineDonorBeforePayment' => stripslashes($instructions_emailed_to_offline_donor_before_payment)
 
 			); 
 			update_option('pronto_donation_settings' , $pronto_donation_settings); //On form submit all value is stored on an array and then stored in option named 'pronto_donation_settings'
@@ -568,30 +568,30 @@ if ( isset($_GET['page']) ) {
 			}
 
 
-			if($info_on_offline_payment_panel_page==""||empty($info_on_offline_payment_panel_page)){}
-			else{
+			// if($info_on_offline_payment_panel_page==""||empty($info_on_offline_payment_panel_page)){}
+			// else{
 
-				// Update content of page selected on 'instructions emailed to offline donor before payment'
-				$my_post = array(
-				  'ID'           => $info_on_offline_payment_panel_page,
-				  'post_content' => stripslashes($info_on_offline_payment_panel)
-				);
-				// Update the post into the database
-				wp_update_post( $my_post );
-			}
+			// 	// Update content of page selected on 'instructions emailed to offline donor before payment'
+			// 	$my_post = array(
+			// 	  'ID'           => $info_on_offline_payment_panel_page,
+			// 	  'post_content' => stripslashes($info_on_offline_payment_panel)
+			// 	);
+			// 	// Update the post into the database
+			// 	wp_update_post( $my_post );
+			// }
 
 
-			if($instructions_emailed_to_offline_donor_before_payment_page==""||empty($instructions_emailed_to_offline_donor_before_payment_page)){}
-			else{
+			// if($instructions_emailed_to_offline_donor_before_payment_page==""||empty($instructions_emailed_to_offline_donor_before_payment_page)){}
+			// else{
 
-				// Update content of page selected on 'instructions emailed to offline donor before payment'
-				$my_post = array(
-				  'ID'           => $instructions_emailed_to_offline_donor_before_payment_page,
-				  'post_content' => stripslashes($instructions_emailed_to_offline_donor_before_payment)
-				);
-				// Update the post into the database
-				wp_update_post( $my_post );
-			}
+			// 	// Update content of page selected on 'instructions emailed to offline donor before payment'
+			// 	$my_post = array(
+			// 	  'ID'           => $instructions_emailed_to_offline_donor_before_payment_page,
+			// 	  'post_content' => stripslashes($instructions_emailed_to_offline_donor_before_payment)
+			// 	);
+			// 	// Update the post into the database
+			// 	wp_update_post( $my_post );
+			// }
 
 
 
@@ -634,12 +634,12 @@ if ( isset($_GET['page']) ) {
 
 		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
 
-		$info_on_offline_payment_panel_page = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelPage'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelPage'];
-		$info_on_offline_payment_panel_enable_offline_payment = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'];
-		$info_on_offline_payment_panel = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];
+		// $info_on_offline_payment_panel_page = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelPage'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelPage'];
+		// $info_on_offline_payment_panel_enable_offline_payment = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'];
+		// $info_on_offline_payment_panel = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];
 
-		$instructions_emailed_to_offline_donor_before_payment_page = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'];	
-		$instructions_emailed_to_offline_donor_before_payment = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'];
+		// $instructions_emailed_to_offline_donor_before_payment_page = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePaymentPage'];	
+		// $instructions_emailed_to_offline_donor_before_payment = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'];
 
 
 		?>
@@ -947,26 +947,27 @@ if ( isset($_GET['page']) ) {
 				</tbody>
 			</table>
 		</div>
+		<!--
 		<br/>
 		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">
 			<h2 class="title">Info on Offline Payment Panel</h2>
 			<label for="enable_offline_payment">
-				<input name="enable_offline_payment" type="checkbox" id="enable_offline_payment" value="1" <?php if($info_on_offline_payment_panel_enable_offline_payment==1){echo'checked';}?>>
+				<input name="enable_offline_payment" type="checkbox" id="enable_offline_payment" value="1" <?php //if($info_on_offline_payment_panel_enable_offline_payment==1){echo'checked';}?>>
 			Enable Offline Payment
-			</label>		
+		<!--	</label>		
 			<table class="form-table">
 				<tbody>
 					<tr>
 						<th scope="row">
 							<p><span class="description">Note: Use this shorcode</span> [pronto-donation-IOOPPP] <span class="description">for front end use.</p></p>
 						    <?php
-								$content = $info_on_offline_payment_panel;
-								$editor_id = 'info_on_offline_payment_panel';
+								// $content = $info_on_offline_payment_panel;
+								// $editor_id = 'info_on_offline_payment_panel';
 
-								wp_editor( $content, $editor_id );
+								// wp_editor( $content, $editor_id );
 							?>
-						</th>
+		<!--				</th>
 					</tr>
 				</tbody>
 			</table>
@@ -978,16 +979,17 @@ if ( isset($_GET['page']) ) {
 						<th scope="row">
 							<p><span class="description">Note: Use this shorcode</span> [pronto-donation-IETODBP] <span class="description">for front end use.</p></p>
 							<?php
-								$content = $instructions_emailed_to_offline_donor_before_payment;
-								$editor_id = 'instructions_emailed_to_offline_donor_before_payment';
+								// $content = $instructions_emailed_to_offline_donor_before_payment;
+								// $editor_id = 'instructions_emailed_to_offline_donor_before_payment';
 
-								wp_editor( $content, $editor_id );
+								// wp_editor( $content, $editor_id );
 							?>
-						</th>
+		<!--				</th>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		-->
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
 
