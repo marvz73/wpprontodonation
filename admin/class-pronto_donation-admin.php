@@ -833,10 +833,7 @@ class Pronto_donation_Admin {
 			$campaign_data['date_updated'] = $date;
 			update_post_meta( $post_id, 'pronto_donation_campaign', $campaign_data );
 
-			if(isset($_POST['campagin_description']) && !empty($_POST['campagin_description'])) {
-				$result = $wpdb->query("UPDATE {$wpdb->prefix}posts SET post_content='".sanitize_text_field( $_POST['campagin_description'] )."' WHERE ID=".$post_id."");
-				print_r($result);
-			}
+			$result = $wpdb->query("UPDATE {$wpdb->prefix}posts SET post_content='".sanitize_text_field( $_POST['campagin_description'] )."' WHERE ID=".$post_id."");
 
 			$user_information = array();
 			$user_information['user_donor_type_option'] = sanitize_text_field( $_POST['user_donor_type_option'] );
