@@ -103,7 +103,7 @@ class eway{
 	}
 
 	// Payment process complete
-	public function payment_complete($response){
+	public function payment_complete($response, $class){
 		global $wpdb;
 
 		if(empty($response)){
@@ -123,6 +123,8 @@ class eway{
 		$transactionsResponse = $response->Transactions[0];
 		$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
 		$campaign = maybe_unserialize($donor[0]->meta_value);
+
+
 		if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign))
 		{
 			$payment_response = array(
@@ -136,7 +138,9 @@ class eway{
 				'TransactionStatus'		=> $transactionsResponse->TransactionStatus,
 				'TokenCustomerID'		=> $transactionsResponse->TokenCustomerID
 			);
+
 			$campaign['payment_response'] = $payment_response;
+
 			//Approve status code
 			$ApproveTransaction = array('A2000', 'A2008', 'A2010', 'A2011', 'A2016');
 			if(in_array($transactionsResponse->ResponseMessage, $ApproveTransaction)){
@@ -144,8 +148,12 @@ class eway{
 			}else{
 				$campaign['statusCode'] = 0;
 			}
+
 			$campaign['statusText'] = esc_html($service->getMessage($transactionsResponse->ResponseMessage));
+			
 			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
+
+			$class->pronto_donation_user_notification($campaign);
 		}
 
 	}

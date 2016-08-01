@@ -381,4 +381,50 @@ class Pronto_donation {
 
 		return $result_arr;
 	}
+
+
+
+	function pronto_donation_user_notification($campaign) {
+		$site_name = get_bloginfo('name');
+		$option = get_option('pronto_donation_settings');
+
+	    //Build admin notification email
+	    $message  = sprintf(__('New donation on your site %s:'), $site_name) . "\r\n\r\n";
+	    $message .= sprintf(__('Email: %s'), $campaign['email']) . "\r\n";
+	    $message .= sprintf(__('First Name: %s'), $campaign['first_name']) . "\r\n";
+	    $message .= sprintf(__('Last Name: %s'), $campaign['last_name']) . "\r\n";
+	    $message .= sprintf(__('Address: %s'), $campaign['address']) . "\r\n";
+	    $message .= sprintf(__('Country: %s'), $campaign['country']) . "\r\n";
+	    $message .= sprintf(__('State: %s'), $campaign['state']) . "\r\n";
+	    $message .= sprintf(__('Post Code: %s'), $campaign['post_code']) . "\r\n";
+	    $message .= sprintf(__('Suburb: %s'), $campaign['suburb']) . "\r\n\r\n";
+
+	    $message .= sprintf(__('Payment Method: %s'), $campaign['payment']) . "\r\n";
+	    $message .= sprintf(__('Currency: %s'), $campaign['CurrencyCode']) . "\r\n";
+	    $message .= sprintf(__('Payment Response: %s'), $campaign['statusText']) . "\r\n";
+	    $message .= sprintf(__('Donation Amount: %s'), $campaign['pd_amount']) . "\r\n";
+
+	    //Send admin notification email
+	    @wp_mail($option['EmailToBeNotify'], sprintf(__('[%s] New Donation'), $site_name), $message);
+
+
+	    //BUILD USER NOTIFICATION EMAIL
+	    $message_template = $option['ThankYouMailMessage'];
+
+	    //replace placeholders with user-specific content
+	    $message = str_ireplace('[email]', $campaign['email'], $message_template);
+	    $message = str_ireplace('[first-name]', $campaign['first_name'], $message);
+	    $message = str_ireplace('[last-name]', $campaign['last_name'], $message);
+
+	    //Prepare headers for HTML
+	    $email_headers[]  = 'MIME-Version: 1.0' . "\r\n";
+	    $email_headers[] = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	    $email_headers[] = 'From: '.$option['EmailName'].' <'.$option['EmailAddress'].'>';
+
+	    //Send user notification email
+	    wp_mail($campaign['email'], sprintf(__('Thank for %s Donation'), get_the_title($campaign['donation_campaign'])), $message, $email_headers);
+	}
+
+
+
 }
