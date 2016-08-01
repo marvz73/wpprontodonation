@@ -200,7 +200,7 @@ class Pronto_donation_Activator {
 
 
 		$thank_you_page_message_post_id = '';
-		$thank_you_page_message_postTitle = 'pronto-donation-thank-you';
+		$thank_you_page_message_postTitle = 'Thank You';
 
 	    if (get_page_by_title($thank_you_page_message_postTitle) == NULL) {
 	    	$new_post = array(
@@ -218,7 +218,7 @@ class Pronto_donation_Activator {
 
 
 	   	$cancel_page_message_post_id = '';
-		$cancel_page_message_postTitle = 'pronto-donation-cancelled';
+		$cancel_page_message_postTitle = 'Cancelled';
 
 	    if (get_page_by_title($cancel_page_message_postTitle) == NULL) {
 	    	$new_post = array(
