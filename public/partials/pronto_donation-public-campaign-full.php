@@ -37,14 +37,6 @@
 	<h3>Donation Information</h3>
 	<hr>
 
-
-		<?php if($pronto_donation_campaign['show_gift_field']): ?>
-			<div class="pronto-donation-group pronto-donation-gift clearfix">
-				<input id="mushrooms" type="checkbox" name="donation_gift">
-				<label for="mushrooms">Is this a Gift</label>
-			</div>
-		<?php endif; ?>
-
 		<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
 			<div class="clearfix pronto-donation-group pronto-donation-amount-level">
 				<label>Donation Amount </label>
@@ -78,7 +70,7 @@
 		</div>
 		<?php endif; ?>
 		
-		<div class="pronto-donation-group">
+		<div class="pronto-donation-group clearfix">
 			<label>Donation Type</label>
 			<div class="pronto-donation-type clearfix">
 				<?php if($pronto_donation_campaign['donation_type'] == 'both'): ?>	
@@ -113,7 +105,15 @@
 			</div>
 		</div>
 
+		<?php if($pronto_donation_campaign['show_gift_field']): ?>
+			<div class="pronto-donation-group pronto-donation-gift clearfix">
+				<input  id="donation_gift" type="checkbox" name="donation_gift">
+				<label for="donation_gift">Is this a Gift</label>
+			</div>
 
+			<textarea id="gift_message" style="display:none" name="donation_gift_message" class="" rows="5" placeholder="Gift message..."></textarea>
+
+		<?php endif; ?>
 
 	<!-- Donor Information -->
 	<h3>Donor Information</h3>
@@ -179,7 +179,7 @@
 			<div class="pronto-donation-group">
 				<label>Address</label>
 				<input type="text" id="<?php if($enable_address_validation==1){ echo 'autocomplete';}else{}?>" name="address" placeholder=""
-	             onFocus="geolocate()" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
+	             onFocus="" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
 				<span id="adress_validation" class="invalid-address"></span>
 			</div>
 		<?php endif; ?>

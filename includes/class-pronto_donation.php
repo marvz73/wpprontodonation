@@ -382,8 +382,6 @@ class Pronto_donation {
 		return $result_arr;
 	}
 
-
-
 	function pronto_donation_user_notification($campaign) {
 		$site_name = get_bloginfo('name');
 		$option = get_option('pronto_donation_settings');
@@ -407,7 +405,6 @@ class Pronto_donation {
 	    //Send admin notification email
 	    @wp_mail($option['EmailToBeNotify'], sprintf(__('[%s] New Donation'), $site_name), $message);
 
-
 	    //BUILD USER NOTIFICATION EMAIL
 	    $message_template = $option['ThankYouMailMessage'];
 
@@ -415,6 +412,16 @@ class Pronto_donation {
 	    $message = str_ireplace('[email]', $campaign['email'], $message_template);
 	    $message = str_ireplace('[first-name]', $campaign['first_name'], $message);
 	    $message = str_ireplace('[last-name]', $campaign['last_name'], $message);
+	    $message = str_ireplace('[address]', $campaign['address'], $message);
+	    $message = str_ireplace('[country]', $campaign['country'], $message);
+	    $message = str_ireplace('[state]', $campaign['state'], $message);
+	    $message = str_ireplace('[post-code]', $campaign['post_code'], $message);
+	    $message = str_ireplace('[city]', $campaign['suburb'], $message);
+	    $message = str_ireplace('[suburb]', $campaign['suburb'], $message);
+	    $message = str_ireplace('[amount]', $option['SetCurrencySymbol'] . $campaign['pd_amount'], $message);
+	    $message = str_ireplace('[campaign-name]', get_the_title($campaign['donation_campaign']), $message);
+	    $message = str_ireplace('[gift-message]', $campaign['donation_gift_message'], $message);
+	    $message = str_ireplace('[currency]', $option['SetCurrencyCode'], $message);
 
 	    //Prepare headers for HTML
 	    $email_headers[]  = 'MIME-Version: 1.0' . "\r\n";
@@ -422,7 +429,7 @@ class Pronto_donation {
 	    $email_headers[] = 'From: '.$option['EmailName'].' <'.$option['EmailAddress'].'>';
 
 	    //Send user notification email
-	    wp_mail($campaign['email'], sprintf(__('Thank for %s Donation'), get_the_title($campaign['donation_campaign'])), $message, $email_headers);
+	    wp_mail($campaign['email'], sprintf(__('Thank for %s Donation'), get_the_title($campaign['donation_campaign'])), nl2br($message), $email_headers);
 	}
 
 
