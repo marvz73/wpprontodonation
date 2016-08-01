@@ -6,7 +6,7 @@ if(is_admin())
 }
 
 class Pronto_Donation_Campaign_WP_list_Table {
-
+    //jhobet
 
 	public function __construct() {
 
