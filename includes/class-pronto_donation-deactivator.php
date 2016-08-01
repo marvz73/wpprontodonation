@@ -34,16 +34,16 @@ class Pronto_donation_Deactivator {
 	public static function deactivate() {
 		global $wpdb;
 		//================ Get Post Page for Messages ==============//
-		$thank_you_page_message_postTitle = 'pronto-donation-thank-you';
-		$post_id_A = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $thank_you_page_message_postTitle . "'" );
+		$thank_you_page_message_postTitle = 'Thank You';
+		$post_id_A = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = '" . $thank_you_page_message_postTitle . "'" );
 	    if(empty($post_id_A)||$post_id_A==null){}
 	    else{
 	    	wp_delete_post( $post_id_A, true ) ;
 	    }
 
 
-	   	$cancel_page_message_postTitle = 'pronto-donation-cancelled';
-		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $cancel_page_message_postTitle . "'" );
+	   	$cancel_page_message_postTitle = 'Cancelled';
+		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = '" . $cancel_page_message_postTitle . "'" );
 	    if(empty($post_id_B)||$post_id_B==null){}
 	    else{
 	    	wp_delete_post( $post_id_B, true ) ;

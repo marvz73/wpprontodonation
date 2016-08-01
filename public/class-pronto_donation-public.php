@@ -242,7 +242,7 @@ class Pronto_donation_Public {
 			$campaign_id = preg_replace("/[^A-Za-z0-9 ]/", '', $_GET['ref']);
 			$campaignDonor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $campaign_id);
 			$campaign = maybe_unserialize($campaignDonor[0]->meta_value);
-			if($campaign['statusText'] != 'CANCELLED')
+			if(isset($campaign['statusText']) && $campaign['statusText'] != 'CANCELLED')
 			{
 				$campaign['statusText'] = 'CANCELLED';
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . $campaign_id);

@@ -434,7 +434,7 @@ if ( isset($_GET['page']) ) {
 		
 		//================ Get Post Page for Messages ==============//
 		$thank_you_page_message_post_id = '';
-		$thank_you_page_message_postTitle = 'pronto-donation-thank-you';
+		$thank_you_page_message_postTitle = 'Thank You';
 		$post_id_A = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $thank_you_page_message_postTitle . "'" );
 
 	    if(empty($post_id_A)||$post_id_A==null){}
@@ -445,7 +445,7 @@ if ( isset($_GET['page']) ) {
 
 
 	   	$cancel_page_message_post_id = '';
-		$cancel_page_message_postTitle = 'pronto-donation-cancelled';
+		$cancel_page_message_postTitle = 'Cancelled';
 		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $cancel_page_message_postTitle . "'" );
 
 	    if(empty($post_id_B)||$post_id_B==null){}
