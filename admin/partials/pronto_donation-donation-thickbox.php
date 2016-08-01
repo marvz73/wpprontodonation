@@ -8,6 +8,15 @@
         $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor' AND meta_id=" . $meta_key );
         
         $donation_details = unserialize( $result[0]->meta_value );
+
+
+        $data_address = ( !empty( $donation_details['address'] ) ) ? $donation_details['address'] ." ": '';
+        $data_suburb = ( !empty( $donation_details['suburb'] ) ) ? $donation_details['suburb'] .", ": '';
+        $data_state = ( !empty( $donation_details['state'] ) ) ? $donation_details['state'] .", " : '';
+        $data_post_code = ( !empty( $donation_details['post_code'] ) ) ? $donation_details['post_code'] . ", " : '';
+        $data_country = ( !empty( $donation_details['country'] ) ) ? $donation_details['country'] : '';
+
+        $data_address_concat = $data_address.$data_suburb.$data_state.$data_post_code.$data_country;
         // echo "<pre>";
         // print_r($donation_details);
         ?>
@@ -129,7 +138,7 @@
                             <label class="">Address</label>
                         </th>
                         <td>
-                            <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $donation_details['address'] ) ) ? $donation_details['address'] : '' ?>" readonly>
+                            <input type="text" class="regular-text donation-details-value" value="<?php echo $data_address_concat ?>" readonly>
                         </td>
                     </tr>
                     <tr>

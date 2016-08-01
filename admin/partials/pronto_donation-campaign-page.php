@@ -447,8 +447,13 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             'payment',
             'donation_campaign',
             'CurrencyCode',
-            'statusText'
             );
+
+        if(array_key_exists('statusText', $array)) {
+            array_push($accepted_keylist, 'statusText');
+        } else {
+            array_push($accepted_keylist, 'status');
+        }
 
         foreach ($array as $key => $value) {
             if( in_array($key, $accepted_keylist) ) {
@@ -460,7 +465,12 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 } else if( ($key === 'donation_type'
                     || $key === 'first_name'
                     || $key === 'last_name'
+                    || $key === 'country'
+                    || $key === 'state'
+                    || $key === 'payment'
+                    || $key === 'suburb'
                     || $key === 'statusText'
+                    || $key === 'status'
                     || $key === 'address' ) && stripos( strtolower( $value ) , strtolower( $search ) ) ) 
                 {
                     $detect_like+=1;
