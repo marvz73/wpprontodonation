@@ -753,6 +753,8 @@ if ( isset($_GET['page']) ) {
 						</th>
 						<td>
 							<input name="google_geocode_api_key" placeholder="API Key Here" type="text" class="regular-text" id="google_geocode_api_key" value="<?php echo $google_geocode_api_key; ?>">
+							<span id="adress_validation_status_valid" style="color:green;"></span>
+							<span id="adress_validation_status_invalid" style="color:red;"></span>
 						</td>
 					</tr>
 				</tbody>
