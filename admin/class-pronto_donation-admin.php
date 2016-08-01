@@ -550,10 +550,10 @@ class Pronto_donation_Admin {
 						<tr>
 							<th scope="row"><label for="user_address_option">Address</label></th>
 							<td>
-								<select name="user_address_option" id="user_address_option">
-									<option value="show" <?php if( !empty( $user_information['user_address_option'] ) && esc_attr($user_information['user_address_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
-									<option value="hide" <?php if( !empty( $user_information['user_address_option'] ) && esc_attr($user_information['user_address_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
-									<option value="required" <?php if( !empty( $user_information['user_address_option'] ) && esc_attr($user_information['user_address_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								<select name="user_address_option" id="user_address_option" disabled>
+									<option value="show">Show</option>
+									<option value="hide">Hide</option>
+									<option value="required" selected="selected">Required</option>
 								</select>
 								<p class="description">Select an option for user address</p>
 							</td>	
@@ -562,10 +562,10 @@ class Pronto_donation_Admin {
 						<tr>
 							<th scope="row"><label for="user_country_option">Country</label></th>
 							<td>
-								<select name="user_country_option" id="user_country_option">
-									<option value="show" <?php if( !empty( $user_information['user_country_option'] ) && esc_attr($user_information['user_country_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
-									<option value="hide" <?php if( !empty( $user_information['user_country_option'] ) && esc_attr($user_information['user_country_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
-									<option value="required" <?php if( !empty( $user_information['user_country_option'] ) && esc_attr($user_information['user_country_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								<select name="user_country_option" id="user_country_option" disabled>
+									<option value="show">Show</option>
+									<option value="hide">Hide</option>
+									<option value="required" selected="selected">Required</option>
 								</select>
 								<p class="description">Select an option for user country</p>
 							</td>	
@@ -811,7 +811,7 @@ class Pronto_donation_Admin {
 			}
  	 		
  	 		$amountdata = "";
- 	 		if( !empty($amount_level_data) ) {
+ 	 		if( !empty( $amount_level_data ) ) {
  	 			$amountdata = implode(",", $amount_level_data);
  	 		}
 
@@ -837,9 +837,9 @@ class Pronto_donation_Admin {
 
 			$user_information = array();
 			$user_information['user_donor_type_option'] = sanitize_text_field( $_POST['user_donor_type_option'] );
-			$user_information['user_address_option'] = sanitize_text_field( $_POST['user_address_option'] );
+			$user_information['user_address_option'] = 'required';
 			$user_information['user_email_option'] = 'required';
-			$user_information['user_country_option'] = sanitize_text_field( $_POST['user_country_option'] );
+			$user_information['user_country_option'] ='required';
 			$user_information['user_firstname_option'] = 'required';
 			$user_information['user_state_option'] = sanitize_text_field( $_POST['user_state_option'] );
 			$user_information['user_lastname_option'] ='required';
@@ -858,7 +858,7 @@ class Pronto_donation_Admin {
 	public function pronto_donation_post_column( $columns ) {
 
 		$columns = array(
-			'cb'	 	=> '<input type="checkbox" />',
+			'cb' => '<input type="checkbox" />',
 			'banner_image' => __( 'Banner Image' ),
 			'title' => __( 'Donation Name' ) ,
 			'donation_target' => __( 'Donation Target' ),

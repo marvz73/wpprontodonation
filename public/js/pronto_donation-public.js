@@ -49,9 +49,11 @@ jQuery(function(){
 		var companyName = jQuery('#companyName');
 		if(jQuery(this).val() == 'I')
 		{
-			companyName.hide();
+			companyName.attr('disabled', 'disabled');
+		}else if(jQuery(this).val() == 'B'){
+			companyName.removeAttr('disabled');
 		}else{
-			companyName.show();
+			companyName.attr('disabled', 'disabled');
 		}
 	});
 
