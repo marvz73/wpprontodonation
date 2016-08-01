@@ -88,7 +88,7 @@ class ezidebit{
 	}
 
 	// Payment process complete
-	public function payment_complete($response){
+	public function payment_complete($response, $class){
 		global $wpdb;
 		
 		if(!empty($response['PaymentReference']))
@@ -124,8 +124,15 @@ class ezidebit{
 				$campaign['statusText'] = esc_html($response['ResultText']);
 
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($response['PaymentReference']));
+
+				$class->pronto_donation_user_notification($campaign);
 			}
 		}
 
 	}
 }
+
+
+
+
+

@@ -212,4 +212,14 @@ jQuery(function(){
 		}
 	});
 
+	jQuery('#donation_gift').on('change', function(){
+		var self = this;
+		var message = jQuery('#gift_message');
+		if(jQuery(self).is(':checked')){
+			message.show();
+		}else{
+			message.hide();
+		}
+	})
+
 });

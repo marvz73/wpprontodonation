@@ -48,17 +48,17 @@ class Pronto_Donation_Campaign_WP_list_Table {
     {
         $exampleListTable = new Pronto_Donation_Campaign_WP_Table();
 
-        if( isset($_POST['s']) ){
-            $exampleListTable->prepare_items($_POST['s']);
+        if( isset($_GET['s']) ){
+            $exampleListTable->prepare_items($_GET['s']);
         } else {
             $exampleListTable->prepare_items();
         }
-     
+
         ?>
             <div class="wrap">
            		<h2>Donation List</h2>
 
-                <form method="post">
+                <form method="GET">
                   <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
                   <?php $exampleListTable->search_box('search', 'search_id'); ?>
                 </form>
@@ -68,7 +68,6 @@ class Pronto_Donation_Campaign_WP_list_Table {
             
         <?php
     }
-
 }
 
 if( ! class_exists( 'WP_List_Table' ) ) {
@@ -86,9 +85,9 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
         $sortable = $this->get_sortable_columns();
 
         $data = $this->table_data();
-
+        $search = ( isset( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : false;
         // execute seach donation
-        if( $search != NULL ){
+        if( $search != false ){
             $search = trim($search);
             $result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_donor'");
             $data = $this->get_seach_donation_list( $result , $search );

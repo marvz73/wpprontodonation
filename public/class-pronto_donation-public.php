@@ -227,7 +227,7 @@ class Pronto_donation_Public {
     			if(strtolower($_GET['payment_gateway']) == strtolower($payment->payment['payment_name']))
     			{
     				//call payment process complete
-    				$payment->payment_complete($_GET);
+    				$payment->payment_complete($_GET, $this->class);
 
 					// SALESFORCE LOGIC SYNC HERE...
 					// SALESFORCE LOGIC SYNC HERE...
@@ -242,9 +242,9 @@ class Pronto_donation_Public {
 			$campaign_id = preg_replace("/[^A-Za-z0-9 ]/", '', $_GET['ref']);
 			$campaignDonor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $campaign_id);
 			$campaign = maybe_unserialize($campaignDonor[0]->meta_value);
-			if($campaign['status'] != 'CANCELLED')
+			if($campaign['statusText'] != 'CANCELLED')
 			{
-				$campaign['status'] = 'CANCELLED';
+				$campaign['statusText'] = 'CANCELLED';
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . $campaign_id);
 			}
 		}
@@ -265,13 +265,6 @@ class Pronto_donation_Public {
 		}
 
 		return $page_template;
-	}
-
-	function test($content){
-
-		$content = 'test32';
-
-		return $content;
 	}
 
 	public function pronto_donation_thank_you_page_message(){
@@ -317,8 +310,6 @@ class Pronto_donation_Public {
 		    $pronto_donation_campaign = get_post_meta($attrs['campaign'], 'pronto_donation_campaign', true);
 		    $pronto_donation_campaign['currency'] = $this->class->pronto_donation_currency();
 		    $pronto_donation_campaign['post'] = get_post($attrs['campaign'], true);
-
-
 
 			require_once('partials/pronto_donation-public-campaign.php');
 		}
