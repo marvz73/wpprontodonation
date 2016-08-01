@@ -792,63 +792,68 @@ class Pronto_donation_Admin {
 	*/
 	public function pronto_donation_campagin_save_post( $post_id ) {
 
-		global $wpdb;
+		$get_post_campaign = get_post_type( $post_id );
 
-		$is_autosave = wp_is_post_autosave( $post_id );
-		$is_revision = wp_is_post_revision( $post_id );
-		$is_valid_nonce = ( isset($_POST['pronto_donation_campaign_nonce'] ) && wp_verify_nonce( $_POST['pronto_donation_campaign_nonce'], basename( __FILE__ ) ) ) ? 'true' : 'false';
+		if( $get_post_campaign == 'campaign' ) {
+			
+			global $wpdb;
+			$is_autosave = wp_is_post_autosave( $post_id );
+			$is_revision = wp_is_post_revision( $post_id );
+			$is_valid_nonce = ( isset($_POST['pronto_donation_campaign_nonce'] ) && wp_verify_nonce( $_POST['pronto_donation_campaign_nonce'], basename( __FILE__ ) ) ) ? 'true' : 'false';
 
-		if( $is_autosave || $is_revision || !$is_valid_nonce ) {
-			return;
-		}
-
-		if( isset( $_POST['publish'] ) || isset( $_POST['save'] ) ) {
-
-  			$amount_level_data = array();
-
-			if( isset( $_POST['amount_level_data'] ) && !empty( $_POST['amount_level_data'] ) ) {
-				$amount_level_data = explode( " ", $_POST['amount_level_data'] );
+			if( $is_autosave || $is_revision || !$is_valid_nonce ) {
+				return;
 			}
- 	 		
- 	 		$amountdata = "";
- 	 		if( !empty( $amount_level_data ) ) {
- 	 			$amountdata = implode(",", $amount_level_data);
- 	 		}
 
- 	 		date_default_timezone_set('Australia/Melbourne');
-			$date = date('M d, Y h:i:s a', time());
+			if( isset( $_POST['publish'] ) || isset( $_POST['save'] ) ) {
 
-			$data = ( isset( $_POST['hide_custom_amount'] ) ) ? 1 : 0 ;
-			$data1 = ( isset( $_POST['show_gift_field'] ) ) ? 1 : 0 ;
+				$amount_level_data = array();
 
-			$campaign_data = array();
-			$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'] );
-			$campaign_data['banner_image'] = sanitize_text_field( $_POST['banner_image'] );
-			$campaign_data['hide_custom_amount'] = $data;
-			$campaign_data['show_gift_field'] = $data1;
-			$campaign_data['amount_level'] = $amountdata;
-			$campaign_data['donation_type'] = sanitize_text_field( $_POST['donation_type'] );
-			$campaign_data['donation_campaign_filter'] = sanitize_text_field( $_POST['donation_campaign_filter'] );
-			$campaign_data['campaign_shortcode'] = '[pronto-donation campaign=' . $post_id .']';
-			$campaign_data['date_updated'] = $date;
-			update_post_meta( $post_id, 'pronto_donation_campaign', $campaign_data );
+				if( isset( $_POST['amount_level_data'] ) && !empty( $_POST['amount_level_data'] ) ) {
+					$amount_level_data = explode( " ", $_POST['amount_level_data'] );
+				}
 
-			$result = $wpdb->query("UPDATE {$wpdb->prefix}posts SET post_content='".sanitize_text_field( $_POST['campagin_description'] )."' WHERE ID=".$post_id."");
+				$amountdata = "";
+				if( !empty( $amount_level_data ) ) {
+					$amountdata = implode(",", $amount_level_data);
+				}
 
-			$user_information = array();
-			$user_information['user_donor_type_option'] = sanitize_text_field( $_POST['user_donor_type_option'] );
-			$user_information['user_address_option'] = 'required';
-			$user_information['user_email_option'] = 'required';
-			$user_information['user_country_option'] ='required';
-			$user_information['user_firstname_option'] = 'required';
-			$user_information['user_state_option'] = sanitize_text_field( $_POST['user_state_option'] );
-			$user_information['user_lastname_option'] ='required';
-			$user_information['user_postcode_option'] = sanitize_text_field( $_POST['user_postcode_option'] );
-			$user_information['user_phone_option'] = sanitize_text_field( $_POST['user_phone_option'] );
-			$user_information['user_suburb_option'] = sanitize_text_field( $_POST['user_suburb_option'] );
-			update_post_meta( $post_id, 'pronto_donation_user_info', $user_information );
+				date_default_timezone_set('Australia/Melbourne');
+				$date = date('M d, Y h:i:s a', time());
 
+				$data = ( isset( $_POST['hide_custom_amount'] ) ) ? 1 : 0 ;
+				$data1 = ( isset( $_POST['show_gift_field'] ) ) ? 1 : 0 ;
 
+				$campaign_data = array();
+				$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'] );
+				$campaign_data['banner_image'] = sanitize_text_field( $_POST['banner_image'] );
+				$campaign_data['hide_custom_amount'] = $data;
+				$campaign_data['show_gift_field'] = $data1;
+				$campaign_data['amount_level'] = $amountdata;
+				$campaign_data['donation_type'] = sanitize_text_field( $_POST['donation_type'] );
+				$campaign_data['donation_campaign_filter'] = sanitize_text_field( $_POST['donation_campaign_filter'] );
+				$campaign_data['campaign_shortcode'] = '[pronto-donation campaign=' . $post_id .']';
+				$campaign_data['date_updated'] = $date;
+				update_post_meta( $post_id, 'pronto_donation_campaign', $campaign_data );
+
+				if( isset( $_POST['campagin_description'] ) ) {
+					$result = $wpdb->query("UPDATE {$wpdb->prefix}posts SET post_content='".sanitize_text_field( $_POST['campagin_description'] )."' WHERE ID=".$post_id."");
+				}
+
+				$user_information = array();
+				$user_information['user_donor_type_option'] = sanitize_text_field( $_POST['user_donor_type_option'] );
+				$user_information['user_address_option'] = 'required';
+				$user_information['user_email_option'] = 'required';
+				$user_information['user_country_option'] ='required';
+				$user_information['user_firstname_option'] = 'required';
+				$user_information['user_state_option'] = sanitize_text_field( $_POST['user_state_option'] );
+				$user_information['user_lastname_option'] ='required';
+				$user_information['user_postcode_option'] = sanitize_text_field( $_POST['user_postcode_option'] );
+				$user_information['user_phone_option'] = sanitize_text_field( $_POST['user_phone_option'] );
+				$user_information['user_suburb_option'] = sanitize_text_field( $_POST['user_suburb_option'] );
+				update_post_meta( $post_id, 'pronto_donation_user_info', $user_information );
+
+			}
 		}
 	}
 
