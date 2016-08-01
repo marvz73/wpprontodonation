@@ -24,6 +24,7 @@
 }
 
 /*Form fields*/
+.pronto-donation-form textarea,
 .pronto-donation-form input[type=number],
 .pronto-donation-form input[type=email],
 .pronto-donation-form input[type=text],
@@ -38,8 +39,7 @@
 
 /*Form group*/
 .pronto-donation-group{
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	margin-bottom: 2rem;
 }
 
 .pronto-donation-group label{
@@ -104,6 +104,7 @@ a.pronto-donation-btn{
 	display: none;
 }
 
+/*Donation Gift*/
 .pronto-donation-gift input[type=checkbox] {
   opacity: 0;
   float:left;
@@ -117,15 +118,11 @@ a.pronto-donation-btn{
   float: left;
 }
 
-/*.pronto-donation-gift input[type=checkbox] + label ~ label {
-  margin: 0 0 0 40px;
-}*/
-
 .pronto-donation-gift input[type=checkbox] + label::before {
   content: ' ';
   position: absolute;
   left: -35px;
-  top: -3px;
+  top: 0px;
   width: 25px;
   height: 25px;
   display: block;
@@ -137,7 +134,7 @@ a.pronto-donation-btn{
 	content: ' ';
 	position: absolute;
 	left: -35px;
-	top: -3px;
+	top: 0px;
 	width: 23px;
 	height: 23px;
 	display: block;

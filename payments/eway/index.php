@@ -153,9 +153,11 @@ class eway{
 			
 			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
 
-			$class->pronto_donation_user_notification($campaign);
+			
 		}
 
+		$class->pronto_donation_user_notification($campaign);
+		
 	}
 
 	/*
