@@ -30,9 +30,44 @@
 	<!-- //===================== Address Validation ======================================//  -->	
 
 		<!-- Donor Information -->
-		
+	<div id="donation-information">
 		<h3>Donation Information</h3>
 		<hr>
+
+			<div class="pronto-donation-group clearfix">
+				<label>Donation Type</label>
+				<div class="pronto-donation-type clearfix">
+					<?php if($pronto_donation_campaign['donation_type'] == 'both'): ?>	
+						
+						<div class="pd-container-padxding">
+							<div class="pd-col s6">
+								<input id="pronto-donation-type-single" type="radio" name="donation_type" value="single" checked="true" />
+								<label for="pronto-donation-type-single" >Single</label>
+							</div>
+							<div class="pd-col s6">
+								<input  id="pronto-donation-type-recurring" type="radio" name="donation_type" value="recurring" />
+								<label for="pronto-donation-type-recurring" >Recurring</label>
+							</div>
+						</div>
+
+					<?php elseif($pronto_donation_campaign['donation_type'] == 'single'): ?>
+					<div class="pd-container">
+						<div class="pd-col s6">
+						<input  id="pronto-donation-type-single" type="radio" name="donation_type" value="single" checked="true"/> 
+						<label for="pronto-donation-type-single" >Single</label>
+						</div>
+					</div>
+					<?php elseif($pronto_donation_campaign['donation_type'] == 'recurring'): ?>	
+					<div class="pd-container-padding">
+						<div class="pd-col s6">&nbsp;</div>
+						<div class="pd-col s6">
+						<input  id="pronto-donation-type-recurring" type="radio" name="donation_type" value="recurring" checked="true" /> 
+						<label for="pronto-donation-type-recurring" >Recurring</label>
+						</div>
+					</div>
+					<?php endif; ?>
+				</div>
+			</div>
 
 			<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
 				<div class="clearfix pronto-donation-group pronto-donation-amount-level">
@@ -67,40 +102,6 @@
 			</div>
 			<?php endif; ?>
 			
-			<div class="pronto-donation-group clearfix">
-				<label>Donation Type</label>
-				<div class="pronto-donation-type clearfix">
-					<?php if($pronto_donation_campaign['donation_type'] == 'both'): ?>	
-						
-						<div class="pd-container-padding">
-							<div class="pd-col s6">
-								<input id="pronto-donation-type-single" type="radio" name="donation_type" value="single" checked="true" />
-								<label for="pronto-donation-type-single" >Single</label>
-							</div>
-							<div class="pd-col s6">
-								<input  id="pronto-donation-type-recurring" type="radio" name="donation_type" value="recurring" />
-								<label for="pronto-donation-type-recurring" >Recurring</label>
-							</div>
-						</div>
-
-					<?php elseif($pronto_donation_campaign['donation_type'] == 'single'): ?>
-					<div class="pd-container-padding">
-						<div class="pd-col s6">
-						<input  id="pronto-donation-type-single" type="radio" name="donation_type" value="single" checked="true"/> 
-						<label for="pronto-donation-type-single" >Single</label>
-						</div>
-					</div>
-					<?php elseif($pronto_donation_campaign['donation_type'] == 'recurring'): ?>	
-					<div class="pd-container-padding">
-						<div class="pd-col s6">&nbsp;</div>
-						<div class="pd-col s6">
-						<input  id="pronto-donation-type-recurring" type="radio" name="donation_type" value="recurring" checked="true" /> 
-						<label for="pronto-donation-type-recurring" >Recurring</label>
-						</div>
-					</div>
-					<?php endif; ?>
-				</div>
-			</div>
 
 			<?php if($pronto_donation_campaign['show_gift_field']): ?>
 				<div class="pronto-donation-group pronto-donation-gift clearfix">
@@ -109,7 +110,10 @@
 				</div>
 				<textarea id="gift_message" style="display:none" name="donation_gift_message" class="" rows="5" placeholder="Gift message..."></textarea>
 			<?php endif; ?>
+	</div>
 
+
+	<div id="donor-information">
 		<!-- Donor Information -->
 		<h3>Donor Information</h3>
 		<hr>
@@ -117,14 +121,15 @@
 				<div class="pronto-donation-group">
 					<label>Donor Type</label>
 					<select id="donorType" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="donor_type" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_donor_type_option']) ?> >
+						<option>Donor Type</option>
 						<option value="I">Individual</option>
 						<option value="B">Business</option>
 					</select>
 				</div>
 
-				<div class="pronto-donation-group" id="companyName" style="display: none;">
+				<div class="pronto-donation-group" >
 					<label>Company Name</label> 
-					<input class="<?php echo $this->campaignOption->InputFieldClass ?>" name="companyName" type="text" />	
+					<input id="companyName" disabled class="<?php echo $this->campaignOption->InputFieldClass ?>" name="companyName" type="text" />	
 				</div>
 
 			<?php endif; ?>
@@ -272,6 +277,12 @@
 			<br>
 			<div class="g-recaptcha" data-sitekey="<?php echo $this->campaignOption->GoogleReCaptchaSiteKey; ?>"></div>
 		<?php endif; ?>
+
+	</div>
+
+
+
+
 		<br>
 
 		<p class="submit">
