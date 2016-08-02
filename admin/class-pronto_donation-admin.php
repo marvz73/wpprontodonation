@@ -1120,23 +1120,5 @@ class Pronto_donation_Admin {
 		global $title;
 		require_once('partials/pronto_donation-admin-display.php');
 	}
-
-	public function pronto_donation_sf_rest_api() {
-
-		$settings_data = get_option( 'pronto_donation_settings', 0 );
-
-		$sf_base_url = $settings_data['SalesforceURL'];
-		$sf_api_version = '37.0';
-		$sf_consumer_key = $settings_data['ClientId'];
-		$sf_consumer_secret = $settings_data['ClientSecret'];
-
-		$sf_user_name = $settings_data['SalesforceUsername'];
-		$sf_user_password = $settings_data['SalesforcePassword'];
-		$sf_user_security_token = $settings_data['SecurityToken'];
-
-		$salesforce = new SalesforceAPI( $sf_base_url, $sf_api_version, $sf_consumer_key, $sf_consumer_secret );
-		$salesforce->login( $sf_user_name, $sf_user_password, $sf_user_security_token );
-
-		return $salesforce;
-	}
+ 
 }
