@@ -96,8 +96,6 @@ class eway{
 		$request->CancelUrl   = $ppd['CancelUrl'];
 		$request->Method = 'ProcessPayment';
 		
-		print_r($request);
-		exit();
 		$eway_params = array();
 		if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
 		$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);
