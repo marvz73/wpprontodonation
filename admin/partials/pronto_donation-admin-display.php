@@ -492,7 +492,8 @@ if ( isset($_GET['page']) ) {
 
 			$client_id = (empty($_POST['client_id'])) ? "" : $_POST['client_id'];
 			$client_secret = (empty($_POST['client_secret'])) ? "" : $_POST['client_secret'];	
-			$redirect_uri = (empty($_POST['redirect_uri'])) ? "" : $_POST['redirect_uri'];	
+			$redirect_uri = (empty($_POST['redirect_uri'])) ? "" : $_POST['redirect_uri'];
+			$security_token	= (empty($_POST['security_token'])) ? "" : $_POST['security_token'];
 			$login_uri = (empty($_POST['login_uri'])) ? "" : $_POST['login_uri'];	
 			$salesforce_url = (empty($_POST['salesforce_url'])) ? "" : $_POST['salesforce_url'];
 			$salesforce_username = (empty($_POST['salesforce_username'])) ? "" : $_POST['salesforce_username'];
@@ -538,6 +539,7 @@ if ( isset($_GET['page']) ) {
 				'ClientId' => stripslashes($client_id),
 				'ClientSecret' => stripslashes($client_secret),
 				'RedirectURI' => stripslashes($redirect_uri),
+				'SecurityToken' => sanitize_text_field(stripslashes($security_token)),
 				'LoginURI' => stripslashes($login_uri),
 				'SalesforceURL' => stripslashes($salesforce_url),
 				'SalesforceUsername' => stripslashes($salesforce_username),
@@ -629,7 +631,8 @@ if ( isset($_GET['page']) ) {
 
 		$client_id = (empty($pronto_donation_settings['ClientId'])) ? "" : $pronto_donation_settings['ClientId'];
 		$client_secret = (empty($pronto_donation_settings['ClientSecret'])) ? "" : $pronto_donation_settings['ClientSecret'];	
-		$redirect_uri = (empty($pronto_donation_settings['RedirectURI'])) ? "" : $pronto_donation_settings['RedirectURI'];	
+		$redirect_uri = (empty($pronto_donation_settings['RedirectURI'])) ? "" : $pronto_donation_settings['RedirectURI'];
+		$security_token = (empty($pronto_donation_settings['SecurityToken'])) ? "" : $pronto_donation_settings['SecurityToken'];	
 		$login_uri = (empty($pronto_donation_settings['LoginURI'])) ? "" : $pronto_donation_settings['LoginURI'];	
 		$salesforce_url = (empty($pronto_donation_settings['SalesforceURL'])) ? "" : $pronto_donation_settings['SalesforceURL'];
 		$salesforce_username = (empty($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
@@ -870,6 +873,12 @@ if ( isset($_GET['page']) ) {
 						<th scope="row"><label for="redirect_uri">Redirect URI</label></th>
 						<td>
 							<input type="url" id="redirect_uri" name="redirect_uri" class="regular-text" value="<?php echo $redirect_uri; ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="security_token">Security Token</label></th>
+						<td>
+							<input type="text" id="security_token" name="security_token" class="regular-text" value="<?php echo $security_token; ?>">
 						</td>
 					</tr>
 					<tr>

@@ -249,6 +249,7 @@ class Pronto_donation_Activator {
 
 
 	    //================ Get All Data In Pronto Donation Settings Option ==============//
+	    $from_style = (empty($pronto_donation_settings['FormStyle'])) ? "" : $pronto_donation_settings['FormStyle'];
 		$form_class = (empty($pronto_donation_settings['FormClass'])) ? "" : $pronto_donation_settings['FormClass'];
 		$button_class = (empty($pronto_donation_settings['ButtonClass'])) ? "" : $pronto_donation_settings['ButtonClass'];
 		$input_field_class = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : $pronto_donation_settings['InputFieldClass'];
@@ -270,7 +271,8 @@ class Pronto_donation_Activator {
 		$client_id = (empty($pronto_donation_settings['ClientId'])) ? "" : $pronto_donation_settings['ClientId'];
 		$client_secret = (empty($pronto_donation_settings['ClientSecret'])) ? "" : $pronto_donation_settings['ClientSecret'];
 		$redirect_uri = (empty($pronto_donation_settings['RedirectURI'])) ? "" : $pronto_donation_settings['RedirectURI'];	
-		$login_uri = (empty($pronto_donation_settings['LoginURI'])) ? "" : $pronto_donation_settings['LoginURI'];	
+		$login_uri = (empty($pronto_donation_settings['LoginURI'])) ? "" : $pronto_donation_settings['LoginURI'];
+		$security_token = (empty($pronto_donation_settings['SecurityToken'])) ? "" : $pronto_donation_settings['SecurityToken'];		
 		$salesforce_url = (empty($pronto_donation_settings['SalesforceURL'])) ? "" : $pronto_donation_settings['SalesforceURL'];
 		$salesforce_username = (empty($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
@@ -295,6 +297,7 @@ class Pronto_donation_Activator {
 
 		//================ Update Pronto Donation Settings Option ==============//
     	$pronto_donation_settings = array(
+    		'FormStyle'     => stripslashes($from_style),
 			'FormClass'     => stripslashes($form_class),
 			'ButtonClass'      => stripslashes($button_class),
 			'InputFieldClass'   => stripslashes($input_field_class),
@@ -317,6 +320,7 @@ class Pronto_donation_Activator {
 			'ClientId' => stripslashes($client_id),
 			'ClientSecret' => stripslashes($client_secret),
 			'RedirectURI' => stripslashes($redirect_uri),
+			'SecurityToken' => stripslashes($security_token),
 			'LoginURI' => stripslashes($login_uri),
 			'SalesforceURL' => stripslashes($salesforce_url),
 			'SalesforceUsername' => stripslashes($salesforce_username),
