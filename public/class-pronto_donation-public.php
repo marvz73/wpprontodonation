@@ -158,7 +158,6 @@ class Pronto_donation_Public {
 	    {
 
 	    	$campaign_data = $_POST;
-
 			$captcha = isset($campaign_data['g-recaptcha-response']) ? $campaign_data['g-recaptcha-response'] : "";
 
 			if(empty($captcha) && $this->campaignOption->GoogleReCaptchaEnable)
@@ -173,9 +172,7 @@ class Pronto_donation_Public {
 			}
 	    	else if($campaign_data['action'] == 'process_donate' && wp_verify_nonce( $campaign_data['nonce'], 'donation'))
 	    	{
-			 	// global $wpdb;
-				// $wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '123123123123' WHERE meta_id = 28");
-
+	
 	    		$campaign_data['status'] = 'pending';
 	    		
 	    		$campaign_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
@@ -189,7 +186,7 @@ class Pronto_donation_Public {
 	    				$campaign_data['payment_info'] = $payment;
 	    			}
 	    		}
-	    		
+
 	    		$campaign['statusCode'] = 0;
 
 	    		$campaign_data['timestamp'] = time();
@@ -230,6 +227,7 @@ class Pronto_donation_Public {
 		global $wpdb;
 		global $post;
 
+
 		if (isset($_GET['payment_gateway']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage'])
 		{
    
@@ -240,6 +238,7 @@ class Pronto_donation_Public {
     			
     			if(strtolower($_GET['payment_gateway']) == strtolower($payment->payment['payment_name']))
     			{
+
     				//call payment process complete
     				$payment->payment_complete($_GET, $this->class);
 
@@ -264,8 +263,7 @@ class Pronto_donation_Public {
 		}
 		else if(get_post_type($post->ID) == 'campaign')
 		{
-		    // $page_template = dirname( __FILE__ ) . '/partials/pronto_donation-public-display.php';
-			
+
 			// add_filter('the_title', function($title){
 			// 	$title = '';
 			// 	return $title;
@@ -326,7 +324,6 @@ class Pronto_donation_Public {
 		    $pronto_donation_campaign['post'] = get_post($attrs['campaign'], true);
 
 			require_once('partials/pronto_donation-public-campaign.php');
-
 
 		}
 		else

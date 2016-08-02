@@ -95,7 +95,6 @@ class eway{
 		$request->RedirectUrl = $ppd['redirectURL'];
 		$request->CancelUrl   = $ppd['CancelUrl'];
 		$request->Method = 'ProcessPayment';
-		
 		$eway_params = array();
 		if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
 		$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);
@@ -108,6 +107,7 @@ class eway{
 	public function payment_complete($response, $class){
 		global $wpdb;
 
+		
 		if(empty($response)){
 			return false;
 		}
@@ -155,10 +155,10 @@ class eway{
 			
 			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
 
-			
+			$class->pronto_donation_user_notification($campaign);
 		}
 
-		$class->pronto_donation_user_notification($campaign);
+		
 		
 	}
 

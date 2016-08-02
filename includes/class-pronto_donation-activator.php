@@ -277,12 +277,12 @@ class Pronto_donation_Activator {
 
 		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
 
-		// $info_on_offline_payment_panel_page = (empty($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;
-		// $info_on_offline_payment_panel_enable_offline_payment = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'];
-		// $info_on_offline_payment_panel = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];
+		$info_on_offline_payment_panel_page = (empty($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;
+		$info_on_offline_payment_panel_enable_offline_payment = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'];
+		$info_on_offline_payment_panel = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];
 
-		// $instructions_emailed_to_offline_donor_before_payment_page = (empty($instructions_emailed_to_offline_donor_before_payment_post_id)) ? "" : $instructions_emailed_to_offline_donor_before_payment_post_id;	
-		// $instructions_emailed_to_offline_donor_before_payment = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'];
+		$instructions_emailed_to_offline_donor_before_payment_page = (empty($instructions_emailed_to_offline_donor_before_payment_post_id)) ? "" : $instructions_emailed_to_offline_donor_before_payment_post_id;	
+		$instructions_emailed_to_offline_donor_before_payment = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'];
 		//================ Get All Data In Pronto Donation Settings Option ==============//
 
 
@@ -323,14 +323,14 @@ class Pronto_donation_Activator {
 			'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
 			'CancelPageMessage' => stripslashes($cancel_page_message),
 
-			'ThankYouMailMessage' => stripslashes($thank_you_email_message)
+			'ThankYouMailMessage' => stripslashes($thank_you_email_message),
 
-			// 'InfoOnOfflinePaymentPanelPage' => stripslashes($info_on_offline_payment_panel_page),
-			// 'InfoOnOfflinePaymentPanelEnableOfflinePayment' => stripslashes($info_on_offline_payment_panel_enable_offline_payment),
-			// 'InfoOnOfflinePaymentPanel' => stripslashes($info_on_offline_payment_panel),
+			'InfoOnOfflinePaymentPanelPage' => stripslashes($info_on_offline_payment_panel_page),
+			'InfoOnOfflinePaymentPanelEnableOfflinePayment' => stripslashes($info_on_offline_payment_panel_enable_offline_payment),
+			'InfoOnOfflinePaymentPanel' => stripslashes($info_on_offline_payment_panel),
 
-			// 'InstructionsEmailedToOfflineDonorBeforePaymentPage' => stripslashes($instructions_emailed_to_offline_donor_before_payment_page),
-			// 'InstructionsEmailedToOfflineDonorBeforePayment' => stripslashes($instructions_emailed_to_offline_donor_before_payment)
+			'InstructionsEmailedToOfflineDonorBeforePaymentPage' => stripslashes($instructions_emailed_to_offline_donor_before_payment_page),
+			'InstructionsEmailedToOfflineDonorBeforePayment' => stripslashes($instructions_emailed_to_offline_donor_before_payment)
 
 		); 
 		update_option('pronto_donation_settings' , $pronto_donation_settings);
