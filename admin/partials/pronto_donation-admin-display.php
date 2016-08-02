@@ -16,6 +16,7 @@
 
 //================= Donation Settings =================//
 global $wpdb;
+
 if ( isset($_GET['page']) ) {
 	if($_GET['page']=='donation-settings'){
 
@@ -431,32 +432,6 @@ if ( isset($_GET['page']) ) {
 		);
 		//================ Options for Country and Currency ==============//
 
-		
-		//================ Get Post Page for Messages ==============//
-		$thank_you_page_message_post_id = '';
-		$post_id_A = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = 'Thank You'");
-
-	    if(empty($post_id_A)||$post_id_A==null){}
-	    else{
-	    	$thank_you_page_message_post_id = $post_id_A;
-	    }
-
-
-
-	   	$cancel_page_message_post_id = '';
-		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = 'Cancelled'");
-
-	    if(empty($post_id_B)||$post_id_B==null){}
-	    else{
-	    	$cancel_page_message_post_id = $post_id_B;
-	    }
-
-
-	    $info_on_offline_payment_panel_post_id = '';
-
-	   	$instructions_emailed_to_offline_donor_before_payment_post_id = '';
-
-	    //================ Get Post Page for Messages ==============//
 
 
 
@@ -497,10 +472,10 @@ if ( isset($_GET['page']) ) {
 			$salesforce_username = (empty($_POST['salesforce_username'])) ? "" : $_POST['salesforce_username'];
 			$salesforce_password = (empty($_POST['salesforce_password'])) ? "" : $_POST['salesforce_password'];
 
-			$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
+			//$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
 			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
 
-			$cancel_page_message_page = (empty($cancel_page_message_post_id)) ? "" : $cancel_page_message_post_id;
+			//$cancel_page_message_page = (empty($cancel_page_message_post_id)) ? "" : $cancel_page_message_post_id;
 			$cancel_page_message = (empty($_POST['cancel_page_message'])) ? "" : $_POST['cancel_page_message'];
 
 			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];
@@ -543,10 +518,10 @@ if ( isset($_GET['page']) ) {
 				'SalesforceUsername' => stripslashes($salesforce_username),
 				'SalesforcePassword' => stripslashes($salesforce_password),
 
-				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
+				//'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
 				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
 
-				'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
+				//'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
 				'CancelPageMessage' => stripslashes($cancel_page_message),
 
 				'ThankYouMailMessage' => stripslashes($thank_you_email_message)
@@ -561,8 +536,12 @@ if ( isset($_GET['page']) ) {
 			); 
 			update_option('pronto_donation_settings' , $pronto_donation_settings); //On form submit all value is stored on an array and then stored in option named 'pronto_donation_settings'
 
+			$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
 			
+			$cancel_page_message_page = (empty($pronto_donation_settings['CancelPageMessagePage'])) ? "" : $pronto_donation_settings['CancelPageMessagePage'];
 
+
+			
 			if($thank_you_page_message_page==""||empty($thank_you_page_message_page)){}
 			else{
 

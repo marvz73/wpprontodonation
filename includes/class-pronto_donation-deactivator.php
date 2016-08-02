@@ -34,20 +34,22 @@ class Pronto_donation_Deactivator {
 	public static function deactivate() {
 		global $wpdb;
 		//================ Get Post Page for Messages ==============//
-		$thank_you_page_message_postTitle = 'Thank You';
-		$post_id_A = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = '" . $thank_you_page_message_postTitle . "'" );
-	    if(empty($post_id_A)||$post_id_A==null){}
-	    else{
-	    	wp_delete_post( $post_id_A, true ) ;
-	    }
 
+		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
+			
+		$cancel_page_message_page = (empty($pronto_donation_settings['CancelPageMessagePage'])) ? "" : $pronto_donation_settings['CancelPageMessagePage'];
+	
 
-	   	$cancel_page_message_postTitle = 'Cancelled';
-		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = '" . $cancel_page_message_postTitle . "'" );
-	    if(empty($post_id_B)||$post_id_B==null){}
-	    else{
-	    	wp_delete_post( $post_id_B, true ) ;
-	    }
+		if($thank_you_page_message_page==""||empty($thank_you_page_message_page)){}
+		else{
+			wp_delete_post( $thank_you_page_message_page, true ) ;
+		}
+
+		if($cancel_page_message_page==""||empty($cancel_page_message_page)){}
+		else{
+			wp_delete_post( $cancel_page_message_page, true ) ;
+		}
 	    //================ Get Post Page for Messages ==============//
 
 	}
