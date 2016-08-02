@@ -608,6 +608,8 @@ if ( isset($_GET['page']) ) {
 		}	
 
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+		echo '<pre>';
+		print_r($pronto_donation_settings);
 
 		$from_style = (empty($pronto_donation_settings['FormStyle'])) ? "" : $pronto_donation_settings['FormStyle'];
 		$form_class = (empty($pronto_donation_settings['FormClass'])) ? "" : $pronto_donation_settings['FormClass'];
