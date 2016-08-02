@@ -350,13 +350,8 @@ class Pronto_donation_Public {
 			//Donor user fields
 		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
 
-		    $formStyle = get_option('pronto_donation_settings', true);
-		    if(isset($formStyle['FormStyle']) && $formStyle['FormStyle'] == 2){
-		    	require_once('partials/pronto_donation-public-campaign-style2-full.php');
-		    }
-		    else{
-		    	require_once('partials/pronto_donation-public-campaign-style1-full.php');
-		    }
+			$formStyle = get_option('pronto_donation_settings', true)['FormStyle'];
+		    require_once('partials/pronto_donation-public-campaign-style'.$formStyle.'-full.php');
 
 		}
 	}
