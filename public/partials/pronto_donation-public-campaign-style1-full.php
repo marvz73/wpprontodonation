@@ -240,11 +240,12 @@
 
 			<h3>Payment</h3>
 			<hr>
-			<div class="payments clearfix">
+			<div class="payments clearfix pd-container">
 				<?php
 					if(!empty($payment_methods)):
 					foreach($payment_methods as $index=>$payment):
 				?>
+				<div class="pd-col s6">
 					<input class="payment-input" id="payment<?php echo $index ?>" <?php echo ($index==0) ? 'checked="true"' : '' ?> type="radio" name="payment" value="<?php echo $payment->get_payment_name() ?>" />
 					<label class="payment-method" for="payment<?php echo $index ?>">
 						
@@ -254,7 +255,7 @@
 								echo $payment->get_payment_name();
 						      endif; ?>
 					</label>
-							
+				</div>	
 				<?php
 					endforeach;
 					else:

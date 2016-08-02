@@ -61,14 +61,14 @@
 						<div class="clearfix pronto-donation-group">
 							<label>Other Amount </label>
 							<?php if($this->class->pronto_donation_has_payment_amount_level($attrs['campaign'])): ?>
-								<div id="currency" class="<?php echo $this->campaignOption->InputFieldClass ?>">
+								<div id="currency">
 									<span><?php echo $this->class->pronto_donation_currency(); ?></span>
-									<input  disabled="" type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="00" />
+									<input class="<?php echo $this->campaignOption->InputFieldClass ?>" disabled="" type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="00" />
 								</div>
 							<?php else: ?>
-								<span id="currency" class="<?php echo $this->campaignOption->InputFieldClass ?>">
+								<span id="currency" >
 									<span><?php echo $this->class->pronto_donation_currency(); ?></span>
-									<input type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="00"  />
+									<input class="<?php echo $this->campaignOption->InputFieldClass ?>" type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="00"  />
 								</span>
 							<?php endif; ?>
 						</div>
@@ -120,10 +120,10 @@
 		<div class="pd-col s12">
 			<?php if($pronto_donation_campaign['show_gift_field']): ?>
 				<div class="pronto-donation-group pronto-donation-gift clearfix">
-					<input  id="donation_gift" type="checkbox" name="donation_gift">
+					<input class="<?php echo $this->campaignOption->InputFieldClass ?>" id="donation_gift" type="checkbox" name="donation_gift">
 					<label for="donation_gift">Is this a Gift</label>
 				</div>
-				<textarea id="gift_message" style="display:none" name="donation_gift_message" class="" rows="5" placeholder="Gift message..."></textarea>
+				<textarea id="gift_message" style="display:none" name="donation_gift_message" class="<?php echo $this->campaignOption->InputFieldClass ?>" rows="5" placeholder="Gift message..."></textarea>
 			<?php endif; ?>
 		</div>
 	</div>
@@ -148,7 +148,6 @@
 					</div>
 					<div class="pd-col s8">
 						<div class="pronto-donation-group" >
-							
 							<input placeholder="Company Name" disabled="disabled" id="companyName" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="companyName" type="text" />	
 						</div>
 					</div>
