@@ -188,7 +188,7 @@ class Pronto_donation_Public {
 	    		}
 
 	    		$campaign['statusCode'] = 0;
-
+	    		$campaign['statusText'] = '';
 	    		$campaign_data['timestamp'] = time();
 
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
