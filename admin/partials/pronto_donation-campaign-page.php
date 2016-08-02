@@ -195,7 +195,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&currency_symbol='.$currency_val.'&height=550&width=753" id="thickbox-my" class="thickbox donation-view-details">view details</a>';
 
             $data[] = $table_data;
-          
+            
         }
         return $data;
     }
