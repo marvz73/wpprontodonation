@@ -59,9 +59,9 @@
 						<input  disabled="" type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="00" />
 					</div>
 				<?php else: ?>
-					<span id="currency" class="<?php echo $this->campaignOption->InputFieldClass ?>">
+					<span id="currency" >
 						<span><?php echo $this->class->pronto_donation_currency(); ?></span>
-						<input type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="00"  />
+						<input class="<?php echo $this->campaignOption->InputFieldClass ?>" type="number" id="pd_custom_amount" name="pd_custom_amount" placeholder="00"  />
 					</span>
 				<?php endif; ?>
 			</div>
