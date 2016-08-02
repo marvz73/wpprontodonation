@@ -464,6 +464,7 @@ if ( isset($_GET['page']) ) {
 
 		if (isset($_POST['submit'])) {
 
+			$from_style = (empty($_POST['from_style'])) ? "" : $_POST['from_style'];
 			$form_class = (empty($_POST['from_class'])) ? "" : $_POST['from_class'];
 			$button_class = (empty($_POST['button_class'])) ? "" : $_POST['button_class'];
 			$input_field_class = (empty($_POST['input_field_class'])) ? "" : $_POST['input_field_class'];
@@ -472,7 +473,13 @@ if ( isset($_GET['page']) ) {
 			$set_currency = (empty($_POST['set_currency'])) ? "" : $_POST['set_currency'];
 			$set_country = (empty($_POST['set_country'])) ? "" : $_POST['set_country'];
 			$enable_address_validation = (empty($_POST['enable_address_validation'])) ? "" : $_POST['enable_address_validation'];
-			$google_geocode_api_key = (empty($_POST['google_geocode_api_key'])) ? "" : $_POST['google_geocode_api_key'];
+			$google_geocode_api_key ='';
+			if($_POST['adress_validation_status']=='INVALID'||$_POST['adress_validation_status']=='EMPTY'){
+				$google_geocode_api_key ='';
+			}else{
+				$google_geocode_api_key = (empty($_POST['google_geocode_api_key'])) ? "" : $_POST['google_geocode_api_key'];
+			}
+			
 
 			$google_recaptcha_enable = (empty($_POST['google_recaptcha_enable'])) ? "" : $_POST['google_recaptcha_enable'];	
 			$google_recaptcha_site_key = (empty($_POST['google_recaptcha_site_key'])) ? "" : $_POST['google_recaptcha_site_key'];	
@@ -508,6 +515,7 @@ if ( isset($_GET['page']) ) {
 
 
 			$pronto_donation_settings = array(
+				'FormStyle'     => stripslashes($from_style),
 				'FormClass'     => stripslashes($form_class),
 				'ButtonClass'      => stripslashes($button_class),
 				'InputFieldClass'   => stripslashes($input_field_class),
@@ -599,6 +607,7 @@ if ( isset($_GET['page']) ) {
 
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
 
+		$from_style = (empty($pronto_donation_settings['FormStyle'])) ? "" : $pronto_donation_settings['FormStyle'];
 		$form_class = (empty($pronto_donation_settings['FormClass'])) ? "" : $pronto_donation_settings['FormClass'];
 		$button_class = (empty($pronto_donation_settings['ButtonClass'])) ? "" : $pronto_donation_settings['ButtonClass'];
 		$input_field_class = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : $pronto_donation_settings['InputFieldClass'];
@@ -652,6 +661,17 @@ if ( isset($_GET['page']) ) {
 			<h2 class="title">Campaign From</h2>
 			<table class="form-table">
 				<tbody>
+					<tr>
+						<th scope="row">
+							<label for="from_style">Form Style</label>
+						</th>
+						<td> 
+							<select name="from_style" id="from_style">
+								<option value="1" <?php if($from_style=='1'){echo'selected';}?>>Style 1</option>
+								<option value="2" <?php if($from_style=='2'){echo'selected';}?>>Style 2</option>
+							</select>
+						</td>
+					</tr>
 					<tr>
 						<th scope="row">
 							<label for="from_class">Form Class</label>
@@ -753,8 +773,7 @@ if ( isset($_GET['page']) ) {
 						</th>
 						<td>
 							<input name="google_geocode_api_key" placeholder="API Key Here" type="text" class="regular-text" id="google_geocode_api_key" value="<?php echo $google_geocode_api_key; ?>">
-							<span id="adress_validation_status_valid" style="color:green;"></span>
-							<span id="adress_validation_status_invalid" style="color:red;"></span>
+							<input id="adress_validation_status" name="adress_validation_status" style="border: none;" value="" class="regular-text" readonly>
 						</td>
 					</tr>
 				</tbody>

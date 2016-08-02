@@ -94,7 +94,7 @@ class Pronto_donation_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts($www) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -111,8 +111,29 @@ class Pronto_donation_Public {
 		wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js', array( ), $this->version, false );
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
-			
+		
+		$check_page = $_SERVER['QUERY_STRING'];
 
+		if (strpos($check_page, 'campaign=') !== false) {
+		    //========================= Google Maps Autocomplete =======================//
+			$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+
+			$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
+			if(empty($google_geocode_api_key)||$google_geocode_api_key==''){}else{
+
+				wp_enqueue_script( "MyJsforthisshorcode", plugin_dir_url( __FILE__ ) . 'js/pronto_donation-address-validation.js', array( 'jquery' ), $this->version, false );
+				wp_enqueue_script( 'gmapscript2', 'https://maps.googleapis.com/maps/api/js?key='.$google_geocode_api_key.'&language=en&libraries=places&callback=initAutocomplete');
+
+			}
+			//========================= Google Maps Autocomplete =======================//
+
+
+
+		}
+
+
+		//echo '<pre>';
+		//print_r($_GET);
 
 	}
 
@@ -306,18 +327,6 @@ class Pronto_donation_Public {
 
 			require_once('partials/pronto_donation-public-campaign.php');
 
-			//========================= Google Maps Autocomplete =======================//
-			$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-
-			$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
-			if(empty($google_geocode_api_key)||$google_geocode_api_key==''){}else{
-
-				wp_enqueue_script( "MyJsforthisshorcode", plugin_dir_url( __FILE__ ) . 'js/pronto_donation-address-validation.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( 'gmapscript2', 'https://maps.googleapis.com/maps/api/js?key='.$google_geocode_api_key.'&language=en&libraries=places&callback=initAutocomplete');
-
-			}
-			//========================= Google Maps Autocomplete =======================//
-
 
 		}
 		else
@@ -344,17 +353,7 @@ class Pronto_donation_Public {
 		    require_once('partials/pronto_donation-public-campaign-style2-full.php');
 
 
-		    //========================= Google Maps Autocomplete =======================//
-			$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
 
-			$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
-			if(empty($google_geocode_api_key)||$google_geocode_api_key==''){}else{
-
-				wp_enqueue_script( "MyJsforthisshorcode", plugin_dir_url( __FILE__ ) . 'js/pronto_donation-address-validation.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( 'gmapscript2', 'https://maps.googleapis.com/maps/api/js?key='.$google_geocode_api_key.'&language=en&libraries=places&callback=initAutocomplete');
-
-			}
-			//========================= Google Maps Autocomplete =======================//
 			
 
 		}
