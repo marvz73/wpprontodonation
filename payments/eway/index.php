@@ -75,9 +75,10 @@ class eway{
 		$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
 		$EwayAPIPassword = $ppd['payment_info']->option['ewayapipassword'];
 		$EwaySanboxMode = $ppd['payment_info']->option['ewaysandboxmode'];
+
 		$request = new eWAY\CreateAccessCodesSharedRequest();
 		$request->Customer->Reference = (string)$ppd['post_meta_id'];
-		$request->Customer->CompanyName = $ppd['companyName'];
+		$request->Customer->CompanyName = (isset($ppd['companyName'])) ? $ppd['companyName'] : '';
 		$request->Customer->Email = $ppd['email'];
 		$request->Customer->FirstName = $ppd['first_name'];  
 		$request->Customer->LastName = $ppd['last_name']; 
@@ -94,6 +95,7 @@ class eway{
 		$request->RedirectUrl = $ppd['redirectURL'];
 		$request->CancelUrl   = $ppd['CancelUrl'];
 		$request->Method = 'ProcessPayment';
+		
 		$eway_params = array();
 		if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
 		$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);

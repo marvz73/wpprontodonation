@@ -359,7 +359,7 @@ class Pronto_donation {
 
 				$donation_details = unserialize( $donor_value->meta_value );
 			
-				if( $donation_details['statusCode'] === 1 ) {
+				if( isset($donation_details['statusCode']) && $donation_details['statusCode'] === 1 ) {
 					$total_donator++;
 					if(array_key_exists('pd_amount', $donation_details)
 						&& isset( $donation_details['pd_amount'] )
@@ -383,6 +383,7 @@ class Pronto_donation {
 	}
 
 	function pronto_donation_user_notification($campaign) {
+
 		$site_name = get_bloginfo('name');
 		$option = get_option('pronto_donation_settings');
 
@@ -396,7 +397,6 @@ class Pronto_donation {
 	    $message .= sprintf(__('State: %s'), $campaign['state']) . "\r\n";
 	    $message .= sprintf(__('Post Code: %s'), $campaign['post_code']) . "\r\n";
 	    $message .= sprintf(__('Suburb: %s'), $campaign['suburb']) . "\r\n\r\n";
-
 	    $message .= sprintf(__('Payment Method: %s'), $campaign['payment']) . "\r\n";
 	    $message .= sprintf(__('Currency: %s'), $campaign['CurrencyCode']) . "\r\n";
 	    $message .= sprintf(__('Payment Response: %s'), $campaign['statusText']) . "\r\n";
@@ -408,7 +408,6 @@ class Pronto_donation {
 	    //BUILD USER NOTIFICATION EMAIL
 	    $message_template = $option['ThankYouMailMessage'];
 
-	    //replace placeholders with user-specific content
 	    $message = str_ireplace('[email]', $campaign['email'], $message_template);
 	    $message = str_ireplace('[first-name]', $campaign['first_name'], $message);
 	    $message = str_ireplace('[last-name]', $campaign['last_name'], $message);
