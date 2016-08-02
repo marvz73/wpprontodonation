@@ -199,12 +199,15 @@ class Pronto_donation_Activator {
 
 
 
-		$thank_you_page_message_post_id = '';
-		$thank_you_page_message_postTitle = 'Thank You';
+		
+		global $wpdb;
 
-	    if (get_page_by_title($thank_you_page_message_postTitle) == NULL) {
-	    	$new_post = array(
-	            'post_title' => $thank_you_page_message_postTitle,
+		$thank_you_page_message_post_id = null;
+		$new_post_thank_result = $wpdb->get_results("SELECT count(*) as detect FROM  $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = 'Thank You'");
+
+		if( $new_post_thank_result[0]->detect == 0 ) {
+			$new_post_thank_you = array(
+	            'post_title' => 'Thank You',
 	            'post_content' => (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'],
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
@@ -212,17 +215,15 @@ class Pronto_donation_Activator {
 	            'post_type' => 'pronto_donation',
 	            'post_category' => array(0)
 	        );
-			$thank_you_page_message_post_id = wp_insert_post($new_post);
-	    	
-	    } 
+	        $thank_you_page_message_post_id = wp_insert_post( $new_post_thank_you );
+		}
 
+		$cancel_page_message_post_id = null;
+		$new_post_cancelled_result = $wpdb->get_results("SELECT count(*) as detect FROM  $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = 'Cancelled'");
 
-	   	$cancel_page_message_post_id = '';
-		$cancel_page_message_postTitle = 'Cancelled';
-
-	    if (get_page_by_title($cancel_page_message_postTitle) == NULL) {
-	    	$new_post = array(
-	            'post_title' => $cancel_page_message_postTitle,
+		if( $new_post_cancelled_result[0]->detect == 0 ) {
+			$new_post_cancelled = array(
+	            'post_title' => 'Cancelled',
 	            'post_content' => (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'],
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
@@ -230,23 +231,13 @@ class Pronto_donation_Activator {
 	            'post_type' => 'pronto_donation',
 	            'post_category' => array(0)
 	        );
-			$cancel_page_message_post_id = wp_insert_post($new_post);
-	    	
-	    } 
-
+	        $cancel_page_message_post_id = wp_insert_post( $new_post_cancelled );
+		}
 
 
 	    $info_on_offline_payment_panel_post_id = '';
 
 	   	$instructions_emailed_to_offline_donor_before_payment_post_id = '';
-
-
-
-
-
-
-
-
 
 	    //================ Get All Data In Pronto Donation Settings Option ==============//
 	    $from_style = (empty($pronto_donation_settings['FormStyle'])) ? "" : $pronto_donation_settings['FormStyle'];

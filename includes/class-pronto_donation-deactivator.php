@@ -34,22 +34,7 @@ class Pronto_donation_Deactivator {
 	public static function deactivate() {
 		global $wpdb;
 		//================ Get Post Page for Messages ==============//
-
-		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
-			
-		$cancel_page_message_page = (empty($pronto_donation_settings['CancelPageMessagePage'])) ? "" : $pronto_donation_settings['CancelPageMessagePage'];
-	
-
-		if($thank_you_page_message_page==""||empty($thank_you_page_message_page)){}
-		else{
-			wp_delete_post( $thank_you_page_message_page, true ) ;
-		}
-
-		if($cancel_page_message_page==""||empty($cancel_page_message_page)){}
-		else{
-			wp_delete_post( $cancel_page_message_page, true ) ;
-		}
+		$wpdb->get_results("DELETE FROM $wpdb->posts WHERE post_type = 'pronto_donation'");
 	    //================ Get Post Page for Messages ==============//
 
 	}
