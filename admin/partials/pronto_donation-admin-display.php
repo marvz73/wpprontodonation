@@ -434,8 +434,7 @@ if ( isset($_GET['page']) ) {
 		
 		//================ Get Post Page for Messages ==============//
 		$thank_you_page_message_post_id = '';
-		$thank_you_page_message_postTitle = 'Thank You';
-		$post_id_A = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = '" . $thank_you_page_message_postTitle . "'" );
+		$post_id_A = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = 'Thank You'");
 
 	    if(empty($post_id_A)||$post_id_A==null){}
 	    else{
@@ -445,8 +444,7 @@ if ( isset($_GET['page']) ) {
 
 
 	   	$cancel_page_message_post_id = '';
-		$cancel_page_message_postTitle = 'Cancelled';
-		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = '" . $cancel_page_message_postTitle . "'" );
+		$post_id_B = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'pronto_donation' AND post_title = 'Cancelled'");
 
 	    if(empty($post_id_B)||$post_id_B==null){}
 	    else{
@@ -578,6 +576,20 @@ if ( isset($_GET['page']) ) {
 			}
 
 
+
+			if($cancel_page_message_page==""||empty($cancel_page_message_page)){}
+			else{
+
+				// Update content of page selected on 'instructions emailed to offline donor before payment'
+				$my_post = array(
+				  'ID'           => $cancel_page_message_page,
+				  'post_content' => stripslashes($cancel_page_message)
+				);
+				// Update the post into the database
+				wp_update_post( $my_post );
+			}
+
+
 			// if($info_on_offline_payment_panel_page==""||empty($info_on_offline_payment_panel_page)){}
 			// else{
 
@@ -608,8 +620,8 @@ if ( isset($_GET['page']) ) {
 		}	
 
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-		echo '<pre>';
-		print_r($pronto_donation_settings);
+		// echo '<pre>';
+		// print_r($pronto_donation_settings);
 
 		$from_style = (empty($pronto_donation_settings['FormStyle'])) ? "" : $pronto_donation_settings['FormStyle'];
 		$form_class = (empty($pronto_donation_settings['FormClass'])) ? "" : $pronto_donation_settings['FormClass'];
