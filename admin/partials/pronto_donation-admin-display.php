@@ -436,6 +436,11 @@ if ( isset($_GET['page']) ) {
 
 
 		if (isset($_POST['submit'])) {
+			$settings_Options = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+			$thank_you_page_message_page = (empty($settings_Options['ThankYouPageMessagePage'])) ? "" : $settings_Options['ThankYouPageMessagePage']; 
+			$cancel_page_message_page = (empty($settings_Options['CancelPageMessagePage'])) ? "" : $settings_Options['CancelPageMessagePage']; 
+
+
 
 			$from_style = (empty($_POST['from_style'])) ? "" : $_POST['from_style'];
 			$form_class = (empty($_POST['from_class'])) ? "" : $_POST['from_class'];
@@ -472,10 +477,10 @@ if ( isset($_GET['page']) ) {
 			$salesforce_username = (empty($_POST['salesforce_username'])) ? "" : $_POST['salesforce_username'];
 			$salesforce_password = (empty($_POST['salesforce_password'])) ? "" : $_POST['salesforce_password'];
 
-			//$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
+			
 			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
 
-			//$cancel_page_message_page = (empty($cancel_page_message_post_id)) ? "" : $cancel_page_message_post_id;
+			
 			$cancel_page_message = (empty($_POST['cancel_page_message'])) ? "" : $_POST['cancel_page_message'];
 
 			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];
@@ -518,10 +523,10 @@ if ( isset($_GET['page']) ) {
 				'SalesforceUsername' => stripslashes($salesforce_username),
 				'SalesforcePassword' => stripslashes($salesforce_password),
 
-				//'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
+				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
 				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
 
-				//'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
+				'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
 				'CancelPageMessage' => stripslashes($cancel_page_message),
 
 				'ThankYouMailMessage' => stripslashes($thank_you_email_message)
