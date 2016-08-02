@@ -151,38 +151,25 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
             $donor_data = unserialize( $donor_value->meta_value );
             $table_data = array();
-            // echo "<pre>";
-            // print_r($donor_data);
 
             $currencycode = ( isset($donor_data['CurrencyCode']) ? $donor_data['CurrencyCode'] : '' );
             $currency_val = $this->pronto_donation_get_currency_symbol( $currencycode );
 
             $table_data['id'] = $donor_value->meta_id;
-
             $table_data['date'] = ( isset( $donor_data['timestamp'] ) ) ? date('M d, Y h:m:s', $donor_data['timestamp'] ) : '';
-
             $table_data['donor_name'] = ( array_key_exists( 'donor_type', $donor_data ) && $donor_data['donor_type'] == 'B' ) ? 
-
             $donor_data['companyName'] : $table_data['donor_name'] = $donor_data['first_name'] . " " .  $donor_data['last_name'];
-
             $table_data['payment'] = ( $donor_data['payment'] == 'Ezidebit' ) ? $ezidebit_url : $eway_url;
-
             $table_data['email'] = $donor_data['email'];
-
             $table_data['campaignid'] = $donor_data['donation_campaign'];
-
             $table_data['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );
-
             if(array_key_exists('pd_amount', $donor_data) && isset( $donor_data['pd_amount'] ) && (int) $donor_data['pd_amount'] > 0 ) {
                 $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_amount'], 2, '.', ',');
             } else {
                 $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_custom_amount'], 2, '.', ',');
             }
-            
             $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
-
             $status = "";
-
             if( array_key_exists('statusCode', $donor_data) ) {
                 $status = $donor_data['statusText'];
             } else if( !array_key_exists('statusCode', $donor_data) ) {
@@ -190,7 +177,6 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             } else {
                 $status = "Pending";
             }
-
             $table_data['status'] = '<div id="status'.$donor_value->meta_id.'" class="donation-status-pending">'. $status . '</div>
             <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&currency_symbol='.$currency_val.'&height=550&width=753" id="thickbox-my" class="thickbox donation-view-details">view details</a>';
 
@@ -501,29 +487,19 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 $currency_val = $this->pronto_donation_get_currency_symbol( $currencycode );
 
                 $table_search['id'] = $donor_value->meta_id;
-
                 $table_search['date'] = ( isset( $donor_data['timestamp'] ) ) ? date('M d, Y', $donor_data['timestamp'] ) : '';
-
                 $table_search['donor_name'] = ( array_key_exists( 'donor_type', $donor_data ) && $donor_data['donor_type'] == 'B' ) ? 
-
                 $donor_data['companyName'] : $table_search['donor_name'] = $donor_data['first_name'] . " " .  $donor_data['last_name'];
-
                 $table_search['payment'] = ( $donor_data['payment'] == 'Ezidebit' ) ? $ezidebit_url : $eway_url;
-
                 $table_search['email'] = $donor_data['email'];
-
                 $table_search['campaignid'] = $donor_data['donation_campaign'];
-
                 $table_search['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );
-
                 if(array_key_exists('pd_amount', $donor_data) && isset( $donor_data['pd_amount'] ) && (int) $donor_data['pd_amount'] > 0 ) {
                     $table_search['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_amount'], 2, '.', ',');
                 } else {
                     $table_search['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_custom_amount'], 2, '.', ',');
                 }
-
                 $table_search['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
-
                 $status = "";
                 if( array_key_exists('statusCode', $donor_data) ) {
                     $status = $donor_data['statusText'];
@@ -532,7 +508,6 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 } else {
                     $status = "Pending";
                 }
-
                 $table_search['status'] = '<div id="status'.$donor_value->meta_id.'" class="donation-status-pending">'. $status . '</div>
                 <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&currency_symbol='.$currency_val.'&height=550&width=753" id="thickbox-my" class="thickbox donation-view-details">view details</a>';
 

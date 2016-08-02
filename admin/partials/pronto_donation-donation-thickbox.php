@@ -17,8 +17,6 @@
         $data_country = ( !empty( $donation_details['country'] ) ) ? $donation_details['country'] : '';
 
         $data_address_concat = $data_address.$data_suburb.$data_state.$data_post_code.$data_country;
-        // echo "<pre>";
-        // print_r($donation_details);
         ?>
 
         <script type="text/javascript">
@@ -195,32 +193,30 @@
                         </th>
                         <td>
                             <select class="regular-text donation-details-value" name="donation_status" id="donation_status">
-                                <option value="pending" 
-                                <?php 
 
-                                if( (array_key_exists('statusText', $donation_details ) 
+                                <option value="pending" 
+                                <?php
+                                if( (array_key_exists('statusText', $donation_details )
                                     && strtolower( $donation_details['statusText'] ) == 'pending'
                                     && $donation_details['statusCode'] == 0 ) )
                                 {
-                                    echo "selected='selected'"; 
+                                    echo "selected='selected'";
                                 } else if( (!array_key_exists('statusText', $donation_details )
                                     && $donation_details['status'] == 'pending') ||
                                     (!array_key_exists('statusText', $donation_details )
                                     && $donation_details['status'] == 'Ezidebit')
                                 ) {
-                                    echo "selected='selected'"; 
+                                    echo "selected='selected'";
                                 }
-
                                 ?>
                                 >Pending</option>
 
                                 <option value="cancelled"
 
-                                <?php 
-
-                                if( (array_key_exists('statusText', $donation_details) 
+                                <?php
+                                if( (array_key_exists('statusText', $donation_details)
                                     && strtolower( $donation_details['statusText'] ) == 'cancelled'
-                                    && $donation_details['statusCode'] == 0 ) ) 
+                                    && $donation_details['statusCode'] == 0 ) )
                                 {
                                     echo "selected='selected'";
                                 } else if(!array_key_exists('statusText', $donation_details )
@@ -228,21 +224,19 @@
                                 {
                                     echo "selected='selected'";
                                 }
+                                ?>
+                                >Cancelled</option>
 
-                                ?> >Cancelled</option>
-
-
-                                <option value="approved" 
-                                <?php 
-
-                                if( array_key_exists('statusText', $donation_details) 
-                                    && $donation_details['statusCode'] == 1 ) 
+                                <option value="approved"
+                                <?php
+                                if( array_key_exists('statusText', $donation_details)
+                                    && $donation_details['statusCode'] == 1 )
                                 {
                                     echo "selected='selected'";
                                 }
-
                                 ?>
                                 >Approved</option>
+
                             </select>
                             <span class="status-ajax"></span>
                         </td>

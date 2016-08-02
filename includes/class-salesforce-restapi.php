@@ -121,7 +121,7 @@ class SalesforceAPI extends APIAbstract {
 //        } elseif($this->return_type === self::RETURN_ARRAY_A) {
 //            $this->access_token = $login['access_token'];
 //        }
-        // Return the login object
+        // Return the login objects
         // TODO: Should this be returned?
 
         return $login;
@@ -242,7 +242,7 @@ class SalesforceAPI extends APIAbstract {
      * @throws SalesforceAPIException
      */
     public function getAPIVersions()
-    {
+    {   
         return $this->httpRequest( $this->base_url . '/services/data' );
     }
     /**
@@ -273,7 +273,7 @@ class SalesforceAPI extends APIAbstract {
      */
     public function getAllObjects()
     {
-        return $this->request( self::OBJECT_PATH );
+         return $this->request( self::OBJECT_PATH );
     }
     /*========== Object Metadata ============*/
     /**
@@ -504,6 +504,7 @@ class SalesforceAPI extends APIAbstract {
         $response = curl_exec($this->handle);
         $response = $this->checkForRequestErrors($response, $this->handle);
         $result = json_decode($response);
+
         if($this->return_type === self::RETURN_OBJECT) {
             return $result;
         } elseif($this->return_type === self::RETURN_ARRAY_A) {

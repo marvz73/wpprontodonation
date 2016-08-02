@@ -20,8 +20,14 @@
  * @subpackage Pronto_donation/admin
  * @author     AlphaSys <danryl@alphasys.com.au>
  */
-class Pronto_donation_Admin {
 
+
+// load salesforce rest api
+if( !class_exists('SalesforceAPI') )
+require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-salesforce-restapi.php';
+
+class Pronto_donation_Admin {
+	
 	private $base = __DIR__ . '/../payments/';
 	private $payments = array();
 	/**
@@ -380,7 +386,7 @@ class Pronto_donation_Admin {
 		 	}
 		}
 
-		?>
+ 		?>
 
 		<div class="wrap">
  			<form id="campagin-form" method="POST" action="" >
@@ -824,9 +830,12 @@ class Pronto_donation_Admin {
 				$data = ( isset( $_POST['hide_custom_amount'] ) ) ? 1 : 0 ;
 				$data1 = ( isset( $_POST['show_gift_field'] ) ) ? 1 : 0 ;
 
+				$current_link = sanitize_text_field( $_POST['banner_image'] );
+				$img_path = wp_make_link_relative( $current_link );
+ 
 				$campaign_data = array();
 				$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'] );
-				$campaign_data['banner_image'] = sanitize_text_field( $_POST['banner_image'] );
+				$campaign_data['banner_image'] = $img_path;
 				$campaign_data['hide_custom_amount'] = $data;
 				$campaign_data['show_gift_field'] = $data1;
 				$campaign_data['amount_level'] = $amountdata;
@@ -1112,4 +1121,22 @@ class Pronto_donation_Admin {
 		require_once('partials/pronto_donation-admin-display.php');
 	}
 
+	public function pronto_donation_sf_rest_api() {
+
+		$settings_data = get_option( 'pronto_donation_settings', 0 );
+
+		$sf_base_url = $settings_data['SalesforceURL'];
+		$sf_api_version = '37.0';
+		$sf_consumer_key = $settings_data['ClientId'];
+		$sf_consumer_secret = $settings_data['ClientSecret'];
+
+		$sf_user_name = $settings_data['SalesforceUsername'];
+		$sf_user_password = $settings_data['SalesforcePassword'];
+		$sf_user_security_token = $settings_data['SecurityToken'];
+
+		$salesforce = new SalesforceAPI( $sf_base_url, $sf_api_version, $sf_consumer_key, $sf_consumer_secret );
+		$salesforce->login( $sf_user_name, $sf_user_password, $sf_user_security_token );
+
+		return $salesforce;
+	}
 }
