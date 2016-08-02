@@ -98,9 +98,17 @@
                             <label class="">Gift</label>
                         </th>
                         <td>
-                           <label class="" for="gift"><input class="donation-details-value" name="donation_gift" type="checkbox" id="donation_gift" disabled <?php if ( isset( $donation_details['donation_gift'] ) && $donation_details['donation_gift'] !== 0 ) echo "checked='checked'" ?> > </label>
+                           <label class="" for="donation_gift"><input class="donation-details-value" name="donation_gift" type="checkbox" id="donation_gift" disabled <?php if ( isset( $donation_details['donation_gift'] ) && $donation_details['donation_gift'] !== 0 ) echo "checked='checked'" ?> > </label>
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            <label class="">Gift Message</label>
+                        </th>
+                        <td>
+                            <textarea readonly rows="3" cols="46" class="donation-details-value" name="donation_gift_msg"><?php echo ( isset( $donation_details['donation_gift_message'] ) ) ? $donation_details['donation_gift_message'] : '' ?></textarea>
+                        </td>
+                     </tr>
                     <tr>
                         <th>
                             <label class="">First Name</label>
