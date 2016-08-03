@@ -173,13 +173,15 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             }
             $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
             $status = "";
-            if( array_key_exists('statusCode', $donor_data) ) {
+
+            if( array_key_exists('statusCode', $donor_data) && !empty( $donor_data['statusText'] ) ) {
                 $status = $donor_data['statusText'];
-            } else if( !array_key_exists('statusCode', $donor_data) ) {
+            } else if( !array_key_exists('statusCode', $donor_data) && empty( $donor_data['statusText'] ) ) {
                 $status = $donor_data['status'];
             } else {
                 $status = "Pending";
             }
+
             $table_data['status'] = '<div id="status'.$donor_value->meta_id.'" class="donation-status-pending">'. $status . '</div>
             <a href="'.$redirect_url.'?donation_meta_key='.$donor_value->meta_id.'&currency_symbol='.$currency_val.'&height=550&width=753" id="thickbox-my" class="thickbox donation-view-details">view details</a>';
 
@@ -504,9 +506,9 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 }
                 $table_search['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
                 $status = "";
-                if( array_key_exists('statusCode', $donor_data) ) {
+                if( array_key_exists('statusCode', $donor_data) && !empty( $donor_data['statusText'] ) ) {
                     $status = $donor_data['statusText'];
-                } else if( !array_key_exists('statusCode', $donor_data) ) {
+                } else if( !array_key_exists('statusCode', $donor_data) && empty( $donor_data['statusText'] ) ) {
                     $status = $donor_data['status'];
                 } else {
                     $status = "Pending";
