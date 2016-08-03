@@ -91,6 +91,7 @@ class Pronto_donation_Admin {
 		 * class.
 		 */
 
+
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/pronto_donation-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -113,7 +114,11 @@ class Pronto_donation_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		$check_page = $_SERVER['QUERY_STRING'];
 
+		if (strpos($check_page, 'page=donation-settings') !== false) {
+			wp_enqueue_script( 'address_validation', plugin_dir_url( __FILE__ ) . 'js/pronto_donation-admin-address-validation.js', array( 'jquery' ), $this->version, false );
+		}
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-admin.js', array( 'jquery' ), $this->version, false );
 
 	}

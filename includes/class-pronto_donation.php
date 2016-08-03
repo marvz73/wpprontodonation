@@ -188,6 +188,8 @@ class Pronto_donation {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'pronto_donation_remove_menu_items' );
 		$this->loader->add_action( 'wp_ajax_change_donation_status', $plugin_admin, 'proto_donation_change_donation_status' );
 		$this->loader->add_action( 'wp_ajax_remove_campaign_banner', $plugin_admin, 'proto_donation_remove_campaign_banner' );
+
+
 	}
 
 
