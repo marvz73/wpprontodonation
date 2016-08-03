@@ -71,7 +71,7 @@ class ezidebit{
 
 		$fields = array(
 			'Type'					=> $ppd['donor_type'],
-			'CompanyName'			=> $ppd['companyName'],
+			'CompanyName'			=> (isset($ppd['companyName'])) ? $ppd['companyName'] : '',
 			'FirstName'				=> $ppd['first_name'],
 			'LastName'				=> $ppd['last_name'],
 			'EmailAddress'			=> $ppd['email'],

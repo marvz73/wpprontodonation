@@ -243,6 +243,9 @@
 						<input placeholder="State" type="text" id="administrative_area_level_1" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>/>
 						<span id="state_validation"></span>
 					</div>
+
+					<?php elseif($pronto_donation_user_info['user_state_option'] == 'hide'): ?>
+					<input id="administrative_area_level_1" hidden/>
 					<?php endif; ?>
 				</div>
 
@@ -256,6 +259,9 @@
 							
 							<input placeholder="Post Code" id="postal_code" name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
 						</div>
+
+					<?php elseif($pronto_donation_user_info['user_postcode_option'] == 'hide'): ?>
+					<input id="postal_code" hidden/>
 					<?php endif; ?>
 				</div>
 				<div class="pd-col s6">
@@ -265,6 +271,9 @@
 						<input placeholder="Suburb" id="locality" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
 						<span id="suburb_validation"></span>
 					</div>
+
+					<?php elseif($pronto_donation_user_info['user_suburb_option'] == 'hide'): ?>
+					<input id="locality" hidden/>
 					<?php endif; ?>
 				</div>
 			</div>
