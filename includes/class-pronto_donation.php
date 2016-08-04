@@ -212,18 +212,11 @@ class Pronto_donation {
 		$this->loader->add_shortcode( 'pronto-donation-IOOPPP', $plugin_public, 'pronto_donation_info_on_offline_payment_panel_page');
 		$this->loader->add_shortcode( 'pronto-donation-IETODBP', $plugin_public, 'pronto_donation_instructions_emailed_to_offline_donor_before_payment');
 		$this->loader->add_shortcode( 'pronto-donation-IETODBP', $plugin_public, 'pronto_donation_instructions_emailed_to_offline_donor_before_payment');
-
-
 		$this->loader->add_shortcode( 'pronto-donation', $plugin_public, 'pronto_donation_campaign' );
 		$this->loader->add_shortcode( 'pronto-donation-full', $plugin_public, 'pronto_donation_campaign_full' );
-
 		$this->loader->add_shortcode( 'pronto-donation-campaign-list', $plugin_public, 'pronto_donation_campaign_list' );
 
 		$this->loader->add_filter( 'single_template', $plugin_public, 'pronto_donation_override_template', 99 );
-
-
-		// $this->loader->add_filter( 'the_title', $plugin_public, 'test', 99 );
-		// $this->loader->add_filter( 'the_content', $plugin_public, 'test', 99 );
 
 	}
 

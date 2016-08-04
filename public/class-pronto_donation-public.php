@@ -45,7 +45,7 @@ class Pronto_donation_Public {
 	public $campaignOption;
 	public $errors;
 	private $class;
-
+	private $base;
 
 
 
@@ -63,6 +63,7 @@ class Pronto_donation_Public {
 		$this->version = $version;
 		$this->class = $class;
 		$this->errors = new stdClass();
+		$this->base = __DIR__ . '/../payments/';
 		$this->campaignOption = $this->_array_to_object(get_option('pronto_donation_settings'));
 	}
 
@@ -132,9 +133,6 @@ class Pronto_donation_Public {
 		}
 
 
-		//echo '<pre>';
-		//print_r($_GET);
-
 	}
 
 	//
@@ -142,15 +140,12 @@ class Pronto_donation_Public {
 	// Author: Marvin Aya-ay
 	public function pronto_donation_campaign( $campaign_id ){
 
-		
-
 		$this->_pronto_donation_campaign($campaign_id, 'short');
 	}
 
 	//
 	// Desc: Pronto Campaign Full
 	// Author: Marvin Aya-ay
-	private $base = __DIR__ . '/../payments/';
 	public function pronto_donation_campaign_full( $campaign_id){
 
 		//Process the payment here...
@@ -303,7 +298,6 @@ class Pronto_donation_Public {
      * 
      * Desc: Helper and redundancy function
 	 */
-
 	function _pronto_donation_campaign($campaign, $type){
 
 		if($type=='short')
@@ -348,8 +342,7 @@ class Pronto_donation_Public {
 		    $pronto_donation_user_info = get_post_meta($attrs['campaign'], 'pronto_donation_user_info', true);
 
 			$formStyle = get_option('pronto_donation_settings', true)['FormStyle'];
-		    require_once('partials/pronto_donation-public-campaign-style'.$formStyle.'-full.php');
-
+		    require_once('partials/pronto_donation-public-campaign-style' . $formStyle . '-full.php');
 		}
 	}
 

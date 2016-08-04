@@ -1,3 +1,13 @@
+<?php
+
+/*
+ * Title: Style 1 Themes
+ * Desc: Style 1 of the Pronto Donation Plugin which are in one column
+ * Date: Aug. 3, 2016
+ */
+
+?>
+
 <div id="pronto-donation-wrapper" class="<?php echo $this->campaignOption->FormClass ?>">
 	<?php if(isset($this->errors)): ?>
 		<div class="pronto_donation_error">
@@ -263,7 +273,7 @@
 					<input class="payment-input" id="payment<?php echo $index ?>" <?php echo ($index==0) ? 'checked="true"' : '' ?> type="radio" name="payment" value="<?php echo $payment->get_payment_name() ?>" />
 					<label class="payment-method" for="payment<?php echo $index ?>">
 						
-						<?php if($payment->option['logo']): ?>
+						<?php if(isset($payment->option['logo']) && $payment->option['logo']): ?>
 							<img src="<?php echo $payment->get_payment_logo() ?>" width="100%" alt="<?php echo $payment->get_payment_name() ?>" />
 						<?php else: 
 								echo $payment->get_payment_name();
