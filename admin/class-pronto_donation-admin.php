@@ -618,6 +618,18 @@ class Pronto_donation_Admin {
 							</td>
 						</tr>
 
+						<tr>
+							<th scope="row"><label for="user_comment_option">Comment</label></th>
+							<td>
+								<select name="user_comment_option" id="user_comment_option">
+									<option value="show" <?php if( !empty( $user_information['user_comment_option'] ) && esc_attr($user_information['user_comment_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
+									<option value="hide" <?php if( empty( $user_information['user_comment_option'] ) || esc_attr($user_information['user_comment_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
+									<option value="required" <?php if( !empty( $user_information['user_comment_option'] ) && esc_attr($user_information['user_comment_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								</select>
+								<p class="description">Select an option for user suburb</p>
+							</td>
+						</tr>
+
 					</tbody>
 				</table>
 			</form>
@@ -865,8 +877,8 @@ class Pronto_donation_Admin {
 				$user_information['user_postcode_option'] = sanitize_text_field( $_POST['user_postcode_option'] );
 				$user_information['user_phone_option'] = sanitize_text_field( $_POST['user_phone_option'] );
 				$user_information['user_suburb_option'] = sanitize_text_field( $_POST['user_suburb_option'] );
+				$user_information['user_comment_option'] = sanitize_text_field( $_POST['user_comment_option'] );
 				update_post_meta( $post_id, 'pronto_donation_user_info', $user_information );
-
 			}
 		}
 	}
