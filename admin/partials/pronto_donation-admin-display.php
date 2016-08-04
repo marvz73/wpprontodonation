@@ -635,7 +635,7 @@ if ( isset($_GET['page']) ) {
 		$cancel_page_message = (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'];	
 
 		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
-
+		
 		// $info_on_offline_payment_panel_page = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelPage'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelPage'];
 		// $info_on_offline_payment_panel_enable_offline_payment = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'];
 		// $info_on_offline_payment_panel = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];
@@ -879,6 +879,35 @@ if ( isset($_GET['page']) ) {
 				</tbody>
 			</table>
 	
+		</div>
+
+		<br/>
+		<br/>
+		<div class="card" style="width: 100%;max-width: 96% !important">
+        <h2 class="title">Newsletter Configuration</h2>
+		<?php if( is_plugin_active( 'alo-easymail/alo-easymail.php' ) ) : ?>
+			<table class="form-table">
+				<tr>
+					<th scope="row"><label for="newsletter_option">Newsletter on form</label></th>
+					<td>
+						<select name="newsletter_option" id="newsletter_option">
+							<option value="show">Show</option>
+							<option value="hide" selected="selected">Hide</option>
+							<option value="required">Required</option>
+						</select>
+						<p class="description">Show newsletter field on frontend</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="newsletter_caption">Newsletter caption</label></th>
+					<td>
+						<textarea rows="5" cols="52" id="newsletter_caption" name="newsletter_caption"><?php echo "sample" ?></textarea>
+					</td>
+				</tr>
+			</table>
+		<?php else : ?>
+			<p class="description"> Please download, install, and activate <a href="https://wordpress.org/plugins/alo-easymail/">ALO EasyMail Newsletter Plugin</a></p>
+		<?php endif; ?>
 		</div>
 
 		<br/>
