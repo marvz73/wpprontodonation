@@ -599,18 +599,6 @@ if ( isset($_GET['page']) ) {
 
 		}
 
-
-		try { 		
-			$soap_client = new SF();   
-			$SFfaultCode = $soap_client->faultCode;				
-			$SFfaultMessage = $soap_client->faultMessage;
-		} catch (Exception $e) {
-		   		//secho $e->getMessage();
-		}
-
-
-
-
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
 		// echo '<pre>';
 		// print_r($pronto_donation_settings);
@@ -674,6 +662,7 @@ if ( isset($_GET['page']) ) {
 							<select name="from_style" id="from_style">
 								<option value="1" <?php if($from_style=='1'){echo'selected';}?>>Style 1</option>
 								<option value="2" <?php if($from_style=='2'){echo'selected';}?>>Style 2</option>
+								<option value="3" <?php if($from_style=='3'){echo'selected';}?>>Foodbank</option>
 							</select>
 						</td>
 					</tr>
@@ -866,18 +855,6 @@ if ( isset($_GET['page']) ) {
 							<p>
 								<input type="text" id="security_token" name="security_token" class="regular-text" value="<?php echo $security_token; ?>">
 
-								<?php
-								if($SFfaultCode ==''&& $SFfaultMessage ==''){
-									?>
-									<span style="color: green;">VALID</span>
-									<?php
-								}else{
-									?>
-									<span style="color: red;">INVALID</span>
-									<?php
-								}
-
-								?>
 
 							</p>
 						</td>
@@ -887,18 +864,6 @@ if ( isset($_GET['page']) ) {
 						<td>
 							<p>
 								<input type="text" id="salesforce_username" name="salesforce_username" class="regular-text" value="<?php echo $salesforce_username; ?>">
-								<?php
-								if($SFfaultCode ==''&& $SFfaultMessage ==''){
-									?>
-									<span style="color: green;">VALID</span>
-									<?php
-								}else{
-									?>
-									<span style="color: red;">INVALID</span>
-									<?php
-								}
-
-								?>
 
 							</p>		
 						</td>
@@ -908,41 +873,12 @@ if ( isset($_GET['page']) ) {
 						<td>
 							<p>
 								<input type="password" id="salesforce_password" name="salesforce_password" class="regular-text" value="<?php echo $salesforce_password; ?>">
-								<?php
-								if($SFfaultCode ==''&& $SFfaultMessage ==''){
-									?>
-									<span style="color: green;">VALID</span>
-									<?php
-								}else{
-									?>
-									<span style="color: red;">INVALID</span>
-									<?php
-								}
-
-								?>
 							</p>		
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<p>
-				<input type="submit" name="test_connection" id="test_connection" class="button button-primary" value="Test Connection">
-				<span class="description">Note: Save Changes first before testing.<span>
-			<p>
-			<?php
-				//================= Test Salesforce Connection =================//
-				if(isset($_POST['send_test_email']))
-				{
-					try { 		
-						$soap_client = new SF();   
-						$SFfaultCode = $soap_client->faultCode;				
-						$SFfaultMessage = $soap_client->faultMessage;
-					} catch (Exception $e) {
-					   		//secho $e->getMessage();
-					}
-				}
-				//================= Test Salesforce Connection =================//
-			?>	
+	
 		</div>
 
 		<br/>
