@@ -186,7 +186,7 @@ input[type=radio].pd-level-amount{
     transform: translateY(-50%);
 }
 #currency input[type=number]{
-	padding-left: 25px;
+	padding-left: 11%;
 }
 
 /*Payment Method*/
