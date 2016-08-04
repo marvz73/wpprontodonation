@@ -662,6 +662,7 @@ if ( isset($_GET['page']) ) {
 							<select name="from_style" id="from_style">
 								<option value="1" <?php if($from_style=='1'){echo'selected';}?>>Style 1</option>
 								<option value="2" <?php if($from_style=='2'){echo'selected';}?>>Style 2</option>
+								<option value="3" <?php if($from_style=='3'){echo'selected';}?>>Foodbank</option>
 							</select>
 						</td>
 					</tr>
