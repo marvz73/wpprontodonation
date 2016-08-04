@@ -259,12 +259,8 @@ class Pronto_donation_Activator {
 		$email_address = (empty($pronto_donation_settings['EmailAddress'])) ? "" : $pronto_donation_settings['EmailAddress'];
 		$email_name = (empty($pronto_donation_settings['EmailName'])) ? "" : $pronto_donation_settings['EmailName']; 	
 
-		$client_id = (empty($pronto_donation_settings['ClientId'])) ? "" : $pronto_donation_settings['ClientId'];
-		$client_secret = (empty($pronto_donation_settings['ClientSecret'])) ? "" : $pronto_donation_settings['ClientSecret'];
-		$redirect_uri = (empty($pronto_donation_settings['RedirectURI'])) ? "" : $pronto_donation_settings['RedirectURI'];	
-		$login_uri = (empty($pronto_donation_settings['LoginURI'])) ? "" : $pronto_donation_settings['LoginURI'];
-		$security_token = (empty($pronto_donation_settings['SecurityToken'])) ? "" : $pronto_donation_settings['SecurityToken'];		
-		$salesforce_url = (empty($pronto_donation_settings['SalesforceURL'])) ? "" : $pronto_donation_settings['SalesforceURL'];
+
+		$security_token = (empty($pronto_donation_settings['SecurityToken'])) ? "" : $pronto_donation_settings['SecurityToken'];
 		$salesforce_username = (empty($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
@@ -308,12 +304,7 @@ class Pronto_donation_Activator {
 			'EmailAddress' => stripslashes(str_replace("/","",$email_address)),
 			'EmailName' => stripslashes(str_replace("/","",$email_name)),
 
-			'ClientId' => stripslashes($client_id),
-			'ClientSecret' => stripslashes($client_secret),
-			'RedirectURI' => stripslashes($redirect_uri),
 			'SecurityToken' => stripslashes($security_token),
-			'LoginURI' => stripslashes($login_uri),
-			'SalesforceURL' => stripslashes($salesforce_url),
 			'SalesforceUsername' => stripslashes($salesforce_username),
 			'SalesforcePassword' => stripslashes($salesforce_password),
 

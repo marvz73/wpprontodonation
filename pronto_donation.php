@@ -73,6 +73,10 @@ function run_pronto_donation() {
 	$plugin = new Pronto_donation();
 	$plugin->run();
 
+	/**
+	* This required file will load the php soap api toolkit for salesforce
+	*/
+	
 }
 
 

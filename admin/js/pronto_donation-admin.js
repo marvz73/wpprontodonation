@@ -2,6 +2,3 @@ jQuery(document).ready(function($){
 	
 
 });
-
-
- 

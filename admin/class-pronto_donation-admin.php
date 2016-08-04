@@ -21,11 +21,6 @@
  * @author     AlphaSys <danryl@alphasys.com.au>
  */
 
-
-// load salesforce rest api
-if( !class_exists('SalesforceAPI') )
-require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-salesforce-restapi.php';
-
 class Pronto_donation_Admin {
 	
 	private $base = __DIR__ . '/../payments/';
@@ -1137,5 +1132,6 @@ class Pronto_donation_Admin {
 		global $title;
 		require_once('partials/pronto_donation-admin-display.php');
 	}
+
  
 }

@@ -17,8 +17,12 @@
 //================= Donation Settings =================//
 global $wpdb;
 
+ 
+
 if ( isset($_GET['page']) ) {
 	if($_GET['page']=='donation-settings'){
+		$SFfaultCode ='';				
+		$SFfaultMessage ='';	
 
 		//================ Options for Country and Currency ==============//
 		$currency_symbols = array(
@@ -468,12 +472,8 @@ if ( isset($_GET['page']) ) {
 			$email_address = (empty($_POST['email_address'])) ? "" : $_POST['email_address'];
 			$email_name = (empty($_POST['email_name'])) ? "" : $_POST['email_name'];	
 
-			$client_id = (empty($_POST['client_id'])) ? "" : $_POST['client_id'];
-			$client_secret = (empty($_POST['client_secret'])) ? "" : $_POST['client_secret'];	
-			$redirect_uri = (empty($_POST['redirect_uri'])) ? "" : $_POST['redirect_uri'];
+	
 			$security_token	= (empty($_POST['security_token'])) ? "" : $_POST['security_token'];
-			$login_uri = (empty($_POST['login_uri'])) ? "" : $_POST['login_uri'];	
-			$salesforce_url = (empty($_POST['salesforce_url'])) ? "" : $_POST['salesforce_url'];
 			$salesforce_username = (empty($_POST['salesforce_username'])) ? "" : $_POST['salesforce_username'];
 			$salesforce_password = (empty($_POST['salesforce_password'])) ? "" : $_POST['salesforce_password'];
 
@@ -514,12 +514,8 @@ if ( isset($_GET['page']) ) {
 				'EmailAddress' => stripslashes(str_replace("/","",$email_address)),
 				'EmailName' => stripslashes(str_replace("/","",$email_name)),
 
-				'ClientId' => stripslashes($client_id),
-				'ClientSecret' => stripslashes($client_secret),
-				'RedirectURI' => stripslashes($redirect_uri),
+	
 				'SecurityToken' => sanitize_text_field(stripslashes($security_token)),
-				'LoginURI' => stripslashes($login_uri),
-				'SalesforceURL' => stripslashes($salesforce_url),
 				'SalesforceUsername' => stripslashes($salesforce_username),
 				'SalesforcePassword' => stripslashes($salesforce_password),
 
@@ -601,7 +597,19 @@ if ( isset($_GET['page']) ) {
 
 
 
-		}	
+		}
+
+
+		try { 		
+			$soap_client = new SF();   
+			$SFfaultCode = $soap_client->faultCode;				
+			$SFfaultMessage = $soap_client->faultMessage;
+		} catch (Exception $e) {
+		   		//secho $e->getMessage();
+		}
+
+
+
 
 		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
 		// echo '<pre>';
@@ -627,12 +635,8 @@ if ( isset($_GET['page']) ) {
 		$email_address = (empty($pronto_donation_settings['EmailAddress'])) ? "" : $pronto_donation_settings['EmailAddress']; 
 		$email_name = (empty($pronto_donation_settings['EmailName'])) ? "" : $pronto_donation_settings['EmailName']; 	
 
-		$client_id = (empty($pronto_donation_settings['ClientId'])) ? "" : $pronto_donation_settings['ClientId'];
-		$client_secret = (empty($pronto_donation_settings['ClientSecret'])) ? "" : $pronto_donation_settings['ClientSecret'];	
-		$redirect_uri = (empty($pronto_donation_settings['RedirectURI'])) ? "" : $pronto_donation_settings['RedirectURI'];
-		$security_token = (empty($pronto_donation_settings['SecurityToken'])) ? "" : $pronto_donation_settings['SecurityToken'];	
-		$login_uri = (empty($pronto_donation_settings['LoginURI'])) ? "" : $pronto_donation_settings['LoginURI'];	
-		$salesforce_url = (empty($pronto_donation_settings['SalesforceURL'])) ? "" : $pronto_donation_settings['SalesforceURL'];
+	
+		$security_token = (empty($pronto_donation_settings['SecurityToken'])) ? "" : $pronto_donation_settings['SecurityToken'];
 		$salesforce_username = (empty($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
@@ -813,7 +817,7 @@ if ( isset($_GET['page']) ) {
 						    <input name="google_recaptcha_secret_key" type="text" id="google_recaptcha_secret_key" class="regular-text" value="<?php echo $google_recaptcha_secret_key; ?>">
 						</td>
 					</tr>
-				</tbody>	
+				</tbody>
 			</table>
 		</div>	
 		<br/>
@@ -855,56 +859,90 @@ if ( isset($_GET['page']) ) {
 			<h2 class="title">Salesforce API Configuration  ( Optional )</h2>
 			<table class="form-table">
 				<tbody>
-					<tr>
-						<th scope="row"><label for="client_id">Consumer Key</label></th>
-						<td>
-							<input type="text" name="client_id" id="client_id" class="regular-text" value="<?php echo $client_id; ?>">
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="client_secret">Consumer Secret</label></th>
-						<td>
-							<input type="text" id="client_secret" name="client_secret" class="regular-text" value="<?php echo $client_secret; ?>">
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="redirect_uri">Redirect URI</label></th>
-						<td>
-							<input type="url" id="redirect_uri" name="redirect_uri" class="regular-text" value="<?php echo $redirect_uri; ?>">
-						</td>
-					</tr>
+
 					<tr>
 						<th scope="row"><label for="security_token">Security Token</label></th>
 						<td>
-							<input type="text" id="security_token" name="security_token" class="regular-text" value="<?php echo $security_token; ?>">
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="login_uri">Login URL</label></th>
-						<td>	
-							<input type="url" id="login_uri" name="login_uri" class="regular-text" value="<?php echo $login_uri; ?>">							
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="salesforce_url">Salesforce URL</label></th>
-						<td>
-							<input type="url" id="salesforce_url" name="salesforce_url" class="regular-text" value="<?php echo $salesforce_url; ?>">		
+							<p>
+								<input type="text" id="security_token" name="security_token" class="regular-text" value="<?php echo $security_token; ?>">
+
+								<?php
+								if($SFfaultCode ==''&& $SFfaultMessage ==''){
+									?>
+									<span style="color: green;">VALID</span>
+									<?php
+								}else{
+									?>
+									<span style="color: red;">INVALID</span>
+									<?php
+								}
+
+								?>
+
+							</p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="salesforce_url">Username</label></th>
 						<td>
-							<input type="text" id="salesforce_username" name="salesforce_username" class="regular-text" value="<?php echo $salesforce_username; ?>">		
+							<p>
+								<input type="text" id="salesforce_username" name="salesforce_username" class="regular-text" value="<?php echo $salesforce_username; ?>">
+								<?php
+								if($SFfaultCode ==''&& $SFfaultMessage ==''){
+									?>
+									<span style="color: green;">VALID</span>
+									<?php
+								}else{
+									?>
+									<span style="color: red;">INVALID</span>
+									<?php
+								}
+
+								?>
+
+							</p>		
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="salesforce_url">Password</label></th>
 						<td>
-							<input type="password" id="salesforce_password" name="salesforce_password" class="regular-text" value="<?php echo $salesforce_password; ?>">		
+							<p>
+								<input type="password" id="salesforce_password" name="salesforce_password" class="regular-text" value="<?php echo $salesforce_password; ?>">
+								<?php
+								if($SFfaultCode ==''&& $SFfaultMessage ==''){
+									?>
+									<span style="color: green;">VALID</span>
+									<?php
+								}else{
+									?>
+									<span style="color: red;">INVALID</span>
+									<?php
+								}
+
+								?>
+							</p>		
 						</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>
+				<input type="submit" name="test_connection" id="test_connection" class="button button-primary" value="Test Connection">
+				<span class="description">Note: Save Changes first before testing.<span>
+			<p>
+			<?php
+				//================= Test Salesforce Connection =================//
+				if(isset($_POST['send_test_email']))
+				{
+					try { 		
+						$soap_client = new SF();   
+						$SFfaultCode = $soap_client->faultCode;				
+						$SFfaultMessage = $soap_client->faultMessage;
+					} catch (Exception $e) {
+					   		//secho $e->getMessage();
+					}
+				}
+				//================= Test Salesforce Connection =================//
+			?>	
 		</div>
 
 		<br/>
@@ -1068,7 +1106,13 @@ if ( isset($_GET['page']) ) {
 </div>
 	<?php
 
-
+			try { 		
+				$soap_client = new SF();   
+				$SFfaultCode = $soap_client->faultCode;				
+				$SFfaultMessage = $soap_client->faultMessage;
+			} catch (Exception $e) {
+			   		//secho $e->getMessage();
+			}	
 
 
 
@@ -1082,8 +1126,8 @@ if ( isset($_GET['page']) ) {
 
 
 
-
 	?>
+
      
 
 

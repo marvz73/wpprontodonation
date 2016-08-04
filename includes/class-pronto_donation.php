@@ -127,8 +127,8 @@ class Pronto_donation {
 		//Class for payment field renderer
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-form-builder.php';
 
-		//Class for communicating the Salesforce API
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-salesforce-restapi.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/salesforce-toolkit/login.php';
 		
 
 		$this->loader = new Pronto_donation_Loader();
