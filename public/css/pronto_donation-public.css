@@ -3,6 +3,12 @@
  * included in this file.
  */
 
+@media(max-width: 300px){
+    #currency input[type=number] {
+	    padding-left: 23% !important;
+	}
+}
+
 .clearfix:after,
 .clearfix:before{
     display: table;
