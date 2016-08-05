@@ -17,8 +17,6 @@
 //================= Donation Settings =================//
 global $wpdb;
 
- 
-
 if ( isset($_GET['page']) ) {
 	if($_GET['page']=='donation-settings'){
 		$SFfaultCode ='';				
@@ -662,7 +660,7 @@ if ( isset($_GET['page']) ) {
 	<form method="post">
 		<br/>
 		<div class="card" style="width: 100%;max-width: 96% !important">
-			<h2 class="title">Campaign From</h2>
+			<h2 class="title">Campaign Form</h2>
 			<table class="form-table">
 				<tbody>
 					<tr>
@@ -670,10 +668,32 @@ if ( isset($_GET['page']) ) {
 							<label for="from_style">Form Style</label>
 						</th>
 						<td> 
-							<select name="from_style" id="from_style">
-								<option value="1" <?php if($from_style=='1'){echo'selected';}?>>Style 1</option>
-								<option value="2" <?php if($from_style=='2'){echo'selected';}?>>Style 2</option>
-								<option value="3" <?php if($from_style=='3'){echo'selected';}?>>Foodbank</option>
+							<?php 
+							$parent = plugin_dir_path( __FILE__ ) . "../../public/partials";
+							$filelist = scandir($parent);
+							?>
+							<select class="style-list" id="from_style" name="from_style">
+							  <?php
+								foreach ($filelist as $key => $files) {
+								  if( stripos( $files, "pronto_donation-public-campaign-style" ) !== false ) {
+								  	// BOF getting the file comment title
+									$get_file_content = $parent . "/" . $files;
+									$source = file_get_contents( $get_file_content );
+									$tokens = token_get_all( $source );
+									$file_comment = explode('*', $tokens[2][1] );
+									$style_title = explode(':', $file_comment[2] );
+									// EOF getting the file comment title
+
+									//Get file style order (ex: style 1)
+									$style_value = intval( preg_replace( '/[^0-9]+/', '', $files ), 10);
+									$style_value = "style" . $style_value;
+									// EOF getting style order
+									?>
+									  <option value="<?php echo $style_value ?>" <?php if($from_style== $style_value){echo'selected';}?>><?php echo $style_title[1] ?></option>
+									<?php
+								  }
+								}
+							  ?>
 							</select>
 						</td>
 					</tr>
