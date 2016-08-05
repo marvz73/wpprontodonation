@@ -378,7 +378,7 @@
 
 			<?php if($pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
 
-				<div class="pd-container-padding">
+				<div class="pd-container-padding clearfix">
 					<div class="pd-col s12">
 						<div class="pronto-donation-group">
 							<label>Additional Comments</label>
