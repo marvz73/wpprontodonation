@@ -477,7 +477,11 @@ if ( isset($_GET['page']) ) {
 			$salesforce_username = (empty($_POST['salesforce_username'])) ? "" : $_POST['salesforce_username'];
 			$salesforce_password = (empty($_POST['salesforce_password'])) ? "" : $_POST['salesforce_password'];
 
-			
+
+			$newsletter_option = (empty($_POST['newsletter_option'])) ? "" : $_POST['newsletter_option'];
+			$newsletter_caption = (empty($_POST['newsletter_caption'])) ? "" : $_POST['newsletter_caption'];
+
+
 			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
 
 			
@@ -518,6 +522,9 @@ if ( isset($_GET['page']) ) {
 				'SecurityToken' => sanitize_text_field(stripslashes($security_token)),
 				'SalesforceUsername' => stripslashes($salesforce_username),
 				'SalesforcePassword' => stripslashes($salesforce_password),
+
+				'NewsLetterOption' => stripslashes($newsletter_option),
+				'NewsLetterCaption' => stripslashes($newsletter_caption),
 
 				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
 				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
@@ -627,6 +634,10 @@ if ( isset($_GET['page']) ) {
 		$security_token = (empty($pronto_donation_settings['SecurityToken'])) ? "" : $pronto_donation_settings['SecurityToken'];
 		$salesforce_username = (empty($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
+
+		$newsletter_option = (empty($pronto_donation_settings['NewsLetterOption'])) ? "" : $pronto_donation_settings['NewsLetterOption'];
+		$newsletter_caption = (empty($pronto_donation_settings['NewsLetterCaption'])) ? "" : $pronto_donation_settings['NewsLetterCaption'];
+
 
 		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
 		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];
@@ -891,9 +902,9 @@ if ( isset($_GET['page']) ) {
 					<th scope="row"><label for="newsletter_option">Newsletter on form</label></th>
 					<td>
 						<select name="newsletter_option" id="newsletter_option">
-							<option value="show">Show</option>
-							<option value="hide" selected="selected">Hide</option>
-							<option value="required">Required</option>
+							<option value="hide"<?php if($newsletter_option=="hide"){echo 'selected';}?>>Hide</option>
+							<option value="show"<?php if($newsletter_option=="show"){echo 'selected';}?>>Show</option>				
+							<option value="required" <?php if($newsletter_option=="required"){echo 'selected';}?>>Required</option>
 						</select>
 						<p class="description">Show newsletter field on frontend</p>
 					</td>
@@ -901,7 +912,7 @@ if ( isset($_GET['page']) ) {
 				<tr>
 					<th scope="row"><label for="newsletter_caption">Newsletter caption</label></th>
 					<td>
-						<textarea rows="5" cols="52" id="newsletter_caption" name="newsletter_caption"><?php echo "sample" ?></textarea>
+						<textarea rows="5" cols="52" id="newsletter_caption" name="newsletter_caption"><?php echo $newsletter_caption; ?></textarea>
 					</td>
 				</tr>
 			</table>

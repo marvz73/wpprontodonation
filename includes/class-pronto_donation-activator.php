@@ -264,6 +264,10 @@ class Pronto_donation_Activator {
 		$salesforce_username = (empty($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
 		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
+
+		$newsletter_option = (empty($pronto_donation_settings['NewsLetterOption'])) ? "" : $pronto_donation_settings['NewsLetterOption'];
+		$newsletter_caption = (empty($pronto_donation_settings['NewsLetterCaption'])) ? "" : $pronto_donation_settings['NewsLetterCaption'];
+
 		$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
 		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];
 
@@ -307,6 +311,9 @@ class Pronto_donation_Activator {
 			'SecurityToken' => stripslashes($security_token),
 			'SalesforceUsername' => stripslashes($salesforce_username),
 			'SalesforcePassword' => stripslashes($salesforce_password),
+
+			'NewsLetterOption' => stripslashes($newsletter_option),
+			'NewsLetterCaption' => stripslashes($newsletter_caption),
 
 			'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
 			'ThankYouPageMessage' => stripslashes($thank_you_page_message),
