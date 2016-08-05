@@ -283,7 +283,7 @@
 				<?php
 					endforeach;
 					else:
-						echo '<h1>No Payment avaiable</h1>';
+						echo '<h1>No Payment available</h1>';
 					endif;
 				?>
 
