@@ -57,6 +57,14 @@ class Pronto_donation {
 	 */
 	protected $version;
 
+
+
+
+
+
+	protected $salesforceAPI;
+
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -75,6 +83,9 @@ class Pronto_donation {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->salesforceAPI = new SF();
+
+		$this->salesforce();
 
 	}
 
@@ -127,8 +138,8 @@ class Pronto_donation {
 		//Class for payment field renderer
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-form-builder.php';
 
-
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/salesforce-toolkit/login.php';
+		//Salesforce php toolkit
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/salesforce-toolkit/class-salesforce.php';
 		
 
 		$this->loader = new Pronto_donation_Loader();
@@ -260,6 +271,17 @@ class Pronto_donation {
 		return $this->version;
 	}
 
+	//----------------------------------------------------------------
+
+	public function salesforce(){
+		
+		$query = 'SELECT Id, CaseNumber, Subject from Case';
+		$response = $this->salesforceAPI->getRecord($query);
+
+		// print_r($response);
+
+	}
+
 	public function pronto_donation_payment_methods(){
 
 		$base = __DIR__ . '/../payments/';
@@ -285,6 +307,7 @@ class Pronto_donation {
 		return $payments;
 
 	}
+
 
 	public function pronto_donation_payment_amount_level($campaign_id){
 		$html ='';
