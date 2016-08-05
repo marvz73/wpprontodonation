@@ -686,8 +686,7 @@ if ( isset($_GET['page']) ) {
 
 									//Get file style order (ex: style 1)
 									$style_value = intval( preg_replace( '/[^0-9]+/', '', $files ), 10);
-									$style_value = "style" . $style_value;
-									// EOF getting style order
+									// EOF getting style order 
 									?>
 									  <option value="<?php echo $style_value ?>" <?php if($from_style== $style_value){echo'selected';}?>><?php echo $style_title[1] ?></option>
 									<?php
