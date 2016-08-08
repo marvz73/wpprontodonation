@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 <?php
 
 /**
@@ -12,7 +11,6 @@
  * @package    Pronto_donation
  * @subpackage Pronto_donation/admin/partials
  */
-
 
 
 //================= Donation Settings =================//

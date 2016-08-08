@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream:includes/salesforce-toolkit/class-salesforce.php
 <?php
 
 require_once("config/global.php");
@@ -127,8 +126,7 @@ require_once("classes/sf.php");
 //   echo $e->faultstring;
 
 // }
-=======
-<?php
+
 
 require_once("config/global.php");
 
@@ -246,4 +244,4 @@ require_once("classes/sf.php");
 //   echo $e->faultstring;
 
 // }
->>>>>>> Stashed changes:includes/salesforce-toolkit/login.php
+
