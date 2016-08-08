@@ -676,20 +676,32 @@ if ( isset($_GET['page']) ) {
 							  <?php
 								foreach ($filelist as $key => $files) {
 								  if( stripos( $files, "pronto_donation-public-campaign-style" ) !== false ) {
-								  	// BOF getting the file comment title
-									$get_file_content = $parent . "/" . $files;
-									$source = file_get_contents( $get_file_content );
-									$tokens = token_get_all( $source );
-									$file_comment = explode('*', $tokens[2][1] );
-									$style_title = explode(':', $file_comment[2] );
-									// EOF getting the file comment title
 
-									//Get file style order (ex: style 1)
-									$style_value = intval( preg_replace( '/[^0-9]+/', '', $files ), 10);
-									// EOF getting style order 
-									?>
-									  <option value="<?php echo $style_value ?>" <?php if($from_style== $style_value){echo'selected';}?>><?php echo $style_title[1] ?></option>
-									<?php
+								  	$style_value = intval( preg_replace( '/[^0-9]+/', '', $files ), 10);
+
+								  	if (!defined('T_ML_COMMENT')) {
+								  		define('T_ML_COMMENT', T_COMMENT);
+								  	} else {
+								  		define('T_DOC_COMMENT', T_ML_COMMENT);
+								  	}
+								  	$get_file_content = $parent . "/" . $files;
+								  	$source = file_get_contents( $get_file_content );
+								  	$tokens = token_get_all($source);
+
+								  	foreach ($tokens as $token) {
+								  	  if(!is_string($token)) {
+								  		list($id, $text) = $token;
+								  		if( $id == T_COMMENT || $id == T_ML_COMMENT || $id == T_DOC_COMMENT ) {
+								  		  $file_comment = explode('*', $text );
+								  		  $style_title = explode(':', $file_comment[2] );
+								  		  if( sizeof( $style_title ) > 1) {
+								  			?>
+								  			  <option value="<?php echo $style_value ?>" <?php if($from_style== $style_value){echo'selected';}?>><?php echo $style_title[1] ?></option>
+								  			<?php
+								  		  }
+								  		}
+								  	  }
+								  	}
 								  }
 								}
 							  ?>
