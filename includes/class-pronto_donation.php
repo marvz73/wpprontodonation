@@ -450,4 +450,3 @@ class Pronto_donation {
 	}
 
 }
-
