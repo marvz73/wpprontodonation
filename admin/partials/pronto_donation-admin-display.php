@@ -678,22 +678,23 @@ if ( isset($_GET['page']) ) {
 								  	// this will get the file theme order
 								  	$style_value = intval( preg_replace( '/[^0-9]+/', '', $files ), 10);
 
-								  	if (!defined('T_ML_COMMENT')) {
-								  		define('T_ML_COMMENT', T_COMMENT);
+								  	if ( !defined( 'T_ML_COMMENT' ) ) {
+								  		define( 'T_ML_COMMENT', T_COMMENT );
 								  	} else {
-								  		define('T_DOC_COMMENT', T_ML_COMMENT);
+								  		define( 'T_DOC_COMMENT', T_ML_COMMENT );
 								  	}
 
+								  	// full path for the theme files
 								  	$get_file_content = $parent . "/" . $files;
 								  	$source = file_get_contents( $get_file_content );
-								  	$tokens = token_get_all($source);
-
+								  	$tokens = token_get_all( $source );
+								  	
 								  	foreach ($tokens as $token) {
 								  	  if(!is_string($token)) {
 								  		list($id, $text) = $token;
 								  		if( $id == T_COMMENT || $id == T_ML_COMMENT || $id == T_DOC_COMMENT ) {
-								  		  $file_comment = explode('*', $text );
-								  		  $style_title = explode(':', $file_comment[2] );
+								  		  $file_comment = explode( '*', $text );
+								  		  $style_title = explode( ':', $file_comment[2] );
 								  		  if( sizeof( $style_title ) > 1) {
 								  			?>
 								  			  <option value="<?php echo $style_value ?>" <?php if($from_style== $style_value){echo'selected';}?>><?php echo $style_title[1] ?></option>
