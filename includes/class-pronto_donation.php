@@ -448,5 +448,4 @@ class Pronto_donation {
 	    //Send user notification email
 	    wp_mail($campaign['email'], sprintf(__('Thank for %s Donation'), get_the_title($campaign['donation_campaign'])), nl2br($message), $email_headers);
 	}
-
 }
