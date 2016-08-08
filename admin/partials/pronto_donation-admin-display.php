@@ -676,7 +676,7 @@ if ( isset($_GET['page']) ) {
 							  <?php
 								foreach ($filelist as $key => $files) {
 								  if( stripos( $files, "pronto_donation-public-campaign-style" ) !== false ) {
-
+								  	// this will get the file theme order
 								  	$style_value = intval( preg_replace( '/[^0-9]+/', '', $files ), 10);
 
 								  	if (!defined('T_ML_COMMENT')) {
@@ -684,6 +684,7 @@ if ( isset($_GET['page']) ) {
 								  	} else {
 								  		define('T_DOC_COMMENT', T_ML_COMMENT);
 								  	}
+
 								  	$get_file_content = $parent . "/" . $files;
 								  	$source = file_get_contents( $get_file_content );
 								  	$tokens = token_get_all($source);
