@@ -470,8 +470,8 @@ class Pronto_donation_Admin {
 							<th scope="row"><label for="donation_type">Donation Type</label></th>
 							<td>
 								<select name="donation_type" id="donation_type">
-									<option value="single" <?php if( !empty( $campaign_info['donation_type'] ) && esc_attr($campaign_info['donation_type']) == 'single' ) echo "selected='selected'"; ?> >Single</option>
-									<option value="recurring" <?php if( !empty( $campaign_info['donation_type'] ) && esc_attr($campaign_info['donation_type']) == 'recurring' ) echo "selected='selected'"; ?> >Recurring</option>
+									<option value="single" <?php if( !empty( $campaign_info['donation_type'] ) && esc_attr($campaign_info['donation_type']) == 'single' ) echo "selected='selected'"; ?> >One-off</option>
+									<option value="recurring" <?php if( !empty( $campaign_info['donation_type'] ) && esc_attr($campaign_info['donation_type']) == 'recurring' ) echo "selected='selected'"; ?> >Monthly</option>
 									<option value="both" <?php if( empty( $campaign_info['donation_type'] ) || esc_attr($campaign_info['donation_type']) == 'both' ) echo "selected='selected'"; ?> >Both</option>
 								</select>
 								<p class="description">Select Donation Type</p>
