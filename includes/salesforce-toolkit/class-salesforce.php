@@ -1,5 +1,5 @@
 <?php
-
+// this will be the Initialization of the Salesforce SOAP
 require_once("config/global.php");
 
 $pronto_donation_settings = get_option('pronto_donation_settings',0);
