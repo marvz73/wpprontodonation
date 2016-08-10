@@ -84,12 +84,12 @@
 								<div class="pd-container-paddding">
 									<div class="pd-col s6">
 										<input id="pronto-donation-type-single" type="radio" name="donation_type" value="single" checked="true" />
-										<label for="pronto-donation-type-single" >Single</label>
+										<label for="pronto-donation-type-single" >One-off</label>
 									</div>
 
 									<div class="pd-col s6">
 										<input  id="pronto-donation-type-recurring" type="radio" name="donation_type" value="recurring" />
-										<label for="pronto-donation-type-recurring" >Recurring</label>
+										<label for="pronto-donation-type-recurring" >Monthly</label>
 									</div>
 								</div>
 
@@ -97,14 +97,14 @@
 							<div class="pd-container-padding">
 								<div class="pd-col s12">
 								<input  id="pronto-donation-type-single" type="radio" name="donation_type" value="single" checked="true"/>
-								<label for="pronto-donation-type-single" >Single</label>
+								<label for="pronto-donation-type-single" >One-off</label>
 								</div>
 							</div>
 							<?php elseif($pronto_donation_campaign['donation_type'] == 'recurring'): ?>
 							<div class="pd-container-padding">
 								<div class="pd-col s12">
 								<input  id="pronto-donation-type-recurring" type="radio" name="donation_type" value="recurring" checked="true" />
-								<label for="pronto-donation-type-recurring" >Recurring</label>
+								<label for="pronto-donation-type-recurring" >Monthly</label>
 								</div>
 							</div>
 							<?php endif; ?>

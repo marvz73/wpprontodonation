@@ -1045,7 +1045,7 @@ if ( isset($_GET['page']) ) {
 									 	$lastname = $results[1]->meta_value;	
 
 										$subject = sanitize_text_field('Pronto Donation Test Email');
-										$message = sanitize_text_field(str_replace("[last-name]",$lastname,str_replace("[first-name]",$firstname,$email_message)));
+										$message = str_replace("[last-name]",$lastname,str_replace("[first-name]",$firstname,$email_message));
 
 
 										wp_mail($to, $subject, $message);
