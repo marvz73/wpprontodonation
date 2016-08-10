@@ -15,4 +15,3 @@ define("PASSWORD",$salesforce_password.SECURITY_TOKEN);
 
 
 require_once("classes/sf.php");
-

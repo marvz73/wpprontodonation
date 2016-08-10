@@ -469,4 +469,8 @@
 				</p>
 
 	</form>
+
+	<script type="text/javascript">
+		var ajax_request_enable = '<?php echo $pronto_donation_campaign["enable_ajax_payment"]; ?>';
+	</script>
 </div>
