@@ -51,6 +51,12 @@ class ezidebit{
 				'label'	=> 'Enable Payment'
 			),
 			array(
+				'type'  => 'checkbox',
+				'value' => '',
+				'name'	=> 'enable_ajax_payment',
+				'label' => 'Enable Self Payment'
+			),
+			array(
 				'type'  => 'text',
 				'value' => '',
 				'name'	=> 'url',
