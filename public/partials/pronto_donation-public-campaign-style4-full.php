@@ -4,6 +4,7 @@
  * Desc: This style is the theme for look good feel better website specifically
  * Date: Aug. 3, 2016
  */
+
 ?>
 
 <style type="text/css">
@@ -140,6 +141,9 @@
     color: #fff;
     background-color: #97005e;
     border: 1px solid transparent;
+}
+.self-payment-style {
+	display: none;
 }
 </style>
 
@@ -422,9 +426,6 @@
 				</div>
 			</div>
 
-
-
-
 			<!-- Payment Method -->
 
 			<h3>Payment</h3>
@@ -453,6 +454,22 @@
 				?>
 
 			</div>
+
+			<?php
+
+				if( $pronto_donation_campaign["enable_ajax_payment"] == 1 ) {
+					?>
+ 					<div class="self-payment-style">
+ 						<?php
+						 	$ezidebit_payment = new ezidebit();
+						 	$ezidebit_payment->payment_self_payment();
+						?>
+ 					</div>
+					<?php
+				}
+
+			?>
+
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
 		<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 		<input type="hidden" name="action" value="process_donate"/>
@@ -465,7 +482,7 @@
 				<br>
 
 				<p class="submit">
-					<button class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
+					<button id="payNowButton" type="submit" class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
 				</p>
 
 	</form>

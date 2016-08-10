@@ -341,6 +341,7 @@ class Pronto_donation_Public {
 
 			$formStyle = get_option('pronto_donation_settings', true)['FormStyle'];
 		    require_once('partials/pronto_donation-public-campaign-style' . $formStyle . '-full.php');
+		    require_once ( $this->base . 'ezidebit/index.php' );
 		}
 	}
 
