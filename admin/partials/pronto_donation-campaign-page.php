@@ -221,25 +221,10 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
      */
     private function sort_data( $a, $b )
     {
-        // Set defaults
-        $orderby = 'id';
-        $order = 'desc';
-        // If orderby is set, use this as the sort column
-        if(!empty($_GET['orderby']))
-        {
-            $orderby = $_GET['orderby'];
-        }
-        // If order is set use this as the order
-        if(!empty($_GET['order']))
-        {
-            $order = $_GET['order'];
-        }
-        $result = strcmp( $a[$orderby], $b[$orderby] );
-        if($order === 'asc')
-        {
-            return $result;
-        }
-        return -$result;
+      $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'id'; //If no sort, default to title
+      $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'desc'; //If no order, default to asc
+      $result = strnatcmp($a[$orderby], $b[$orderby]); //Determine sort order
+      return ($order==='asc') ? $result : -$result; //Send final sort direction to usort
     }
 
     public function pronto_donation_get_currency_symbol( $countrycode ) {

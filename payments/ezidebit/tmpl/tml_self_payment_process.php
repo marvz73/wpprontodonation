@@ -6,14 +6,14 @@
 
 <style type="text/css">
 	.ezi-lazy-loading{
-	display: none; 
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 263px;
-    height: 100px;
-    margin: 0 auto;
-    text-align: center;
+		display: none; 
+		position: absolute;
+		left: 0;
+		right: 0;
+		width: 263px;
+		height: 100px;
+		margin: 0 auto;
+		text-align: center;
 	}
 	.ezi-lazy-loading p {
 		font-size: 13px;
