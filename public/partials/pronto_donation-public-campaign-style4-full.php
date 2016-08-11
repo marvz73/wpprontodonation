@@ -458,15 +458,16 @@
 			<?php
 
 				$ezidebit_option = get_option( 'payment_option_ezidebit', 0 );
-				 
+				
 				if( $ezidebit_option["enable_ajax_payment"] == 'on' ) {
 					?>
  					<div class="self-payment-style">
  						<?php
 						 	$ezidebit_payment = new ezidebit();
-						 	$ezidebit_payment->payment_self_payment();
+						 	$ezidebit_payment->payment_self_payment( $attrs['campaign'] );
 						?>
  					</div>
+ 					<div class="self-payment-msg"></div>
 					<?php
 				}
 
@@ -491,5 +492,7 @@
 
 	<script type="text/javascript">
 		var ajax_request_enable = '<?php echo $ezidebit_option["enable_ajax_payment"]; ?>';
+		var endpoint = '<?php echo $ezidebit_option["endpoint"] ?>';
+		var publicKey = '<?php echo $ezidebit_option["publickey"] ?>';
 	</script>
 </div>

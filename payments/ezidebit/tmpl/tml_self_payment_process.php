@@ -1,20 +1,47 @@
 <?php 
-
+ 
 
 
 ?>
+
+<style type="text/css">
+	.ezi-lazy-loading{
+	display: none; 
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 263px;
+    height: 100px;
+    margin: 0 auto;
+    text-align: center;
+	}
+	.ezi-lazy-loading p {
+		font-size: 13px;
+		color: #de5b5b;
+	}
+	.ezidebit-error {
+		font-size: 13px;
+		color: #de5b5b;
+		font-weight: bold;
+		margin-top: 10px;
+	}
+</style>
+
+<div class="ezi-lazy-loading">
+	
+	<img src="<?php echo plugins_url( '../inc/default.gif', __FILE__ ) ?>" alt="payment processing...">
+	<p>Processing Payment...</p>
+</div>
+
 <div class="wrap">
+	<label>Credit Card Details</label>
 	<div class="payment-details pd-container-padding clearfix">
 		<div class="pd-col s6">
-
-			<div>								
-				<label for="paymentReference">Bill/Invoice Reference :</label>
-				<label>D1233</label>
-				<input type="hidden" id="paymentReference" value="D1233"/>
+			<div>
+				<input type="hidden" id="paymentReference" value="<?php echo substr(md5(uniqid(rand(), true)), 0,24) ?>"/>
 			</div>
 			<div>
-				<label for="amount">Amount</label>
-				<input type="number" id="amount" value=""/>	
+				<input type="hidden" id="amount" value=""/>	
 			</div>
 		</div>
 	</div>
@@ -83,3 +110,107 @@
 
 	</div>
 </div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		if( ajax_request_enable == 'on') {
+
+			$.fn.bindFirst = function(name, fn) {
+			    // bind as you normally would
+			    // don't want to miss out on any jQuery magic
+			    this.on(name, fn);
+
+			    // Thanks to a comment by @Martin, adding support for
+			    // namespaced events too.
+			    this.each(function() {
+			    	var handlers = $._data(this, 'events')[name.split('.')[0]];
+			    	// console.log(handlers);
+			        // take out the handler we just inserted from the end
+			        var handler = handlers.pop();
+			        // move it at the beginning
+			        handlers.splice(0, 0, handler);
+			    });
+			};
+
+			var creditCardDetails;
+
+			$('#payNowButton').bindFirst('click', function() {
+				var selected_donation_type = $('input[name=donation_type]:checked').val();
+				if(selected_donation_type != 'single') {
+					var card_details = [];
+					$('.self-payment-style :input').each(function() {
+						card_details.push({
+							'key' : $(this).attr('id'),
+							'value' : $(this).val()
+						});
+
+					});
+					creditCardDetails = card_details;
+				}
+				$('.self-payment-msg').empty();
+				$('.ezi-lazy-loading').show();
+			});
+
+			var displaySubmitCallback = function(data) {
+				// console.log(data)
+				var formData = $('.pronto-donation-form').serializeArray();
+				var campaign_id = '<?php echo $ajax_campaign_id ?>';
+
+				$.ajax({
+					type: 'POST',
+					url:  ajax_frontend.ajax_url,
+					data: { 'action':'self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data, 'card_details' : creditCardDetails },
+					success: function(response){
+						// console.log( response )
+						if( response.success ) {
+							window.location.href = response.data.redirect_url;
+						}
+					},
+					error: function(xhr, textStatus, errorThrown){
+		 				// console.log(errorThrown)
+		 				$('.self-payment-msg').append('<p class="ezidebit-error">'+errorThrown+', Please contact the administrator </p>');
+		 				$('.ezi-lazy-loading').hide();
+			        }
+			    });
+
+			};
+
+			var displaySubmitError = function (data) {
+				// console.log(data)
+				$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
+				$('.ezi-lazy-loading').hide();
+			};
+
+			eziDebit.init(publicKey, {
+				submitAction: "ChargeCard",
+				submitButton: "payNowButton",
+				submitCallback: displaySubmitCallback,
+				submitError: displaySubmitError,
+				nameOnCard: "nameOnCard",
+				cardNumber: "cardNumber",
+				cardExpiryMonth: "expiryMonth",
+				cardExpiryYear: "expiryYear",
+				cardCCV: "ccv",
+				paymentAmount: "amount",
+				paymentReference: "paymentReference"
+			}, endpoint);
+
+			var selected_donation_amount = $('input[name=pd_amount]:checked').val();
+			$('#amount').val( selected_donation_amount );
+
+			$('#payment1').click(function(){
+				$('.self-payment-style').show();
+			})
+			$('#payment0').click(function(){
+				$('.self-payment-style').hide();
+				$('.self-payment-msg').empty();
+			})
+
+			$('input[name=pd_amount]').change(function() {
+				var selected_donation_amount = $('input[name=pd_amount]:checked').val();
+				$('#amount').val( selected_donation_amount );
+			});
+		}
+	});
+
+</script>

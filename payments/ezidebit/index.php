@@ -62,6 +62,18 @@ class ezidebit{
 				'name'	=> 'url',
 				'label' => 'URL'
 			),
+		 	array(
+				'type'  => 'text',
+				'value' => '',
+				'name'	=> 'endpoint',
+				'label' => 'Ezidebit Endpoint'
+			),
+		 	array(
+				'type'  => 'text',
+				'value' => '',
+				'name'	=> 'publickey',
+				'label' => 'Ezidebit Public Key'
+			),
 		);
 
 	}
@@ -93,7 +105,7 @@ class ezidebit{
 
 	}
 
-	public function payment_self_payment() {
+	public function payment_self_payment( $ajax_campaign_id ) {
 		require_once('tmpl/tml_self_payment_process.php');
 	}
 

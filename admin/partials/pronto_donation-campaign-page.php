@@ -152,9 +152,6 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             $donor_data = unserialize( $donor_value->meta_value );
             $table_data = array();
 
-            // echo "<pre>";
-            // print($donor_data);
-
             $currencycode = ( isset($donor_data['CurrencyCode']) ? $donor_data['CurrencyCode'] : '' );
             $currency_val = $this->pronto_donation_get_currency_symbol( $currencycode );
 

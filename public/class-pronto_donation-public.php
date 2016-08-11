@@ -130,7 +130,8 @@ class Pronto_donation_Public {
 		}
 
 		wp_enqueue_script( $this->plugin_name.'ezidebit_js', plugin_dir_url( __FILE__ ) . '../payments/ezidebit/ezidebit_js_lib/ezidebit_2_0_0.min.js', array(), $this->version, false );
-		wp_enqueue_script( $this->plugin_name.'ezidebit_js_public', plugin_dir_url( __FILE__ ) . '../payments/ezidebit/js/ezidebit_public.js', array(), $this->version, false );
+	
+		wp_localize_script( $this->plugin_name, 'ajax_frontend', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 	}
 
 	//
@@ -367,4 +368,78 @@ class Pronto_donation_Public {
 		}
 	}
 
+	/*
+	* Author: Danryl
+	* This function will be the ajax self payment process
+	* for ezidebit payment gateway
+	*/
+
+	public function pronto_donation_ajax_self_payment() {
+
+		$donation_data = array();
+		$payment = "";
+		if( is_array( $_POST['data'] ) && sizeof( $_POST['data'] ) > 0 ) {
+	 		foreach ($_POST['data'] as $key => $data) {
+	 			$donation_data[$data['name']] = $data['value'];
+
+	 			if($data['name'] == 'payment') {
+	 				$payment = $data['value'];
+	 			}
+	 		}
+		}
+		$donation_data['status'] = 'pending';
+		$donation_data['donation_campaign'] = $_POST['campaign_id'];
+		$donation_data['timestamp'] = time();
+		$donation_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
+
+		$card_details = array();
+		if( array_key_exists('card_details', $_POST) && !empty( $_POST['card_details'] ) ) {
+			foreach ($_POST['card_details'] as $key3 => $data3) {
+
+				if( $data3['key'] == 'cardNumber' 
+					|| $data3['key'] == 'nameOnCard' 
+					|| $data3['key'] == 'expiryMonth' 
+					|| $data3['key'] == 'expiryYear'
+					|| $data3['key'] == 'ccv' ) {
+					$card_details[$data3['key']] = $data3['value'];
+				}
+			}
+		}
+
+		if( is_array( $_POST['ezidebit_api_response'] ) && sizeof( $_POST['ezidebit_api_response'] ) > 0 ) {
+			foreach ($_POST['ezidebit_api_response'] as $key1 => $data1) {
+				if($key1 == 'PaymentResultCode') {
+					$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000','003');
+					if(in_array($data1, $ApproveTransaction)){
+						$donation_data['statusCode'] = 1;
+					}else{
+						$donation_data['statusCode'] = 0;
+					}
+					break;
+				}
+			}
+		}
+
+		$donation_data['card_details'] = $card_details;
+		$donation_data['statusText'] = esc_html($_POST['ezidebit_api_response']['PaymentResultText']);
+		$donation_data['payment_response'] = $_POST['ezidebit_api_response'];
+
+		$redirect_url =  get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $payment;
+		$post_meta_id = add_post_meta( $_POST['campaign_id'], 'pronto_donation_donor', $donation_data );
+		$status = "failed";
+		
+		if( isset( $post_meta_id ) ) {
+			$status = 'success';
+		}
+
+ 		wp_send_json_success( 
+ 			array(
+	 			'donation_meta_id' => $post_meta_id,
+	 			'redirect_url' =>  $redirect_url,
+	 			'status' => $status
+ 			) 
+ 		);
+
+		die();
+	}
 }

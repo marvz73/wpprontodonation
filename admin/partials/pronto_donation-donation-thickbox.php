@@ -9,7 +9,6 @@
         
         $donation_details = unserialize( $result[0]->meta_value );
 
-
         $data_address = ( !empty( $donation_details['address'] ) ) ? $donation_details['address'] ." ": '';
         $data_suburb = ( !empty( $donation_details['suburb'] ) ) ? $donation_details['suburb'] .", ": '';
         $data_state = ( !empty( $donation_details['state'] ) ) ? $donation_details['state'] .", " : '';
