@@ -1,6 +1,6 @@
 jQuery(document).ready(function($){
 
-	if( ajax_request_enable == 1) {
+	if( ajax_request_enable == 'on') {
  
 		var displaySubmitCallback = function(data) {
 			console.log(data)

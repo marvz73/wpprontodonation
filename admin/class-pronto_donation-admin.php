@@ -493,13 +493,6 @@ class Pronto_donation_Admin {
 							</td>
 						</tr>
 
-						<tr>
-							<th scope="row"><label for="enable_ajax_payment">Enable Self Payment</label></th>
-							<td>
-								<label class="" for="enable_ajax_payment"><input name="enable_ajax_payment" type="checkbox" id="enable_ajax_payment" <?php if ( !empty( $campaign_info['enable_ajax_payment'] ) && $campaign_info['enable_ajax_payment'] !== 0 ) echo "checked='checked'" ?>  >  </label>
-							</td>
-						</tr>
-
 					</tbody>
 					<tbody>
 
@@ -857,7 +850,6 @@ class Pronto_donation_Admin {
 
 				$data = ( isset( $_POST['hide_custom_amount'] ) ) ? 1 : 0 ;
 				$data1 = ( isset( $_POST['show_gift_field'] ) ) ? 1 : 0 ;
-				$data2 = ( isset( $_POST['enable_ajax_payment'] ) ) ? 1 : 0 ;
 
 				$current_link = sanitize_text_field( $_POST['banner_image'] );
 				$img_path = wp_make_link_relative( $current_link );
@@ -867,7 +859,6 @@ class Pronto_donation_Admin {
 				$campaign_data['banner_image'] = $img_path;
 				$campaign_data['hide_custom_amount'] = $data;
 				$campaign_data['show_gift_field'] = $data1;
-				$campaign_data['enable_ajax_payment'] = $data2;
 				$campaign_data['amount_level'] = $amountdata;
 				$campaign_data['donation_type'] = sanitize_text_field( $_POST['donation_type'] );
 				$campaign_data['donation_campaign_filter'] = sanitize_text_field( $_POST['donation_campaign_filter'] );
