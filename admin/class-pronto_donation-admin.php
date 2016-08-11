@@ -1142,52 +1142,6 @@ class Pronto_donation_Admin {
 		require_once('partials/pronto_donation-admin-display.php');
 	}
 
-	public function pronto_donation_send_test_email() {
-		global $wpdb; // this is how you get access to the database	
-		$email =  (empty($_POST['email'])) ? "" : $_POST['email'];
-		$email_message =  (empty($_POST['emailmessage'])) ? "" : $_POST['emailmessage'];
-		//$data = "awaw";
-		// echo json_encode($data);
-		
-		
-		
-		//================= Test Email For thank you email =================//
 
-
-		if(empty($email)||$email==''){}
-		else{
-		
-
-			$to = sanitize_text_field((empty($email)) ? "" : $email);
-
-
-
-			$SQL_String= "SELECT wp_usermeta.meta_value FROM wp_users,wp_usermeta 
-						WHERE wp_users.ID = wp_usermeta.user_id 
-						AND (wp_usermeta.meta_key = 'first_name' OR wp_usermeta.meta_key = 'last_name')
-						AND wp_users.user_email = '".$to."'";
-
-			$results= $GLOBALS['wpdb']->get_results($SQL_String , OBJECT );
-	
-
-			if (empty($results)) {
-    			echo '<p style="color:red;">Email is not registered as user.</p>';
-			}else{
-				$firstname = $results[0]->meta_value;	
-			 	$lastname = $results[1]->meta_value;	
-
-				$subject = sanitize_text_field('Pronto Donation Test Email');
-				$message = str_replace("[last-name]",$lastname,str_replace("[first-name]",$firstname,$email_message));
-
-
-				wp_mail($to, $subject, $message);
-			}
-	
-		}
-		
-		//================= Test Email For thank you email =================//
-
-		die();
-	}
 
 }

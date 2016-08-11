@@ -200,10 +200,7 @@ class Pronto_donation {
 		$this->loader->add_action( 'wp_ajax_change_donation_status', $plugin_admin, 'proto_donation_change_donation_status' );
 		$this->loader->add_action( 'wp_ajax_remove_campaign_banner', $plugin_admin, 'proto_donation_remove_campaign_banner' );
 
-<<<<<<< Updated upstream
-=======
-		$this->loader->add_action( 'wp_ajax_pronto_donation_send_test_email_callback', $plugin_admin, 'pronto_donation_send_test_email' );
->>>>>>> Stashed changes
+
 	}
 
 
