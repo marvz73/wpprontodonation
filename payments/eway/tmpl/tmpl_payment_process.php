@@ -17,5 +17,5 @@
 	  </div>
 	</div>
 
-	<h3>Redirecting to payment gateway...</h3>
+	<h3><?php if($result->donation_type=='single'){echo 'Redirecting to payment gateway...';}else{echo 'Finalizing payment...';} ?></h3>
 </div>

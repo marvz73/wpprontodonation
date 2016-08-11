@@ -185,6 +185,9 @@ class Pronto_donation_Public {
 	    		$campaign_data['timestamp'] = time();
 
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
+	    		if($campaign_data['donation_type']=='recurring'&&$campaign_data['payment']=='eWay'){
+	    			$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage;
+	    		}
 
   				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 
@@ -192,8 +195,10 @@ class Pronto_donation_Public {
   				
   				$campaign_data['post_meta_id'] = $post_meta_id;
 
+  			
 	    		// Call the payment function to execute payment action
 	    		$campaign_data['payment_info']->payment_process($campaign_data);
+
 
 	    	}
 	    }
@@ -214,7 +219,7 @@ class Pronto_donation_Public {
  		}
 		require_once('partials/pronto_donation-campaign-list.php');
 	}
-
+	//hereoh
 	public function pronto_donation_override_template($page_template){
 
 		global $wpdb;

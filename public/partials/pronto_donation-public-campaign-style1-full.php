@@ -38,6 +38,7 @@
 
 		<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
 		<input id="google_geocode_api_key" value="<?php echo $google_geocode_api_key;?>" hidden/>
+		<input id="donation_type" value="<?php echo $pronto_donation_campaign['donation_type'];?>" />
 	<!-- //===================== Address Validation ======================================//  -->	
 
 		<!-- Donor Information -->
@@ -286,6 +287,24 @@
 					else:
 						echo '<h1>No Payment avaiable</h1>';
 					endif;
+
+					if($pronto_donation_campaign['donation_type'] == 'recurring'||$pronto_donation_campaign['donation_type'] == 'both'){
+					?>
+					
+						<div id="eway_card_datails" name="eway_card_datails" <?php if($pronto_donation_campaign['donation_type'] == 'both'){echo 'hidden';}?>>
+						<?php
+						$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
+						
+						if($payment_option_eway['enable_self_payment']=='on'){
+							$eway_payment = new eway();
+							$eway_payment->payment_self_payment();
+						}else{
+							echo "Self Payment Method Disabled";
+						}
+					?>
+					</div>
+					<?php
+					}
 				?>
 
 			</div>

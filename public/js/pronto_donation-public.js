@@ -32,6 +32,41 @@
 
 
 jQuery(function(){
+	if(jQuery('#donation_type').length&&jQuery('#donation_type').val()=='recurring')
+	{
+		if(jQuery('#eway_card_datails').length )
+		{
+		    jQuery('#payment1').click(function(){
+				jQuery('#eway_card_datails').hide();
+			})
+			jQuery('#payment0').click(function(){
+				jQuery('#eway_card_datails').show();
+			})
+		}
+	}
+	if(jQuery('#donation_type').length&&jQuery('#donation_type').val()=='both')
+	{
+		if(jQuery('#eway_card_datails').length )
+		{
+			jQuery('#pronto-donation-type-single').click(function(){
+				jQuery('#eway_card_datails').hide();
+			})
+			jQuery('#pronto-donation-type-recurring').click(function(){
+				if(jQuery('#payment0').is(':checked')) { 
+					jQuery('#eway_card_datails').show(); 
+				}
+				jQuery('#payment1').click(function(){
+					jQuery('#eway_card_datails').hide();
+				})
+				jQuery('#payment0').click(function(){
+					jQuery('#eway_card_datails').show();
+				})
+				
+			})
+
+
+		}
+	}
 
 
 	jQuery('.pd-level-amount').on('change', function(){

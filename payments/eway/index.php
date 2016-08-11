@@ -55,6 +55,12 @@ class eway{
 				'label'	=> 'Enable Payment'
 			),
 			array(
+				'type'  => 'checkbox',
+				'value' => '',
+				'name'	=> 'enable_self_payment',
+				'label'	=> 'Enable Self Payment'
+			),
+			array(
 				'type'  => 'text',
 				'value' => '',
 				'name'	=> 'ewayapikey',
@@ -71,36 +77,99 @@ class eway{
 	}
 
 	public function payment_process($ppd = array()){
+
+		if($ppd['donation_type']=='single'){
+			$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
+			$EwayAPIPassword = $ppd['payment_info']->option['ewayapipassword'];
+			$EwaySanboxMode = $ppd['payment_info']->option['ewaysandboxmode'];
+
+			$request = new eWAY\CreateAccessCodesSharedRequest();
+			$request->Customer->Reference = (string)$ppd['post_meta_id'];
+			$request->Customer->CompanyName = (isset($ppd['companyName'])) ? $ppd['companyName'] : '';
+			$request->Customer->Email = $ppd['email'];
+			$request->Customer->FirstName = $ppd['first_name'];  
+			$request->Customer->LastName = $ppd['last_name']; 
+			$request->Customer->Phone = $ppd['phone'];
+			$request->Customer->Street1 = $ppd['address'];
+			$request->Customer->Country = $this->get_countrycode($ppd['country']); 
+			$request->Customer->City = $ppd['suburb'];
+			$request->Customer->State = $ppd['state'];
+			$request->Customer->PostalCode = $ppd['post_code'];
+			$TotalAmount = !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] : $ppd['pd_amount'];
+			$request->Payment->TotalAmount = $TotalAmount .'00';
+			$request->Payment->InvoiceReference = (string)$ppd['post_meta_id'];
+			$request->CustomerReadOnly = true;
+			$request->RedirectUrl = $ppd['redirectURL'];
+			$request->CancelUrl   = $ppd['CancelUrl'];
+			$request->Method = 'ProcessPayment';
+			$eway_params = array();
+			if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
+			$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);
+			$result = $service->CreateAccessCodesShared($request);
+			$result->donation_type = 'single';
+
+			require_once('tmpl/tmpl_payment_process.php');
+
 	
-		$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
-		$EwayAPIPassword = $ppd['payment_info']->option['ewayapipassword'];
-		$EwaySanboxMode = $ppd['payment_info']->option['ewaysandboxmode'];
+		}else{
 
-		$request = new eWAY\CreateAccessCodesSharedRequest();
-		$request->Customer->Reference = (string)$ppd['post_meta_id'];
-		$request->Customer->CompanyName = (isset($ppd['companyName'])) ? $ppd['companyName'] : '';
-		$request->Customer->Email = $ppd['email'];
-		$request->Customer->FirstName = $ppd['first_name'];  
-		$request->Customer->LastName = $ppd['last_name']; 
-		$request->Customer->Phone = $ppd['phone'];
-		$request->Customer->Street1 = $ppd['address'];
-		$request->Customer->Country = $this->get_countrycode($ppd['country']); 
-		$request->Customer->City = $ppd['suburb'];
-		$request->Customer->State = $ppd['state'];
-		$request->Customer->PostalCode = $ppd['post_code'];
-		$TotalAmount = !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] : $ppd['pd_amount'];
-		$request->Payment->TotalAmount = $TotalAmount .'00';
-		$request->Payment->InvoiceReference = (string)$ppd['post_meta_id'];
-		$request->CustomerReadOnly = true;
-		$request->RedirectUrl = $ppd['redirectURL'];
-		$request->CancelUrl   = $ppd['CancelUrl'];
-		$request->Method = 'ProcessPayment';
-		$eway_params = array();
-		if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
-		$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);
-		$result = $service->CreateAccessCodesShared($request);
-		require_once('tmpl/tmpl_payment_process.php');
+			$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
+			$EwayAPIPassword = $ppd['payment_info']->option['ewayapipassword'];
+			$EwaySanboxMode = $ppd['payment_info']->option['ewaysandboxmode'];
 
+			$request = new eWAY\CreateDirectPaymentRequest();
+			$request->Customer->Reference = (string)$ppd['post_meta_id'];
+			$request->Customer->CompanyName = (isset($ppd['companyName'])) ? $ppd['companyName'] : '';
+			$request->Customer->Email = $ppd['email'];
+			$request->Customer->FirstName = $ppd['first_name'];  
+			$request->Customer->LastName = $ppd['last_name']; 
+			$request->Customer->Phone = $ppd['phone'];
+			$request->Customer->Street1 = $ppd['address'];
+			$request->Customer->Country = $this->get_countrycode($ppd['country']); 
+			$request->Customer->City = $ppd['suburb'];
+			$request->Customer->State = $ppd['state'];
+			$request->Customer->PostalCode = $ppd['post_code'];
+			$TotalAmount = !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] : $ppd['pd_amount'];
+			$request->Payment->TotalAmount = $TotalAmount .'00';
+			$request->Payment->InvoiceReference = (string)$ppd['post_meta_id'];
+			
+			$request->Method = 'ProcessPayment';
+			$request->TransactionType = 'Purchase';
+
+			$request->Customer->CardDetails->Name = $ppd['eway_name_on_card'];
+		    $request->Customer->CardDetails->Number = $ppd['eway_card_number'];
+		    $request->Customer->CardDetails->ExpiryMonth = $ppd['eway_expiry_month'];
+		    $request->Customer->CardDetails->ExpiryYear = $ppd['eway_expiry_year'];
+		    $request->Customer->CardDetails->CVN = $ppd['eway_ccv'];
+
+			$eway_params = array();
+			if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
+		    $service = new eWAY\RapidAPI($EwayAPIKey,$EwayAPIPassword , $eway_params);
+		    $result = $service->DirectPayment($request);
+		    $result->SharedPaymentUrl = $ppd['redirectURL'];
+		    $result->TypeOfPayment = 'SelfPayment';
+		    $result->donation_type = 'recurring';
+
+		    if (!empty($result->Errors)) {
+		        // Get Error Messages from Error Code.
+		        // $ErrorArray = explode(",", $result->Errors);
+		        // $lblError = "";
+		        // foreach ( $ErrorArray as $error ) {
+		        //     $error = $service->getMessage($error);
+		        //     $lblError .= $error . "<br />\n";;
+		        // }
+		    } else {
+		    	//echo "Success";
+		        require_once('tmpl/tmpl_payment_process.php');	       
+		    }
+		}
+
+
+
+	}
+
+	public function payment_self_payment() {
+		require_once('tmpl/tml_self_payment_process.php');
 	}
 
 	// Payment process complete
