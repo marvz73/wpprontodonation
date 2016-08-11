@@ -32,15 +32,27 @@
 
 
 jQuery(function(){
+	//------------------------- Eway Monthly/Recurring Payment --------------------------------//
 	if(jQuery('#donation_type').length&&jQuery('#donation_type').val()=='recurring')
 	{
 		if(jQuery('#eway_card_datails').length )
 		{
+	
 		    jQuery('#payment1').click(function(){
 				jQuery('#eway_card_datails').hide();
+				jQuery("#eway_card_number").attr('required', false);
+				jQuery("#eway_name_on_card").attr('required', false);
+				jQuery("#eway_expiry_month").attr('required', false);
+				jQuery("#eway_expiry_year").attr('required', false);
+				jQuery("#eway_ccv").attr('required', false);
 			})
 			jQuery('#payment0').click(function(){
 				jQuery('#eway_card_datails').show();
+					jQuery("#eway_card_number").attr('required', true);
+					jQuery("#eway_name_on_card").attr('required', true);
+					jQuery("#eway_expiry_month").attr('required', true);
+					jQuery("#eway_expiry_year").attr('required', true);
+					jQuery("#eway_ccv").attr('required', true);
 			})
 		}
 	}
@@ -50,16 +62,37 @@ jQuery(function(){
 		{
 			jQuery('#pronto-donation-type-single').click(function(){
 				jQuery('#eway_card_datails').hide();
+				jQuery("#eway_card_number").attr('required', false);
+				jQuery("#eway_name_on_card").attr('required', false);
+				jQuery("#eway_expiry_month").attr('required', false);
+				jQuery("#eway_expiry_year").attr('required', false);
+				jQuery("#eway_ccv").attr('required', false);
 			})
 			jQuery('#pronto-donation-type-recurring').click(function(){
 				if(jQuery('#payment0').is(':checked')) { 
-					jQuery('#eway_card_datails').show(); 
+					jQuery('#eway_card_datails').show();
+					jQuery("#eway_card_number").attr('required', true);
+					jQuery("#eway_name_on_card").attr('required', true);
+					jQuery("#eway_expiry_month").attr('required', true);
+					jQuery("#eway_expiry_year").attr('required', true);
+					jQuery("#eway_ccv").attr('required', true); 
 				}
 				jQuery('#payment1').click(function(){
 					jQuery('#eway_card_datails').hide();
+					jQuery("#eway_card_number").attr('required', false);
+					jQuery("#eway_name_on_card").attr('required', false);
+					jQuery("#eway_expiry_month").attr('required', false);
+					jQuery("#eway_expiry_year").attr('required', false);
+					jQuery("#eway_ccv").attr('required', false);
 				})
 				jQuery('#payment0').click(function(){
 					jQuery('#eway_card_datails').show();
+					jQuery("#eway_card_number").attr('required', true);
+					jQuery("#eway_name_on_card").attr('required', true);
+					jQuery("#eway_expiry_month").attr('required', true);
+					jQuery("#eway_expiry_year").attr('required', true);
+					jQuery("#eway_ccv").attr('required', true);
+					
 				})
 				
 			})
@@ -67,7 +100,7 @@ jQuery(function(){
 
 		}
 	}
-
+	//------------------------- Eway Monthly/Recurring Payment --------------------------------//
 
 	jQuery('.pd-level-amount').on('change', function(){
 		if(jQuery(this).val() == '0')
