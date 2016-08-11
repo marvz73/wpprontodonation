@@ -115,19 +115,19 @@ class Pronto_donation_Public {
 		
 		$check_page = $_SERVER['QUERY_STRING'];
 
-		if (strpos($check_page, 'campaign=') !== false) {
-		    //========================= Google Maps Autocomplete =======================//
-			$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
 
-			$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
-			if(empty($google_geocode_api_key)||$google_geocode_api_key==''){}else{
+	    //========================= Google Maps Autocomplete =======================//
+		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
 
-				wp_enqueue_script( "MyJsforthisshorcode", plugin_dir_url( __FILE__ ) . 'js/pronto_donation-address-validation.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( 'gmapscript2', 'https://maps.googleapis.com/maps/api/js?key='.$google_geocode_api_key.'&language=en&libraries=places&callback=initAutocomplete');
+		$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
+		if(empty($google_geocode_api_key)||$google_geocode_api_key==''){}else{
 
-			}
-			//========================= Google Maps Autocomplete =======================//
+			wp_register_script( "MyJsforthisshorcode", plugin_dir_url( __FILE__ ) . 'js/pronto_donation-address-validation.js', array( 'jquery' ), $this->version, true );
+			wp_register_script( 'gmapscript2', 'https://maps.googleapis.com/maps/api/js?key='.$google_geocode_api_key.'&language=en&libraries=places&callback=initAutocomplete', true);
+
 		}
+		//========================= Google Maps Autocomplete =======================//
+		
 
 		wp_enqueue_script( $this->plugin_name.'ezidebit_js', plugin_dir_url( __FILE__ ) . '../payments/ezidebit/ezidebit_js_lib/ezidebit_2_0_0.min.js', array(), $this->version, false );
 	
@@ -195,8 +195,9 @@ class Pronto_donation_Public {
 	    		$campaign_data['CancelUrl']   = get_home_url() . '/?p=' . $this->campaignOption->CancelPageMessagePage. '&payment_status=C&ref=' . $post_meta_id;
   				
   				$campaign_data['post_meta_id'] = $post_meta_id;
-
-  			
+  				// echo "<pre>";
+  				// print_r($campaign_data);
+  				// die();
 	    		// Call the payment function to execute payment action
 	    		$campaign_data['payment_info']->payment_process($campaign_data);
 
@@ -226,7 +227,7 @@ class Pronto_donation_Public {
 		global $wpdb;
 		global $post;
 
-
+  		
 		if (isset($_GET['payment_gateway']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage'])
 		{
    
@@ -323,6 +324,7 @@ class Pronto_donation_Public {
 
 			require_once('partials/pronto_donation-public-campaign.php');
 
+
 		}
 		else
 		{
@@ -349,6 +351,8 @@ class Pronto_donation_Public {
 		    require_once('partials/pronto_donation-public-campaign-style' . $formStyle . '-full.php');
 		    require_once ( $this->base . 'ezidebit/index.php' );
 		}
+		wp_enqueue_script( 'MyJsforthisshorcode' );
+		wp_enqueue_script( 'gmapscript2' );
 	}
 
 	function _array_to_object($option){
