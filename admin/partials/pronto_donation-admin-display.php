@@ -1113,6 +1113,7 @@ if ( isset($_GET['page']) ) {
 	</form>
 </div>
 
+
 	<?php
 
 		try { 		

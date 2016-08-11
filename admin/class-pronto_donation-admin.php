@@ -1143,5 +1143,4 @@ class Pronto_donation_Admin {
 	}
 
 
-
 }
