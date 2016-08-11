@@ -25,6 +25,9 @@
 		font-weight: bold;
 		margin-top: 10px;
 	}
+	.self-payment-style {
+		display: none;
+	}
 </style>
 
 <div class="ezi-lazy-loading">
