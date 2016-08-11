@@ -116,7 +116,18 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function($){
-		if( ajax_request_enable == 'on') {
+		
+		$('#payment1').click(function(){
+			$('.self-payment-style').show();
+		})
+		$('#payment0').click(function(){
+			$('.self-payment-style').hide();
+			$('.self-payment-msg').empty();
+		})
+
+
+
+		if( ajax_request_enable == 'on' && $('#payment1').is(':checked')) {
 
 			$.fn.bindFirst = function(name, fn) {
 			    // bind as you normally would
@@ -201,13 +212,6 @@
 			var selected_donation_amount = $('input[name=pd_amount]:checked').val();
 			$('#amount').val( selected_donation_amount );
 
-			$('#payment1').click(function(){
-				$('.self-payment-style').show();
-			})
-			$('#payment0').click(function(){
-				$('.self-payment-style').hide();
-				$('.self-payment-msg').empty();
-			})
 
 			$('input[name=pd_amount]').change(function() {
 				var selected_donation_amount = $('input[name=pd_amount]:checked').val();
