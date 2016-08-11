@@ -170,8 +170,8 @@
 						}
 					},
 					error: function(xhr, textStatus, errorThrown){
-		 				// console.log(errorThrown)
-		 				$('.self-payment-msg').append('<p class="ezidebit-error">'+errorThrown+', Please contact the administrator </p>');
+		 				console.log(textStatus)
+		 				$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
 		 				$('.ezi-lazy-loading').hide();
 			        }
 			    });

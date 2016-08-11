@@ -328,7 +328,6 @@
 			?>
 
 
-
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
 		<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 		<input type="hidden" name="action" value="process_donate"/>
@@ -346,7 +345,7 @@
 		<br>
 
 		<p class="submit">
-			<button class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
+			<button id="payNowButton" type="submit" class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
 		</p>
 	</form>
 

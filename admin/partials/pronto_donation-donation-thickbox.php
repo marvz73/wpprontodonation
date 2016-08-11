@@ -9,6 +9,9 @@
         
         $donation_details = unserialize( $result[0]->meta_value );
 
+        // echo "<pre>";
+        // print_r($donation_details);
+
         $data_address = ( !empty( $donation_details['address'] ) ) ? $donation_details['address'] ." ": '';
         $data_suburb = ( !empty( $donation_details['suburb'] ) ) ? $donation_details['suburb'] .", ": '';
         $data_state = ( !empty( $donation_details['state'] ) ) ? $donation_details['state'] .", " : '';
@@ -265,6 +268,37 @@
                         <?php
                     }
                     ?>
+                    <tr>
+                        <th>
+                        <h3 class=""> Card Details</h3>
+                        </th>
+                    </tr>
+
+                    <?php 
+
+                        if( array_key_exists( 'card_details', $donation_details ) && !empty($donation_details['card_details']) ) {
+                            foreach ($donation_details['card_details'] as $key => $card_details) {
+                                ?>
+                                <tr>
+                                   <th>
+                                        <label class=""> <?php echo $key ?></label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $card_details ) ) ? $card_details : '' ?>" readonly>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                        } else {
+                            ?>
+                                <th>
+                                    <h5 class=""> No card details</h5>
+                                </th>
+                            <?php
+                        }
+
+                    ?>
+
                     <tr>
                         <th>
                             <h3 class=""> Payment Response</h3>
