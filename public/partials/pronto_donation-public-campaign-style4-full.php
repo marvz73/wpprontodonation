@@ -335,7 +335,6 @@
 			</div>
 
 
-
 			<div class="pd-container-padding clearfix">
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_phone_option'] != 'hide'): ?>

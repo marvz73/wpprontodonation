@@ -308,6 +308,27 @@
 				?>
 
 			</div>
+
+			<?php
+
+			$ezidebit_option = get_option( 'payment_option_ezidebit', 0 );
+ 			
+			if( $ezidebit_option["enable_ajax_payment"] == 'on' ) {
+				?>
+				<div class="self-payment-style">
+					<?php
+					$ezidebit_payment = new ezidebit();
+					$ezidebit_payment->payment_self_payment( $attrs['campaign'] );
+					?>
+				</div>
+				<div class="self-payment-msg"></div>
+				<?php
+			}
+
+			?>
+
+
+
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
 		<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 		<input type="hidden" name="action" value="process_donate"/>
@@ -328,5 +349,11 @@
 			<button class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
 		</p>
 	</form>
+
+	<script type="text/javascript">
+		var ajax_request_enable = '<?php echo $ezidebit_option["enable_ajax_payment"]; ?>';
+		var endpoint = '<?php echo $ezidebit_option["endpoint"] ?>';
+		var publicKey = '<?php echo $ezidebit_option["publickey"] ?>';
+	</script>
 
 </div>
