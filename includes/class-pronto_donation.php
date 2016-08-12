@@ -231,6 +231,8 @@ class Pronto_donation {
 		$this->loader->add_action( 'wp_ajax_self_payment_proccess', $plugin_public, 'pronto_donation_ajax_self_payment' );
 		$this->loader->add_action( 'wp_ajax_nopriv_self_payment_proccess', $plugin_public, 'pronto_donation_ajax_self_payment' );
 
+		$this->loader->add_action( 'wp_ajax_verify_captcha', $plugin_public, 'pronto_donation_ajax_captcha_validate' );
+		$this->loader->add_action( 'wp_ajax_nopriv_verify_captcha', $plugin_public, 'pronto_donation_ajax_captcha_validate' );
 
 	}
 

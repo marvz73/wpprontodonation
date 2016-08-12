@@ -379,6 +379,8 @@ class Pronto_donation_Public {
 	*/
 
 	public function pronto_donation_ajax_self_payment() {
+		
+		header('Access-Control-Allow-Origin: *');  
 
 		$donation_data = array();
 		$payment = "";
@@ -444,6 +446,21 @@ class Pronto_donation_Public {
  			) 
  		);
 
+		die();
+	}
+
+	public function pronto_donation_ajax_captcha_validate() {
+
+		header('Access-Control-Allow-Origin: *');  
+		if( !empty( $this->campaignOption->GoogleReCaptchaSecretKey ) && !empty( $_POST['cptcha_response'] ) ) {
+			$googleSecret = $this->campaignOption->GoogleReCaptchaSecretKey;
+			$response = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$googleSecret."&response=".$_POST['cptcha_response']."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
+			wp_send_json_success( $response );
+		} else {
+			wp_send_json_error( array(
+					'status' => 'failed'
+				) );
+		}
 		die();
 	}
 }

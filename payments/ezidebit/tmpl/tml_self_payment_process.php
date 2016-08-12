@@ -116,108 +116,162 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function($){
-		
+
 		$('#payment1').click(function(){
+
 			$('.self-payment-style').show();
+
+			if( ajax_request_enable == 'on' && $('#payment1').is(':checked') == true ) {
+
+				var captcha_catch_error = false;
+
+				// start of the ezidebit client side payment
+		 		var displaySubmitCallback = function(data) {
+					// console.log(data)
+					var formData = $('.pronto-donation-form').serializeArray();
+					var campaign_id = '<?php echo $ajax_campaign_id ?>';
+
+					$.ajax({
+						type: 'POST',
+						url:  ajax_frontend.ajax_url,
+						data: { 'action':'self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data, 'card_details' : creditCardDetails },
+						success: function(response){
+							// console.log( response )
+							if( response.success ) {
+								window.location.href = response.data.redirect_url;
+							}
+						},
+						error: function(xhr, textStatus, errorThrown){
+			 				console.log(textStatus)
+			 				$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
+			 				$('.ezi-lazy-loading').hide();
+				        }
+				    });
+
+				};
+
+
+				var displaySubmitError = function (data) {
+					// console.log(data)
+					if(captcha_catch_error == true) {
+						$('.self-payment-msg').append('<p class="ezidebit-error">You are a roobot</p>');
+						$('#payNowButton').removeAttr('disabled');
+					} else {
+
+						$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
+					}
+					$('.ezi-lazy-loading').hide();
+				};
+
+				eziDebit.init(publicKey, {
+					submitAction: "ChargeCard",
+					submitButton: "payNowButton",
+					submitCallback: displaySubmitCallback,
+					submitError: displaySubmitError,
+					nameOnCard: "nameOnCard",
+					cardNumber: "cardNumber",
+					cardExpiryMonth: "expiryMonth",
+					cardExpiryYear: "expiryYear",
+					cardCCV: "ccv",
+					paymentAmount: "amount",
+					paymentReference: "paymentReference"
+				}, endpoint);
+
+				// end of ezidebit client side payment
+
+				// --- this is the start of the initialization of the captcha
+
+				var cptcha_response = null;
+				var verifyCallback = function(data) {
+					cptcha_response = data;
+				}
+
+				// console.log(captchakey)
+
+				var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
+				  'sitekey' : captchakey,  // required
+				  'theme' : 'light',  // optional
+				  'callback': verifyCallback  // optional
+				});
+
+				// end of the captcha
+
+				$.fn.bindFirst = function(name, fn) {
+				    // bind as you normally would
+				    // don't want to miss out on any jQuery magic
+				    this.on(name, fn);
+
+				    // Thanks to a comment by @Martin, adding support for
+				    // namespaced events too.
+				    this.each(function() {
+				    	var handlers = $._data(this, 'events')[name.split('.')[0]];
+				    	// console.log(handlers);
+				        // take out the handler we just inserted from the end
+				        var handler = handlers.pop();
+				        // move it at the beginning
+				        handlers.splice(0, 0, handler);
+				    });
+				};
+
+				var creditCardDetails;
+
+				$('#payNowButton').bindFirst('click', function() {
+					captcha_catch_error = false;
+					// verify_captcha
+					$.ajax({
+						type: 'POST',
+						url:  ajax_frontend.ajax_url,
+						data: { 'action':'verify_captcha', 'cptcha_response' : cptcha_response },
+						success: function(response){
+							console.log( response )
+							if( response.success === false ) {
+								captcha_catch_error = true;
+								window.stop();
+								return false;
+							} else if( response.data.success != true) {
+								captcha_catch_error = true;
+								window.stop();
+							 	return false;
+							}
+						},
+						error: function(xhr, textStatus, errorThrown){
+			 				console.log(textStatus)
+			 				$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
+			 				$('.ezi-lazy-loading').hide();
+				        }
+				    });
+
+					var selected_donation_type = $('input[name=donation_type]:checked').val();
+					if(selected_donation_type != 'single') {
+						var card_details = [];
+						$('.self-payment-style :input').each(function() {
+							card_details.push({
+								'key' : $(this).attr('id'),
+								'value' : $(this).val()
+							});
+
+						});
+						creditCardDetails = card_details;
+					}
+					$('.self-payment-msg').empty();
+					$('.ezi-lazy-loading').show();
+				});
+
+				var selected_donation_amount = $('input[name=pd_amount]:checked').val();
+				$('#amount').val( selected_donation_amount );
+
+				$('input[name=pd_amount]').change(function() {
+					var selected_donation_amount = $('input[name=pd_amount]:checked').val();
+					$('#amount').val( selected_donation_amount );
+				});
+			}
 		})
+
 		$('#payment0').click(function(){
 			$('.self-payment-style').hide();
 			$('.self-payment-msg').empty();
 		})
 
-
-
-		if( ajax_request_enable == 'on' && $('#payment1').is(':checked')) {
-
-			$.fn.bindFirst = function(name, fn) {
-			    // bind as you normally would
-			    // don't want to miss out on any jQuery magic
-			    this.on(name, fn);
-
-			    // Thanks to a comment by @Martin, adding support for
-			    // namespaced events too.
-			    this.each(function() {
-			    	var handlers = $._data(this, 'events')[name.split('.')[0]];
-			    	// console.log(handlers);
-			        // take out the handler we just inserted from the end
-			        var handler = handlers.pop();
-			        // move it at the beginning
-			        handlers.splice(0, 0, handler);
-			    });
-			};
-
-			var creditCardDetails;
-
-			$('#payNowButton').bindFirst('click', function() {
-				var selected_donation_type = $('input[name=donation_type]:checked').val();
-				if(selected_donation_type != 'single') {
-					var card_details = [];
-					$('.self-payment-style :input').each(function() {
-						card_details.push({
-							'key' : $(this).attr('id'),
-							'value' : $(this).val()
-						});
-
-					});
-					creditCardDetails = card_details;
-				}
-				$('.self-payment-msg').empty();
-				$('.ezi-lazy-loading').show();
-			});
-
-			var displaySubmitCallback = function(data) {
-				// console.log(data)
-				var formData = $('.pronto-donation-form').serializeArray();
-				var campaign_id = '<?php echo $ajax_campaign_id ?>';
-
-				$.ajax({
-					type: 'POST',
-					url:  ajax_frontend.ajax_url,
-					data: { 'action':'self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data, 'card_details' : creditCardDetails },
-					success: function(response){
-						// console.log( response )
-						if( response.success ) {
-							window.location.href = response.data.redirect_url;
-						}
-					},
-					error: function(xhr, textStatus, errorThrown){
-		 				console.log(textStatus)
-		 				$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
-		 				$('.ezi-lazy-loading').hide();
-			        }
-			    });
-
-			};
-
-			var displaySubmitError = function (data) {
-				// console.log(data)
-				$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
-				$('.ezi-lazy-loading').hide();
-			};
-
-			eziDebit.init(publicKey, {
-				submitAction: "ChargeCard",
-				submitButton: "payNowButton",
-				submitCallback: displaySubmitCallback,
-				submitError: displaySubmitError,
-				nameOnCard: "nameOnCard",
-				cardNumber: "cardNumber",
-				cardExpiryMonth: "expiryMonth",
-				cardExpiryYear: "expiryYear",
-				cardCCV: "ccv",
-				paymentAmount: "amount",
-				paymentReference: "paymentReference"
-			}, endpoint);
-
-			var selected_donation_amount = $('input[name=pd_amount]:checked').val();
-			$('#amount').val( selected_donation_amount );
-
-
-			$('input[name=pd_amount]').change(function() {
-				var selected_donation_amount = $('input[name=pd_amount]:checked').val();
-				$('#amount').val( selected_donation_amount );
-			});
-		}
 	});
 
 </script>
