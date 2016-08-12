@@ -32,6 +32,7 @@
 
 
 jQuery(function(){
+
 	function ShowEwayCardDetails(){
 		if(jQuery('#pronto-donation-type-recurring').is(':checked')) { 
 			if(jQuery('#payment0').is(':checked')) { 
@@ -53,6 +54,7 @@ jQuery(function(){
 
 
 	}
+
 	//------------------------- Eway Monthly/Recurring Payment --------------------------------//
 	if(jQuery('#donation_type').length&&jQuery('#donation_type').val()=='recurring')
 	{
@@ -66,6 +68,7 @@ jQuery(function(){
 				jQuery("#eway_expiry_year").attr('required', true);
 				jQuery("#eway_ccv").attr('required', true);
 			})
+
 			jQuery('#payment1').click(function(){
 				jQuery('#eway_card_datails').hide();
 				jQuery("#eway_card_number").attr('required', false);
