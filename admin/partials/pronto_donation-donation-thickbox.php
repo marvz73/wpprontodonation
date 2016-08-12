@@ -11,6 +11,7 @@
 
         // echo "<pre>";
         // print_r($donation_details);
+        // die();
 
         $data_address = ( !empty( $donation_details['address'] ) ) ? $donation_details['address'] ." ": '';
         $data_suburb = ( !empty( $donation_details['suburb'] ) ) ? $donation_details['suburb'] .", ": '';

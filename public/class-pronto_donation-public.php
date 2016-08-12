@@ -127,7 +127,7 @@ class Pronto_donation_Public {
 
 		}
 		//========================= Google Maps Autocomplete =======================//
-		
+		wp_enqueue_script( $this->plugin_name.'eway_js', plugin_dir_url( __FILE__ ) . '../payments/eway/eway_js/eway_js.js', array(), $this->version, false );
 
 		wp_enqueue_script( $this->plugin_name.'ezidebit_js', plugin_dir_url( __FILE__ ) . '../payments/ezidebit/ezidebit_js_lib/ezidebit_2_0_0.min.js', array(), $this->version, false );
 	
