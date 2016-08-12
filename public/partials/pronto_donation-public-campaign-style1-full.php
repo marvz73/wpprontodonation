@@ -336,19 +336,32 @@
 
 			<?php
 
-			$ezidebit_option = get_option( 'payment_option_ezidebit', 0 );
- 			
-			if( $ezidebit_option["enable_ajax_payment"] == 'on' ) {
-				?>
-				<div class="self-payment-style">
-					<?php
-					$ezidebit_payment = new ezidebit();
-					$ezidebit_payment->payment_self_payment( $attrs['campaign'] );
+				$ezidebit_option = get_option( 'payment_option_ezidebit', 0 );
+				
+				if( $ezidebit_option["enable_ajax_payment"] == 'on' ) {
 					?>
-				</div>
-				<div class="self-payment-msg"></div>
-				<?php
-			}
+ 					<div class="self-payment-style">
+ 						<?php
+						 	$ezidebit_payment = new ezidebit();
+						 	$ezidebit_payment->payment_self_payment( $attrs['campaign'] );
+						?>
+ 					
+						<div class="self-payment-msg"></div>
+
+						<br>
+							<div id="client-side-recaptcha"></div>
+						<br>
+ 					</div>
+					<?php
+				} else {
+					if($this->campaignOption->GoogleReCaptchaEnable && $this->campaignOption->GoogleReCaptchaSiteKey && $this->campaignOption->GoogleReCaptchaSecretKey) {
+						?>
+						<br>
+							<div class="g-recaptcha" data-sitekey="<?php echo $this->campaignOption->GoogleReCaptchaSiteKey; ?>"></div>
+						<br>
+						<?php
+					}
+				}
 
 			?>
 
@@ -356,11 +369,7 @@
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
 		<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 		<input type="hidden" name="action" value="process_donate"/>
-		
-		<?php if($this->campaignOption->GoogleReCaptchaEnable && $this->campaignOption->GoogleReCaptchaSiteKey && $this->campaignOption->GoogleReCaptchaSecretKey): ?>
-			<br>
-			<div class="g-recaptcha" data-sitekey="<?php echo $this->campaignOption->GoogleReCaptchaSiteKey; ?>"></div>
-		<?php endif; ?>
+ 
 
 	</div>
 
@@ -378,6 +387,7 @@
 		var ajax_request_enable = '<?php echo $ezidebit_option["enable_ajax_payment"]; ?>';
 		var endpoint = '<?php echo $ezidebit_option["endpoint"] ?>';
 		var publicKey = '<?php echo $ezidebit_option["publickey"] ?>';
+		var captchakey = '<?php echo $this->campaignOption->GoogleReCaptchaSiteKey ?>';
 	</script>
 
 </div>
