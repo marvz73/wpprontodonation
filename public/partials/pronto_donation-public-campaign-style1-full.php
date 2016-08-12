@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Title: Style 1 Themes
  * Desc: Style 1 of the Pronto Donation Plugin which are in one column
@@ -19,6 +18,31 @@
 		?>
 		</div>
 	<?php endif; ?>
+
+
+	<?php 
+	//------------ EWAY Selfpayment ------------//
+	if(isset($_GET['SP_Status'])): ?>
+	<div class="pronto_donation_error">
+	<?php
+		$eway_SP_error = (!isset($_GET['SP_Status'])) ? "" : $_GET['SP_Status'];
+		if($eway_SP_error=='V6110'){
+			echo "<p style='color: red;'>Invalid Card Details</p>";
+		}else{
+			if($eway_SP_error=='V6053'){
+				echo "<p style='color: red;'>Country Is Invalid</p>";
+			}else{
+				echo "<p style='color: red;'>Card Details or Country Is Invalid</p>";
+			}
+
+		}
+		
+	?>
+	</div>
+	<?php endif; 
+	//------------ EWAY Selfpayment ------------//
+	?>
+
 
 	<div id="pronto-donation-banner">
 		<img src="<?php echo $pronto_donation_campaign['banner_image'] ?>">
@@ -285,9 +309,9 @@
 				<?php
 					endforeach;
 					else:
-						echo '<h1>No Payment avaiable</h1>';
+						echo '<h1>No Payment available</h1>';
 					endif;
-
+					//------------ EWAY Selfpayment ------------//
 					if($pronto_donation_campaign['donation_type'] == 'recurring'||$pronto_donation_campaign['donation_type'] == 'both'){
 					?>
 					
@@ -305,6 +329,7 @@
 					</div>
 					<?php
 					}
+					//------------ EWAY Selfpayment ------------//
 				?>
 
 			</div>

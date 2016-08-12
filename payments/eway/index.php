@@ -76,7 +76,7 @@ class eway{
 
 	}
 
-	public function payment_process($ppd = array()){
+	public function payment_process($ppd = array(),$campaign_data = array()){
 
 		if($ppd['donation_type']=='single'){
 			$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
@@ -146,11 +146,16 @@ class eway{
 			if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
 		    $service = new eWAY\RapidAPI($EwayAPIKey,$EwayAPIPassword , $eway_params);
 		    $result = $service->DirectPayment($request);
-		    $result->SharedPaymentUrl = $ppd['redirectURL'];
+		    
 		    $result->TypeOfPayment = 'SelfPayment';
 		    $result->donation_type = 'recurring';
 
+
 		    if (!empty($result->Errors)) {
+		    	//print_r($result);
+		    	$result->SharedPaymentUrl = $campaign_data['redirectErrorURL'].'&SP_Status='.$result->Errors;
+		    	require_once('tmpl/tmpl_payment_process.php');
+		    	
 		        // Get Error Messages from Error Code.
 		        // $ErrorArray = explode(",", $result->Errors);
 		        // $lblError = "";
@@ -159,8 +164,13 @@ class eway{
 		        //     $lblError .= $error . "<br />\n";;
 		        // }
 		    } else {
+		    	$result->SharedPaymentUrl = $ppd['redirectURL'].'&SP_Status=S';
 		    	//echo "Success";
-		        require_once('tmpl/tmpl_payment_process.php');	       
+		    	$campaign_data['statusCode'] = 1;
+	    		$campaign_data['statusText'] = 'Transaction Approved';
+				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
+				$campaign_data['post_meta_id'] = $post_meta_id;
+		        require_once('tmpl/tmpl_payment_process.php');       
 		    }
 		}
 
@@ -175,7 +185,6 @@ class eway{
 	// Payment process complete
 	public function payment_complete($response, $class){
 		global $wpdb;
-
 		
 		if(empty($response)){
 			return false;
@@ -230,6 +239,7 @@ class eway{
 		
 		
 	}
+
 
 	/*
 	* This function will return the country code of the gevin country

@@ -111,9 +111,9 @@ class Pronto_donation_Admin {
 		 */
 		$check_page = $_SERVER['QUERY_STRING'];
 
-		if (strpos($check_page, 'page=donation-settings') !== false) {
-			wp_enqueue_script( 'address_validation', plugin_dir_url( __FILE__ ) . 'js/pronto_donation-admin-address-validation.js', array( 'jquery' ), $this->version, false );
-		}
+	
+		wp_register_script( 'address_validation', plugin_dir_url( __FILE__ ) . 'js/pronto_donation-admin-address-validation.js', array( 'jquery' ), $this->version, true );
+		
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
@@ -182,6 +182,7 @@ class Pronto_donation_Admin {
 		if(!isset($_GET['action']))
 		{
 			require_once('partials/pronto_donation-payment-display.php');
+
 		}
 		else if(!empty($post_data) && $post_data['action'] == 'save_settings' &&  wp_verify_nonce( $post_data['nonce'], 'payment_'.$post_data['payment_type']))
 		{
@@ -1140,6 +1141,7 @@ class Pronto_donation_Admin {
 	public function pronto_donation_settings_menu_page(){
 		global $title;
 		require_once('partials/pronto_donation-admin-display.php');
+		wp_enqueue_script( 'address_validation' );
 	}
 
 

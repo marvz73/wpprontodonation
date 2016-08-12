@@ -1,14 +1,5 @@
 jQuery(document).ready(function($){
-	$('#test_JS').on('click', function(){
-		var data = {
-		 	'action': 'pronto_donation_send_test_email_callback',
-		 	'email': $('#email_for_test').val(),
-		 	'emailmessage': $('#thank_you_email_message').val()
-		};
-		jQuery.post(ajaxurl, data, function(response) {
-			alert('Got this from the server: ' + response);
-		});
-	});
+
 
 	if ($('#enable_address_validation').prop('checked')==true){ 
    

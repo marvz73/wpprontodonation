@@ -20,6 +20,31 @@
 		</div>
 	<?php endif; ?>
 
+
+	<?php 
+	//------------ EWAY Selfpayment ------------//
+	if(isset($_GET['SP_Status'])): ?>
+	<div class="pronto_donation_error">
+	<?php
+		$eway_SP_error = (!isset($_GET['SP_Status'])) ? "" : $_GET['SP_Status'];
+		if($eway_SP_error=='V6110'){
+			echo "<p style='color: red;'>Invalid Card Details</p>";
+		}else{
+			if($eway_SP_error=='V6053'){
+				echo "<p style='color: red;'>Country Is Invalid</p>";
+			}else{
+				echo "<p style='color: red;'>Card Details or Country Is Invalid</p>";
+			}
+
+		}
+		
+	?>
+	</div>
+	<?php endif; 
+	//------------ EWAY Selfpayment ------------//
+	?>
+
+
 	<div id="pronto-donation-banner">
 		<img src="<?php echo $pronto_donation_campaign['banner_image'] ?>">
 	</div>
@@ -314,8 +339,27 @@
 				<?php
 					endforeach;
 					else:
-						echo '<h1>No Payment avaiable</h1>';
+						echo '<h1>No Payment available</h1>';
 					endif;
+					//------------ EWAY Selfpayment ------------//
+					if($pronto_donation_campaign['donation_type'] == 'recurring'||$pronto_donation_campaign['donation_type'] == 'both'){
+					?>
+					
+						<div id="eway_card_datails" name="eway_card_datails" <?php if($pronto_donation_campaign['donation_type'] == 'both'){echo 'hidden';}?>>
+						<?php
+						$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
+						
+						if($payment_option_eway['enable_self_payment']=='on'){
+							$eway_payment = new eway();
+							$eway_payment->payment_self_payment();
+						}else{
+							echo "Self Payment Method Disabled";
+						}
+					?>
+					</div>
+					<?php
+					}
+					//------------ EWAY Selfpayment ------------//
 				?>
 
 			</div>
