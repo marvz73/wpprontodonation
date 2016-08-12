@@ -356,7 +356,7 @@
 
 				$ezidebit_option = get_option( 'payment_option_ezidebit', 0 );
 				
-				if( $ezidebit_option["enable_ajax_payment"] == 'on' ) {
+				if( $ezidebit_option["enable_ajax_payment"] == 'on' && $this->campaignOption->GoogleReCaptchaEnable ) {
 					?>
  					<div class="self-payment-style">
  						<?php
@@ -371,14 +371,6 @@
 						<br>
  					</div>
 					<?php
-				} else {
-					if($this->campaignOption->GoogleReCaptchaEnable && $this->campaignOption->GoogleReCaptchaSiteKey && $this->campaignOption->GoogleReCaptchaSecretKey) {
-						?>
-						<br>
-							<div class="g-recaptcha" data-sitekey="<?php echo $this->campaignOption->GoogleReCaptchaSiteKey; ?>"></div>
-						<br>
-						<?php
-					}
 				}
 
 			?>
@@ -386,7 +378,12 @@
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
 		<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 		<input type="hidden" name="action" value="process_donate"/>
- 
+ 		
+ 	 	<?php if($this->campaignOption->GoogleReCaptchaEnable && $this->campaignOption->GoogleReCaptchaSiteKey && $this->campaignOption->GoogleReCaptchaSecretKey): ?>
+            <br>
+            <div class="g-recaptcha" data-sitekey="<?php echo $this->campaignOption->GoogleReCaptchaSiteKey; ?>"></div>
+        <?php endif; ?>
+        <br>
 				<p class="submit">
 					<button id="payNowButton" type="submit" class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
 				</p>

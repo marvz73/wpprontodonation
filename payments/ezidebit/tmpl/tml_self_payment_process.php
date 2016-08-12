@@ -121,6 +121,8 @@
 
 			$('.self-payment-style').show();
 
+			$('.g-recaptcha').hide();
+
 			if( ajax_request_enable == 'on' && $('#payment1').is(':checked') == true ) {
 
 				var captcha_catch_error = false;
@@ -272,6 +274,7 @@
 		$('#payment0').click(function(){
 			$('.self-payment-style').hide();
 			$('.self-payment-msg').empty();
+			$('.g-recaptcha').show();
 		})
 
 	});
