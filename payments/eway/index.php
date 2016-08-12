@@ -168,6 +168,19 @@ class eway{
 		    	//echo "Success";
 		    	$campaign_data['statusCode'] = 1;
 	    		$campaign_data['statusText'] = 'Transaction Approved';
+	    		$payment_response = array(
+					'AuthorisationCode'		=> $result->AuthorisationCode,
+					'ResponseCode'			=> $result->ResponseCode,
+					'ResponseMessage'		=> $result->ResponseMessage,
+					'InvoiceNumber'			=> $result->Payment->InvoiceNumber,
+					'InvoiceReference'		=> $result->Payment->InvoiceReference,
+					'TotalAmount'			=> $result->Payment->TotalAmount,
+					'TransactionID'			=> $result->TransactionID,
+					'TransactionStatus'		=> $result->TransactionStatus,
+					'TokenCustomerID'		=> $result->Customer->TokenCustomerID
+				);
+
+				$campaign_data['payment_response'] = $payment_response;
 				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 				$campaign_data['post_meta_id'] = $post_meta_id;
 		        require_once('tmpl/tmpl_payment_process.php');       
