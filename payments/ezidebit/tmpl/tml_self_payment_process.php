@@ -190,11 +190,14 @@
 
 				// console.log(captchakey)
 
-				var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
-				  'sitekey' : captchakey,  // required
-				  'theme' : 'light',  // optional
-				  'callback': verifyCallback  // optional
-				});
+				if(captcha_enable == 1) {
+
+					var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
+					  'sitekey' : captchakey,  // required
+					  'theme' : 'light',  // optional
+					  'callback': verifyCallback  // optional
+					});
+				}
 
 				// end of the captcha
 

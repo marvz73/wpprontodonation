@@ -364,12 +364,11 @@
 				?>
 
 			</div>
-
 			<?php
 
 				$ezidebit_option = get_option( 'payment_option_ezidebit', 0 );
 				
-				if( $ezidebit_option["enable_ajax_payment"] == 'on' && $this->campaignOption->GoogleReCaptchaEnable ) {
+				if( $ezidebit_option["enable_ajax_payment"] == 'on' ) {
 					?>
  					<div class="self-payment-style">
  						<?php
@@ -378,14 +377,20 @@
 						?>
  					
 						<div class="self-payment-msg"></div>
+						<?php 
 
-						<br>
-							<div id="client-side-recaptcha"></div>
-						<br>
+							if( $this->campaignOption->GoogleReCaptchaEnable && $this->campaignOption->GoogleReCaptchaSiteKey && $this->campaignOption->GoogleReCaptchaSecretKey ) {
+								?>
+								<br>
+									<div id="client-side-recaptcha"></div>
+								<br>
+								<?php
+							}
+						?>
+
  					</div>
 					<?php
 				}
-
 			?>
 
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('donation') ?>" />
@@ -409,6 +414,7 @@
 		var endpoint = '<?php echo $ezidebit_option["endpoint"] ?>';
 		var publicKey = '<?php echo $ezidebit_option["publickey"] ?>';
 		var captchakey = '<?php echo $this->campaignOption->GoogleReCaptchaSiteKey ?>';
+		var captcha_enable = '<?php echo $this->campaignOption->GoogleReCaptchaEnable ?>';
 	</script>
 
 </div>
