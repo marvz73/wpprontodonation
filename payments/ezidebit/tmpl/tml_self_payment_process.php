@@ -152,7 +152,7 @@
 
 
 				var displaySubmitError = function (data) {
-					// console.log(data)
+					console.log(data)
 					if(captcha_catch_error == true) {
 						$('.self-payment-msg').append('<p class="ezidebit-error">You are a roobot</p>');
 						$('#payNowButton').removeAttr('disabled');
@@ -216,7 +216,7 @@
 				var creditCardDetails;
 
 				$('#payNowButton').bindFirst('click', function() {
-					captcha_catch_error = false;
+					
 					// verify_captcha
 					$.ajax({
 						type: 'POST',
@@ -232,6 +232,8 @@
 								captcha_catch_error = true;
 								window.stop();
 							 	return false;
+							} else {
+								captcha_catch_error = false;
 							}
 						},
 						error: function(xhr, textStatus, errorThrown){
