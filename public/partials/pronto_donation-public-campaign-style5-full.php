@@ -277,7 +277,7 @@
 			<div class="pd-container-padding clearfix">
 				<div class="pd-col s12">
 					<?php if($pronto_donation_user_info['user_postcode_option'] != 'hide'): ?>
-						<div class="pronto-donation-group">
+						<div class="pronto-donation-group clearfix">
 
 							<input placeholder="Post Code" id="postal_code" name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
 						</div>
@@ -288,7 +288,7 @@
 				</div>
 				<div class="pd-col s12">
 					<?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
-					<div class="pronto-donation-group">
+					<div class="pronto-donation-group clearfix">
 
 						<input placeholder="Suburb" id="locality" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
 						<span id="suburb_validation"></span>
@@ -298,6 +298,19 @@
 					<input id="locality" hidden/>
 					<?php endif; ?>
 				</div>
+				<div class="pd-col s12">
+					<?php if($pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
+						<div class="pd-container-group clearfix">
+							<div class="pd-col s12">
+								<div class="pronto-donation-group">
+									<textarea placeholder="Additional Comments" name="comment" rows="5"></textarea>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
+				</div>	
+
+
 			</div>
 
 
