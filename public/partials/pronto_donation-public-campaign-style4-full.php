@@ -257,7 +257,7 @@
 					<div class="pronto-donation-group clearfix">
 						<label>Donation Type</label>
 						<div class="pronto-donation-type clearfix">
-							<?php if($pronto_donation_campaign['donation_type'] == 'both'): ?>	
+							<?php if($pronto_donation_campaign['donation_type'] == 'both'): ?>
 								
 								<div class="pd-container-paddding">
 									<div class="pd-col s6">

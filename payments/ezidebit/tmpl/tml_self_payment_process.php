@@ -119,170 +119,155 @@
 </div>
 
 <script type="text/javascript">
-	jQuery(document).ready(function($){
 
-		$('#payment1').click(function(){
+	jQuery(document).ready(function($) {
 
-			$('.self-payment-style').show();
+		function process_payment_ezidebit(e) {
+			e.preventDefault();
+			if(e.originalEvent !== undefined) {
+				// console.log('rebinding')
+				$('.ezi-lazy-loading').show();
+				$('.self-payment-msg').empty();
 
-			$('.g-recaptcha').hide();
+				var card_details = [];
+				var cptcha_response = '';
 
-			if( ajax_request_enable == 'on' && $('#payment1').is(':checked') == true ) {
-
-				var captcha_catch_error = false;
-
-				// start of the ezidebit client side payment
-		 		var displaySubmitCallback = function(data) {
-					// console.log(data)
-					var formData = $('.pronto-donation-form').serializeArray();
-					var campaign_id = '<?php echo $ajax_campaign_id ?>';
-
-					$.ajax({
-						type: 'POST',
-						url:  ajax_frontend.ajax_url,
-						data: { 'action':'self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data, 'card_details' : creditCardDetails },
-						success: function(response){
-							// console.log( response )
-							if( response.success ) {
-								window.location.href = response.data.redirect_url;
-							}
-						},
-						error: function(xhr, textStatus, errorThrown){
-			 				console.log(textStatus)
-			 				$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
-			 				$('.ezi-lazy-loading').hide();
-				        }
-				    });
-
-				};
-
-
-				var displaySubmitError = function (data) {
-					console.log(data)
-					if(captcha_catch_error == true) {
-						$('.self-payment-msg').append('<p class="ezidebit-error">You are a roobot</p>');
-						$('#payNowButton').removeAttr('disabled');
-					} else {
-
-						$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
-					}
-					$('.ezi-lazy-loading').hide();
-				};
-
-				eziDebit.init(publicKey, {
-					submitAction: "ChargeCard",
-					submitButton: "payNowButton",
-					submitCallback: displaySubmitCallback,
-					submitError: displaySubmitError,
-					nameOnCard: "nameOnCard",
-					cardNumber: "cardNumber",
-					cardExpiryMonth: "expiryMonth",
-					cardExpiryYear: "expiryYear",
-					cardCCV: "ccv",
-					paymentAmount: "amount",
-					paymentReference: "paymentReference"
-				}, endpoint);
-
-				// end of ezidebit client side payment
-
-				// --- this is the start of the initialization of the captcha
-
-				var cptcha_response = null;
-				var verifyCallback = function(data) {
-					cptcha_response = data;
-				}
-
-				// console.log(captchakey)
-
-				if(captcha_enable == 1) {
-
-					var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
-					  'sitekey' : captchakey,  // required
-					  'theme' : 'light',  // optional
-					  'callback': verifyCallback  // optional
+				$('.self-payment-style :input').each(function() {
+					card_details.push({
+						'key' : $(this).attr('id'),
+						'value' : $(this).val()
 					});
+
+				});
+
+				for(var i = 0; i < card_details.length; i++ ) {
+					if(card_details[i].key == 'g-recaptcha-response-1') {
+						cptcha_response = card_details[i].value;
+					}
 				}
 
-				// end of the captcha
+			 	// verify_captcha
+				$.ajax({
+					type: 'POST',
+					url:  ajax_frontend.ajax_url,
+					data: { 'action':'verify_captcha', 'cptcha_response' : cptcha_response },
+					success: function(response) {
+						// console.log( response )
 
-				$.fn.bindFirst = function(name, fn) {
-				    // bind as you normally would
-				    // don't want to miss out on any jQuery magic
-				    this.on(name, fn);
+						if( response.success === false ) {
 
-				    // Thanks to a comment by @Martin, adding support for
-				    // namespaced events too.
-				    this.each(function() {
-				    	var handlers = $._data(this, 'events')[name.split('.')[0]];
-				    	// console.log(handlers);
-				        // take out the handler we just inserted from the end
-				        var handler = handlers.pop();
-				        // move it at the beginning
-				        handlers.splice(0, 0, handler);
-				    });
-				};
+							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
+							$('#payNowButton').removeAttr('disabled');
+							$('.ezi-lazy-loading').hide();
 
-				var creditCardDetails;
+						} else if( response.data.success != true) {
 
-				$('#payNowButton').bindFirst('click', function() {
-					
-					// verify_captcha
-					$.ajax({
-						type: 'POST',
-						url:  ajax_frontend.ajax_url,
-						data: { 'action':'verify_captcha', 'cptcha_response' : cptcha_response },
-						success: function(response){
-							console.log( response )
-							if( response.success === false ) {
-								captcha_catch_error = true;
-								window.stop();
-								return false;
-							} else if( response.data.success != true) {
-								captcha_catch_error = true;
-								window.stop();
-							 	return false;
-							} else {
-								captcha_catch_error = false;
-							}
-						},
-						error: function(xhr, textStatus, errorThrown){
-			 				console.log(textStatus)
-			 				$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
-			 				$('.ezi-lazy-loading').hide();
-				        }
-				    });
+							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
+							$('#payNowButton').removeAttr('disabled');
+							$('.ezi-lazy-loading').hide();
 
-					var selected_donation_type = $('input[name=donation_type]:checked').val();
-					if(selected_donation_type != 'single') {
-						var card_details = [];
-						$('.self-payment-style :input').each(function() {
-							card_details.push({
-								'key' : $(this).attr('id'),
-								'value' : $(this).val()
-							});
+						} else if( response.success == true ) {
+							// console.log('captcha valid')
 
-						});
-						creditCardDetails = card_details;
-					}
-					$('.self-payment-msg').empty();
-					$('.ezi-lazy-loading').show();
-				});
+							var displaySubmitCallback = function(data) {
+								// console.log('EZI success', data)
 
-				var selected_donation_amount = $('input[name=pd_amount]:checked').val();
-				$('#amount').val( selected_donation_amount );
+								var formData = $('.pronto-donation-form').serializeArray();
+								var campaign_id = '<?php echo $ajax_campaign_id ?>';
+								var selected_donation_type = $('input[name=donation_type]:checked').val();
+								
+								$.ajax({
+									type: 'POST',
+									url:  ajax_frontend.ajax_url,
+									data: { 'action':'self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data },
+									success: function(response){
+										// console.log( response )
 
-				$('input[name=pd_amount]').change(function() {
-					var selected_donation_amount = $('input[name=pd_amount]:checked').val();
-					$('#amount').val( selected_donation_amount );
-				});
+										if( response.success ) {
+											window.location.href = response.data.redirect_url;
+										}
+									},
+									error: function(xhr, textStatus, errorThrown) {
+										// console.log('process error', textStatus)
+
+										$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
+										$('.ezi-lazy-loading').hide();
+									}
+								});
+							};
+
+						 	var displaySubmitError = function (data) {
+								// console.log("ezi error", data)
+
+								$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
+								$('.ezi-lazy-loading').hide();
+							};
+
+							eziDebit.init(publicKey, {
+								submitAction: "ChargeCard",
+								submitButton: "payNowButton",
+								submitCallback: displaySubmitCallback,
+								submitError: displaySubmitError,
+								nameOnCard: "nameOnCard",
+								cardNumber: "cardNumber",
+								cardExpiryMonth: "expiryMonth",
+								cardExpiryYear: "expiryYear",
+								cardCCV: "ccv",
+								paymentAmount: "amount",
+								paymentReference: "paymentReference"
+							}, endpoint)
+
+	 						$('#payNowButton').trigger( "click" );
+							// end of ezidebit client side payment
+						}
+					},
+					error: function(xhr, textStatus, errorThrown) {
+		 				// console.log("captcha error", textStatus)
+
+		 				$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
+		 				$('.ezi-lazy-loading').hide();
+			        }
+			    });
 			}
-		})
+		}
 
-		$('#payment0').click(function(){
-			$('.self-payment-style').hide();
-			$('.self-payment-msg').empty();
-			$('.g-recaptcha').show();
-		})
+
+		$('input[name=payment]').change(
+			function() {
+				if( $(this).val() == 'Ezidebit' ) {
+					if( ajax_request_enable == 'on' ) {
+
+						$('#payNowButton').bind('click', process_payment_ezidebit);
+
+						$('.self-payment-style').show();
+						$('.g-recaptcha').hide();
+
+						if(captcha_enable == 1) {
+							var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
+								  'sitekey' : captchakey,  // required
+								  'theme' : 'light'
+							});
+						}
+
+					 	var selected_donation_amount = $('input[name=pd_amount]:checked').val();
+						$('#amount').val( selected_donation_amount );
+
+						$('input[name=pd_amount]').change(function() {
+							var selected_donation_amount = $('input[name=pd_amount]:checked').val();
+							$('#amount').val( selected_donation_amount );
+						});
+					}
+	 			} else if( $(this).val() == 'eWay' ) {
+
+	 				$('.self-payment-style').hide();
+	 				$('.self-payment-msg').empty();
+	 				$('.g-recaptcha').show();	
+
+	 				$('#payNowButton').removeAttr('disabled');
+	 				$('#payNowButton').unbind('click', process_payment_ezidebit);
+	 			}
+			}
+		)
 
 	});
 

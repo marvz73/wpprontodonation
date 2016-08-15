@@ -412,20 +412,6 @@ class Pronto_donation_Public {
 		$donation_data['timestamp'] = time();
 		$donation_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
 
-		$card_details = array();
-		if( array_key_exists('card_details', $_POST) && !empty( $_POST['card_details'] ) ) {
-			foreach ($_POST['card_details'] as $key3 => $data3) {
-
-				if( $data3['key'] == 'cardNumber' 
-					|| $data3['key'] == 'nameOnCard' 
-					|| $data3['key'] == 'expiryMonth' 
-					|| $data3['key'] == 'expiryYear'
-					|| $data3['key'] == 'ccv' ) {
-					$card_details[$data3['key']] = $data3['value'];
-				}
-			}
-		}
-
 		if( is_array( $_POST['ezidebit_api_response'] ) && sizeof( $_POST['ezidebit_api_response'] ) > 0 ) {
 			foreach ($_POST['ezidebit_api_response'] as $key1 => $data1) {
 				if($key1 == 'PaymentResultCode') {
@@ -440,7 +426,6 @@ class Pronto_donation_Public {
 			}
 		}
 
-		$donation_data['card_details'] = $card_details;
 		$donation_data['statusText'] = esc_html($_POST['ezidebit_api_response']['PaymentResultText']);
 		$donation_data['payment_response'] = $_POST['ezidebit_api_response'];
 

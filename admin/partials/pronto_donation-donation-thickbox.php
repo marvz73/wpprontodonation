@@ -268,35 +268,6 @@
                         </tr>
                         <?php
                     }
-                    ?>
-                    <tr>
-                        <th>
-                        <h3 class=""> Card Details</h3>
-                        </th>
-                    </tr>
-
-                    <?php 
-
-                        if( array_key_exists( 'card_details', $donation_details ) && !empty($donation_details['card_details']) ) {
-                            foreach ($donation_details['card_details'] as $key => $card_details) {
-                                ?>
-                                <tr>
-                                   <th>
-                                        <label class=""> <?php echo $key ?></label>
-                                    </th>
-                                    <td>
-                                        <input type="text" class="regular-text donation-details-value" value="<?php echo (isset( $card_details ) ) ? $card_details : '' ?>" readonly>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
-                        } else {
-                            ?>
-                                <th>
-                                    <h5 class=""> No card details</h5>
-                                </th>
-                            <?php
-                        }
 
                     ?>
 
