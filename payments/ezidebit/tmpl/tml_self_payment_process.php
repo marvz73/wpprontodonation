@@ -190,7 +190,7 @@
 									error: function(xhr, textStatus, errorThrown) {
 										// console.log('process error', textStatus)
 
-										$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
+										$('.self-payment-msg').append('<p class="ezidebit-error"> Something went wrong, Please try again </p>');
 										$('.ezi-lazy-loading').hide();
 									}
 								});
@@ -224,7 +224,7 @@
 					error: function(xhr, textStatus, errorThrown) {
 		 				// console.log("captcha error", textStatus)
 
-		 				$('.self-payment-msg').append('<p class="ezidebit-error">'+textStatus+', Please contact the administrator </p>');
+		 				$('.self-payment-msg').append('<p class="ezidebit-error">Something went wrong, Please try again</p>');
 		 				$('.ezi-lazy-loading').hide();
 			        }
 			    });
