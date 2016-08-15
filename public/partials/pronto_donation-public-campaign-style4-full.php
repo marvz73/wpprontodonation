@@ -523,7 +523,7 @@
 						?>
  					
 						<div class="self-payment-msg"></div>
-						<?php 
+						<?php
 
 							if( $this->campaignOption->GoogleReCaptchaEnable && $this->campaignOption->GoogleReCaptchaSiteKey && $this->campaignOption->GoogleReCaptchaSecretKey ) {
 								?>

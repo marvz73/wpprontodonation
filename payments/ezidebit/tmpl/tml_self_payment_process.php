@@ -154,19 +154,19 @@
 					success: function(response) {
 						// console.log( response )
 
-						if( response.success === false ) {
+						if( response.success === false && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
 							$('#payNowButton').removeAttr('disabled');
 							$('.ezi-lazy-loading').hide();
 
-						} else if( response.data.success != true) {
+						} else if( response.data.success != true && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
 							$('#payNowButton').removeAttr('disabled');
 							$('.ezi-lazy-loading').hide();
 
-						} else if( response.success == true ) {
+						} else if( response.success == true || captcha_enable == 0 ) {
 							// console.log('captcha valid')
 
 							var displaySubmitCallback = function(data) {
