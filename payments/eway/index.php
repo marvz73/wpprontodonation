@@ -79,7 +79,7 @@ class eway{
 	public function payment_process($ppd = array(),$campaign_data = array()){
 
 		$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
-		if($ppd['donation_type']=='single'||$payment_option_eway['enable_self_payment']!='on'){
+		if($payment_option_eway['enable_self_payment']!='on'){
 			$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
 			$EwayAPIPassword = $ppd['payment_info']->option['ewayapipassword'];
 			$EwaySanboxMode = $ppd['payment_info']->option['ewaysandboxmode'];

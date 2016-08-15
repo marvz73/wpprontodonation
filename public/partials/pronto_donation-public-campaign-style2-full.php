@@ -355,20 +355,15 @@
 						echo '<h1>No Payment available</h1>';
 					endif;
 					//------------ EWAY Selfpayment ------------//
-					if($pronto_donation_campaign['donation_type'] == 'recurring'||$pronto_donation_campaign['donation_type'] == 'both'){
+					$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
+					if($payment_option_eway['enable_self_payment']=='on'){
 					?>
 					
 						<div id="eway_card_datails" name="eway_card_datails" <?php if($pronto_donation_campaign['donation_type'] == 'both'){echo 'hidden';}?>>
 						<?php
-						$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
-						
-						if($payment_option_eway['enable_self_payment']=='on'){
 							$eway_payment = new eway();
-							$eway_payment->payment_self_payment();
-						}else{
-							//echo "Self Payment Method Disabled";
-						}
-					?>
+							$eway_payment->payment_self_payment();			
+						?>
 					</div>
 					<?php
 					}
