@@ -32,8 +32,6 @@
 
 
 jQuery(function(){
-	
-
 
 	jQuery('.pd-level-amount').on('change', function(){
 		if(jQuery(this).val() == '0')
