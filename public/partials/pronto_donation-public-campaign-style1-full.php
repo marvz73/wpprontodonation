@@ -328,11 +328,11 @@
 					if($payment_option_eway['enable_self_payment']=='on'){
 					?>
 					
-						<div id="eway_card_datails" name="eway_card_datails" <?php if($pronto_donation_campaign['donation_type'] == 'both'){echo 'hidden';}?>>
-						<?php
-							$eway_payment = new eway();
-							$eway_payment->payment_self_payment();			
-						?>
+					<div id="eway_card_datails" name="eway_card_datails" <?php if($pronto_donation_campaign['donation_type'] == 'both'){echo 'hidden';}?>>
+					<?php
+						$eway_payment = new eway();
+						$eway_payment->payment_self_payment();			
+					?>
 					</div>
 					<?php
 					}

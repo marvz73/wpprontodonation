@@ -24,12 +24,8 @@ jQuery(function(){
 
 	if(jQuery('#eway_card_datails').length )
 	{
-		jQuery("#eway_card_number").attr('required', false);
-		jQuery("#eway_name_on_card").attr('required', false);
-		jQuery("#eway_expiry_month").attr('required', false);
-		jQuery("#eway_expiry_year").attr('required', false);
-		jQuery("#eway_ccv").attr('required', false);
-		
+
+		ShowEwayCardDetails();
 		jQuery('#payment0').click(function(){
 			ShowEwayCardDetails();
 		})
