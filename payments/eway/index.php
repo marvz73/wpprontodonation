@@ -107,7 +107,6 @@ class eway{
 			if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
 			$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);
 			$result = $service->CreateAccessCodesShared($request);
-			$result->donation_type = 'single';
 
 			require_once('tmpl/tmpl_payment_process.php');
 
@@ -149,7 +148,6 @@ class eway{
 		    $result = $service->DirectPayment($request);
 		    
 		    $result->TypeOfPayment = 'SelfPayment';
-		    $result->donation_type = 'recurring';
 
 
 		    if (!empty($result->Errors)) {
