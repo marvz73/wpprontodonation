@@ -376,10 +376,16 @@
         <?php endif; ?>
 
 		<br>
-		
-		<p class="submit">
-			<button id="payNowButton" type="submit" class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
-		</p>
+		<div class="pd-container clearfix">
+			<div class="pd-col s6 clearfix" >
+				<input type="checkbox" name="" /> Sign-up for our regular email newsletter
+			</div>
+			<div class="pd-col s6 clearfix">		
+				<p class="submit">
+					<button id="payNowButton" type="submit" class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
+				</p>
+			</div>
+		</div>
 	</form>
 
 	<script type="text/javascript">
