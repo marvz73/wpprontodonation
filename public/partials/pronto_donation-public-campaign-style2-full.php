@@ -312,6 +312,18 @@
 					<input id="locality" hidden/>
 					<?php endif; ?>
 				</div>
+
+				<div class="pd-col s12">
+					<?php if($pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
+					<div class="pd-container-group clearfix">
+						<div class="pd-col s12">
+							<div class="pronto-donation-group">
+								<textarea placeholder="Additional Comments" name="comment" rows="5"></textarea>
+							</div>
+						</div>
+					</div>
+					<?php endif; ?>
+				</div>	
 			</div>
 
 
