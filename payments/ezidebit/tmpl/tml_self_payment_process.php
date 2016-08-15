@@ -231,7 +231,7 @@
 			}
 		}
 
-
+		// the payment change event handler
 		$('input[name=payment]').change(
 			function() {
 				if( $(this).val() == 'Ezidebit' ) {
@@ -261,7 +261,7 @@
 
 	 				$('.self-payment-style').hide();
 	 				$('.self-payment-msg').empty();
-	 				$('.g-recaptcha').show();	
+	 				$('.g-recaptcha').show();
 
 	 				$('#payNowButton').removeAttr('disabled');
 	 				$('#payNowButton').unbind('click', process_payment_ezidebit);
