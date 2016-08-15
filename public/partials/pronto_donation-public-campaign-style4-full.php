@@ -499,7 +499,7 @@
 							$eway_payment = new eway();
 							$eway_payment->payment_self_payment();
 						}else{
-							echo "Self Payment Method Disabled";
+							//echo "Self Payment Method Disabled";
 						}
 					?>
 						</div>

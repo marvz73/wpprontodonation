@@ -166,7 +166,7 @@ class Pronto_donation_Public {
 			}
 	    	else if($campaign_data['action'] == 'process_donate' && wp_verify_nonce( $campaign_data['nonce'], 'donation'))
 	    	{
-	
+		
 	    		$campaign_data['status'] = 'pending';
 	    		
 	    		$campaign_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
@@ -186,13 +186,19 @@ class Pronto_donation_Public {
 	    		$campaign_data['timestamp'] = time();
 
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
-	    		if($campaign_data['donation_type']=='recurring'&&$campaign_data['payment']=='eWay'){
-	    			$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
 
-	    			$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
-	    			$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
-	    			// Call the payment function to execute payment action
-					$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data);
+	    		$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
+	    		if($payment_option_eway['enable_self_payment']=='on'){
+	
+		    		if($campaign_data['donation_type']=='recurring'&&$campaign_data['payment']=='eWay'){
+		    			$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
+
+		    			$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
+		    			$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
+		    			// Call the payment function to execute payment action
+						$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data);
+		    		}
+
 	    		}else{
 	    			$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 		    		$campaign_data['CancelUrl']   = get_home_url() . '/?p=' . $this->campaignOption->CancelPageMessagePage. '&payment_status=C&ref=' . $post_meta_id;
