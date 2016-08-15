@@ -33,7 +33,7 @@
 			if($eway_SP_error=='V6053'){
 				echo "<p style='color: red;'>Country Is Invalid</p>";
 			}else{
-				echo "<p style='color: red;'>Card Details or Country Is Invalid</p>";
+				echo "<p style='color: red;'>Invalid Card Details or Country</p>";
 			}
 
 		}
