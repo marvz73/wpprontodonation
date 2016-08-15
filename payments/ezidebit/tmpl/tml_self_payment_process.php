@@ -231,7 +231,7 @@
 			}
 		}
 
-		// the payment change event handler
+		// the payment change event handler jquery
 		$('input[name=payment]').change(
 			function() {
 				if( $(this).val() == 'Ezidebit' ) {
