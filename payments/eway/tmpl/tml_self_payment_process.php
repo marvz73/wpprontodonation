@@ -7,7 +7,7 @@
 	
 	<div class="payment-details pd-container-padding clearfix">
 		<div class="pd-col s6">
-		<h4>Eway Card Details</h4>
+			<h4>eWay Card Details</h4>
 		</div>
 	</div>
 

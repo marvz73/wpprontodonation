@@ -37,7 +37,11 @@
 </div>
 
 <div class="wrap">
-	<label>Credit Card Details</label>
+	<div class="payment-details pd-container-padding clearfix">
+		<div class="pd-col s6">
+			<h4>Ezidebit Card Details</h4>
+		</div>
+	</div>
 	<div class="payment-details pd-container-padding clearfix">
 		<div class="pd-col s6">
 			<div>
