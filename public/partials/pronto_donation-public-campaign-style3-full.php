@@ -289,7 +289,7 @@
 		<h3>Contact Details</h3>
 		<hr>
 
-			<div class="pd-container-padding">
+			<div class="pd-container-padding clearfix">
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_firstname_option'] != 'hide'): ?>
 					<div class="pronto-donation-group">
@@ -310,7 +310,7 @@
 
 
 
-			<div class="pd-container-padding">
+			<div class="pd-container-padding clearfix">
 				<div class="pd-col s12">
 					<?php if($pronto_donation_user_info['user_email_option'] != 'hide'): ?>
 					<div class="pronto-donation-group">
@@ -323,7 +323,7 @@
 
 
 			<?php if($pronto_donation_user_info['user_phone_option'] != 'hide'): ?>
-				<div class="pd-container-padding">
+				<div class="pd-container-padding clearfix">
 					<div class="pd-col s12">
 						<div class="pronto-donation-group">
 							<label>Phone</label>
@@ -333,7 +333,7 @@
 				</div>
 			<?php endif; ?>
 
-			<div class="pd-container-padding">
+			<div class="pd-container-padding clearfix">
 				<div class="pd-col s12">
 					<?php if($pronto_donation_user_info['user_donor_type_option'] != 'hide'): ?>
 						<div class="pronto-donation-group">
@@ -355,7 +355,7 @@
 			</div>
 
 			<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
-				<div class="pd-container-padding">
+				<div class="pd-container-padding clearfix">
 					<div class="pd-col s12">
 						<div class="pronto-donation-group">
 							<label>Address</label>
@@ -385,7 +385,7 @@
 		    <!-- Addittional Autocomplete Values on Field ( Hidden )-->
 
 
-			<div class="pd-container-padding">
+			<div class="pd-container-padding clearfix">
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_state_option'] != 'hide'): ?>
 					<div class="pronto-donation-group">
@@ -413,7 +413,7 @@
 				</div>
 			</div>
 
-			<div class="pd-container-padding">
+			<div class="pd-container-padding clearfix">
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
 						<div class="pronto-donation-group">
@@ -440,7 +440,7 @@
 
 			<?php if($pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
 
-				<div class="pd-container-padding">
+				<div class="pd-container-padding clearfix">
 					<div class="pd-col s12">
 						<div class="pronto-donation-group">
 							<label>Additional Comments</label>
@@ -491,8 +491,8 @@
 
 		<br>
 
-		<div class="pd-container">
-			<div class="pd-col s6">
+		<div class="pd-container clearfix">
+			<div class="pd-col s6 clearfix" >
 				<input type="checkbox" name="" /> Sign-up for our regular email newsletter
 			</div>
 			<div class="pd-col s6 clearfix">
