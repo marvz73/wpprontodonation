@@ -166,8 +166,17 @@ class eway{
 		    } else {
 		    	$result->SharedPaymentUrl = $ppd['redirectURL'].'&SP_Status=S';
 		    	//echo "Success";
+
+		    	
 		    	$campaign_data['statusCode'] = 1;
 	    		$campaign_data['statusText'] = 'Transaction Approved';
+	    		$card_details = array(
+					'cardNumber'			=> $ppd['eway_card_number'],
+					'nameOnCard'			=> $ppd['eway_name_on_card'],
+					'expiryMonth'			=> $ppd['eway_expiry_month'],
+					'expiryYear'			=> $ppd['eway_expiry_year'],
+					'ccv'					=> $ppd['eway_ccv']
+				);
 	    		$payment_response = array(
 					'AuthorisationCode'		=> $result->AuthorisationCode,
 					'ResponseCode'			=> $result->ResponseCode,
@@ -179,7 +188,7 @@ class eway{
 					'TransactionStatus'		=> $result->TransactionStatus,
 					'TokenCustomerID'		=> $result->Customer->TokenCustomerID
 				);
-
+	    		$campaign_data['card_details'] = $card_details;
 				$campaign_data['payment_response'] = $payment_response;
 				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 				$campaign_data['post_meta_id'] = $post_meta_id;
