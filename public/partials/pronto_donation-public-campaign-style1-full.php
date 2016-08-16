@@ -345,7 +345,9 @@
 
 				$ezidebit_option = get_option( 'payment_option_ezidebit', 0 );
 				
-				if( $ezidebit_option["enable_ajax_payment"] == 'on' ) {
+				if( $ezidebit_option != 0 
+					&& array_key_exists('enable_ajax_payment', $ezidebit_option ) 
+					&& $ezidebit_option["enable_ajax_payment"] == 'on' ) {
 					?>
  					<div class="self-payment-style">
  						<?php

@@ -449,7 +449,7 @@
 					<?php endif; ?>
 				</div>
 				<div class="pd-col s12">
-					<?php if($pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
+					<?php if( isset($pronto_donation_user_info['user_comment_option']) && $pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
 						<div class="pd-container-padding clearfix">
 							<div class="pd-col s12">
 								<div class="pronto-donation-group">
@@ -508,8 +508,10 @@
 			<?php
 
 				$ezidebit_option = get_option( 'payment_option_ezidebit', 0 );
-				
-				if( $ezidebit_option["enable_ajax_payment"] == 'on' ) {
+ 
+				if( $ezidebit_option != 0 
+					&& array_key_exists('enable_ajax_payment', $ezidebit_option ) 
+					&& $ezidebit_option["enable_ajax_payment"] == 'on' ) {
 					?>
  					<div class="self-payment-style">
  						<?php
