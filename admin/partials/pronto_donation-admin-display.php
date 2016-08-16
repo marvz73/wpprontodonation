@@ -1114,16 +1114,7 @@ if ( isset($_GET['page']) ) {
 </div>
 
 
-	<?php
-
-		try { 		
-			$soap_client = new SF();   
-			$SFfaultCode = $soap_client->faultCode;				
-			$SFfaultMessage = $soap_client->faultMessage;
-		} catch (Exception $e) {
-		   		//secho $e->getMessage();
-		}
-
+<?php
 	}
 }
 ?>
