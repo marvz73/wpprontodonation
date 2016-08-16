@@ -377,10 +377,13 @@ class Pronto_donation_Public {
 
 	function _array_to_object($option){
     	$options = new stdClass();
-		foreach ($option as $key => $value)
-		{
-		    $options->$key = $value;
-		}
+    	if(is_array($options)){
+    		foreach ($option as $key => $value)
+			{
+			    $options->$key = $value;
+			}
+    	}
+
 		return $options;
 	}
 

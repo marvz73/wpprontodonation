@@ -195,9 +195,7 @@ class Pronto_donation_Activator {
 			'ZMK' => '&#90;&#75;', // ?
 			'ZWL' => '&#90;&#36;',
 		);
-		$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
-
-
+		$pronto_donation_settings = get_option('pronto_donation_settings', "");
 
 		
 		global $wpdb;
@@ -208,7 +206,7 @@ class Pronto_donation_Activator {
 		if( $new_post_thank_result[0]->detect == 0 ) {
 			$new_post_thank_you = array(
 	            'post_title' => 'Thank You',
-	            'post_content' => (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'],
+	            'post_content' => (!isset($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'],
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
@@ -224,7 +222,7 @@ class Pronto_donation_Activator {
 		if( $new_post_cancelled_result[0]->detect == 0 ) {
 			$new_post_cancelled = array(
 	            'post_title' => 'Cancelled',
-	            'post_content' => (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'],
+	            'post_content' => (!isset($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'],
 	            'post_status' => 'publish',
 	            'post_date' => date('Y-m-d H:i:s'),
 	            'post_author' => '',
@@ -240,49 +238,50 @@ class Pronto_donation_Activator {
 	   	$instructions_emailed_to_offline_donor_before_payment_post_id = '';
 
 	    //================ Get All Data In Pronto Donation Settings Option ==============//
-	    $from_style = (empty($pronto_donation_settings['FormStyle'])) ? "" : $pronto_donation_settings['FormStyle'];
-		$form_class = (empty($pronto_donation_settings['FormClass'])) ? "" : $pronto_donation_settings['FormClass'];
-		$button_class = (empty($pronto_donation_settings['ButtonClass'])) ? "" : $pronto_donation_settings['ButtonClass'];
-		$input_field_class = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : $pronto_donation_settings['InputFieldClass'];
-		$edit_button_caption = (empty($pronto_donation_settings['EditButtonCaption'])) ? "" : $pronto_donation_settings['EditButtonCaption'];
+	    $from_style = (!isset($pronto_donation_settings['FormStyle'])) ? "" : $pronto_donation_settings['FormStyle'];
+		$form_class = (!isset($pronto_donation_settings['FormClass'])) ? "" : $pronto_donation_settings['FormClass'];
+		$button_class = (!isset($pronto_donation_settings['ButtonClass'])) ? "" : $pronto_donation_settings['ButtonClass'];
+		$input_field_class = (!isset($pronto_donation_settings['InputFieldClass'])) ? "" : $pronto_donation_settings['InputFieldClass'];
+		$edit_button_caption = (!isset($pronto_donation_settings['EditButtonCaption'])) ? "" : $pronto_donation_settings['EditButtonCaption'];
 
-		$set_currency = (empty($pronto_donation_settings['SetCurrencyCode'])) ? "" : $pronto_donation_settings['SetCurrencyCode']; 
-		$set_country = (empty($pronto_donation_settings['SetCountry'])) ? "" : $pronto_donation_settings['SetCountry']; 	
-		$enable_address_validation = (empty($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];
-		$google_geocode_api_key = (empty($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
+		$set_currency = (!isset($pronto_donation_settings['SetCurrencyCode'])) ? "" : $pronto_donation_settings['SetCurrencyCode'];
+		$currency_value = (empty($set_currency )) ? "" : $currency_symbols[$set_currency];
+		$set_country = (!isset($pronto_donation_settings['SetCountry'])) ? "" : $pronto_donation_settings['SetCountry']; 	
+		$enable_address_validation = (!isset($pronto_donation_settings['EnableAddressValidation'])) ? "" : $pronto_donation_settings['EnableAddressValidation'];
+		$google_geocode_api_key = (!isset($pronto_donation_settings['GoogleGeocodeAPIKey'])) ? "" : $pronto_donation_settings['GoogleGeocodeAPIKey'];
 
-		$google_recaptcha_enable = (empty($pronto_donation_settings['GoogleReCaptchaEnable'])) ? "" : $pronto_donation_settings['GoogleReCaptchaEnable']; 
-		$google_recaptcha_site_key = (empty($pronto_donation_settings['GoogleReCaptchaSiteKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSiteKey']; 	
-		$google_recaptcha_secret_key = (empty($pronto_donation_settings['GoogleReCaptchaSecretKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSecretKey'];
+		$google_recaptcha_enable = (!isset($pronto_donation_settings['GoogleReCaptchaEnable'])) ? "" : $pronto_donation_settings['GoogleReCaptchaEnable']; 
+		$google_recaptcha_site_key = (!isset($pronto_donation_settings['GoogleReCaptchaSiteKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSiteKey']; 	
+		$google_recaptcha_secret_key = (!isset($pronto_donation_settings['GoogleReCaptchaSecretKey'])) ? "" : $pronto_donation_settings['GoogleReCaptchaSecretKey'];
 
-		$email_to_be_notify = (empty($pronto_donation_settings['EmailToBeNotify'])) ? "" : $pronto_donation_settings['EmailToBeNotify']; 
-		$email_address = (empty($pronto_donation_settings['EmailAddress'])) ? "" : $pronto_donation_settings['EmailAddress'];
-		$email_name = (empty($pronto_donation_settings['EmailName'])) ? "" : $pronto_donation_settings['EmailName']; 	
-
-
-		$security_token = (empty($pronto_donation_settings['SecurityToken'])) ? "" : $pronto_donation_settings['SecurityToken'];
-		$salesforce_username = (empty($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
-		$salesforce_password = (empty($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
+		$email_to_be_notify = (!isset($pronto_donation_settings['EmailToBeNotify'])) ? "" : $pronto_donation_settings['EmailToBeNotify']; 
+		$email_address = (!isset($pronto_donation_settings['EmailAddress'])) ? "" : $pronto_donation_settings['EmailAddress'];
+		$email_name = (!isset($pronto_donation_settings['EmailName'])) ? "" : $pronto_donation_settings['EmailName']; 	
 
 
-		$newsletter_option = (empty($pronto_donation_settings['NewsLetterOption'])) ? "" : $pronto_donation_settings['NewsLetterOption'];
-		$newsletter_caption = (empty($pronto_donation_settings['NewsLetterCaption'])) ? "" : $pronto_donation_settings['NewsLetterCaption'];
-
-		$thank_you_page_message_page = (empty($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
-		$thank_you_page_message = (empty($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];
-
-		$cancel_page_message_page = (empty($cancel_page_message_post_id)) ? "" : $cancel_page_message_post_id;
-		$cancel_page_message = (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'];
+		$security_token = (!isset($pronto_donation_settings['SecurityToken'])) ? "" : $pronto_donation_settings['SecurityToken'];
+		$salesforce_username = (!isset($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
+		$salesforce_password = (!isset($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
 
-		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
+		$newsletter_option = (!isset($pronto_donation_settings['NewsLetterOption'])) ? "" : $pronto_donation_settings['NewsLetterOption'];
+		$newsletter_caption = (!isset($pronto_donation_settings['NewsLetterCaption'])) ? "" : $pronto_donation_settings['NewsLetterCaption'];
 
-		$info_on_offline_payment_panel_page = (empty($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;
-		$info_on_offline_payment_panel_enable_offline_payment = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'];
-		$info_on_offline_payment_panel = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];
+		$thank_you_page_message_page = (!isset($thank_you_page_message_post_id)) ? "" : $thank_you_page_message_post_id;
+		$thank_you_page_message = (!isset($pronto_donation_settings['ThankYouPageMessage'])) ? "" : $pronto_donation_settings['ThankYouPageMessage'];
 
-		$instructions_emailed_to_offline_donor_before_payment_page = (empty($instructions_emailed_to_offline_donor_before_payment_post_id)) ? "" : $instructions_emailed_to_offline_donor_before_payment_post_id;	
-		$instructions_emailed_to_offline_donor_before_payment = (empty($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'];
+		$cancel_page_message_page = (!isset($cancel_page_message_post_id)) ? "" : $cancel_page_message_post_id;
+		$cancel_page_message = (!isset($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'];
+
+
+		$thank_you_email_message = (!isset($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
+
+		$info_on_offline_payment_panel_page = (!isset($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;
+		$info_on_offline_payment_panel_enable_offline_payment = (!isset($pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelEnableOfflinePayment'];
+		$info_on_offline_payment_panel = (!isset($pronto_donation_settings['InfoOnOfflinePaymentPanel'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanel'];
+
+		$instructions_emailed_to_offline_donor_before_payment_page = (!isset($instructions_emailed_to_offline_donor_before_payment_post_id)) ? "" : $instructions_emailed_to_offline_donor_before_payment_post_id;	
+		$instructions_emailed_to_offline_donor_before_payment = (!isset($pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'])) ? "" : $pronto_donation_settings['InstructionsEmailedToOfflineDonorBeforePayment'];
 		//================ Get All Data In Pronto Donation Settings Option ==============//
 
 
@@ -294,7 +293,7 @@ class Pronto_donation_Activator {
 			'InputFieldClass'   => stripslashes($input_field_class),
 			'EditButtonCaption'   => stripslashes($edit_button_caption),
 
-			'SetCurrencySymbol'   => $currency_symbols[$set_currency],
+			'SetCurrencySymbol'   => $currency_value,
 			'SetCurrencyCode'   => stripslashes($set_currency),
 			'SetCountry' => stripslashes($set_country),
 			'EnableAddressValidation' => stripslashes($enable_address_validation),
@@ -304,9 +303,9 @@ class Pronto_donation_Activator {
 			'GoogleReCaptchaSiteKey' => stripslashes($google_recaptcha_site_key),
 			'GoogleReCaptchaSecretKey' => stripslashes($google_recaptcha_secret_key),
 
-			'EmailToBeNotify' => stripslashes(str_replace("/","",$email_to_be_notify)),
-			'EmailAddress' => stripslashes(str_replace("/","",$email_address)),
-			'EmailName' => stripslashes(str_replace("/","",$email_name)),
+			'EmailToBeNotify' => stripslashes($email_to_be_notify),
+			'EmailAddress' => stripslashes($email_address),
+			'EmailName' => stripslashes($email_name),
 
 			'SecurityToken' => stripslashes($security_token),
 			'SalesforceUsername' => stripslashes($salesforce_username),
