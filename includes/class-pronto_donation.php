@@ -58,10 +58,6 @@ class Pronto_donation {
 	protected $version;
 
 
-
-
-
-
 	protected $salesforceAPI;
 
 
@@ -83,9 +79,10 @@ class Pronto_donation {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-		$this->salesforceAPI = new SF();
 
-		$this->salesforce();
+		// $sForce = new salesforceSOAP();
+		// $this->salesforceAPI = $sForce->salesforce;
+		// $this->salesforce();
 
 	}
 
@@ -280,10 +277,12 @@ class Pronto_donation {
 
 	public function salesforce(){
 		
-		$query = 'SELECT Id, CaseNumber, Subject from Case';
-		$response = $this->salesforceAPI->getRecord($query);
-
-		// print_r($response);
+		if(!isset($this->salesforceAPI->error))
+		{
+			$query = 'SELECT Id, CaseNumber, Subject from Case';
+			$response = $this->salesforceAPI->query($query);
+			// print_r($response);
+		}
 
 	}
 
