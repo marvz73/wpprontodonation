@@ -40,7 +40,7 @@ class eway{
 				'type'  => 'checkbox',
 				'value' => false,
 				'name'	=> 'ewaysandboxmode',
-				'label'	=> 'Eway Sanbox Mode'
+				'label'	=> 'Eway Sandbox Mode'
 			),
 			array(
 				'type'  => 'checkbox',
