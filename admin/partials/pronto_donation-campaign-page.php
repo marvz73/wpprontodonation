@@ -421,7 +421,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             'CurrencyCode',
             );
 
-        if(array_key_exists('statusText', $array)) {
+        if( array_key_exists('statusText', $array) && !empty( $array['statusText'] ) ) {
             array_push($accepted_keylist, 'statusText');
         } else {
             array_push($accepted_keylist, 'status');

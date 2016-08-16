@@ -91,14 +91,13 @@
 					<select id="expiryYear" name="expiryYear">
 						<option disabled selected>YYYY</option>
 						<?php
-
-						$i = date("Y");
-						$j = $i+11;
-						for ($i; $i <= $j; $i++) {
-							?>
-							<option value="<?php echo $i ?>"><?php echo $i ?></option>
-							<?php
-						}
+							$i = date("Y");
+							$j = $i+11;
+							for ($i; $i <= $j; $i++) {
+								?>
+								<option value="<?php echo $i ?>"><?php echo $i ?></option>
+								<?php
+							}
 						?>
 					</select>
 				</div>
