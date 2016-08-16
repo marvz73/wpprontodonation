@@ -121,6 +121,7 @@
 
 	jQuery(document).ready(function($) {
 
+		// payment process function for ezidebit 
 		function process_payment_ezidebit(e) {
 			e.preventDefault();
 			if(e.originalEvent !== undefined) {
@@ -168,6 +169,7 @@
 						} else if( response.success == true || captcha_enable == 0 ) {
 							// console.log('captcha valid')
 
+							// this function will be the success callback for ezidebit client side
 							var displaySubmitCallback = function(data) {
 								// console.log('EZI success', data)
 
@@ -175,6 +177,7 @@
 								var campaign_id = '<?php echo $ajax_campaign_id ?>';
 								var selected_donation_type = $('input[name=donation_type]:checked').val();
 								
+								// this ajax request will be the captcha validation
 								$.ajax({
 									type: 'POST',
 									url:  ajax_frontend.ajax_url,
@@ -195,6 +198,7 @@
 								});
 							};
 
+							// this function will be the error callback for ezidebit client side
 						 	var displaySubmitError = function (data) {
 								// console.log("ezi error", data)
 
@@ -202,6 +206,7 @@
 								$('.ezi-lazy-loading').hide();
 							};
 
+							// this is the initialization of the ezidebit client side library
 							eziDebit.init(publicKey, {
 								submitAction: "ChargeCard",
 								submitButton: "payNowButton",
@@ -216,8 +221,8 @@
 								paymentReference: "paymentReference"
 							}, endpoint)
 
+							// this will trigger the ezidebit self payment process.. via jquery programmatically
 	 						$('#payNowButton').trigger( "click" );
-							// end of ezidebit client side payment
 						}
 					},
 					error: function(xhr, textStatus, errorThrown) {
@@ -233,6 +238,7 @@
 		// the payment change event handler jquery
 		$('input[name=payment]').change(
 			function() {
+				// when user select ezidebit
 				if( $(this).val() == 'Ezidebit' ) {
 					if( ajax_request_enable == 'on' ) {
 
@@ -256,7 +262,8 @@
 							$('#amount').val( selected_donation_amount );
 						});
 					}
-	 			} else if( $(this).val() == 'eWay' ) {
+
+	 			} else if( $(this).val() == 'eWay' ) { // when user select eway
 
 	 				$('.self-payment-style').hide();
 	 				$('.self-payment-msg').empty();
