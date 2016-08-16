@@ -510,8 +510,7 @@
 				$ezidebit_option = get_option( 'payment_option_ezidebit', 0 );
  
 				if( $ezidebit_option != 0 
-					&& array_key_exists('enable_ajax_payment', $ezidebit_option ) 
-					&& $ezidebit_option["enable_ajax_payment"] == 'on' ) {
+					&& isset( $ezidebit_option["enable_ajax_payment"] ) ) {
 					?>
  					<div class="self-payment-style">
  						<?php
@@ -559,10 +558,10 @@
 	</form>
 
 	<script type="text/javascript">
-		var ajax_request_enable = '<?php echo $ezidebit_option["enable_ajax_payment"]; ?>';
-		var endpoint = '<?php echo $ezidebit_option["endpoint"] ?>';
-		var publicKey = '<?php echo $ezidebit_option["publickey"] ?>';
-		var captchakey = '<?php echo $this->campaignOption->GoogleReCaptchaSiteKey ?>';
-		var captcha_enable = '<?php echo $this->campaignOption->GoogleReCaptchaEnable ?>';
+		var ajax_request_enable = '<?php echo ( isset( $ezidebit_option["enable_ajax_payment"] ) ) ? $ezidebit_option["enable_ajax_payment"] : ''; ?>';
+		var endpoint = '<?php echo ( isset( $ezidebit_option["endpoint"] ) ) ? $ezidebit_option["endpoint"] : '' ?>';
+		var publicKey = '<?php echo ( isset( $ezidebit_option["publickey"] ) ) ? $ezidebit_option["publickey"] : '' ?>';
+		var captchakey = '<?php echo ( isset( $this->campaignOption->GoogleReCaptchaSiteKey ) ) ? $this->campaignOption->GoogleReCaptchaSiteKey : '' ?>';
+		var captcha_enable = '<?php echo ( isset( $this->campaignOption->GoogleReCaptchaEnable ) ) ? $this->campaignOption->GoogleReCaptchaEnable : '' ?>';
 	</script>
 </div>
