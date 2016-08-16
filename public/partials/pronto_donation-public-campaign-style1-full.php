@@ -284,7 +284,7 @@
 			<input id="locality" hidden/>
 			<?php endif; ?>
 
-			<?php if($pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
+			<?php if( isset($pronto_donation_user_info['user_comment_option']) && $pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
 
 				<div class="pd-container-group clearfix">
 					<div class="pd-col s12">

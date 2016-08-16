@@ -299,7 +299,7 @@
 					<?php endif; ?>
 				</div>
 				<div class="pd-col s12">
-					<?php if($pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
+					<?php if( isset($pronto_donation_user_info['user_comment_option']) && $pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
 						<div class="pd-container-group clearfix">
 							<div class="pd-col s12">
 								<div class="pronto-donation-group">
