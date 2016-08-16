@@ -521,7 +521,7 @@
 						<div class="self-payment-msg"></div>
 						<?php
 
-							if( $this->campaignOption->GoogleReCaptchaEnable && $this->campaignOption->GoogleReCaptchaSiteKey && $this->campaignOption->GoogleReCaptchaSecretKey ) {
+							if( isset($this->campaignOption->GoogleReCaptchaEnable) && isset($this->campaignOption->GoogleReCaptchaSiteKey) && isset($this->campaignOption->GoogleReCaptchaSecretKey) ) {
 								?>
 								<br>
 									<div id="client-side-recaptcha"></div>
@@ -539,7 +539,7 @@
 		<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 		<input type="hidden" name="action" value="process_donate"/>
 		
-		<?php if($this->campaignOption->GoogleReCaptchaEnable && $this->campaignOption->GoogleReCaptchaSiteKey && $this->campaignOption->GoogleReCaptchaSecretKey): ?>
+		<?php if(isset($this->campaignOption->GoogleReCaptchaEnable) && isset($this->campaignOption->GoogleReCaptchaSiteKey) && isset($this->campaignOption->GoogleReCaptchaSecretKey)): ?>
             <br>
             <div class="g-recaptcha" data-sitekey="<?php echo $this->campaignOption->GoogleReCaptchaSiteKey; ?>"></div>
         <?php endif; ?>
@@ -550,7 +550,7 @@
 			</div>
 			<div class="pd-col s6 clearfix">
 				<p class="submit">
-					<button id="payNowButton" type="submit" class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo ($this->campaignOption->EditButtonCaption) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
+					<button id="payNowButton" type="submit" class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo (isset($this->campaignOption->EditButtonCaption)) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
 				</p>
 			</div>
 		</div>
