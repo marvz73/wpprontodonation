@@ -401,7 +401,6 @@ class Pronto_donation_Admin {
 								<select name="donation_gui" id="donation_gui">
 								<option>Select Salesforce GUI</option>
 								<?php 
-
 									if( isset($sf_gui) && is_array($sf_gui) && sizeof($sf_gui) > 0) {
 										// looping of data goes here !
 										?>

@@ -230,6 +230,7 @@ class Pronto_donation {
 
 		$this->loader->add_action( 'wp_ajax_verify_captcha', $plugin_public, 'pronto_donation_ajax_captcha_validate' );
 		$this->loader->add_action( 'wp_ajax_nopriv_verify_captcha', $plugin_public, 'pronto_donation_ajax_captcha_validate' );
+		$this->loader->add_filter( 'script_loader_tag', $plugin_public, 'pronto_donation_script_attrbitute', 10, 2);
 
 	}
 

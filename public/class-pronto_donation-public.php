@@ -109,7 +109,7 @@ class Pronto_donation_Public {
 		 * class.
 		 */
 		//Google g-recaptcha
-		wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js', array( ), $this->version, false );
+		wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit', array(), null, true );
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
 		
@@ -192,17 +192,12 @@ class Pronto_donation_Public {
 
 	    		if(isset($payment_option_eway['enable_self_payment']) &&$payment_option_eway['enable_self_payment']=='on'&&$campaign_data['payment']=='eWay'){
 
-		    		
-
-
 	    			$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
 	    			$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
 	    			// Call the payment function to execute payment action
 	    			$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor','');
 	    			$campaign_data['post_meta_id'] = $post_meta_id;
 					$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data);
-
-		    		
 
 	    		}else{
 	    			$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
@@ -213,14 +208,6 @@ class Pronto_donation_Public {
 					$campaign_data['payment_info']->payment_process($campaign_data,'');
 
 	    		}
-
-
-
-
-	    		
-	    		
-
-
 	    	}
 	    }
 	    else
@@ -472,5 +459,13 @@ class Pronto_donation_Public {
 				) );
 		}
 		die();
+	}
+
+	public function pronto_donation_script_attrbitute( $tag, $handle ) {
+
+		if ( 'grecaptcha' !== $handle )
+			return $tag;
+
+		return str_replace( "explicit'", "explicit' async defer", $tag );
 	}
 }

@@ -122,8 +122,18 @@
 	jQuery(document).ready(function($) {
 
 		// payment process function for ezidebit 
+
+		var your_a_robot = 0;
+		var captcha_id = null;
+		var captcha_response = null;
+
+		var verifyCallback = function(response) {
+			captcha_response = response;
+		}
+
 		function process_payment_ezidebit(e) {
 			e.preventDefault();
+			
 			if(e.originalEvent !== undefined) {
 				// console.log('rebinding')
 				$('.ezi-lazy-loading').show();
@@ -140,11 +150,12 @@
 
 				});
 
-				for(var i = 0; i < card_details.length; i++ ) {
-					if(card_details[i].key == 'g-recaptcha-response-1') {
-						cptcha_response = card_details[i].value;
-					}
-				}
+				// for(var i = 0; i < card_details.length; i++ ) {
+				// 	if(card_details[i].key == 'g-recaptcha-response-1') {
+				// 		cptcha_response = card_details[i].value;
+				// 	}
+				// }
+				cptcha_response = captcha_response;
 
 			 	// verify_captcha
 				$.ajax({
@@ -152,58 +163,73 @@
 					url:  ajax_frontend.ajax_url,
 					data: { 'action':'verify_captcha', 'cptcha_response' : cptcha_response },
 					success: function(response) {
-						// console.log( response )
+						console.log( response )
+						$('.self-payment-msg').empty();
 
 						if( response.success === false && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
 							$('#payNowButton').removeAttr('disabled');
 							$('.ezi-lazy-loading').hide();
-
-						} else if( response.data.success != true && captcha_enable == 1 ) {
+							your_a_robot++;
+							grecaptcha.reset(captcha_id);
+						} else if( response.data.success == false && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
 							$('#payNowButton').removeAttr('disabled');
 							$('.ezi-lazy-loading').hide();
+							your_a_robot++;
+							grecaptcha.reset(captcha_id);
 
 						} else if( response.success == true || captcha_enable == 0 ) {
-							// console.log('captcha valid')
-
+							// console.log('executed')
 							// this function will be the success callback for ezidebit client side
+							your_a_robot = 0;
 							var displaySubmitCallback = function(data) {
 								// console.log('EZI success', data)
+								setTimeout(function(){
+									if(your_a_robot == 0) {
 
-								var formData = $('.pronto-donation-form').serializeArray();
-								var campaign_id = '<?php echo $ajax_campaign_id ?>';
-								var selected_donation_type = $('input[name=donation_type]:checked').val();
-								
-								// this ajax request will be the captcha validation
-								$.ajax({
-									type: 'POST',
-									url:  ajax_frontend.ajax_url,
-									data: { 'action':'self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data },
-									success: function(response){
-										// console.log( response )
+										var formData = $('.pronto-donation-form').serializeArray();
+										var campaign_id = '<?php echo $ajax_campaign_id ?>';
+										var selected_donation_type = $('input[name=donation_type]:checked').val();
+										
+										// this ajax request will be the captcha validation
+										$.ajax({
+											type: 'POST',
+											url:  ajax_frontend.ajax_url,
+											data: { 'action':'self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data },
+											success: function(response){
+												// console.log( response )
 
-										if( response.success ) {
-											window.location.href = response.data.redirect_url;
-										}
-									},
-									error: function(xhr, textStatus, errorThrown) {
-										// console.log('process error', textStatus)
+												if( response.success ) {
+													window.location.href = response.data.redirect_url;
+												}
+												your_a_robot = 0;
+											},
+											error: function(xhr, textStatus, errorThrown) {
+												// console.log('process error', textStatus)
 
-										$('.self-payment-msg').append('<p class="ezidebit-error"> Something went wrong, Please try again </p>');
-										$('.ezi-lazy-loading').hide();
+												$('.self-payment-msg').append('<p class="ezidebit-error"> Something went wrong, Please try again </p>');
+												$('.ezi-lazy-loading').hide();
+											}
+										});
 									}
-								});
+								}, 3000);
 							};
 
 							// this function will be the error callback for ezidebit client side
 						 	var displaySubmitError = function (data) {
 								// console.log("ezi error", data)
-
-								$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
-								$('.ezi-lazy-loading').hide();
+								setTimeout(function(){
+									if(your_a_robot == 0) {
+										if(data == 'An error has occurred attempting to contact the API. Please contact Ezidebit support.') {
+											$('.self-payment-msg').append('<p class="ezidebit-error">Something went wrong, Please try again</p>');
+										}
+										$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
+										$('.ezi-lazy-loading').hide();
+									}
+								}, 3000);
 							};
 
 							// this is the initialization of the ezidebit client side library
@@ -227,7 +253,7 @@
 					},
 					error: function(xhr, textStatus, errorThrown) {
 		 				// console.log("captcha error", textStatus)
-
+		 				
 		 				$('.self-payment-msg').append('<p class="ezidebit-error">Something went wrong, Please try again</p>');
 		 				$('.ezi-lazy-loading').hide();
 			        }
@@ -250,8 +276,11 @@
 						if(captcha_enable == 1) {
 							var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
 								  'sitekey' : captchakey,  // required
+								  'callback' : verifyCallback,
 								  'theme' : 'light'
+
 							});
+							captcha_id = captchaWidgetId;
 						}
 
 					 	var selected_donation_amount = $('input[name=pd_amount]:checked').val();
