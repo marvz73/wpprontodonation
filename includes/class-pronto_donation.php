@@ -430,19 +430,43 @@ class Pronto_donation {
 	    //BUILD USER NOTIFICATION EMAIL
 	    $message_template = $option['ThankYouMailMessage'];
 
-	    $message = str_ireplace('[email]', $campaign['email'], $message_template);
-	    $message = str_ireplace('[first-name]', $campaign['first_name'], $message);
-	    $message = str_ireplace('[last-name]', $campaign['last_name'], $message);
-	    $message = str_ireplace('[address]', $campaign['address'], $message);
-	    $message = str_ireplace('[country]', $campaign['country'], $message);
-	    $message = str_ireplace('[state]', $campaign['state'], $message);
-	    $message = str_ireplace('[post-code]', $campaign['post_code'], $message);
-	    $message = str_ireplace('[city]', $campaign['suburb'], $message);
-	    $message = str_ireplace('[suburb]', $campaign['suburb'], $message);
-	    $message = str_ireplace('[amount]', $option['SetCurrencySymbol'] . $campaign['pd_amount'], $message);
-	    $message = str_ireplace('[campaign-name]', get_the_title($campaign['donation_campaign']), $message);
-	    $message = str_ireplace('[gift-message]', $campaign['donation_gift_message'], $message);
-	    $message = str_ireplace('[currency]', $option['SetCurrencyCode'], $message);
+	    $email_value =  (isset($campaign['email'])) ? $campaign['email'] : '';
+	    $message = str_ireplace('[email]', $email_value, $message_template);
+
+	    $first_name_value =  (isset($campaign['first_name'])) ? $campaign['first_name'] : '';
+	    $message = str_ireplace('[first-name]', $first_name_value, $message);
+
+	    $last_name_value =  (isset($campaign['last_name'])) ? $campaign['last_name'] : '';
+	    $message = str_ireplace('[last-name]', $last_name_value, $message);
+
+	    $address_value =  (isset($campaign['address'])) ? $campaign['address'] : '';
+	    $message = str_ireplace('[address]', $address_value, $message);
+
+	    $country_value =  (isset($campaign['country'])) ? $campaign['country'] : '';
+	    $message = str_ireplace('[country]', $country_value, $message);
+
+	    $state_value =  (isset($campaign['state'])) ? $campaign['state'] : '';
+	    $message = str_ireplace('[state]', $state_value, $message);
+
+	    $post_code_value =  (isset($campaign['post_code'])) ? $campaign['post_code'] : '';
+	    $message = str_ireplace('[post-code]', $post_code_value, $message);
+
+	    $suburb_value =  (isset($campaign['suburb'])) ? $campaign['suburb'] : '';
+	    $message = str_ireplace('[city]', $suburb_value, $message);
+	    $message = str_ireplace('[suburb]', $suburb_value, $message);
+
+	    $SetCurrencySymbol_value =  (isset($option['SetCurrencySymbol'])) ? $option['SetCurrencySymbol'] : '';
+	    $pd_amount_value =  (isset($campaign['pd_amount'])) ? $campaign['pd_amount'] : '';
+	    $message = str_ireplace('[amount]', $SetCurrencySymbol_value . $pd_amount_value, $message);
+
+	    $donation_campaign_value =  (isset($campaign['donation_campaign'])) ? $campaign['donation_campaign'] : '';
+	    $message = str_ireplace('[campaign-name]', get_the_title($donation_campaign_value), $message);
+
+	    $donation_gift_message_value =  (isset($campaign['donation_gift_message'])) ? $campaign['donation_gift_message'] : '';
+	    $message = str_ireplace('[gift-message]', $donation_gift_message_value, $message);
+
+	    $SetCurrencyCode_value =  (isset($option['SetCurrencyCode'])) ? $option['SetCurrencyCode'] : '';
+	    $message = str_ireplace('[currency]', $SetCurrencyCode_value, $message);
 
 	    //Prepare headers for HTML
 	    $email_headers[]  = 'MIME-Version: 1.0' . "\r\n";
