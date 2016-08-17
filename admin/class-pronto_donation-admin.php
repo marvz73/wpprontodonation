@@ -349,6 +349,8 @@ class Pronto_donation_Admin {
 			$campaign_info = unserialize( $campaigns['pronto_donation_campaign'][0] );
 			$user_information = unserialize( $campaigns['pronto_donation_user_info'][0] );
 
+			$sf_gui = array();
+
 			$sizeofaray = 0;
 
 			if( !empty( $campaign_info['amount_level'] ) ) {
@@ -394,8 +396,22 @@ class Pronto_donation_Admin {
 				<table class="form-table">
 					<tbody>
 						<tr>
+							<th scope="row"><label for="donation_gui">Salesforce GUI</label></th>
 							<td>
-								<h3>Campaign</h3>
+								<select name="donation_gui" id="donation_gui">
+								<option>Select Salesforce GUI</option>
+								<?php 
+
+									if( isset($sf_gui) && is_array($sf_gui) && sizeof($sf_gui) > 0) {
+										// looping of data goes here !
+										?>
+										<option></option>
+										<?php
+									}
+
+								?>
+								</select>
+								<p class="description">Salesforce GUI</p>
 							</td>
 						</tr>
  
@@ -444,6 +460,7 @@ class Pronto_donation_Admin {
 						</tr>
 
 						<tr>
+
 							<th scope="row"><label for="amount_level">Amount Levels</label></th>
 							<td>
 								<input type="text" name="amount_level" id="amount_level">
@@ -856,6 +873,7 @@ class Pronto_donation_Admin {
 				$img_path = wp_make_link_relative( $current_link );
  
 				$campaign_data = array();
+				$campaign_data['donation_gui'] = $_POST['donation_gui'];
 				$campaign_data['donation_target'] = sanitize_text_field( $_POST['donation_target'] );
 				$campaign_data['banner_image'] = $img_path;
 				$campaign_data['hide_custom_amount'] = $data;
