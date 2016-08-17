@@ -17,5 +17,7 @@
 	  </div>
 	</div>
 
-	<h3><?php if($result->TypeOfPayment=='SelfPayment'){echo 'Finalizing payment...';}else{echo 'Redirecting to payment gateway...';} ?></h3>
+	<h3><?php 
+		$TypeOfPayment =  (isset($result->TypeOfPayment)) ? $result->TypeOfPayment : '';
+		if($TypeOfPayment=='SelfPayment'){echo 'Finalizing payment...';}else{echo 'Redirecting to payment gateway...';} ?></h3>
 </div>

@@ -77,9 +77,10 @@ class eway{
 	}
 
 	public function payment_process($ppd = array(),$campaign_data = array()){
-
+		global $wpdb;
 		$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
-		if($payment_option_eway['enable_self_payment']!='on'){
+		$enable_self_payment_value =  (isset($payment_option_eway['enable_self_payment'])) ? $payment_option_eway['enable_self_payment'] : '';
+		if($enable_self_payment_value!='on'){
 			$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
 			$EwayAPIPassword = $ppd['payment_info']->option['ewayapipassword'];
 			$EwaySanboxMode = $ppd['payment_info']->option['ewaysandboxmode'];
@@ -189,8 +190,12 @@ class eway{
 				);
 	    		$campaign_data['card_details'] = $card_details;
 				$campaign_data['payment_response'] = $payment_response;
-				$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
-				$campaign_data['post_meta_id'] = $post_meta_id;
+				// echo "<pre>";
+				// print_r($ppd);
+				// die();
+			
+				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign_data))."' WHERE meta_id = " .$ppd['post_meta_id']);
+
 		        require_once('tmpl/tmpl_payment_process.php');       
 		    }
 		}

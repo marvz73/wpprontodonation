@@ -163,7 +163,6 @@
 					<div class="pd-col s4">
 						<div class="pronto-donation-group">
 							<select placeholder="Donor Type" id="donorType" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="donor_type" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_donor_type_option']) ?> >
-								<option>Donor Type</option>
 								<option value="I">Individual</option>
 								<option value="B">Business</option>
 							</select>

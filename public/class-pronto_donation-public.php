@@ -187,17 +187,22 @@ class Pronto_donation_Public {
 
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
 
+
 	    		$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
-	    		if($payment_option_eway['enable_self_payment']=='on'){
+
+	    		if(isset($payment_option_eway['enable_self_payment']) &&$payment_option_eway['enable_self_payment']=='on'&&$campaign_data['payment']=='eWay'){
 
 		    		
-	    			$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
+
 
 	    			$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
 	    			$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
 	    			// Call the payment function to execute payment action
+	    			$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor','');
+	    			$campaign_data['post_meta_id'] = $post_meta_id;
 					$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data);
-		    
+
+		    		
 
 	    		}else{
 	    			$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
@@ -209,7 +214,7 @@ class Pronto_donation_Public {
 
 	    		}
 
-  				
+
 
 
 	    		
