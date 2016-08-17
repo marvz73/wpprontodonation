@@ -266,7 +266,7 @@
 	 			} else if( $(this).val() == 'eWay' ) { // when user select eway
 
 	 				$('.self-payment-style').hide();
-	 				$('.self-payment-msg').empty();x
+	 				$('.self-payment-msg').empty();
 	 				$('.g-recaptcha').show();
 
 	 				$('#payNowButton').removeAttr('disabled');
