@@ -109,7 +109,7 @@ class Pronto_donation_Public {
 		 * class.
 		 */
 		//Google g-recaptcha
-		wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit', array(), null, true );
+		wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js', array(), null, true );
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pronto_donation-public.js', array( 'jquery' ), $this->version, false );
 		
@@ -459,13 +459,5 @@ class Pronto_donation_Public {
 				) );
 		}
 		die();
-	}
-
-	public function pronto_donation_script_attrbitute( $tag, $handle ) {
-
-		if ( 'grecaptcha' !== $handle )
-			return $tag;
-
-		return str_replace( "explicit'", "explicit' async defer", $tag );
 	}
 }
