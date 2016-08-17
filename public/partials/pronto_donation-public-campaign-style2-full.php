@@ -386,7 +386,7 @@
 						<div class="self-payment-msg"></div>
 						<?php 
 
-							if( isset($this->campaignOption->GoogleReCaptchaEnable) && isset($this->campaignOption->GoogleReCaptchaSiteKey) && isset($this->campaignOption->GoogleReCaptchaSecretKey) ) {
+							if( isset($this->campaignOption->GoogleReCaptchaEnable) && $this->campaignOption->GoogleReCaptchaEnable == 1 && isset($this->campaignOption->GoogleReCaptchaSiteKey) && isset($this->campaignOption->GoogleReCaptchaSecretKey) ) {
 								?>
 								<br>
 									<div id="client-side-recaptcha"></div>
@@ -404,7 +404,7 @@
 		<input type="hidden" name="donation_campaign" value="<?php echo $attrs['campaign'] ?>" />
 		<input type="hidden" name="action" value="process_donate"/>
  		
- 	 	<?php if(isset($this->campaignOption->GoogleReCaptchaEnable) && isset($this->campaignOption->GoogleReCaptchaSiteKey) && isset($this->campaignOption->GoogleReCaptchaSecretKey)): ?>
+ 	 	<?php if(isset($this->campaignOption->GoogleReCaptchaEnable) && $this->campaignOption->GoogleReCaptchaEnable == 1 && isset($this->campaignOption->GoogleReCaptchaSiteKey) && isset($this->campaignOption->GoogleReCaptchaSecretKey)): ?>
             <br>
             <div class="g-recaptcha" data-sitekey="<?php echo $this->campaignOption->GoogleReCaptchaSiteKey; ?>"></div>
         <?php endif; ?>
