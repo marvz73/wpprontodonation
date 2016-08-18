@@ -158,7 +158,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             $table_data['id'] = $donor_value->meta_id;
             $table_data['date'] = ( isset( $donor_data['timestamp'] ) ) ? date('M d, Y h:m:s', $donor_data['timestamp'] ) : '';
 
-            $table_data['donor_name'] = ( isset( $donor_data['donor_type'] ) && $donor_data['donor_type'] == 'B' ) ? 
+            $table_data['donor_name'] = ( isset( $donor_data['donor_type'] ) && $donor_data['donor_type'] == 'B' && isset( $donor_data['companyName'] ) ) ? 
             $donor_data['companyName'] : $donor_data['first_name'] . " " .  $donor_data['last_name'];
 
             $table_data['payment'] = ( $donor_data['payment'] == 'Ezidebit' ) ? $ezidebit_url : $eway_url;
@@ -477,7 +477,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
                 $table_search['id'] = $donor_value->meta_id;
                 $table_search['date'] = ( isset( $donor_data['timestamp'] ) ) ? date('M d, Y', $donor_data['timestamp'] ) : '';
-                $table_search['donor_name'] = ( isset( $donor_data['donor_type'] ) && $donor_data['donor_type'] == 'B' ) ? 
+                $table_search['donor_name'] = ( isset( $donor_data['donor_type'] ) && $donor_data['donor_type'] == 'B' && isset( $donor_data['companyName'] ) ) ? 
                 $donor_data['companyName'] : $donor_data['first_name'] . " " .  $donor_data['last_name'];
                 $table_search['payment'] = ( $donor_data['payment'] == 'Ezidebit' ) ? $ezidebit_url : $eway_url;
                 $table_search['email'] = $donor_data['email'];
