@@ -161,7 +161,12 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             $table_data['donor_name'] = ( isset( $donor_data['donor_type'] ) && $donor_data['donor_type'] == 'B' && !empty( $donor_data['companyName'] ) ) ? 
             $donor_data['companyName'] : $donor_data['first_name'] . " " .  $donor_data['last_name'];
 
-            $table_data['payment'] = ( $donor_data['payment'] == 'Ezidebit' ) ? $ezidebit_url : $eway_url;
+            if( isset($donor_data['payment']) && $donor_data['payment'] == 'Ezidebit' ) {
+                $table_data['payment'] = $ezidebit_url;
+            } else if( isset($donor_data['payment']) && $donor_data['payment'] == 'eWay' ) {
+                $table_data['payment'] = $eway_url;
+            }
+
             $table_data['email'] = $donor_data['email'];
             $table_data['campaignid'] = $donor_data['donation_campaign'];
             $table_data['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );
@@ -479,7 +484,13 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 $table_search['date'] = ( isset( $donor_data['timestamp'] ) ) ? date('M d, Y', $donor_data['timestamp'] ) : '';
                 $table_search['donor_name'] = ( isset( $donor_data['donor_type'] ) && $donor_data['donor_type'] == 'B' && !empty( $donor_data['companyName'] ) ) ? 
                 $donor_data['companyName'] : $donor_data['first_name'] . " " .  $donor_data['last_name'];
-                $table_search['payment'] = ( $donor_data['payment'] == 'Ezidebit' ) ? $ezidebit_url : $eway_url;
+
+                if( isset($donor_data['payment']) && $donor_data['payment'] == 'Ezidebit' ) {
+                    $table_data['payment'] = $ezidebit_url;
+                } else if( isset($donor_data['payment']) && $donor_data['payment'] == 'eWay' ) {
+                    $table_data['payment'] = $eway_url;
+                }
+
                 $table_search['email'] = $donor_data['email'];
                 $table_search['campaignid'] = $donor_data['donation_campaign'];
                 $table_search['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );

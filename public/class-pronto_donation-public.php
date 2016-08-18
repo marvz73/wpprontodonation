@@ -405,6 +405,7 @@ class Pronto_donation_Public {
 	 			}
 	 		}
 		}
+		
 		$donation_data['status'] = 'pending';
 		$donation_data['donation_campaign'] = $_POST['campaign_id'];
 		$donation_data['timestamp'] = time();

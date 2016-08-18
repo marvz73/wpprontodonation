@@ -143,19 +143,24 @@
 				var card_details = [];
 				var cptcha_response = '';
 
+				var formData = $('.pronto-donation-form').serializeArray();
+
+				for(var i = 0; i < formData.length; i++ ) {
+					if( $('input[name='+ formData[i].name +']').prop('required') == true
+						&& ( $('input[name='+ formData[i].name +']').val() == null
+						|| $('input[name='+ formData[i].name +']').val() == '' ) ) {
+						$('.self-payment-msg').append('<p class="ezidebit-error">'+$('input[name='+ formData[i].name +']').attr('placeholder')+' is required.</p>');
+						$('.ezi-lazy-loading').hide();
+						return;
+					}
+ 				}
+ 
 				$('.self-payment-style :input').each(function() {
 					card_details.push({
 						'key' : $(this).attr('id'),
 						'value' : $(this).val()
 					});
-
 				});
-
-				// for(var i = 0; i < card_details.length; i++ ) {
-				// 	if(card_details[i].key == 'g-recaptcha-response-1') {
-				// 		cptcha_response = card_details[i].value;
-				// 	}
-				// }
 				cptcha_response = captcha_response;
 
 			 	// verify_captcha
@@ -193,7 +198,6 @@
 								setTimeout(function(){
 									if(your_a_robot == 0) {
 
-										var formData = $('.pronto-donation-form').serializeArray();
 										var campaign_id = '<?php echo $ajax_campaign_id ?>';
 										var selected_donation_type = $('input[name=donation_type]:checked').val();
 										
@@ -283,7 +287,6 @@
 								  'sitekey' : captchakey,  // required
 								  'callback' : verifyCallback,
 								  'theme' : 'light'
-
 							});
 							captcha_id = captchaWidgetId;
 						}
@@ -308,6 +311,33 @@
 	 			}
 			}
 		)
+	
+		$('#payment1').click(function(){
+			if( ajax_request_enable == 'on' && $('input[name="payment"]').length == 1 ) {
+
+				$('#payNowButton').bind('click', process_payment_ezidebit);
+
+				$('.self-payment-style').show();
+				$('.g-recaptcha').hide();
+
+				if(captcha_enable == 1) {
+					var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
+										  'sitekey' : captchakey,  // required
+										  'callback' : verifyCallback,
+										  'theme' : 'light'
+										});
+					captcha_id = captchaWidgetId;
+				}
+
+				var selected_donation_amount = $('input[name=pd_amount]:checked').val();
+				$('#amount').val( selected_donation_amount );
+
+				$('input[name=pd_amount]').change(function() {
+					var selected_donation_amount = $('input[name=pd_amount]:checked').val();
+					$('#amount').val( selected_donation_amount );
+				});
+			}
+		})
 
 	});
 
