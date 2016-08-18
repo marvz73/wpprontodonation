@@ -407,7 +407,17 @@
         <br>
 		<div class="pd-container clearfix">
 			<div class="pd-col s6 clearfix" >
-				<input type="checkbox" name="" /> Sign-up for our regular email newsletter
+				<?php  			
+					$NewsLetterOption = (empty($pronto_donation_settings['NewsLetterOption'])) ? "" : $pronto_donation_settings['NewsLetterOption'];
+					$NewsLetterCaption = (empty($pronto_donation_settings['NewsLetterCaption'])) ? "" : $pronto_donation_settings['NewsLetterCaption'];
+					if($NewsLetterOption=='hide'||$NewsLetterOption==''){}
+					else{
+				?>
+					<input type="checkbox" name=""/> <?php echo $NewsLetterCaption;?>
+				<?php  
+					}
+				?>
+				
 			</div>
 			<div class="pd-col s6 clearfix">
 				<?php 
