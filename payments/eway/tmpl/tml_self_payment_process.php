@@ -5,15 +5,13 @@
 ?>
 <div class="wrap">
 	
-	<div class="payment-details pd-container-padding clearfix">
-		<div class="pd-col s6">
-			<h4>eWay Card Details</h4>
-		</div>
-	</div>
+
 
 	<div class="credit-card-detals pd-container-padding clearfix">
 		<div class="pd-col s6">
-
+			<h4>eWay Card Details</h4>
+		</div>
+		<div class="pd-col s6">
 			<div>
 				<label for="eway_card_number">Card Number</label>
 				<input type="text" id="eway_card_number" name="eway_card_number" maxlength="19" required/>
