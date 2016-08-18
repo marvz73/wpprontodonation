@@ -38,11 +38,9 @@
 
 <div class="wrap">
 	<div class="payment-details pd-container-padding clearfix">
-		<div class="pd-col s6">
+		<div class="pd-col s12">
 			<h4>Ezidebit Card Details</h4>
 		</div>
-	</div>
-	<div class="payment-details pd-container-padding clearfix">
 		<div class="pd-col s6">
 			<div>
 				<input type="hidden" id="paymentReference" value="<?php echo substr(md5(uniqid(rand(), true)), 0,24) ?>"/>
@@ -113,7 +111,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 </div>
 

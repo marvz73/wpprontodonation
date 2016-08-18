@@ -4,7 +4,6 @@
 
 ?>
 <div class="wrap">
-	
 	<div class="credit-card-detals pd-container-padding clearfix">
 		<div class="pd-col s12">
 			<h4>eWay Card Details</h4>
