@@ -279,11 +279,11 @@ class Pronto_donation {
 
 	public function salesforce(){
 		
-		if(!isset($this->salesforceAPI->error))
-		{
-			// $query = 'services/apexrest/donation/';
-			// $response = $this->salesforceAPI->query($query);
-		}
+		// if(!isset($this->salesforceAPI->error))
+		// {
+		// 	// $query = 'services/apexrest/donation/';
+		// 	// $response = $this->salesforceAPI->query($query);
+		// }
 
 		$data = array(
 			'strDonation' => array(
@@ -297,10 +297,7 @@ class Pronto_donation {
 
 
 
-		print_r($this->salesforceAPI->restAPI('gau', $data));
-
-
-
+		// print_r($this->salesforceAPI->restAPI('gau', $data));
 
 
 	}
