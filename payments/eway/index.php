@@ -157,6 +157,7 @@ class eway{
 		    if (!empty($result->Errors)) {
 		    	//print_r($result);
 		    	$result->SharedPaymentUrl = $campaign_data['redirectErrorURL'].'&SP_Status='.$result->Errors;
+		    	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_id = " .$ppd['post_meta_id']);
 		    	require_once('tmpl/tmpl_payment_process.php');
 		    	
 		        // Get Error Messages from Error Code.
