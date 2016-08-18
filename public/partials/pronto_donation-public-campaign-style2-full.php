@@ -318,7 +318,7 @@
 					<div class="pd-container-group clearfix">
 						<div class="pd-col s12">
 							<div class="pronto-donation-group">
-								<textarea placeholder="Additional Comments" name="comment" rows="5"></textarea>
+								<textarea placeholder="Additional Comments" name="comment" rows="5"<?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_comment_option']) ?>></textarea>
 							</div>
 						</div>
 					</div>
