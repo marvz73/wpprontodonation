@@ -171,9 +171,13 @@
 			echo "<p style='color: red;'>Invalid Card Details</p>";
 		}else{
 			if($eway_SP_error=='V6053'){
-				echo "<p style='color: red;'>Country Is Invalid</p>";
+				echo "<p style='color: red;'>Invalid Country</p>";
 			}else{
-				echo "<p style='color: red;'>Invalid Card Details,Country or Amount is zero.</p>";
+				if($eway_SP_error=='V6011'){
+					echo "<p style='color: red;'>Invalid Amount</p>";
+				}else{
+					echo "<p style='color: red;'>Invalid Card Details,Country or Amount.</p>";
+				}
 			}
 
 		}
