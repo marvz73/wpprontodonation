@@ -522,10 +522,10 @@ class Pronto_donation_Admin {
 						<tr>
 							<th scope="row"><label for="user_donor_type_option">Donor Type</label></th>
 							<td>
-								<select name="user_donor_type_option" id="user_donor_type_option">
-									<option value="show" <?php if( !empty( $user_information['user_donor_type_option'] ) && esc_attr($user_information['user_donor_type_option']) == 'single' ) echo "selected='selected'"; ?> >Show</option>
-									<option value="hide" <?php if( !empty( $user_information['user_donor_type_option'] ) && esc_attr($user_information['user_donor_type_option']) == 'hide' ) echo "selected='selected'"; ?> >Hide</option>
-									<option value="required" <?php if( !empty( $user_information['user_donor_type_option'] ) && esc_attr($user_information['user_donor_type_option']) == 'required' ) echo "selected='selected'"; ?> >Required</option>
+								<select name="user_donor_type_option" id="user_donor_type_option" disabled>
+									<option value="show">Show</option>
+									<option value="hide">Hide</option>
+									<option value="required" selected="selected">Required</option>
 								</select>
 								<p class="description">Select an option for donor type</p>
 							</td>

@@ -130,7 +130,6 @@
 
 		function process_payment_ezidebit(e) {
 			e.preventDefault();
-			
 			if(e.originalEvent !== undefined) {
 				// console.log('rebinding')
 				$('#payNowButton').removeAttr('onclick');
@@ -143,15 +142,58 @@
 				var formData = $('.pronto-donation-form').serializeArray();
 
 				for(var i = 0; i < formData.length; i++ ) {
-					if( $('input[name='+ formData[i].name +']').prop('required') == true
-						&& ( $('input[name='+ formData[i].name +']').val() == null
-						|| $('input[name='+ formData[i].name +']').val() == '' ) ) {
-						$('.self-payment-msg').append('<p class="ezidebit-error">'+$('input[name='+ formData[i].name +']').attr('placeholder')+' is required.</p>');
-						$('.ezi-lazy-loading').hide();
-						return;
+
+					if( formData[i].name == 'comment' ) {
+						if( $('textarea[name='+ formData[i].name +']').prop('required') == true 
+							&& ( formData[i].value == null || formData[i].value == '' ) ) {
+
+							$('.self-payment-msg').append('<p class="ezidebit-error"> Comment is required.</p>');
+							$('.ezi-lazy-loading').hide();
+							return;
+						}
+
+					} else {
+						if( $('input[name='+ formData[i].name +']').prop('required') == true 
+							&& ( formData[i].value == null || formData[i].value == '' ) ) {
+
+							if( formData[i].name == 'email' ) {
+								$('.self-payment-msg').append('<p class="ezidebit-error"> Email is required.</p>');
+								$('.ezi-lazy-loading').hide();
+								return;
+							} else if( formData[i].name == 'first_name' ) {
+								$('.self-payment-msg').append('<p class="ezidebit-error"> First Name is required.</p>');
+								$('.ezi-lazy-loading').hide();
+								return;
+							} else if( formData[i].name == 'last_name' ) {
+								$('.self-payment-msg').append('<p class="ezidebit-error"> Last Name is required.</p>');
+								$('.ezi-lazy-loading').hide();
+								return;
+							} else if( formData[i].name == 'phone' ) {
+								$('.self-payment-msg').append('<p class="ezidebit-error"> Phone is required.</p>');
+								$('.ezi-lazy-loading').hide();
+								return;
+							} else if( formData[i].name == 'address' ) {
+								$('.self-payment-msg').append('<p class="ezidebit-error"> Address is required.</p>');
+								$('.ezi-lazy-loading').hide();
+								return;
+							} else if( formData[i].name == 'country' ) {
+								$('.self-payment-msg').append('<p class="ezidebit-error"> Country is required.</p>');
+								$('.ezi-lazy-loading').hide();
+								return;
+							} else if( formData[i].name == 'post_code' ) {
+								$('.self-payment-msg').append('<p class="ezidebit-error"> Post Code is required.</p>');
+								$('.ezi-lazy-loading').hide();
+								return;
+							} else if( formData[i].name == 'suburb' ) {
+								$('.self-payment-msg').append('<p class="ezidebit-error"> Suburb is required.</p>');
+								$('.ezi-lazy-loading').hide();
+								return;
+							}
+						}
 					}
  				}
- 
+
+
 				$('.self-payment-style :input').each(function() {
 					card_details.push({
 						'key' : $(this).attr('id'),
