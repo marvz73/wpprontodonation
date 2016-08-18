@@ -165,7 +165,7 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             $table_data['email'] = $donor_data['email'];
             $table_data['campaignid'] = $donor_data['donation_campaign'];
             $table_data['campaign_name'] = get_the_title( $donor_data['donation_campaign'] );
-            if(array_key_exists('pd_amount', $donor_data) && isset( $donor_data['pd_amount'] ) && (int) $donor_data['pd_amount'] > 0 ) {
+            if(isset( $donor_data['pd_amount'] ) && (int) $donor_data['pd_amount'] > 0 ) {
                 $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_amount'], 2, '.', ',');
             } else {
                 $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_custom_amount'], 2, '.', ',');
@@ -173,9 +173,9 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
             $status = "";
 
-            if( array_key_exists('statusCode', $donor_data) && !empty( $donor_data['statusText'] ) ) {
+            if( isset($donor_data['statusText']) && !empty( $donor_data['statusText'] ) ) {
                 $status = $donor_data['statusText'];
-            } else if( !array_key_exists('statusCode', $donor_data) && empty( $donor_data['statusText'] ) ) {
+            } else if( !isset($donor_data['statusText']) && empty( $donor_data['statusText'] ) ) {
                 $status = $donor_data['status'];
             } else {
                 $status = "Pending";
