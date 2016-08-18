@@ -300,7 +300,7 @@ class Pronto_donation {
 				{
 
 					$payment_method->option = get_option('payment_option_' . (string)$dir);
-					if($payment_method->option['enable'])
+					if(isset($payment_method->option['enable']))
 					{
 						array_push($payments, $payment_method);
 					}

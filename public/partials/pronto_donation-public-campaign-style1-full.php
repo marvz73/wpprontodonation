@@ -324,7 +324,9 @@
 					endif;
 					//------------ EWAY Selfpayment ------------//
 					$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
-					if(isset($payment_option_eway['enable_self_payment'])=='on'){
+					$enable_self_payment_value =  (isset($payment_option_eway['enable_self_payment'])) ? $payment_option_eway['enable_self_payment'] : '';
+					$enable_value =  (isset($payment_option_eway['enable'])) ? $payment_option_eway['enable'] : '';
+					if($enable_self_payment_value=='on' && $enable_value=='on'){
 					?>
 					
 					<div id="eway_card_datails" name="eway_card_datails" <?php if($pronto_donation_campaign['donation_type'] == 'both'){echo 'hidden';}?>>
