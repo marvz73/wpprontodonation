@@ -161,6 +161,7 @@
 
 
 	<?php 
+	$button_hidden = '';//------------ Hide Button If 'No Payment available' ------------// 
 	//------------ EWAY Selfpayment ------------//
 	if(isset($_GET['SP_Status'])): ?>
 	<div class="pronto_donation_error">
@@ -486,6 +487,7 @@
 					endforeach;
 					else:
 						echo '<h1>No Payment available</h1>';
+						$button_hidden = true;//------------ Hide Button If 'No Payment available' ------------//
 					endif;
 					//------------ EWAY Selfpayment ------------//
 					$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
@@ -556,7 +558,7 @@
 			<div class="pd-col s6 clearfix">
 				<?php 
 				//------------ Hide Button If 'No Payment available' ------------//
-				if($payment_option_eway==''&& $ezidebit_option==0){}
+				if($button_hidden==true){}
 				else{	
 				//------------ Hide Button If 'No Payment available' ------------//
 				?>
