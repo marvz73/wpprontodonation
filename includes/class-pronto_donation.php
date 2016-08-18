@@ -411,14 +411,30 @@ class Pronto_donation {
 
 	    //Build admin notification email
 	    $message  = sprintf(__('New donation on your site %s:'), $site_name) . "\r\n\r\n";
-	    $message .= sprintf(__('Email: %s'), $campaign['email']) . "\r\n";
-	    $message .= sprintf(__('First Name: %s'), $campaign['first_name']) . "\r\n";
-	    $message .= sprintf(__('Last Name: %s'), $campaign['last_name']) . "\r\n";
-	    $message .= sprintf(__('Address: %s'), $campaign['address']) . "\r\n";
-	    $message .= sprintf(__('Country: %s'), $campaign['country']) . "\r\n";
-	    $message .= sprintf(__('State: %s'), $campaign['state']) . "\r\n";
-	    $message .= sprintf(__('Post Code: %s'), $campaign['post_code']) . "\r\n";
-	    $message .= sprintf(__('Suburb: %s'), $campaign['suburb']) . "\r\n\r\n";
+	    $email_value =  (isset($campaign['email'])) ? $campaign['email'] : '';
+	    $message .= sprintf(__('Email: %s'), $email_value) . "\r\n";
+
+	    $first_name_value =  (isset($campaign['first_name'])) ? $campaign['first_name'] : '';
+	    $message .= sprintf(__('First Name: %s'), $first_name_value) . "\r\n";
+
+	    $last_name_value =  (isset($campaign['last_name'])) ? $campaign['last_name'] : '';
+	    $message .= sprintf(__('Last Name: %s'), $last_name_value) . "\r\n";
+
+	    $address_value =  (isset($campaign['address'])) ? $campaign['address'] : '';
+	    $message .= sprintf(__('Address: %s'), $address_value) . "\r\n";
+
+	    $country_value =  (isset($campaign['country'])) ? $campaign['country'] : '';
+	    $message .= sprintf(__('Country: %s'), $country_value) . "\r\n";
+
+	    $state_value =  (isset($campaign['state'])) ? $campaign['state'] : '';
+	    $message .= sprintf(__('State: %s'), $state_value) . "\r\n";
+
+	    $post_code_value =  (isset($campaign['post_code'])) ? $campaign['post_code'] : '';
+	    $message .= sprintf(__('Post Code: %s'), $post_code_value) . "\r\n";
+
+	    $suburb_value =  (isset($campaign['suburb'])) ? $campaign['suburb'] : '';
+	    $message .= sprintf(__('Suburb: %s'), $suburb_value) . "\r\n\r\n";
+	    
 	    $message .= sprintf(__('Payment Method: %s'), $campaign['payment']) . "\r\n";
 	    $message .= sprintf(__('Currency: %s'), $campaign['CurrencyCode']) . "\r\n";
 	    $message .= sprintf(__('Payment Response: %s'), $campaign['statusText']) . "\r\n";
