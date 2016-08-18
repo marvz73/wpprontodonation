@@ -61,17 +61,14 @@
 					</select>
 				</div>
 			</div>
-
 		</div>
-
 		<div class="pd-col s6">
 			<label for="eway_ccv">CCV</label>
-			<div>
-				<div>
+			<div class="pd-container-padding">			
+				<div class="pd-col s12">
 					<input id="eway_ccv" name="eway_ccv" placeholder="" type="text" required>
 				</div>
 			</div>
 		</div>
-
 	</div>
 </div>

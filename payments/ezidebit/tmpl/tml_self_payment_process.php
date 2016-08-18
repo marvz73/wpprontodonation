@@ -107,8 +107,8 @@
 
 		<div class="pd-col s6">
 			<label for="ccv">CCV</label>
-			<div>
-				<div>
+			<div class="pd-container-padding">			
+				<div class="pd-col s12">
 					<input id="ccv" name="ccv" placeholder="" type="text" value="">
 				</div>
 			</div>
