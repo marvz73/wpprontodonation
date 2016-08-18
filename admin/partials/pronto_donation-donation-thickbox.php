@@ -245,7 +245,7 @@
                         </td>
                     </tr>
                     <?php 
-                    if( array_key_exists('pd_custom_amount', $donation_details) && isset( $donation_details['pd_custom_amount'] ) && (int) $donation_details['pd_custom_amount'] > 0 ) {
+                    if( isset( $donation_details['pd_custom_amount'] ) && (int) $donation_details['pd_custom_amount'] > 0 ) {
                         ?>
                         <tr>
                             <th>
@@ -278,7 +278,7 @@
                     </tr>
                     <?php
 
-                    if( array_key_exists( 'payment_response', $donation_details ) && !empty($donation_details['payment_response'])) {
+                    if( isset($donation_details['payment_response']) && !empty($donation_details['payment_response'])) {
 
                         foreach ($donation_details['payment_response'] as $key => $payment_response) {
                             ?>
@@ -307,7 +307,7 @@
                     </tr>
 
                     <?php 
-                    if( array_key_exists( 'StatusLogs', $donation_details ) && !empty($donation_details['StatusLogs']) ) {
+                    if( isset($donation_details['StatusLogs'])  && !empty($donation_details['StatusLogs']) ) {
                         foreach ($donation_details['StatusLogs'] as $key => $status_logs) {
                             ?>
                             <tr>
