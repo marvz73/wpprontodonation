@@ -136,6 +136,7 @@
 			
 			if(e.originalEvent !== undefined) {
 				// console.log('rebinding')
+				$('#payNowButton').removeAttr('onclick');
 				$('.ezi-lazy-loading').show();
 				$('.self-payment-msg').empty();
 
@@ -163,7 +164,7 @@
 					url:  ajax_frontend.ajax_url,
 					data: { 'action':'verify_captcha', 'cptcha_response' : cptcha_response },
 					success: function(response) {
-						console.log( response )
+						//console.log( response )
 						$('.self-payment-msg').empty();
 
 						if( response.success === false && captcha_enable == 1 ) {
@@ -173,6 +174,7 @@
 							$('.ezi-lazy-loading').hide();
 							your_a_robot++;
 							grecaptcha.reset(captcha_id);
+							cptcha_response = '';
 						} else if( response.data.success == false && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
@@ -180,6 +182,7 @@
 							$('.ezi-lazy-loading').hide();
 							your_a_robot++;
 							grecaptcha.reset(captcha_id);
+							cptcha_response = '';
 
 						} else if( response.success == true || captcha_enable == 0 ) {
 							// console.log('executed')
@@ -220,7 +223,7 @@
 
 							// this function will be the error callback for ezidebit client side
 						 	var displaySubmitError = function (data) {
-								// console.log("ezi error", data)
+							//	console.log("ezi error", data)
 								setTimeout(function(){
 									if(your_a_robot == 0) {
 										if(data == 'An error has occurred attempting to contact the API. Please contact Ezidebit support.') {
@@ -228,6 +231,8 @@
 										}
 										$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
 										$('.ezi-lazy-loading').hide();
+								 		grecaptcha.reset(captcha_id);
+								 		cptcha_response = '';
 									}
 								}, 3000);
 							};
