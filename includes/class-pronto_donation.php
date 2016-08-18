@@ -80,9 +80,11 @@ class Pronto_donation {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		// $sForce = new salesforceSOAP();
-		// $this->salesforceAPI = $sForce->salesforce;
-		// $this->salesforce();
+		$sForce = new salesforceSOAP();
+		$this->salesforceAPI = $sForce->salesforce;
+
+
+		$this->salesforce();
 
 	}
 
@@ -279,10 +281,27 @@ class Pronto_donation {
 		
 		if(!isset($this->salesforceAPI->error))
 		{
-			$query = 'SELECT Id, CaseNumber, Subject from Case';
-			$response = $this->salesforceAPI->query($query);
-			// print_r($response);
+			// $query = 'services/apexrest/donation/';
+			// $response = $this->salesforceAPI->query($query);
 		}
+
+		$data = array(
+			'strDonation' => array(
+					"FirstName" 		=>	 "Test 2",
+					"LastName"  		=>	 "Test 2",
+					"Amount"     		=>	 130,
+					"donationType" 		=>	 "one",
+					"PaymentSource" 	=>	 null
+				)
+			);
+
+
+
+		print_r($this->salesforceAPI->restAPI('gau', $data));
+
+
+
+
 
 	}
 

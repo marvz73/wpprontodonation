@@ -917,6 +917,78 @@ class SforceBaseClient {
 		$arg->userId = new SoapVar($userId, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
 		return $this->sforce->resetPassword($arg)->result;
 	}
+
+
+	
+
+	public function restAPI($query, $data = array(), $method = ''){
+
+		//Get instance URL
+		$instance_url = explode('/s',$this->getLocation())[0];
+		//Full rest API URL
+		$url = $instance_url . '/services/apexrest/' . $query;
+		//Get SessionID
+		$sessionId = $this->getSessionId();
+
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: Bearer $sessionId", "Content-type: application/json"));
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+		//  -Create record-
+		if(strtolower($method) == "create")
+		{
+			$content = json_encode($data);
+			curl_setopt($curl, CURLOPT_POST, TRUE);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+		}
+		//  -Update record-
+		else if(strtolower($method) == "update")
+		{
+			$content = json_encode($data);
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PATCH");
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+		}
+		//  -Delete record-
+		else if(strtolower($method) == "delete")
+		{
+			
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+		}
+		else
+		{
+			curl_setopt($curl, CURLOPT_POST, FALSE);
+		}
+
+		$json_response = curl_exec($curl);
+		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+		$result = array(
+		    "curl_error"    =>	 curl_error($curl),
+		    "curl_errno"    =>	 curl_errno($curl)
+		);
+
+		$response = json_decode($json_response);
+
+		if($status != 200) {
+			foreach($response[0] as $key=>$item){
+				$result[$key] = $item;
+			}
+		}else{
+			foreach($response as $key=>$item){
+				$result[$key] = $item;
+			}
+		}
+
+		$result['status_code'] = $status;
+
+		curl_close($curl);
+
+		//--
+		return $result;
+	}
 }
 
 class SforceSearchResult {
