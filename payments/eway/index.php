@@ -126,10 +126,13 @@ class eway{
 			$request->Customer->LastName = $ppd['last_name']; 
 			$request->Customer->Phone = $ppd['phone'];
 			$request->Customer->Street1 = $ppd['address'];
-			$request->Customer->Country = $this->get_countrycode($ppd['country']); 
-			$request->Customer->City = $ppd['suburb'];
-			$request->Customer->State = $ppd['state'];
-			$request->Customer->PostalCode = $ppd['post_code'];
+			$request->Customer->Country = $this->get_countrycode($ppd['country']);
+			$suburb_value =  (isset($ppd['suburb'])) ? $ppd['suburb'] : '';
+			$request->Customer->City = $suburb_value;
+			$state_value =  (isset($ppd['state'])) ? $ppd['state'] : '';
+			$request->Customer->State = $state_value;
+			$post_code_value =  (isset($ppd['post_code'])) ? $ppd['post_code'] : '';
+			$request->Customer->PostalCode = $post_code_value;
 			$TotalAmount = !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] : $ppd['pd_amount'];
 			$request->Payment->TotalAmount = $TotalAmount .'00';
 			$request->Payment->InvoiceReference = (string)$ppd['post_meta_id'];
