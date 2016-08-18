@@ -195,7 +195,7 @@ class Pronto_donation_Public {
 	    			$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
 	    			$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
 	    			// Call the payment function to execute payment action
-	    			$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor','');
+	    			$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor',$campaign_data);
 	    			$campaign_data['post_meta_id'] = $post_meta_id;
 					$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data);
 
