@@ -442,7 +442,6 @@ class Pronto_donation_Public {
 	 			'status' => $status
  			) 
  		);
-
 		die();
 	}
 
