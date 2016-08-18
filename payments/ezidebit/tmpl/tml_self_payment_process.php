@@ -273,7 +273,6 @@
 				// when user select ezidebit
 				if( $(this).val() == 'Ezidebit' ) {
 					if( ajax_request_enable == 'on' ) {
-
 						$('#payNowButton').bind('click', process_payment_ezidebit);
 
 						$('.self-payment-style').show();
@@ -308,33 +307,13 @@
 	 			}
 			}
 		)
-	
-		$('#payment1').click(function(){
-			if( ajax_request_enable == 'on' && $('input[name="payment"]').length == 1 ) {
-
-				$('#payNowButton').bind('click', process_payment_ezidebit);
-
-				$('.self-payment-style').show();
-				$('.g-recaptcha').hide();
-
-				if(captcha_enable == 1) {
-					var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
-										  'sitekey' : captchakey,  // required
-										  'callback' : verifyCallback,
-										  'theme' : 'light'
-										});
-					captcha_id = captchaWidgetId;
-				}
-
-				var selected_donation_amount = $('input[name=pd_amount]:checked').val();
-				$('#amount').val( selected_donation_amount );
-
-				$('input[name=pd_amount]').change(function() {
-					var selected_donation_amount = $('input[name=pd_amount]:checked').val();
-					$('#amount').val( selected_donation_amount );
-				});
+ 		
+		setTimeout(function(){
+			if( $('input[name=payment]').length == 1 ) {
+				$('input[name=payment]').trigger('change');
 			}
-		})
+		}, 2000);
+
 
 	});
 
