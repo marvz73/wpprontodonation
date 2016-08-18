@@ -135,6 +135,7 @@
 				$('#payNowButton').removeAttr('onclick');
 				$('.ezi-lazy-loading').show();
 				$('.self-payment-msg').empty();
+				$('.ezidebit-error').remove();
 
 				var card_details = [];
 				var cptcha_response = '';
@@ -147,8 +148,9 @@
 						if( $('textarea[name='+ formData[i].name +']').prop('required') == true 
 							&& ( formData[i].value == null || formData[i].value == '' ) ) {
 
-							$('.self-payment-msg').append('<p class="ezidebit-error"> Comment is required.</p>');
+							$('textarea[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Comment is required.</p>');
 							$('.ezi-lazy-loading').hide();
+							$('textarea[name='+ formData[i].name +']').focus();
 							return;
 						}
 
@@ -157,36 +159,49 @@
 							&& ( formData[i].value == null || formData[i].value == '' ) ) {
 
 							if( formData[i].name == 'email' ) {
-								$('.self-payment-msg').append('<p class="ezidebit-error"> Email is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Email is required.</p>');
 								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'first_name' ) {
-								$('.self-payment-msg').append('<p class="ezidebit-error"> First Name is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> First Name is required.</p>');
 								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'last_name' ) {
-								$('.self-payment-msg').append('<p class="ezidebit-error"> Last Name is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Last Name is required.</p>');
 								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'phone' ) {
-								$('.self-payment-msg').append('<p class="ezidebit-error"> Phone is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Phone is required.</p>');
 								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'address' ) {
-								$('.self-payment-msg').append('<p class="ezidebit-error"> Address is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Address is required.</p>');
 								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'country' ) {
-								$('.self-payment-msg').append('<p class="ezidebit-error"> Country is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Country is required.</p>');
 								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'post_code' ) {
-								$('.self-payment-msg').append('<p class="ezidebit-error"> Post Code is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Post Code is required.</p>');
 								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'suburb' ) {
-								$('.self-payment-msg').append('<p class="ezidebit-error"> Suburb is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Suburb is required.</p>');
 								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
+								return;
+							} else if( formData[i].name == 'state' ) {
+								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> State is required.</p>');
+								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
 								return;
 							}
 						}
@@ -343,6 +358,7 @@
 	 				$('.self-payment-style').hide();
 	 				$('.self-payment-msg').empty();
 	 				$('.g-recaptcha').show();
+	 				$('.ezidebit-error').remove();
 
 	 				$('#payNowButton').removeAttr('disabled');
 	 				$('#payNowButton').unbind('click', process_payment_ezidebit);
