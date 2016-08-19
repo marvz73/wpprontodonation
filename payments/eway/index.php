@@ -216,7 +216,9 @@ class eway{
 
 
 	}
-
+	public function payment_self_payment_error_messages() {
+		require_once('tmpl/tml_self_payment_process_error_messages.php');
+	}
 	public function payment_self_payment() {
 		require_once('tmpl/tml_self_payment_process.php');
 	}
