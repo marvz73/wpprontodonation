@@ -78,8 +78,11 @@ class eway{
 
 	public function payment_process($ppd = array(),$campaign_data = array(), $class){
 		global $wpdb;
+		//------------------- Eway Self Payment -----------------------------//
 		$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
 		$enable_self_payment_value =  (isset($payment_option_eway['enable_self_payment'])) ? $payment_option_eway['enable_self_payment'] : '';
+		//------------------- Eway Self Payment -----------------------------//
+		
 		if($enable_self_payment_value!='on'){
 			$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
 			$EwayAPIPassword = $ppd['payment_info']->option['ewayapipassword'];
@@ -116,7 +119,7 @@ class eway{
 
 	
 		}else{
-
+			//------------------- Eway Self Payment -----------------------------//
 			$EwayAPIKey = $ppd['payment_info']->option['ewayapikey'];
 			$EwayAPIPassword = $ppd['payment_info']->option['ewayapipassword'];
 			$EwaySanboxMode = $ppd['payment_info']->option['ewaysandboxmode'];
@@ -164,18 +167,11 @@ class eway{
 
 
 		    if (!empty($result->Errors)) {
-		    	//print_r($result);
+
 		    	$result->SharedPaymentUrl = $campaign_data['redirectErrorURL'].'&SP_Status='.$result->Errors;
 		    	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_id = " .$ppd['post_meta_id']);
 		    	require_once('tmpl/tmpl_payment_process.php');
 		    	
-		        // Get Error Messages from Error Code.
-		        // $ErrorArray = explode(",", $result->Errors);
-		        // $lblError = "";
-		        // foreach ( $ErrorArray as $error ) {
-		        //     $error = $service->getMessage($error);
-		        //     $lblError .= $error . "<br />\n";;
-		        // }
 		    } else {
 		    	$result->SharedPaymentUrl = $ppd['redirectURL'].'&SP_Eway='.(string)$ppd['post_meta_id'];
 
@@ -211,9 +207,8 @@ class eway{
 
 		        require_once('tmpl/tmpl_payment_process.php');       
 		    }
+		    //------------------- Eway Self Payment -----------------------------//
 		}
-
-
 
 	}
 	public function payment_self_payment_error_messages() {
