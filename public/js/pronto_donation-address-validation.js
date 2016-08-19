@@ -35,7 +35,7 @@ function fillInAddress() {
 			document.getElementById(addressType).value = val;
 			//console.log(addressType+'-'+val);
 			if(addressType=='route'){
-				document.getElementById('autocomplete').value = val;
+				document.getElementById('autocomplete').value = document.getElementById('street_number').value+' '+val;
 			}
 		}
 	}
