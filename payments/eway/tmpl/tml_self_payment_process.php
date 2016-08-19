@@ -8,11 +8,8 @@
 		<div class="pd-col s12">
 			<h4>eWay Card Details</h4>
 		</div>
-		<div class="pd-col s6">
-			<div>				
-			</div>
-			<div>				
-			</div>
+		<div class="pd-col s12">
+			<div id="eway_card_details_error" class="eway_alert" hidden>Card Details Incomplete</div>
 		</div>
 	</div>
 
@@ -21,14 +18,14 @@
 			<div class="clearfix pronto-donation-group">
 				<div class="pd-col s5">
 					<label for="eway_card_number">Card Number</label>
-					<input type="text" id="eway_card_number" name="eway_card_number" maxlength="19" required/>
+					<input type="text" id="eway_card_number" name="eway_card_number" maxlength="19" />
 				</div>
 				<div class="pd-col s6" style="padding-left: 10px;">	
 					<label for="eway_expiry_month">Expiry Date</label>
 					<div class="pronto-donation-group">
 						<div class="pd-col s5">
-							<select id="eway_expiry_month" name="eway_expiry_month" required>
-								<option disabled selected>MM</option>
+							<select id="eway_expiry_month" name="eway_expiry_month" >
+								<option value="MM" disabled selected>MM</option>
 								<option value="01">01</option>
 								<option value="02">02</option>
 								<option value="03">03</option>
@@ -45,8 +42,8 @@
 						</div>
 
 						<div class="pd-col s6" style="padding-left: 10px;">
-							<select id="eway_expiry_year" name="eway_expiry_year" required>
-								<option disabled selected>YYYY</option>
+							<select id="eway_expiry_year" name="eway_expiry_year" >
+								<option value="YYYY" disabled selected>YYYY</option>
 								<?php
 
 								$i = date("Y");
@@ -67,11 +64,11 @@
 			<div class="clearfix pronto-donation-group">
 				<div class="pd-col s5">
 					<label for="eway_name_on_card">Name on Card</label>
-					<input type="text" id="eway_name_on_card" name="eway_name_on_card" maxlength="50" required/>
+					<input type="text" id="eway_name_on_card" name="eway_name_on_card" maxlength="50" />
 				</div>
 				<div class="pd-col s6" style="padding-left: 10px;">
 					<label for="eway_ccv">CCV</label>
-					<input id="eway_ccv" name="eway_ccv" placeholder="" type="text" required>
+					<input id="eway_ccv" name="eway_ccv" placeholder="" type="text" >
 				</div>				
 			</div>
 		</div>
