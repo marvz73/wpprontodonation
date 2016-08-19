@@ -136,7 +136,7 @@ class ezidebit{
 				$campaign['payment_response'] = $payment_response;
 
 				//Approve status code
-				$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000','003');
+				$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000', '003');
 
 				if(in_array($response['ResultCode'], $ApproveTransaction)){
 					$campaign['statusCode'] = 1;
@@ -150,8 +150,40 @@ class ezidebit{
 
 				$class->pronto_donation_user_notification($campaign);
 			}
-		}
+		} else if(!isset($response['PaymentReference']) && isset($response['DonationMetaID'])) {
 
+			$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($response['DonationMetaID']));
+			$campaign = maybe_unserialize($donor[0]->meta_value);
+
+			$payment_response = array();
+			if(!isset($campaign['payment_response'])) {
+				$restricted_keys = array( 'payment_gateway', 'DonationMetaID' );
+
+ 				foreach ($response as $key => $resp_val) {
+ 					if( !in_array( $key, $restricted_keys) ) {
+ 						$payment_response[$key] = esc_html( $resp_val );
+ 					}
+ 				}
+			}
+
+			$campaign['payment_response'] = $payment_response;
+
+			//Approve status code
+			$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000', '003');
+
+			if( in_array($response['PaymentResultCode'], $ApproveTransaction)){
+				$campaign['statusCode'] = 1;
+			}else{
+				$campaign['statusCode'] = 0;
+			}
+
+			$campaign['statusText'] = esc_html($response['PaymentResultText']);
+
+			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($response['DonationMetaID']));
+
+			$class->pronto_donation_user_notification($campaign);
+
+		}
 	}
 }
 

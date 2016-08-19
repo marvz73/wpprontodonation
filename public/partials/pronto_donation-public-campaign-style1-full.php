@@ -52,6 +52,7 @@
 		<input id="enable_address_validation" value="<?php echo $enable_address_validation;?>" hidden/>
 		<input id="google_geocode_api_key" value="<?php echo $google_geocode_api_key;?>" hidden/>
 		<input id="donation_type" value="<?php echo $pronto_donation_campaign['donation_type'];?>" hidden/>
+		<input id="donation_gau" name="donation_gau" value="<?php echo ( isset( $pronto_donation_campaign['donation_gau'] ) && $pronto_donation_campaign['donation_gau'] != 'not_included' ) ? $pronto_donation_campaign['donation_gau'] : '' ?>" hidden/>
 	<!-- //===================== Address Validation ======================================//  -->	
 
 		<!-- Donor Information -->

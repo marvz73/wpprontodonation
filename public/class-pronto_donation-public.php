@@ -154,7 +154,84 @@ class Pronto_donation_Public {
 	    	$campaign_data = $_POST;
 			$captcha = isset($campaign_data['g-recaptcha-response']) ? $campaign_data['g-recaptcha-response'] : "";
 
-			if(empty($captcha) && $this->campaignOption->GoogleReCaptchaEnable)
+			if( $campaign_data['action'] == 'ezi_self_payment_proccess' ) {
+
+			 	/*
+				* Author: Danryl
+				* Lines of code will be the ajax self payment process
+				* for ezidebit payment gateway
+				*/
+				header('Access-Control-Allow-Origin: *');
+
+				$payment_methods = $this->class->pronto_donation_payment_methods();
+				$donation_data = array();
+				$payment_used = "";
+ 
+				$restricted = array(
+					'eway_card_number',
+					'eway_name_on_card',
+					'eway_expiry_month',
+					'eway_expiry_year',
+					'eway_ccv',
+					'cardNumber',
+					'nameOnCard',
+					'expiryMonth',
+					'expiryYear',
+					'ccv'
+				);
+
+				$payment_details = array();
+
+				if( is_array( $_POST['data'] ) && sizeof( $_POST['data'] ) > 0 ) {
+					foreach ($_POST['data'] as $key => $data) {
+
+						if( !in_array($data['name'], $restricted ) ) {
+
+							$donation_data[$data['name']] = $data['value'];
+
+							if($data['name'] == 'payment') {
+								$payment_used = $data['value'];
+
+								foreach($payment_methods as $index=>$payment)
+								{
+									if(strtolower($payment_used) == strtolower($payment->payment['payment_name']))
+									{
+										$payment_details = $payment;
+									}
+								}
+							}
+						}
+					}
+				}
+
+				$donation_data['status'] = 'pending';
+				$donation_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
+				$donation_data['payment_info'] = $payment_details;
+				$donation_data['statusCode'] = 0;
+				$donation_data['statusText'] = '';
+				$donation_data['timestamp'] = time();
+				$donation_data['donation_campaign'] = $_POST['campaign_id'];
+
+				$redirect_url =  get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $payment_used;
+				$post_meta_id = add_post_meta( $_POST['campaign_id'], 'pronto_donation_donor', $donation_data );
+				
+				$status = "failed";
+
+				if( isset( $post_meta_id ) ) {
+					$status = 'success';
+				}
+
+				wp_send_json_success( 
+					array(
+						'donation_meta_id' => $post_meta_id,
+						'redirect_url' =>  $redirect_url,
+						'status' => $status
+						)
+					);
+				die();
+				// end of ezidebit self payment process
+			}
+			else if(empty($captcha) && $this->campaignOption->GoogleReCaptchaEnable)
 			{
 				$googleSecret = $this->campaignOption->GoogleReCaptchaSecretKey;
 				$response=json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$googleSecret."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
@@ -375,66 +452,9 @@ class Pronto_donation_Public {
 
 	/*
 	* Author: Danryl
-	* This function will be the ajax self payment process
-	* for ezidebit payment gateway
+	* This function will validate the client side captcha used 
+	* for the ezidebit self payment proccess
 	*/
-
-	public function pronto_donation_ajax_self_payment() {
-		
-		header('Access-Control-Allow-Origin: *');  
-
-		$donation_data = array();
-		$payment = "";
-		if( is_array( $_POST['data'] ) && sizeof( $_POST['data'] ) > 0 ) {
-	 		foreach ($_POST['data'] as $key => $data) {
-	 			$donation_data[$data['name']] = $data['value'];
-
-	 			if($data['name'] == 'payment') {
-	 				$payment = $data['value'];
-	 			}
-	 		}
-		}
-		
-		$donation_data['status'] = 'pending';
-		$donation_data['donation_campaign'] = $_POST['campaign_id'];
-		$donation_data['timestamp'] = time();
-		$donation_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
-
-		if( is_array( $_POST['ezidebit_api_response'] ) && sizeof( $_POST['ezidebit_api_response'] ) > 0 ) {
-			foreach ($_POST['ezidebit_api_response'] as $key1 => $data1) {
-				if($key1 == 'PaymentResultCode') {
-					$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000','003');
-					if(in_array($data1, $ApproveTransaction)){
-						$donation_data['statusCode'] = 1;
-					}else{
-						$donation_data['statusCode'] = 0;
-					}
-					break;
-				}
-			}
-		}
-
-		$donation_data['statusText'] = esc_html($_POST['ezidebit_api_response']['PaymentResultText']);
-		$donation_data['payment_response'] = $_POST['ezidebit_api_response'];
-
-		$redirect_url =  get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $payment;
-		$post_meta_id = add_post_meta( $_POST['campaign_id'], 'pronto_donation_donor', $donation_data );
-		$status = "failed";
-		
-		if( isset( $post_meta_id ) ) {
-			$status = 'success';
-		}
-
- 		wp_send_json_success( 
- 			array(
-	 			'donation_meta_id' => $post_meta_id,
-	 			'redirect_url' =>  $redirect_url,
-	 			'status' => $status
- 			) 
- 		);
-		die();
-	}
-
 	public function pronto_donation_ajax_captcha_validate() {
 
 		header('Access-Control-Allow-Origin: *');  

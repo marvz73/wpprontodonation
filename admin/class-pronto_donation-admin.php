@@ -343,17 +343,13 @@ class Pronto_donation_Admin {
 
 		$pronto_donation_settings = get_option('pronto_donation_settings', '');
  		$currency_val = $pronto_donation_settings['SetCurrencySymbol'];
- 		$sf_gui = $this->class->get_salesforceGAU();
 
 		if( array_key_exists( 'pronto_donation_campaign', $campaigns ) && array_key_exists( 'pronto_donation_user_info', $campaigns ) ) {
 
 			$campaign_info = unserialize( $campaigns['pronto_donation_campaign'][0] );
 			$user_information = unserialize( $campaigns['pronto_donation_user_info'][0] );
 
-
-			
-			
-			
+			$sf_gui = array();
 
 			$sizeofaray = 0;
 
@@ -403,18 +399,18 @@ class Pronto_donation_Admin {
 							<th scope="row"><label for="donation_gau">Salesforce GUI</label></th>
 							<td>
 								<select name="donation_gau" id="donation_gau">
-								<option>Select Salesforce GUI</option>
+								<option value="not_included">Select Salesforce GUI</option>
 								<?php 
 									if( isset($sf_gui) && is_array($sf_gui) && sizeof($sf_gui) > 0) {
 										// looping of data goes here !
-										foreach($sf_gui['result'] as $key=>$item):
-											?>
-												<option value="<?php echo $item->Id ?>"><?php echo $item->Name ?></option>
-											<?php
-										endforeach;
+										?>
+										<option></option>
+										<?php
 									}
+
 								?>
 								</select>
+								<p class="description">Salesforce GUI</p>
 							</td>
 						</tr>
  

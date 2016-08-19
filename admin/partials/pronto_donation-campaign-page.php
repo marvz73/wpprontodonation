@@ -175,7 +175,17 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
             } else {
                 $table_data['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_custom_amount'], 2, '.', ',');
             }
-            $table_data['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
+
+            if( isset( $donor_data['donation_type'] ) ) {
+                if( $donor_data['donation_type'] == 'single' ) {
+                    $table_data['donation_type'] = 'One-off';
+                } else if( $donor_data['donation_type'] == 'recurring' ) {
+                    $table_data['donation_type'] = 'Monthly';
+                }
+            } else {
+                $table_data['donation_type'] = '';
+            }
+
             $status = "";
 
             if( isset($donor_data['statusText']) && !empty( $donor_data['statusText'] ) ) {
@@ -486,9 +496,9 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 $donor_data['companyName'] : $donor_data['first_name'] . " " .  $donor_data['last_name'];
 
                 if( isset($donor_data['payment']) && $donor_data['payment'] == 'Ezidebit' ) {
-                    $table_data['payment'] = $ezidebit_url;
+                    $table_search['payment'] = $ezidebit_url;
                 } else if( isset($donor_data['payment']) && $donor_data['payment'] == 'eWay' ) {
-                    $table_data['payment'] = $eway_url;
+                    $table_search['payment'] = $eway_url;
                 }
 
                 $table_search['email'] = $donor_data['email'];
@@ -499,7 +509,17 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
                 } else {
                     $table_search['amount'] = $currency_val .''. number_format( (int) $donor_data['pd_custom_amount'], 2, '.', ',');
                 }
-                $table_search['donation_type'] =  ( isset( $donor_data['donation_type'] ) ) ? $donor_data['donation_type'] : '';
+
+                if( isset( $donor_data['donation_type'] ) ) {
+                    if( $donor_data['donation_type'] == 'single' ) {
+                        $table_search['donation_type'] = 'One-off';
+                    } else if( $donor_data['donation_type'] == 'recurring' ) {
+                        $table_search['donation_type'] = 'Monthly';
+                    }
+                } else {
+                    $table_search['donation_type'] = '';
+                }
+                
                 $status = "";
                 if( isset($donor_data['statusText']) && !empty( $donor_data['statusText'] ) ) {
                     $status = $donor_data['statusText'];

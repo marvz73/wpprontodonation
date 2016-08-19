@@ -26,44 +26,113 @@
  * practising this, we should strive to set a better example in our own work.
  */
 
+jQuery(document).ready(function($){
 
-
-
-
-
-jQuery(function(){
-
-	jQuery('.pd-level-amount').on('change', function(){
-		if(jQuery(this).val() == '0')
+	$('.pd-level-amount').on('change', function(){
+		if($(this).val() == '0')
 		{
-			jQuery('#pd_custom_amount').removeAttr('disabled', 'disabled');
+			$('#pd_custom_amount').removeAttr('disabled', 'disabled');
 		}
 		else
 		{
-			jQuery('#pd_custom_amount').val('').attr('disabled', 'disabled');
+			$('#pd_custom_amount').val('').attr('disabled', 'disabled');
 		}
 	});
 	
-	jQuery('#donorType').on('change', function(){
-		var companyName = jQuery('#companyName');
-		if(jQuery(this).val() == 'I')
+	$('#donorType').on('change', function(){
+		var companyName = $('#companyName');
+		if($(this).val() == 'I')
 		{
 			companyName.attr('disabled', 'disabled');
-		}else if(jQuery(this).val() == 'B'){
+		}else if($(this).val() == 'B'){
 			companyName.removeAttr('disabled');
 		}else{
 			companyName.attr('disabled', 'disabled');
 		}
 	});
 
-	jQuery('#donation_gift').on('change', function(){
+	$('#donation_gift').on('change', function(){
 		var self = this;
-		var message = jQuery('#gift_message');
-		if(jQuery(self).is(':checked')){
+		var message = $('#gift_message');
+		if($(self).is(':checked')){
 			message.show();
 		}else{
 			message.hide();
 		}
 	})
 
-});
+
+	$('.pronto-donation-form').attr('novalidate', '');
+	$('.pronto-donation-form').submit(function(e){
+ 	
+		$('.form-error').remove();
+
+		var formData = $('.pronto-donation-form').serializeArray();
+		for(var i = 0; i < formData.length; i++ ) {
+
+			if( formData[i].name == 'comment' ) {
+				if( $('textarea[name='+ formData[i].name +']').prop('required') == true 
+					&& ( formData[i].value == null || formData[i].value == '' ) ) {
+
+					$('textarea[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Comment is required.</small>');
+					$('.ezi-lazy-loading').hide();
+					$('textarea[name='+ formData[i].name +']').focus();
+					return false;
+				}
+
+			} else {
+				if( $('input[name='+ formData[i].name +']').prop('required') == true 
+					&& ( formData[i].value == null || formData[i].value == '' ) ) {
+
+					if( formData[i].name == 'email' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Email is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					} else if( formData[i].name == 'first_name' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> First Name is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					} else if( formData[i].name == 'last_name' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Last Name is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					} else if( formData[i].name == 'phone' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Phone is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					} else if( formData[i].name == 'address' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Address is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					} else if( formData[i].name == 'country' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Country is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					} else if( formData[i].name == 'post_code' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Post Code is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					} else if( formData[i].name == 'suburb' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Suburb is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					} else if( formData[i].name == 'state' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> State is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					}
+				}
+			}
+		}
+	})
+
+})

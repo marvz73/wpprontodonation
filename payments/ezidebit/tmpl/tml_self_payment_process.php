@@ -19,14 +19,15 @@
 		font-size: 13px;
 		color: #de5b5b;
 	}
+
+	.self-payment-style {
+		display: none;
+	}
 	.ezidebit-error {
 		font-size: 13px;
 		color: #de5b5b;
 		font-weight: bold;
 		margin-top: 10px;
-	}
-	.self-payment-style {
-		display: none;
 	}
 </style>
 
@@ -131,15 +132,15 @@
 		function process_payment_ezidebit(e) {
 			e.preventDefault();
 			if(e.originalEvent !== undefined) {
-				// console.log('rebinding')
+
 				$('#payNowButton').removeAttr('onclick');
 				$('.ezi-lazy-loading').show();
 				$('.self-payment-msg').empty();
 				$('.ezidebit-error').remove();
+				$('.form-error').remove();
 
 				var card_details = [];
 				var cptcha_response = '';
-
 				var formData = $('.pronto-donation-form').serializeArray();
 
 				for(var i = 0; i < formData.length; i++ ) {
@@ -148,7 +149,7 @@
 						if( $('textarea[name='+ formData[i].name +']').prop('required') == true 
 							&& ( formData[i].value == null || formData[i].value == '' ) ) {
 
-							$('textarea[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Comment is required.</p>');
+							$('textarea[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Comment is required.</small>');
 							$('.ezi-lazy-loading').hide();
 							$('textarea[name='+ formData[i].name +']').focus();
 							return;
@@ -159,47 +160,47 @@
 							&& ( formData[i].value == null || formData[i].value == '' ) ) {
 
 							if( formData[i].name == 'email' ) {
-								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Email is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Email is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'first_name' ) {
-								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> First Name is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> First Name is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'last_name' ) {
-								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Last Name is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Last Name is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'phone' ) {
-								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Phone is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Phone is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'address' ) {
-								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Address is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Address is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'country' ) {
-								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Country is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Country is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'post_code' ) {
-								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Post Code is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Post Code is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'suburb' ) {
-								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> Suburb is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Suburb is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
 								return;
 							} else if( formData[i].name == 'state' ) {
-								$('input[name='+ formData[i].name +']').after('<p class="ezidebit-error"> State is required.</p>');
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> State is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
 								return;
@@ -217,13 +218,14 @@
 				});
 				cptcha_response = captcha_response;
 
+
 			 	// verify_captcha
 				$.ajax({
 					type: 'POST',
 					url:  ajax_frontend.ajax_url,
 					data: { 'action':'verify_captcha', 'cptcha_response' : cptcha_response },
 					success: function(response) {
-						//console.log( response )
+ 
 						$('.self-payment-msg').empty();
 
 						if( response.success === false && captcha_enable == 1 ) {
@@ -234,6 +236,7 @@
 							your_a_robot++;
 							grecaptcha.reset(captcha_id);
 							cptcha_response = '';
+
 						} else if( response.data.success == false && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
@@ -244,11 +247,11 @@
 							cptcha_response = '';
 
 						} else if( response.success == true || captcha_enable == 0 ) {
-							// console.log('executed')
+ 
 							// this function will be the success callback for ezidebit client side
 							your_a_robot = 0;
 							var displaySubmitCallback = function(data) {
-								// console.log('EZI success', data)
+ 
 								setTimeout(function(){
 									if(your_a_robot == 0) {
 
@@ -259,20 +262,28 @@
 										$.ajax({
 											type: 'POST',
 											url:  ajax_frontend.ajax_url,
-											data: { 'action':'self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data },
+											data: { 'action':'ezi_self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data },
 											success: function(response){
-												// console.log( response )
+
+												// console.log(response)
+												// console.log(data)
+
+												var additional_url = '';
+
+												for(var k in data) {
+													additional_url += '&'+ k + '=' + data[k];
+												}
 
 												if( response.success ) {
-													window.location.href = response.data.redirect_url;
+													window.location.href = response.data.redirect_url + $.trim(additional_url) + '&DonationMetaID=' + response.data.donation_meta_id;
 												}
 												your_a_robot = 0;
 											},
 											error: function(xhr, textStatus, errorThrown) {
-												// console.log('process error', textStatus)
 
 												$('.self-payment-msg').append('<p class="ezidebit-error"> Something went wrong, Please try again </p>');
 												$('.ezi-lazy-loading').hide();
+												return;
 											}
 										});
 									}
@@ -281,7 +292,7 @@
 
 							// this function will be the error callback for ezidebit client side
 						 	var displaySubmitError = function (data) {
-							//	console.log("ezi error", data)
+ 
 								setTimeout(function(){
 									if(your_a_robot == 0) {
 										if(data == 'An error has occurred attempting to contact the API. Please contact Ezidebit support.') {
@@ -291,6 +302,7 @@
 										$('.ezi-lazy-loading').hide();
 								 		grecaptcha.reset(captcha_id);
 								 		cptcha_response = '';
+								 		return;
 									}
 								}, 3000);
 							};
@@ -315,10 +327,10 @@
 						}
 					},
 					error: function(xhr, textStatus, errorThrown) {
-		 				// console.log("captcha error", textStatus)
 		 				
 		 				$('.self-payment-msg').append('<p class="ezidebit-error">Something went wrong, Please try again</p>');
 		 				$('.ezi-lazy-loading').hide();
+		 				return;
 			        }
 			    });
 			}
@@ -327,6 +339,7 @@
 		// the payment change event handler jquery
 		$('input[name=payment]').change(
 			function() {
+				
 				// when user select ezidebit
 				if( $(this).val() == 'Ezidebit' ) {
 					if( ajax_request_enable == 'on' ) {
@@ -335,14 +348,18 @@
 						$('.self-payment-style').show();
 						$('.g-recaptcha').hide();
 
-						if(captcha_enable == 1) {
-							var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
-								  'sitekey' : captchakey,  // required
-								  'callback' : verifyCallback,
-								  'theme' : 'light'
-							});
-							captcha_id = captchaWidgetId;
-						}
+						setTimeout(function(){
+
+							if(captcha_enable == 1) {
+								var captchaWidgetId = grecaptcha.render( 'client-side-recaptcha', {
+									  'sitekey' : captchakey,  // required
+									  'callback' : verifyCallback,
+									  'theme' : 'light'
+								});
+								captcha_id = captchaWidgetId;
+							}
+
+						}, 1000);
 
 					 	var selected_donation_amount = $('input[name=pd_amount]:checked').val();
 						$('#amount').val( selected_donation_amount );
@@ -359,14 +376,16 @@
 	 				$('.self-payment-msg').empty();
 	 				$('.g-recaptcha').show();
 	 				$('.ezidebit-error').remove();
+	 				$('.form-error').remove();
 
-	 				$('#payNowButton').removeAttr('disabled');
 	 				$('#payNowButton').unbind('click', process_payment_ezidebit);
+	 				$('#payNowButton').removeAttr('onclick');
+	 				$('.self-payment-msg').empty();
 	 			}
 			}
 		)
  		
-		setTimeout(function(){
+		setTimeout(function() {
 			if( $('input[name=payment]').length == 1 ) {
 				$('input[name=payment]').trigger('change');
 			}
