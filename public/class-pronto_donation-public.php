@@ -187,27 +187,18 @@ class Pronto_donation_Public {
 
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
 
+	    		$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
 
-	    		$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
+	    		$campaign_data['CancelUrl']   = get_home_url() . '/?p=' . $this->campaignOption->CancelPageMessagePage. '&payment_status=C&ref=' . $post_meta_id;
 
-	    		if(isset($payment_option_eway['enable_self_payment']) &&$payment_option_eway['enable_self_payment']=='on'&&$campaign_data['payment']=='eWay'){
+	    		$campaign_data['post_meta_id'] = $post_meta_id;
 
-	    			$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
-	    			$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
-	    			// Call the payment function to execute payment action
-	    			$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor',$campaign_data);
-	    			$campaign_data['post_meta_id'] = $post_meta_id;
-					$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data);
+	    		// Call the payment function to execute payment action
+	    		$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data);
 
-	    		}else{
-	    			$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
-		    		$campaign_data['CancelUrl']   = get_home_url() . '/?p=' . $this->campaignOption->CancelPageMessagePage. '&payment_status=C&ref=' . $post_meta_id;
-	  				
-	  				$campaign_data['post_meta_id'] = $post_meta_id;
-	  				// Call the payment function to execute payment action
-					$campaign_data['payment_info']->payment_process($campaign_data,'');
+	    		$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
+	    		$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
 
-	    		}
 	    	}
 	    }
 	    else
@@ -233,33 +224,30 @@ class Pronto_donation_Public {
 		global $wpdb;
 		global $post;
 
-  		
+  		$SP_Eway = (isset($_GET['SP_Eway'])) ? $_GET['SP_Eway'] : '';
 		if (isset($_GET['payment_gateway']) && get_the_ID() == get_option('pronto_donation_settings')['ThankYouPageMessagePage'])
 		{
-   			if(isset($_GET['SP_Status'])){
+
+			$payment_methods = $this->class->pronto_donation_payment_methods();
 
 
-   			}else{
-				$payment_methods = $this->class->pronto_donation_payment_methods();
+    		foreach($payment_methods as $index=>$payment)
+    		{
+    			
+    			if(strtolower($_GET['payment_gateway']) == strtolower($payment->payment['payment_name']))
+    			{
+
+    				//call payment process complete
+    				$payment->payment_complete($_GET, $this->class,$SP_Eway);
+
+					// SALESFORCE LOGIC SYNC HERE...
+					// SALESFORCE LOGIC SYNC HERE...
+					// SALESFORCE LOGIC SYNC HERE...
 
 
-	    		foreach($payment_methods as $index=>$payment)
-	    		{
-	    			
-	    			if(strtolower($_GET['payment_gateway']) == strtolower($payment->payment['payment_name']))
-	    			{
-
-	    				//call payment process complete
-	    				$payment->payment_complete($_GET, $this->class);
-
-						// SALESFORCE LOGIC SYNC HERE...
-						// SALESFORCE LOGIC SYNC HERE...
-						// SALESFORCE LOGIC SYNC HERE...
-
-
-	    			}
-	    		}
-   			}
+    			}
+    		}
+   			
 
 		} //Cancel Transaction
 		else if (isset($_GET['ref']) && $_GET['payment_status'] == 'C' && get_the_ID() == get_option('pronto_donation_settings')['CancelPageMessagePage'])

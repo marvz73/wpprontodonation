@@ -177,7 +177,7 @@ class eway{
 		        //     $lblError .= $error . "<br />\n";;
 		        // }
 		    } else {
-		    	$result->SharedPaymentUrl = $ppd['redirectURL'].'&SP_Status=S';
+		    	$result->SharedPaymentUrl = $ppd['redirectURL'].'&SP_Eway='.(string)$ppd['post_meta_id'];
 		    	//echo "Success";
 
 		    	
@@ -224,7 +224,7 @@ class eway{
 	}
 
 	// Payment process complete
-	public function payment_complete($response, $class){
+	public function payment_complete($response, $class, $SP_Eway){
 		global $wpdb;
 		
 		if(empty($response)){
@@ -239,43 +239,55 @@ class eway{
 		$eway_params = array();
 		if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;
 		$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);
+
 		// Query the transaction result.
-		$response = $service->TransactionQuery($response['AccessCode']);
-		$transactionsResponse = $response->Transactions[0];
-		$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
-		$campaign = maybe_unserialize($donor[0]->meta_value);
+		if(isset($response['AccessCode'])){
+			$response = $service->TransactionQuery($response['AccessCode']);
+			$transactionsResponse = $response->Transactions[0];
+			$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
+
+			$campaign = maybe_unserialize($donor[0]->meta_value);
 
 
-		if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign))
-		{
-			$payment_response = array(
-				'AuthorisationCode'		=> $transactionsResponse->AuthorisationCode,
-				'ResponseCode'			=> $transactionsResponse->ResponseCode,
-				'ResponseMessage'		=> $transactionsResponse->ResponseMessage,
-				'InvoiceNumber'			=> $transactionsResponse->InvoiceNumber,
-				'InvoiceReference'		=> $transactionsResponse->InvoiceReference,
-				'TotalAmount'			=> $transactionsResponse->TotalAmount,
-				'TransactionID'			=> $transactionsResponse->TransactionID,
-				'TransactionStatus'		=> $transactionsResponse->TransactionStatus,
-				'TokenCustomerID'		=> $transactionsResponse->TokenCustomerID
-			);
+			if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign))
+			{
+				$payment_response = array(
+					'AuthorisationCode'		=> $transactionsResponse->AuthorisationCode,
+					'ResponseCode'			=> $transactionsResponse->ResponseCode,
+					'ResponseMessage'		=> $transactionsResponse->ResponseMessage,
+					'InvoiceNumber'			=> $transactionsResponse->InvoiceNumber,
+					'InvoiceReference'		=> $transactionsResponse->InvoiceReference,
+					'TotalAmount'			=> $transactionsResponse->TotalAmount,
+					'TransactionID'			=> $transactionsResponse->TransactionID,
+					'TransactionStatus'		=> $transactionsResponse->TransactionStatus,
+					'TokenCustomerID'		=> $transactionsResponse->TokenCustomerID
+				);
 
-			$campaign['payment_response'] = $payment_response;
+				$campaign['payment_response'] = $payment_response;
 
-			//Approve status code
-			$ApproveTransaction = array('A2000', 'A2008', 'A2010', 'A2011', 'A2016');
-			if(in_array($transactionsResponse->ResponseMessage, $ApproveTransaction)){
-				$campaign['statusCode'] = 1;
-			}else{
-				$campaign['statusCode'] = 0;
+				//Approve status code
+				$ApproveTransaction = array('A2000', 'A2008', 'A2010', 'A2011', 'A2016');
+				if(in_array($transactionsResponse->ResponseMessage, $ApproveTransaction)){
+					$campaign['statusCode'] = 1;
+				}else{
+					$campaign['statusCode'] = 0;
+				}
+
+				$campaign['statusText'] = esc_html($service->getMessage($transactionsResponse->ResponseMessage));
+				
+				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
+
+				$class->pronto_donation_user_notification($campaign);
 			}
 
-			$campaign['statusText'] = esc_html($service->getMessage($transactionsResponse->ResponseMessage));
-			
-			$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
+		}else{
+			$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $SP_Eway);
 
+			$campaign = maybe_unserialize($donor[0]->meta_value);
 			$class->pronto_donation_user_notification($campaign);
 		}
+		
+		
 
 		
 		
