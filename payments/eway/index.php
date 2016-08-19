@@ -278,11 +278,12 @@ class eway{
 				$class->pronto_donation_user_notification($campaign);
 
 			}else{
-
+				//------------------- Eway Self Payment -----------------------------//
 				$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $SP_Eway);
 
 				$campaign = maybe_unserialize($donor[0]->meta_value);
 				$class->pronto_donation_user_notification($campaign);
+				//------------------- Eway Self Payment -----------------------------//
 
 			}
 		}
