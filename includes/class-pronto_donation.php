@@ -83,9 +83,6 @@ class Pronto_donation {
 		$sForce = new salesforceSOAP();
 		$this->salesforceAPI = $sForce->salesforce;
 
-
-		$this->salesforce();
-
 	}
 
 	/**
@@ -277,28 +274,52 @@ class Pronto_donation {
 
 	//----------------------------------------------------------------
 
-	public function salesforce(){
-		
-		// if(!isset($this->salesforceAPI->error))
-		// {
-		// 	// $query = 'services/apexrest/donation/';
-		// 	// $response = $this->salesforceAPI->query($query);
-		// }
+	public function set_salesforceDonation($campaign){
 
-		$data = array(
-			'strDonation' => array(
-					"FirstName" 		=>	 "Test 2",
-					"LastName"  		=>	 "Test 2",
-					"Amount"     		=>	 130,
-					"donationType" 		=>	 "one",
-					"PaymentSource" 	=>	 null
-				)
+		$data = array();
+
+		if($campaign['donation_type'] == 'recurring'){
+			//---------------MONTHLY---------------
+			$data = array(
+				'strDonation' => array(
+						"FirstName" 		=>	 $campaign['first_name'],
+						"LastName"  		=>	 $campaign['last_name'],
+						"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
+						"GatewayId" 		=>	 $campaign['donation_gau'],
+						"donationType" 		=>	 "monthly",
+						"PaymentSource" 	=>	 array(
+						            "ccname" 	=>	 "alegarme clifton",
+						            "ccno" 		=>	 "4987654321098769",
+						            "expmonth" 	=>	 "05",
+						            "expyear" 	=>	 "2017",
+						            "ccv" 		=>	 "123",
+						            "type" 		=>	 "cc"
+							)
+					)
+				);
+		}else{
+			$data = array(
+				'strDonation' => array(
+						"FirstName" 		=>	 $campaign['first_name'],
+						"LastName"  		=>	 $campaign['last_name'],
+						"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
+						"donationType" 		=>	 "one",
+						"PaymentSource" 	=>	 null
+					)
 			);
+		}
 
+		if(isset($data['strDonation'])){
+			$opportunity = $this->salesforceAPI->restAPI('donation', $data, 'create');
+			return $opportunity['oppResult']->Id;
+		}else{
+			return array('error'=>1,'message'=>'strDonation is empty.');
+		}
+	}
 
+	public function get_salesforceGAU(){
 
-		// print_r($this->salesforceAPI->restAPI('gau', $data));
-
+		return $this->salesforceAPI->restAPI('gau');
 
 	}
 

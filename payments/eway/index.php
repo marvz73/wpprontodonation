@@ -76,7 +76,7 @@ class eway{
 
 	}
 
-	public function payment_process($ppd = array(),$campaign_data = array()){
+	public function payment_process($ppd = array(),$campaign_data = array(), $class){
 		global $wpdb;
 		$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
 		$enable_self_payment_value =  (isset($payment_option_eway['enable_self_payment'])) ? $payment_option_eway['enable_self_payment'] : '';
@@ -178,10 +178,9 @@ class eway{
 		        // }
 		    } else {
 		    	$result->SharedPaymentUrl = $ppd['redirectURL'].'&SP_Eway='.(string)$ppd['post_meta_id'];
-		    	//echo "Success";
 
-		    	
 		    	$campaign_data['statusCode'] = 1;
+
 	    		$campaign_data['statusText'] = 'Transaction Approved';
 	    		$card_details = array(
 					'cardNumber'			=> $ppd['eway_card_number'],
@@ -203,9 +202,10 @@ class eway{
 				);
 	    		$campaign_data['card_details'] = $card_details;
 				$campaign_data['payment_response'] = $payment_response;
-				// echo "<pre>";
-				// print_r($ppd);
-				// die();
+				
+				$oppoId = $class->set_salesforceDonation($campaign_data);
+
+				$campaign_data['opportunityId'] = $oppoId;
 			
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign_data))."' WHERE meta_id = " .$ppd['post_meta_id']);
 
@@ -241,13 +241,13 @@ class eway{
 		$service = new eWAY\RapidAPI($EwayAPIKey, $EwayAPIPassword , $eway_params);
 
 		// Query the transaction result.
+
 		if(isset($response['AccessCode'])){
 			$response = $service->TransactionQuery($response['AccessCode']);
 			$transactionsResponse = $response->Transactions[0];
 			$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
 
 			$campaign = maybe_unserialize($donor[0]->meta_value);
-
 
 			if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign))
 			{
@@ -269,6 +269,9 @@ class eway{
 				$ApproveTransaction = array('A2000', 'A2008', 'A2010', 'A2011', 'A2016');
 				if(in_array($transactionsResponse->ResponseMessage, $ApproveTransaction)){
 					$campaign['statusCode'] = 1;
+					$oppoId = $class->set_salesforceDonation($campaign);
+					$campaign['opportunityId'] = $oppoId;
+				//--
 				}else{
 					$campaign['statusCode'] = 0;
 				}
@@ -278,17 +281,16 @@ class eway{
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($transactionsResponse->InvoiceReference));
 
 				$class->pronto_donation_user_notification($campaign);
+
+			}else{
+
+				$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $SP_Eway);
+
+				$campaign = maybe_unserialize($donor[0]->meta_value);
+				$class->pronto_donation_user_notification($campaign);
+
 			}
-
-		}else{
-			$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $SP_Eway);
-
-			$campaign = maybe_unserialize($donor[0]->meta_value);
-			$class->pronto_donation_user_notification($campaign);
 		}
-		
-		
-
 		
 		
 	}
