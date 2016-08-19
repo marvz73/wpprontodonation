@@ -143,11 +143,17 @@ class eway{
 			$request->Method = 'ProcessPayment';
 			$request->TransactionType = 'Purchase';
 
-			$request->Customer->CardDetails->Name = $ppd['eway_name_on_card'];
-		    $request->Customer->CardDetails->Number = $ppd['eway_card_number'];
-		    $request->Customer->CardDetails->ExpiryMonth = $ppd['eway_expiry_month'];
-		    $request->Customer->CardDetails->ExpiryYear = $ppd['eway_expiry_year'];
-		    $request->Customer->CardDetails->CVN = $ppd['eway_ccv'];
+
+			$eway_name_on_card_value =  (isset($ppd['eway_name_on_card'])) ? $ppd['eway_name_on_card'] : '';
+			$request->Customer->CardDetails->Name = $eway_name_on_card_value;
+			$eway_card_number_value =  (isset($ppd['eway_card_number'])) ? $ppd['eway_card_number'] : '';
+		    $request->Customer->CardDetails->Number = $eway_card_number_value;
+		    $eway_expiry_month_value =  (isset($ppd['eway_expiry_month'])) ? $ppd['eway_expiry_month'] : '';
+		    $request->Customer->CardDetails->ExpiryMonth = $eway_expiry_month_value;
+		    $eway_expiry_year_value =  (isset($ppd['eway_expiry_year'])) ? $ppd['eway_expiry_year'] : '';
+		    $request->Customer->CardDetails->ExpiryYear = $eway_expiry_year_value;
+		    $eway_ccv_value =  (isset($ppd['eway_ccv'])) ? $ppd['eway_ccv'] : '';
+		    $request->Customer->CardDetails->CVN = $eway_ccv_value ;
 
 			$eway_params = array();
 			if ($EwaySanboxMode=='on') $eway_params['sandbox'] = true;

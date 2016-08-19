@@ -3,7 +3,16 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
-
+/*Eway error alert box*/
+.eway_alert {
+    border: 1px;
+    padding-left: 5px;
+    border-color: #d14836;
+    color: #d14836;
+    margin-bottom: 15px;
+    border-style: solid;
+    border-radius: 5px;
+}
 @media(max-width: 300px){
     #currency input[type=number] {
 	    padding-left: 23% !important;
