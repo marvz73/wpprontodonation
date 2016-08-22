@@ -373,6 +373,7 @@ class SforceBaseClient {
 
 	public function setSessionHeader($id) {
 		if ($id != NULL) {
+
 			$this->sessionHeader = new SoapHeader($this->namespace, 'SessionHeader', array (
 			 'sessionId' => $id
 			));

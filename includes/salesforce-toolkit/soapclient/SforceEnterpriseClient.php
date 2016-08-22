@@ -35,10 +35,10 @@ require_once ('SforceBaseClient.php');
  *
  * @package SalesforceSoapClient
  */
-class SforceEnterpriseClient extends SforceBaseClient {
+class ProntoSforceEnterpriseClient extends SforceBaseClient {
   const ENTERPRISE_NAMESPACE = 'urn:enterprise.soap.sforce.com';
 
-  function SforceEnterpriseClient() {
+  function ProntoSforceEnterpriseClient() {
     $this->namespace = self::ENTERPRISE_NAMESPACE;
   }
 
