@@ -49,7 +49,7 @@ class salesforceSOAP{
     try{
 
       if(!empty($instanceType) && $instanceType == "ENTERPRICE"){
-        $instanceClass  = new SforceEnterpriseClient();
+        $instanceClass  = new ProntoSforceEnterpriseClient();
         $instanceClass->createConnection(dirname(dirname(__FILE__)).'/salesforce-toolkit/soapclient/enterprise.wsdl.xml');
       }else{
         $instanceClass  = new SforcePartnerClient();
