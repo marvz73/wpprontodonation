@@ -977,8 +977,16 @@ class SforceBaseClient {
 		$response = json_decode($json_response);
 
 		if($status != 200) {
-			foreach($response[0] as $key=>$item){
-				$result[$key] = $item;
+			if(is_object($response))
+			{
+				foreach($response as $key=>$item){
+					$result[$key] = $item;
+				}
+			}
+			else{
+				foreach($response[0] as $key=>$item){
+					$result[$key] = $item;
+				}
 			}
 		}else{
 			foreach($response as $key=>$item){

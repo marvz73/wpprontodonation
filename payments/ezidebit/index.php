@@ -147,10 +147,20 @@ class ezidebit{
 
 				if(in_array($response['ResultCode'], $ApproveTransaction)){
 					$campaign['statusCode'] = 1;
+
+					//Salesforce sync response
 					$opportunity = $class->set_salesforceDonation($campaign);
 					if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
-						$campaign['opportunityId'] = $opportunity['oppResult']->Id;
+						if(isset($opportunity['oppResult']) && $opportunity['oppResult'] != ''){
+							$campaign['opportunityId'] = $opportunity['oppResult']->Id;
+						}
+						else{
+							$campaign['opportunityId'] = $opportunity['recResult']->Id;
+						}
+						$campaign['opportunityMessage'] = $opportunity['message'];
+						$campaign['opportunityStatus'] = $opportunity['status_code'];
 					}
+
 				}else{
 					$campaign['statusCode'] = 0;
 				}

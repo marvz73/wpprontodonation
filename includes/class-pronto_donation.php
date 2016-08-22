@@ -288,6 +288,7 @@ class Pronto_donation {
 					//---------------MONTHLY---------------
 					$data = array(
 						'strDonation' => array(
+								"emailReceipt"		=> 	 true,
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
@@ -308,6 +309,7 @@ class Pronto_donation {
 
 					$data = array(
 						'strDonation' => array(
+								"emailReceipt"		=> 	 true,
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
@@ -323,11 +325,8 @@ class Pronto_donation {
 				}
 
 				if(isset($data['strDonation'])){
-
 					$opportunity = $this->salesforceAPI->restAPI('donation', $data, 'create');
-					
 					return $opportunity;
-
 				}else{
 					return array('error'=>1,'message'=>'strDonation is empty.');
 				}

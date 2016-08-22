@@ -209,11 +209,22 @@ class eway{
 	    		$campaign_data['card_details'] = $card_details;
 				$campaign_data['payment_response'] = $payment_response;
 				
+				//Salesforce sync response
 				$opportunity = $class->set_salesforceDonation($campaign_data);
+
 				if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
-					$campaign_data['opportunityId'] = $opportunity['oppResult']->Id;
+					if(isset($opportunity['oppResult']) && $opportunity['oppResult'] != ''){
+						$campaign_data['opportunityId'] = $opportunity['oppResult']->Id;
+					}
+					else{
+						$campaign_data['opportunityId'] = $opportunity['recResult']->Id;
+					}
+					$campaign_data['opportunityMessage'] = $opportunity['message'];
+					$campaign_data['opportunityStatus'] = $opportunity['status_code'];
 				}
 				
+		
+
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign_data))."' WHERE meta_id = " .$ppd['post_meta_id']);
 
 		        require_once('tmpl/tmpl_payment_process.php');       
@@ -275,10 +286,20 @@ class eway{
 				$ApproveTransaction = array('A2000', 'A2008', 'A2010', 'A2011', 'A2016');
 				if(in_array($transactionsResponse->ResponseMessage, $ApproveTransaction)){
 					$campaign['statusCode'] = 1;
+					
+					//Salesforce sync response
 					$opportunity = $class->set_salesforceDonation($campaign);
 					if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
-						$campaign['opportunityId'] = $opportunity['oppResult']->Id;
+						if(isset($opportunity['oppResult']) && $opportunity['oppResult'] != ''){
+							$campaign['opportunityId'] = $opportunity['oppResult']->Id;
+						}
+						else{
+							$campaign['opportunityId'] = $opportunity['recResult']->Id;
+						}
+						$campaign['opportunityMessage'] = $opportunity['message'];
+						$campaign['opportunityStatus'] = $opportunity['status_code'];
 					}
+
 				//--
 				}else{
 					$campaign['statusCode'] = 0;
