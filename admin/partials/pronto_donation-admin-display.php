@@ -937,7 +937,7 @@ if ( isset($_GET['page']) ) {
         <?php if( is_plugin_active( 'alo-easymail/alo-easymail.php' ) ) : ?>
             <table class="form-table">
             	<tr>
-            		<th scope="row"><label for="newsletter_lead">Newsletter sign-up request on SF Lead</label></th>
+            		<th scope="row"><label for="newsletter_lead">Save to salesforce Lead</label></th>
             		<td>
             			<input name="newsletter_lead" type="checkbox" id="newsletter_lead" value="1" <?php if($newsletter_lead==1){echo'checked';}?>>
             		</td>
