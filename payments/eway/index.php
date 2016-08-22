@@ -328,7 +328,7 @@ class eway{
 					// create a lead record if Newsletter sign-up request on SF Lead
 					if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 						$sf_data = array();
-						$query = 'Select count() FROM Lead WHERE email = '. $campaign['email'];
+						$query = "Select count() FROM Lead WHERE email = '". $campaign['email'] ."'";
 						if( $class->sf_get_record( $query ) == 0 ) {
 							$user_data = array(
 								'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
@@ -368,7 +368,7 @@ class eway{
 					// create a lead record if Newsletter sign-up request on SF Lead
 					if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 						$sf_data = array();
-						$query = 'Select count() FROM Lead WHERE email = '. $campaign['email'];
+						$query = "Select count() FROM Lead WHERE email = '". $campaign['email'] ."'";
 						if( $class->sf_get_record( $query ) == 0 ) {
 							$user_data = array(
 								'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
