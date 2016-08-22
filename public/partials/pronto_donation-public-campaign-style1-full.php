@@ -159,13 +159,6 @@
 
 			<?php endif; ?>
 
-			<?php if($pronto_donation_user_info['user_email_option'] != 'hide'): ?>
-			<div class="pronto-donation-group clearfix">
-				<label>Email</label>
-				<input name="email" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'email') ?>" type="email" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_email_option']) ?>/>
-			</div>
-			<?php endif; ?>
-
 
 
 
@@ -189,6 +182,16 @@
 
 
 
+			<?php if($pronto_donation_user_info['user_email_option'] != 'hide'): ?>
+			<div class="pronto-donation-group clearfix">
+				<label>Email</label>
+				<input name="email" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'email') ?>" type="email" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_email_option']) ?>/>
+			</div>
+			<?php endif; ?>
+
+
+
+
 			<?php if($pronto_donation_user_info['user_phone_option'] != 'hide'): ?>
 			<div class="pronto-donation-group clearfix">
 				<label>Phone</label>
@@ -200,7 +203,7 @@
 
 			<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
 				<div class="pronto-donation-group clearfix">
-					<label>Address</label>
+					<label>Street Address</label>
 					<input type="text" id="<?php if($enable_address_validation==1){ echo 'autocomplete';}else{}?>" name="address" placeholder=""
 		             onFocus="" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
 					<span id="adress_validation" class="invalid-address"></span>
@@ -225,13 +228,18 @@
 		    <!-- Addittional Autocomplete Values on Field ( Hidden )-->
 
 
-			<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
+
+		    <?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
 			<div class="pronto-donation-group clearfix">
-				<label>Country</label>
-				<input type="text" id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>/>
-				<span id="country_validation"></span>
+				<label>Suburb</label>
+				<input id="locality" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
+				<span id="suburb_validation"></span>
 			</div>
+
+			<?php elseif($pronto_donation_user_info['user_suburb_option'] == 'hide'): ?>
+			<input id="locality" hidden/>
 			<?php endif; ?>
+
 
 
 
@@ -251,7 +259,7 @@
 
 			<?php if($pronto_donation_user_info['user_postcode_option'] != 'hide'): ?>
 			<div class="pronto-donation-group clearfix">
-				<label>Post Code</label>
+				<label>Postcode</label>
 				<input id="postal_code" name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
 			</div>
 
@@ -261,17 +269,16 @@
 
 
 
-
-			<?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
+			<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
 			<div class="pronto-donation-group clearfix">
-				<label>Suburb</label>
-				<input id="locality" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
-				<span id="suburb_validation"></span>
+				<label>Country</label>
+				<input type="text" id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>/>
+				<span id="country_validation"></span>
 			</div>
-
-			<?php elseif($pronto_donation_user_info['user_suburb_option'] == 'hide'): ?>
-			<input id="locality" hidden/>
 			<?php endif; ?>
+
+
+
 
 			<?php if( isset($pronto_donation_user_info['user_comment_option']) && $pronto_donation_user_info['user_comment_option'] != 'hide'): ?>
 
