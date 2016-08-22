@@ -84,12 +84,12 @@ class salesforceSOAP{
      *  This will load the enterprise client class
      */
 
-    require_once ( dirname(dirname(__FILE__)) . '/salesforce-toolkit/soapclient/SforceEnterpriseClient.php');
+    include_once ( dirname(dirname(__FILE__)) . '/salesforce-toolkit/soapclient/SforceEnterpriseClient.php');
     
     /**
      *  This will load the partner client class
      */
-    require_once (dirname(dirname(__FILE__)) . '/salesforce-toolkit/soapclient/SforcePartnerClient.php');  
+    include_once (dirname(dirname(__FILE__)) . '/salesforce-toolkit/soapclient/SforcePartnerClient.php');  
 
   }
 

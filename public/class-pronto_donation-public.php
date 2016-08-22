@@ -65,6 +65,7 @@ class Pronto_donation_Public {
 		$this->errors = new stdClass();
 		$this->base = __DIR__ . '/../payments/';
 		$this->campaignOption = $this->_array_to_object(get_option('pronto_donation_settings'));
+	
 	}
 
 	/**
