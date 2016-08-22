@@ -272,17 +272,13 @@
 				</div>
 				
 				<div class="pd-col s12">
-
 					<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
-
 					<div class="pronto-donation-group">
-
 						<input placeholder="Country" type="text" id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>/>
 						<span id="country_validation"></span>
 					</div>
 					<?php endif; ?>
 				</div>
-
 
 				<div class="pd-col s12">
 					<?php if( isset($pronto_donation_user_info['user_comment_option']) && $pronto_donation_user_info['user_comment_option'] != 'hide'): ?>

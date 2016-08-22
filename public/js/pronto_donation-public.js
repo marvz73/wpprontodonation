@@ -27,6 +27,14 @@
  */
 
 jQuery(document).ready(function($){
+	if(jQuery('#pd_custom_amount').length ){
+		$('#pd_custom_amount').keypress(function(e) {
+		    if (e.which < 48 || e.which > 57) {
+		        //showAdvice(this, "Integer values only");
+		        return false;
+		    }
+		});
+	}
 
 	$('.pd-level-amount').on('change', function(){
 		if($(this).val() == '0')
