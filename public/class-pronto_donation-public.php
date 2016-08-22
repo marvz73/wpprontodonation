@@ -181,18 +181,25 @@ class Pronto_donation_Public {
 					'ccv'
 				);
 
+				$ezidebit_card_details = array(
+					'cardNumber',
+					'nameOnCard',
+					'expiryMonth',
+					'expiryYear',
+					'ccv'
+				);
+
+				// this will be the container of the donor card details 
+				$card_details = array();
+
 				$payment_details = array();
 
 				if( is_array( $_POST['data'] ) && sizeof( $_POST['data'] ) > 0 ) {
 					foreach ($_POST['data'] as $key => $data) {
-
 						if( !in_array($data['name'], $restricted ) ) {
-
 							$donation_data[$data['name']] = $data['value'];
-
 							if($data['name'] == 'payment') {
 								$payment_used = $data['value'];
-
 								foreach($payment_methods as $index=>$payment)
 								{
 									if(strtolower($payment_used) == strtolower($payment->payment['payment_name']))
@@ -201,6 +208,8 @@ class Pronto_donation_Public {
 									}
 								}
 							}
+						} else if( in_array($data['name'], $restricted ) && in_array( $data['name'], $ezidebit_card_details ) ) {
+							$card_details[$data['name']] = $data['value'];
 						}
 					}
 				}
