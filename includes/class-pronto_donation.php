@@ -293,7 +293,7 @@ class Pronto_donation {
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
 								"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
-								"GatewayId" 		=>	 $campaign['payment_info']->option['sf_gateway_id'],
+								"GatewayId" 		=>	 isset($campaign['payment_info']->option['sf_gateway_id']) ? $campaign['payment_info']->option['sf_gateway_id'] : '',
 								"donationType" 		=>	 "monthly",
 								"PaymentSource" 	=>	 array(
 								            "ccname" 	=>	 $campaign['card_details']['nameOnCard'],
