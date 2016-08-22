@@ -277,63 +277,61 @@ class Pronto_donation {
 	public function set_salesforceDonation($campaign){
 
     	$wpOptions = get_option('pronto_donation_settings', 0);
- if(isset($this->wpOptions->SalesforceUsername) && $this->wpOptions->SalesforceUsername != '' && isset( $this->wpOptions->SalesforcePassword) && $this->wpOptions->SalesforcePassword != '' && isset($this->wpOptions->SecurityToken) && $this->wpOptions->SecurityToken != ''){
-    	
+   
+	   if(isset($wpOptions['SalesforceUsername']) && $wpOptions['SalesforceUsername'] != '' &&
+	   	  isset($wpOptions['SalesforcePassword']) && $wpOptions['SalesforcePassword'] != '' &&
+	   	  isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
+	   		{
 
-   if(isset($wpOptions['SalesforceUsername']) && $wpOptions['SalesforceUsername'] != '' &&
-   	  isset($wpOptions['SalesforcePassword']) && $wpOptions['SalesforcePassword'] != '' &&
-   	  isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
-   		{
+				$data = array();	
+				if($campaign['donation_type'] == 'recurring'){
+					//---------------MONTHLY---------------
+					$data = array(
+						'strDonation' => array(
+								"FirstName" 		=>	 $campaign['first_name'],
+								"LastName"  		=>	 $campaign['last_name'],
+								"Email"  			=>	 $campaign['email'],
+								"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
+								"GatewayId" 		=>	 $campaign['payment_info']->option['sf_gateway_id'],
+								"donationType" 		=>	 "monthly",
+								"PaymentSource" 	=>	 array(
+								            "ccname" 	=>	 $campaign['card_details']['nameOnCard'],
+								            "ccno" 		=>	 $campaign['card_details']['cardNumber'],
+								            "expmonth" 	=>	 $campaign['card_details']['expiryMonth'],
+								            "expyear" 	=>	 $campaign['card_details']['expiryYear'],
+								            "ccv" 		=>	 $campaign['card_details']['ccv'],
+								            "type" 		=>	 "cc"
+									)
+							)
+						);
+				}else{
 
-			$data = array();	
-			if($campaign['donation_type'] == 'recurring'){
-				//---------------MONTHLY---------------
-				$data = array(
-					'strDonation' => array(
-							"FirstName" 		=>	 $campaign['first_name'],
-							"LastName"  		=>	 $campaign['last_name'],
-							"Email"  			=>	 $campaign['email'],
-							"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
-							"GatewayId" 		=>	 $campaign['payment_info']->option['sf_gateway_id'],
-							"donationType" 		=>	 "monthly",
-							"PaymentSource" 	=>	 array(
-							            "ccname" 	=>	 $campaign['card_details']['nameOnCard'],
-							            "ccno" 		=>	 $campaign['card_details']['cardNumber'],
-							            "expmonth" 	=>	 $campaign['card_details']['expiryMonth'],
-							            "expyear" 	=>	 $campaign['card_details']['expiryYear'],
-							            "ccv" 		=>	 $campaign['card_details']['ccv'],
-							            "type" 		=>	 "cc"
-								)
-						)
+					$data = array(
+						'strDonation' => array(
+								"FirstName" 		=>	 $campaign['first_name'],
+								"LastName"  		=>	 $campaign['last_name'],
+								"Email"  			=>	 $campaign['email'],
+								"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
+								"donationType" 		=>	 "one"
+							)
 					);
-			}else{
+				}
 
-				$data = array(
-					'strDonation' => array(
-							"FirstName" 		=>	 $campaign['first_name'],
-							"LastName"  		=>	 $campaign['last_name'],
-							"Email"  			=>	 $campaign['email'],
-							"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
-							"donationType" 		=>	 "one"
-						)
-				);
+				//Dont include this field if value is empty
+				if(isset($campaign['donation_gau']) && $campaign['donation_gau'] != ''){
+					$data['strDonation']['GAUAlloc'] = $campaign['donation_gau'];
+				}
+
+				if(isset($data['strDonation'])){
+
+					$opportunity = $this->salesforceAPI->restAPI('donation', $data, 'create');
+					
+					return $opportunity;
+
+				}else{
+					return array('error'=>1,'message'=>'strDonation is empty.');
+				}
 			}
-
-			//Dont include this field if value is empty
-			if(isset($campaign['donation_gau']) && $campaign['donation_gau'] != ''){
-				$data['strDonation']['GAUAlloc'] = $campaign['donation_gau'];
-			}
-
-			if(isset($data['strDonation'])){
-
-				$opportunity = $this->salesforceAPI->restAPI('donation', $data, 'create');
-				
-				return $opportunity;
-
-			}else{
-				return array('error'=>1,'message'=>'strDonation is empty.');
-			}
-		}
 	}
 
 	public function get_salesforceGAU(){
