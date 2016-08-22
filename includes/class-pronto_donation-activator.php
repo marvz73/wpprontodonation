@@ -263,7 +263,7 @@ class Pronto_donation_Activator {
 		$salesforce_username = (!isset($pronto_donation_settings['SalesforceUsername'])) ? "" : $pronto_donation_settings['SalesforceUsername'];
 		$salesforce_password = (!isset($pronto_donation_settings['SalesforcePassword'])) ? "" : $pronto_donation_settings['SalesforcePassword'];
 
-
+		$newsletter_lead = (!isset($pronto_donation_settings['NewsLetterLead'])) ? "" : $pronto_donation_settings['NewsLetterLead'];
 		$newsletter_option = (!isset($pronto_donation_settings['NewsLetterOption'])) ? "" : $pronto_donation_settings['NewsLetterOption'];
 		$newsletter_caption = (!isset($pronto_donation_settings['NewsLetterCaption'])) ? "" : $pronto_donation_settings['NewsLetterCaption'];
 
@@ -311,6 +311,7 @@ class Pronto_donation_Activator {
 			'SalesforceUsername' => stripslashes($salesforce_username),
 			'SalesforcePassword' => stripslashes($salesforce_password),
 
+			'NewsLetterLead' => stripslashes($newsletter_lead),
 			'NewsLetterOption' => stripslashes($newsletter_option),
 			'NewsLetterCaption' => stripslashes($newsletter_caption),
 
