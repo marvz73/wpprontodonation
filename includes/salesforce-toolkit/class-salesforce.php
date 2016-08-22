@@ -31,6 +31,7 @@ class salesforceSOAP{
     $this->load_dependencies();
 
     //Salesforce client init and authentication
+    if(isset($this->wpOptions->SalesforceUsername) && $this->wpOptions->SalesforceUsername != '' && isset( $this->wpOptions->SalesforcePassword) && $this->wpOptions->SalesforcePassword != '' && isset($this->wpOptions->SecurityToken) && $this->wpOptions->SecurityToken != '')
     $this->salesforce = $this->_initSalesforce(
       $this->wpOptions->SalesforceUsername, 
       $this->wpOptions->SalesforcePassword . $this->wpOptions->SecurityToken,
