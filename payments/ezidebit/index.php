@@ -188,7 +188,7 @@ class ezidebit{
 					if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 						$sf_data = array();
 						$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
-						$result = $class->sf_get_record( $query );
+						$result = new QueryResult( $this->class->sf_get_record( $query ) );
 
 						if( $result['size'] == 0 ) {
 							$user_data = array(
@@ -257,7 +257,7 @@ class ezidebit{
 				if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 					$sf_data = array();
 					$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
-					$result = $class->sf_get_record( $query );
+					$result = new QueryResult( $this->class->sf_get_record( $query ) );
 
 					if( $result['size'] == 0 ) {
 						$user_data = array(
