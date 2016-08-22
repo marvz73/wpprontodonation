@@ -339,7 +339,8 @@ class eway{
 						$class->sf_create_record( $sf_data, 'Lead' );
 					}
 				}
-			}else{
+			}
+		}else{
 				//------------------- Eway Self Payment -----------------------------//
 				$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . $SP_Eway);
 
@@ -378,7 +379,6 @@ class eway{
 				//------------------- Eway Self Payment -----------------------------//
 
 			}
-		}
 		
 		
 	}
