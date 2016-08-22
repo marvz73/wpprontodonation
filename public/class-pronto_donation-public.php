@@ -231,7 +231,7 @@ class Pronto_donation_Public {
 					$status = 'success';
 				}
 
-				wp_send_json_success( 
+				wp_send_json_success(
 					array(
 						'donation_meta_id' => $post_meta_id,
 						'redirect_url' =>  $redirect_url,

@@ -351,6 +351,15 @@ class Pronto_donation {
 		return $this->salesforceAPI->create( $array_records, $sf_object );
 	}
 
+	/*
+	* Author: Danryl Carpio
+	* @ param: (string) salesforce query
+	* @return: array
+	*/
+	public function sf_get_record( $query ) {
+		return $this->salesforceAPI->query( $query );
+	}
+
 	public function pronto_donation_payment_methods(){
 
 		$base = __DIR__ . '/../payments/';

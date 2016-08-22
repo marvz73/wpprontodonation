@@ -187,15 +187,19 @@ class ezidebit{
 					// create a lead record if Newsletter sign-up request on SF Lead
 					if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 						$sf_data = array();
-						$user_data = array(
-							'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
-							'FirstName' => $campaign['first_name'],
-							'LastName' => $campaign['last_name'],
-							'Status' => 'Newsletter sign-up request'
-							);
+						$query = 'Select count() FROM Lead WHERE email = '. $campaign['email'];
+						if( $class->sf_get_record( $query ) > 0 ) {
+							$user_data = array(
+								'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
+								'FirstName' => $campaign['first_name'],
+								'LastName' => $campaign['last_name'],
+								'Email' => $campaign['email'],
+								'Status' => 'Newsletter sign-up request'
+								);
 
-						array_push( $sf_data, $user_data );
-						$class->sf_create_record( $sf_data, 'Lead' );
+							array_push( $sf_data, $user_data );
+							$class->sf_create_record( $sf_data, 'Lead' );
+						}
 					}
 				}
 
@@ -250,15 +254,19 @@ class ezidebit{
 				// create a lead record if Newsletter sign-up request on SF Lead
 				if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 					$sf_data = array();
-					$user_data = array(
-						'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
-						'FirstName' => $campaign['first_name'],
-						'LastName' => $campaign['last_name'],
-						'Status' => 'Newsletter sign-up request'
-						);
+					$query = 'Select count() FROM Lead WHERE email = '. $campaign['email'];
+					if( $class->sf_get_record( $query ) > 0 ) {
+						$user_data = array(
+							'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
+							'FirstName' => $campaign['first_name'],
+							'LastName' => $campaign['last_name'],
+							'Email' => $campaign['email'],
+							'Status' => 'Newsletter sign-up request'
+							);
 
-					array_push( $sf_data, $user_data );
-					$class->sf_create_record( $sf_data, 'Lead' );
+						array_push( $sf_data, $user_data );
+						$class->sf_create_record( $sf_data, 'Lead' );
+					}
 				}
 			}
 
