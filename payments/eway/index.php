@@ -214,8 +214,6 @@ class eway{
 					$campaign_data['opportunityId'] = $opportunity['oppResult']->Id;
 				}
 				
-				print_r($campaign_data);
-				
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign_data))."' WHERE meta_id = " .$ppd['post_meta_id']);
 
 		        require_once('tmpl/tmpl_payment_process.php');       
