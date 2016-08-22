@@ -229,6 +229,9 @@ class Pronto_donation_Public {
 						'status' => $status
 						)
 					);
+
+				wp_send_json_success($campaign_data);
+
 				die();
 				// end of ezidebit self payment process
 			}

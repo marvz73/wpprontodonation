@@ -96,7 +96,7 @@
                     </tr>
                     <tr>
                         <th>
-                            <label class="">Gift</label>
+                            <label class="">This gift is in memory</label>
                         </th>
                         <td>
                            <label class="" for="donation_gift"><input class="donation-details-value" name="donation_gift" type="checkbox" id="donation_gift" disabled <?php if ( isset( $donation_details['donation_gift'] ) && $donation_details['donation_gift'] !== 0 ) echo "checked='checked'" ?> > </label>
@@ -104,7 +104,7 @@
                     </tr>
                     <tr>
                         <th>
-                            <label class="">Gift Message</label>
+                            <label class="">This donation is in memory of</label>
                         </th>
                         <td>
                             <textarea readonly rows="3" cols="46" class="donation-details-value" name="donation_gift_msg"><?php echo ( isset( $donation_details['donation_gift_message'] ) ) ? $donation_details['donation_gift_message'] : '' ?></textarea>

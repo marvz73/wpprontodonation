@@ -34,7 +34,7 @@
 <div class="ezi-lazy-loading">
 	
 	<img src="<?php echo plugins_url( '../inc/default.gif', __FILE__ ) ?>" alt="payment processing...">
-	<p>Processing Payment...</p>
+	<p>Processing Payment, Please wait...</p>
 </div>
 
 <div class="wrap">
@@ -366,6 +366,10 @@
 							var selected_donation_amount = $('input[name=pd_amount]:checked').val();
 							$('#amount').val( selected_donation_amount );
 						});
+
+						$('#pd_custom_amount').keyup(function(){
+							$('#amount').val( $(this).val() );
+						})
 					}
 
 	 			} else if( $(this).val() == 'eWay' ) { // when user select eway

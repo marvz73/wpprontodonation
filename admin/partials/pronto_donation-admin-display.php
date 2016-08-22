@@ -926,9 +926,9 @@ if ( isset($_GET['page']) ) {
 
 		<br/>
 		<br/>
+
 		<div class="card" style="width: 100%;max-width: 96% !important">
         <h2 class="title">Newsletter Configuration</h2>
-		<?php if( is_plugin_active( 'alo-easymail/alo-easymail.php' ) ) : ?>
 			<table class="form-table">
 				<tr>
 					<th scope="row"><label for="newsletter_option">Newsletter on form</label></th>
@@ -948,9 +948,6 @@ if ( isset($_GET['page']) ) {
 					</td>
 				</tr>
 			</table>
-		<?php else : ?>
-			<p class="description"> Please download, install, and activate <a href="https://wordpress.org/plugins/alo-easymail/">ALO EasyMail Newsletter Plugin</a></p>
-		<?php endif; ?>
 		</div>
 
 		<br/>

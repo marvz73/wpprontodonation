@@ -128,10 +128,10 @@
 						<div class="pronto-donation-group pronto-donation-gift clearfix syo-donation-description">
 							<p>
 								<input class="<?php echo $this->campaignOption->InputFieldClass ?>" id="donation_gift" type="checkbox" name="donation_gift">
-								<label for="donation_gift">Is this a gift?</label>
+								<label for="donation_gift">This gift is in memory</label>
 							</p>
 						</div>
-						<textarea id="gift_message" style="display:none" name="donation_gift_message" class="<?php echo $this->campaignOption->InputFieldClass ?>" rows="5" placeholder="Gift message..."></textarea>
+						<textarea id="gift_message" style="display:none" name="donation_gift_message" class="<?php echo $this->campaignOption->InputFieldClass ?>" rows="5" placeholder="This donation is in memory of"></textarea>
 					<?php endif; ?>
 				</div>
 			</div>

@@ -1161,5 +1161,4 @@ class Pronto_donation_Admin {
 		wp_enqueue_script( 'address_validation' );
 	}
 
-
 }

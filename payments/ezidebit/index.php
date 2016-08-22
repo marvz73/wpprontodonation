@@ -126,7 +126,7 @@ class ezidebit{
 			$donor = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_id = " . esc_html($response['PaymentReference']));
 			
 			$campaign = maybe_unserialize($donor[0]->meta_value);
-		
+
 			if(empty($campaign['payment_response']) && !array_key_exists('payment_response', $campaign))
 			{
 
@@ -160,6 +160,20 @@ class ezidebit{
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign))."' WHERE meta_id = " . esc_html($response['PaymentReference']));
 
 				$class->pronto_donation_user_notification($campaign);
+
+		 		// create a lead record if newsletter is ticked
+				if( isset( $campaign['sign_newsletter'] ) && $campaign['sign_newsletter'] == 'on' ) {
+					$sf_data = array();
+					$user_data = array(
+						'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
+						'FirstName' => $campaign['first_name'],
+						'LastName' => $campaign['last_name'],
+						'Status' => 'Newsletter sign-up request'
+					);
+
+					array_push( $sf_data, $user_data );
+					$class->sf_create_record( $sf_data, 'Lead' );
+				}
 			}
 		} else if(!isset($response['PaymentReference']) && isset($response['DonationMetaID'])) {
 
@@ -194,6 +208,19 @@ class ezidebit{
 
 			$class->pronto_donation_user_notification($campaign);
 
+			// create a lead record if newsletter is ticked
+			if( isset( $campaign['sign_newsletter'] ) && $campaign['sign_newsletter'] == 'on' ) {
+				$sf_data = array();
+				$user_data = array(
+					'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
+					'FirstName' => $campaign['first_name'],
+					'LastName' => $campaign['last_name'],
+					'Status' => 'Newsletter sign-up request'
+					);
+
+				array_push( $sf_data, $user_data );
+				$class->sf_create_record( $sf_data, 'Lead' );
+			}
 		}
 	}
 }

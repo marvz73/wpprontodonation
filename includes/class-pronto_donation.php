@@ -340,6 +340,18 @@ class Pronto_donation {
 
 	}
 
+	/*
+	* Author : Danryl Carpio
+	* @ 1st param : (array) $array_records, this will be the array of records 
+	* ex : array( array( firstname => 'danryl', lastname=> 'carpio' ) ) 
+	* @ 2nd param : (string) $sf_object, this will be the salesforce object
+	* ex : "Contact"
+	* @return : array( id, status ) if success 1
+	*/
+	public function sf_create_record( $array_records, $sf_object ) {
+		return $this->salesforceAPI->create( $array_records, $sf_object );
+	}
+
 	public function pronto_donation_payment_methods(){
 
 		$base = __DIR__ . '/../payments/';
