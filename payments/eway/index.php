@@ -329,7 +329,7 @@ class eway{
 					if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 						$sf_data = array();
 						$query = 'Select count() FROM Lead WHERE email = '. $campaign['email'];
-						if( $class->sf_get_record( $query ) > 0 ) {
+						if( $class->sf_get_record( $query ) == 0 ) {
 							$user_data = array(
 								'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
 								'FirstName' => $campaign['first_name'],
