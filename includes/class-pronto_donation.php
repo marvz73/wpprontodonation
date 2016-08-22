@@ -354,7 +354,7 @@ class Pronto_donation {
 	/*
 	* Author: Danryl Carpio
 	* @ param: (string) salesforce query
-	* @return: array
+	* @return: array query result
 	*/
 	public function sf_get_record( $query ) {
 		return $this->salesforceAPI->query( $query );

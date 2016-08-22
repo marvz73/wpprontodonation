@@ -195,7 +195,7 @@ class ezidebit{
 								'LastName' => $campaign['last_name'],
 								'Email' => $campaign['email'],
 								'Status' => 'Newsletter sign-up request'
-								);
+							);
 
 							array_push( $sf_data, $user_data );
 							$class->sf_create_record( $sf_data, 'Lead' );
