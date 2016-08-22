@@ -164,7 +164,6 @@ class ezidebit{
 				// add subscriber to alo newsletter plugin
 				if( isset( $campaign['sign_newsletter'] ) && $campaign['sign_newsletter'] == 'on' ) {
 
-					
 					$fields['email'] = $campaign['email'];
 					$fields['name'] = $campaign['first_name'] .' '. $campaign['last_name'];
 					$lang = '';
@@ -174,7 +173,8 @@ class ezidebit{
 					    $subscriber_id = alo_em_is_subscriber ( $campaign['email'] );
 					    alo_em_add_subscriber_to_list ( $subscriber_id, $unikey );
 					}
-					// create a lead record if newsletter is ticked
+					
+					// create a lead record if Newsletter sign-up request on SF Lead
 					if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 						$sf_data = array();
 						$user_data = array(
@@ -227,7 +227,6 @@ class ezidebit{
 			// add subscriber to alo newsletter plugin
 			if( isset( $campaign['sign_newsletter'] ) && $campaign['sign_newsletter'] == 'on' ) {
 
-				
 				$fields['email'] = $campaign['email'];
 				$fields['name'] = $campaign['first_name'] .' '. $campaign['last_name'];
 				$lang = '';
@@ -237,7 +236,8 @@ class ezidebit{
 				    $subscriber_id = alo_em_is_subscriber ( $campaign['email'] );
 				    alo_em_add_subscriber_to_list ( $subscriber_id, $unikey );
 				}
-				// create a lead record if newsletter is ticked
+
+				// create a lead record if Newsletter sign-up request on SF Lead
 				if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 					$sf_data = array();
 					$user_data = array(
