@@ -419,7 +419,6 @@ class Pronto_donation_Public {
 
 			require_once('partials/pronto_donation-public-campaign.php');
 
-
 		}
 		else
 		{
