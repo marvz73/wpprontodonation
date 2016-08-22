@@ -187,20 +187,29 @@ class ezidebit{
 					// create a lead record if Newsletter sign-up request on SF Lead
 					if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 						$sf_data = array();
-						$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
-						$result = new QueryResult( $class->sf_get_record( $query ) );
 
-						if( $result->size == 0 ) {
-							$user_data = array(
-								'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
-								'FirstName' => $campaign['first_name'],
-								'LastName' => $campaign['last_name'],
-								'Email' => $campaign['email'],
-								'Status' => 'Newsletter sign-up request'
-							);
 
-							array_push( $sf_data, $user_data );
-							$class->sf_create_record( $sf_data, 'Lead' );
+						$wpOptions = get_option('pronto_donation_settings', 0);
+
+						if(isset($wpOptions['SalesforceUsername']) && $wpOptions['SalesforceUsername'] != '' &&
+							isset($wpOptions['SalesforcePassword']) && $wpOptions['SalesforcePassword'] != '' &&
+							isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
+						{
+							$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
+							$result = new QueryResult( $class->sf_get_record( $query ) );
+
+							if( $result->size == 0 ) {
+								$user_data = array(
+									'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
+									'FirstName' => $campaign['first_name'],
+									'LastName' => $campaign['last_name'],
+									'Email' => $campaign['email'],
+									'Status' => 'Newsletter sign-up request'
+								);
+
+								array_push( $sf_data, $user_data );
+								$class->sf_create_record( $sf_data, 'Lead' );
+							}
 						}
 					}
 				}
@@ -256,20 +265,28 @@ class ezidebit{
 				// create a lead record if Newsletter sign-up request on SF Lead
 				if( isset( get_option('pronto_donation_settings')['NewsLetterLead'] ) && get_option('pronto_donation_settings')['NewsLetterLead'] == 1 ) {
 					$sf_data = array();
-					$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
-					$result = new QueryResult( $class->sf_get_record( $query ) );
 
-					if( $result->size == 0 ) {
-						$user_data = array(
-							'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
-							'FirstName' => $campaign['first_name'],
-							'LastName' => $campaign['last_name'],
-							'Email' => $campaign['email'],
-							'Status' => 'Newsletter sign-up request'
-						);
+					$wpOptions = get_option('pronto_donation_settings', 0);
 
-						array_push( $sf_data, $user_data );
-						$class->sf_create_record( $sf_data, 'Lead' );
+					if(isset($wpOptions['SalesforceUsername']) && $wpOptions['SalesforceUsername'] != '' &&
+						isset($wpOptions['SalesforcePassword']) && $wpOptions['SalesforcePassword'] != '' &&
+						isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
+					{
+						$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
+						$result = new QueryResult( $class->sf_get_record( $query ) );
+
+						if( $result->size == 0 ) {
+							$user_data = array(
+								'Company' => ( isset( $campaign['companyName'] ) ) ? $campaign['companyName'] : $campaign['first_name'] .' '. $campaign['last_name'] ,
+								'FirstName' => $campaign['first_name'],
+								'LastName' => $campaign['last_name'],
+								'Email' => $campaign['email'],
+								'Status' => 'Newsletter sign-up request'
+							);
+
+							array_push( $sf_data, $user_data );
+							$class->sf_create_record( $sf_data, 'Lead' );
+						}
 					}
 				}
 			}
