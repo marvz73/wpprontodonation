@@ -925,8 +925,10 @@ class SforceBaseClient {
 
 		//Get instance URL
 		$instance_url = explode('/s',$this->getLocation())[0];
+		
 		//Full rest API URL
 		$url = $instance_url . '/services/apexrest/' . $query;
+
 		//Get SessionID
 		$sessionId = $this->getSessionId();
 
@@ -957,6 +959,7 @@ class SforceBaseClient {
 			
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 		}
+		//	-Retrive record-
 		else
 		{
 			curl_setopt($curl, CURLOPT_POST, FALSE);

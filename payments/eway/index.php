@@ -210,11 +210,12 @@ class eway{
 				$campaign_data['payment_response'] = $payment_response;
 				
 				$opportunity = $class->set_salesforceDonation($campaign_data);
-
-				if(isset($opportunity['status_code']) && $opportunity['status_code'] == '201'){
-					$campaign_data['opportunityId'] = $opportunity->Id;
+				if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
+					$campaign_data['opportunityId'] = $opportunity['oppResult']->Id;
 				}
-			
+				
+				print_r($campaign_data);
+				
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign_data))."' WHERE meta_id = " .$ppd['post_meta_id']);
 
 		        require_once('tmpl/tmpl_payment_process.php');       
@@ -276,8 +277,10 @@ class eway{
 				$ApproveTransaction = array('A2000', 'A2008', 'A2010', 'A2011', 'A2016');
 				if(in_array($transactionsResponse->ResponseMessage, $ApproveTransaction)){
 					$campaign['statusCode'] = 1;
-					$oppoId = $class->set_salesforceDonation($campaign);
-					$campaign['opportunityId'] = $oppoId;
+					$opportunity = $class->set_salesforceDonation($campaign);
+					if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
+						$campaign['opportunityId'] = $opportunity['oppResult']->Id;
+					}
 				//--
 				}else{
 					$campaign['statusCode'] = 0;

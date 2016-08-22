@@ -275,23 +275,10 @@ class Pronto_donation {
 	//----------------------------------------------------------------
 
 	public function set_salesforceDonation($campaign){
-
 		$data = array();	
 
-		print_r($campaign);
-
-		exit();
 		if($campaign['donation_type'] == 'recurring'){
 			//---------------MONTHLY---------------
-
-			
-			
-			
-			
-			
-			
-
-
 			$data = array(
 				'strDonation' => array(
 						"FirstName" 		=>	 $campaign['first_name'],
@@ -310,12 +297,8 @@ class Pronto_donation {
 							)
 					)
 				);
-
-			if(isset($campaign['donation_gau']) && $campaign['donation_gau'] != ''){
-				$data['strDonation']['GAUAlloc'] = $campaign['donation_gau'];
-			}
-
 		}else{
+
 			$data = array(
 				'strDonation' => array(
 						"FirstName" 		=>	 $campaign['first_name'],
@@ -325,16 +308,18 @@ class Pronto_donation {
 						"donationType" 		=>	 "one"
 					)
 			);
+		}
 
-			if(isset($campaign['donation_gau']) && $campaign['donation_gau'] != ''){
-				$data['strDonation']['GAUAlloc'] = $campaign['donation_gau'];
-			}
+		//Dont include this field if value is empty
+		if(isset($campaign['donation_gau']) && $campaign['donation_gau'] != ''){
+			$data['strDonation']['GAUAlloc'] = $campaign['donation_gau'];
 		}
 
 		if(isset($data['strDonation'])){
-			$opportunity = $this->salesforceAPI->restAPI('donation', $data, 'create');
 
-			return $opportunity['oppResult'];
+			$opportunity = $this->salesforceAPI->restAPI('donation', $data, 'create');
+			
+			return $opportunity;
 
 		}else{
 			return array('error'=>1,'message'=>'strDonation is empty.');

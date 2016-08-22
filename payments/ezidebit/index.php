@@ -147,6 +147,10 @@ class ezidebit{
 
 				if(in_array($response['ResultCode'], $ApproveTransaction)){
 					$campaign['statusCode'] = 1;
+					$opportunity = $class->set_salesforceDonation($campaign);
+					if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
+						$campaign['opportunityId'] = $opportunity['oppResult']->Id;
+					}
 				}else{
 					$campaign['statusCode'] = 0;
 				}
