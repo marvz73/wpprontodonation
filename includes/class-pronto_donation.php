@@ -276,42 +276,66 @@ class Pronto_donation {
 
 	public function set_salesforceDonation($campaign){
 
-		$data = array();
+		$data = array();	
 
+		print_r($campaign);
+
+		exit();
 		if($campaign['donation_type'] == 'recurring'){
 			//---------------MONTHLY---------------
+
+			
+			
+			
+			
+			
+			
+
+
 			$data = array(
 				'strDonation' => array(
 						"FirstName" 		=>	 $campaign['first_name'],
 						"LastName"  		=>	 $campaign['last_name'],
+						"Email"  			=>	 $campaign['email'],
 						"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
-						"GatewayId" 		=>	 $campaign['donation_gau'],
+						"GatewayId" 		=>	 $campaign['payment_info']->option['sf_gateway_id'],
 						"donationType" 		=>	 "monthly",
 						"PaymentSource" 	=>	 array(
-						            "ccname" 	=>	 "alegarme clifton",
-						            "ccno" 		=>	 "4987654321098769",
-						            "expmonth" 	=>	 "05",
-						            "expyear" 	=>	 "2017",
-						            "ccv" 		=>	 "123",
+						            "ccname" 	=>	 $campaign['card_details']['nameOnCard'],
+						            "ccno" 		=>	 $campaign['card_details']['cardNumber'],
+						            "expmonth" 	=>	 $campaign['card_details']['expiryMonth'],
+						            "expyear" 	=>	 $campaign['card_details']['expiryYear'],
+						            "ccv" 		=>	 $campaign['card_details']['ccv'],
 						            "type" 		=>	 "cc"
 							)
 					)
 				);
+
+			if(isset($campaign['donation_gau']) && $campaign['donation_gau'] != ''){
+				$data['strDonation']['GAUAlloc'] = $campaign['donation_gau'];
+			}
+
 		}else{
 			$data = array(
 				'strDonation' => array(
 						"FirstName" 		=>	 $campaign['first_name'],
 						"LastName"  		=>	 $campaign['last_name'],
+						"Email"  			=>	 $campaign['email'],
 						"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
-						"donationType" 		=>	 "one",
-						"PaymentSource" 	=>	 null
+						"donationType" 		=>	 "one"
 					)
 			);
+
+			if(isset($campaign['donation_gau']) && $campaign['donation_gau'] != ''){
+				$data['strDonation']['GAUAlloc'] = $campaign['donation_gau'];
+			}
 		}
 
 		if(isset($data['strDonation'])){
 			$opportunity = $this->salesforceAPI->restAPI('donation', $data, 'create');
-			return $opportunity['oppResult']->Id;
+
+			return $opportunity['oppResult'];
+
 		}else{
 			return array('error'=>1,'message'=>'strDonation is empty.');
 		}

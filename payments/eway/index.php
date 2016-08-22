@@ -61,22 +61,32 @@ class eway{
 				'label'	=> 'Enable Self Payment'
 			),
 			array(
+				'type'  	=> 'text',
+				'value' 	=> '',
+				'name'		=> 'sf_gateway_id',
+				'label'		=> 'Salesforce Gateway ID',
+				'required' 	=> true
+			),
+			array(
 				'type'  => 'text',
 				'value' => '',
 				'name'	=> 'ewayapikey',
-				'label'	=> 'eWay API Key'
+				'label'	=> 'eWay API Key',
+				'required' 	=> true
 			),
 			array(
 				'type'  => 'text',
 				'value' => '',
 				'name'	=> 'ewayapipassword',
-				'label'	=> 'eWay API Password'
+				'label'	=> 'eWay API Password',
+				'required' 	=> true
 			),
 		);
 
 	}
 
 	public function payment_process($ppd = array(),$campaign_data = array(), $class){
+
 		global $wpdb;
 		//------------------- Eway Self Payment -----------------------------//
 		$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
@@ -199,9 +209,11 @@ class eway{
 	    		$campaign_data['card_details'] = $card_details;
 				$campaign_data['payment_response'] = $payment_response;
 				
-				$oppoId = $class->set_salesforceDonation($campaign_data);
+				$opportunity = $class->set_salesforceDonation($campaign_data);
 
-				$campaign_data['opportunityId'] = $oppoId;
+				if(isset($opportunity['status_code']) && $opportunity['status_code'] == '201'){
+					$campaign_data['opportunityId'] = $opportunity->Id;
+				}
 			
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign_data))."' WHERE meta_id = " .$ppd['post_meta_id']);
 

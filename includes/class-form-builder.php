@@ -34,6 +34,9 @@ class form_builder {
 
 		foreach($fields as $key=>$field)
 		{
+
+			$required = (isset($field['required']) && $field['required']) ? 'required' : '';
+
 			switch($field['type'])
 			{
 				case 'text':
@@ -41,7 +44,7 @@ class form_builder {
 							$html,
 							array(
 								'label' => ucfirst($field['label']), 
-								'field'=> '<input type="text" class="regular-text" name="' .$field['name']. '" value="' .$field['value']. '"/>'
+								'field'=> '<input type="text" class="regular-text" name="' .$field['name']. '" value="' .$field['value']. '" '.$required.' />'
 							)
 						);
 					break;

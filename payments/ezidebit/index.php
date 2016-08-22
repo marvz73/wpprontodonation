@@ -62,6 +62,13 @@ class ezidebit{
 				'name'	=> 'url',
 				'label' => 'URL'
 			),
+			array(
+				'type'  	=> 'text',
+				'value' 	=> '',
+				'name'		=> 'sf_gateway_id',
+				'label'		=> 'Salesforce Gateway ID',
+				'required' 	=> true
+			),
 		 	array(
 				'type'  => 'text',
 				'value' => '',
