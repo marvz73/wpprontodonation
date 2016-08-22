@@ -477,6 +477,7 @@ if ( isset($_GET['page']) ) {
 
 			$newsletter_option = (empty($_POST['newsletter_option'])) ? "" : $_POST['newsletter_option'];
 			$newsletter_caption = (empty($_POST['newsletter_caption'])) ? "" : $_POST['newsletter_caption'];
+			$newsletter_lead = (empty($_POST['newsletter_lead'])) ? "" : $_POST['newsletter_lead'];
 
 
 			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
@@ -522,6 +523,7 @@ if ( isset($_GET['page']) ) {
 
 				'NewsLetterOption' => stripslashes($newsletter_option),
 				'NewsLetterCaption' => stripslashes($newsletter_caption),
+				'NewsLetterLead' => stripslashes($newsletter_lead),
 
 				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
 				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
@@ -634,6 +636,7 @@ if ( isset($_GET['page']) ) {
 
 		$newsletter_option = (empty($pronto_donation_settings['NewsLetterOption'])) ? "" : $pronto_donation_settings['NewsLetterOption'];
 		$newsletter_caption = (empty($pronto_donation_settings['NewsLetterCaption'])) ? "" : $pronto_donation_settings['NewsLetterCaption'];
+		$newsletter_lead = (empty($pronto_donation_settings['NewsLetterLead'])) ? "" : $pronto_donation_settings['NewsLetterLead'];
 
 
 		$thank_you_page_message_page = (empty($pronto_donation_settings['ThankYouPageMessagePage'])) ? "" : $pronto_donation_settings['ThankYouPageMessagePage'];
@@ -928,27 +931,37 @@ if ( isset($_GET['page']) ) {
 		<br/>
 
 		<div class="card" style="width: 100%;max-width: 96% !important">
-        <h2 class="title">Newsletter Configuration</h2>
-			<table class="form-table">
-				<tr>
-					<th scope="row"><label for="newsletter_option">Newsletter on form</label></th>
-					<td>
-						<select name="newsletter_option" id="newsletter_option">
-							<option value="hide"<?php if($newsletter_option=="hide"){echo 'selected';}?>>Hide</option>
-							<option value="show"<?php if($newsletter_option=="show"){echo 'selected';}?>>Show</option>				
-							<option value="required" <?php if($newsletter_option=="required"){echo 'selected';}?>>Required</option>
-						</select>
-						<p class="description">Show newsletter field on frontend</p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="newsletter_caption">Newsletter caption</label></th>
-					<td>
-						<textarea rows="5" cols="52" id="newsletter_caption" name="newsletter_caption"><?php echo $newsletter_caption; ?></textarea>
-					</td>
-				</tr>
-			</table>
-		</div>
+      		<h2 class="title">Newsletter Configuration</h2>
+        <?php if( is_plugin_active( 'alo-easymail/alo-easymail.php' ) ) : ?>
+            <table class="form-table">
+            	<tr>
+            		<th scope="row"><label for="newsletter_lead">Newsletter sign-up request on SF Lead</label></th>
+            		<td>
+            			<input name="newsletter_lead" type="checkbox" id="newsletter_lead" value="1" <?php if($newsletter_lead==1){echo'checked';}?>>
+            		</td>
+            	</tr>
+                <tr>
+                    <th scope="row"><label for="newsletter_option">Newsletter on form</label></th>
+                    <td>
+                        <select name="newsletter_option" id="newsletter_option">
+                            <option value="hide"<?php if($newsletter_option=="hide"){echo 'selected';}?>>Hide</option>
+                            <option value="show"<?php if($newsletter_option=="show"){echo 'selected';}?>>Show</option>                
+                            <option value="required" <?php if($newsletter_option=="required"){echo 'selected';}?>>Required</option>
+                        </select>
+                        <p class="description">Show newsletter field on frontend</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="newsletter_caption">Newsletter caption</label></th>
+                    <td>
+                        <textarea rows="5" cols="52" id="newsletter_caption" name="newsletter_caption"><?php echo $newsletter_caption; ?></textarea>
+                    </td>
+                </tr>
+            </table>
+        <?php else : ?>
+            <p class="description"> Please download, install, and activate <a href="https://wordpress.org/plugins/alo-easymail/">ALO EasyMail Newsletter Plugin</a></p>
+        <?php endif; ?>
+        </div>
 
 		<br/>
 		<br/>
