@@ -293,7 +293,6 @@ class Pronto_donation {
 		$data_card_details = maybe_unserialize( $this->pronto_donation_unsafe_decryp( $data_transient ) );
 		delete_transient( 'donor_c_details'.$campaign['post_meta_id'] );
 
-
 	    if(isset($wpOptions['SalesforceUsername']) && $wpOptions['SalesforceUsername'] != '' &&
 	   	  isset($wpOptions['SalesforcePassword']) && $wpOptions['SalesforcePassword'] != '' &&
 	   	  isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
