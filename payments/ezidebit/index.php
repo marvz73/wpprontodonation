@@ -10,7 +10,7 @@ class ezidebit{
 
 	//Payment Details
 	var $payment = array(
-		'logo'					=> 'logo.png',
+		'logo'					=> 'ezidebit-powered-by-smaller.png',
 		'payment_name' 			=> 'Ezidebit',
 		'payment_description' 	=> 'This is a payment description here.',
 		'url'					=> ''

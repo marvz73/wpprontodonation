@@ -123,8 +123,8 @@
 }
 
 .payments input[type="radio"]:checked + label{
-    border-color: rgba(214,12,140,0.5);
-    background-color: rgba(214,12,140,0.15);
+    border-color: #fff;
+    background-color: #fff;
 }
 .pronto-donation-type .pd-col:first-child label{
     border-top-left-radius: 4px;
@@ -145,6 +145,7 @@
 .self-payment-style {
 	display: none;
 }
+
 </style>
 
 <div id="pronto-donation-wrapper" class="<?php echo $this->campaignOption->FormClass ?>">
@@ -475,7 +476,7 @@
 					if(!empty($payment_methods)):
 					foreach($payment_methods as $index=>$payment):
 				?>
-					<div class="pd-col s6">
+					<div class="pd-col s12">
 						<input class="payment-input" id="payment<?php echo $index ?>" <?php echo ($index==0) ? 'checked="true"' : '' ?> type="radio" name="payment" value="<?php echo $payment->get_payment_name() ?>" />
 						<label class="payment-method" for="payment<?php echo $index ?>">
 							
