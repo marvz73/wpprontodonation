@@ -131,9 +131,6 @@ class Pronto_donation {
 		//Class for payment field renderer
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-form-builder.php';
 
-		//Salesforce php toolkit
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/salesforce-toolkit/class-salesforce.php';
-
 		//php unsafe crypto
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/UnsafeCrypto.php';
 		
