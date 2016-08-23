@@ -475,10 +475,10 @@ if ( isset($_GET['page']) ) {
 			$salesforce_password = (empty($_POST['salesforce_password'])) ? "" : $_POST['salesforce_password'];
 
 
+			$newsletter_lead = (empty($_POST['newsletter_lead'])) ? "" : $_POST['newsletter_lead'];
 			$newsletter_option = (empty($_POST['newsletter_option'])) ? "" : $_POST['newsletter_option'];
 			$newsletter_caption = (empty($_POST['newsletter_caption'])) ? "" : $_POST['newsletter_caption'];
-			$newsletter_lead = (empty($_POST['newsletter_lead'])) ? "" : $_POST['newsletter_lead'];
-
+			
 
 			$thank_you_page_message = (empty($_POST['thank_you_page_message'])) ? "" : $_POST['thank_you_page_message'];
 
@@ -521,9 +521,11 @@ if ( isset($_GET['page']) ) {
 				'SalesforceUsername' => stripslashes($salesforce_username),
 				'SalesforcePassword' => stripslashes($salesforce_password),
 
+
+				'NewsLetterLead' => stripslashes($newsletter_lead),
 				'NewsLetterOption' => stripslashes($newsletter_option),
 				'NewsLetterCaption' => stripslashes($newsletter_caption),
-				'NewsLetterLead' => stripslashes($newsletter_lead),
+
 
 				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
 				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
@@ -935,7 +937,7 @@ if ( isset($_GET['page']) ) {
         <?php if( is_plugin_active( 'alo-easymail/alo-easymail.php' ) ) : ?>
             <table class="form-table">
             	<tr>
-            		<th scope="row"><label for="newsletter_lead">Newsletter sign-up request on SF Lead</label></th>
+            		<th scope="row"><label for="newsletter_lead">Save to salesforce Lead</label></th>
             		<td>
             			<input name="newsletter_lead" type="checkbox" id="newsletter_lead" value="1" <?php if($newsletter_lead==1){echo'checked';}?>>
             		</td>

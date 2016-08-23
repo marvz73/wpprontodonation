@@ -411,7 +411,7 @@
 					if($NewsLetterOption=='hide'||$NewsLetterOption==''){}
 					else{
 				?>
-					<input type="checkbox" name=""/> <?php echo $NewsLetterCaption;?>
+					<input type="checkbox" name="sign_newsletter"/> <?php echo $NewsLetterCaption;?>
 				<?php  
 					}
 				?>
