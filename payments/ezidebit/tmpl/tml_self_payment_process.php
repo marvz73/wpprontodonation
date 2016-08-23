@@ -382,6 +382,8 @@
  										$('.self-payment-msg').append('<p class="ezidebit-error"> '+data.PaymentResultText+' </p>');
  									}
  									$('.ezi-lazy-loading').hide();
+ 									grecaptcha.reset(captcha_id);
+								 	cptcha_response = '';
  									return;
  								}
 							};
