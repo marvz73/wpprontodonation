@@ -299,9 +299,9 @@ class Pronto_donation_Public {
 	    		//------------------- Eway Self Payment -----------------------------//
 	    		$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
 	    		$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
-	    		//------------------- Eway Self Payment -----------------------------//
+	    		
 
-				//------------ EWAY Selfpayment ------------//
+				
 				$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
 				$enable_self_payment_value =  (isset($payment_option_eway['enable_self_payment'])) ? $payment_option_eway['enable_self_payment'] : '';
 				$enable_value =  (isset($payment_option_eway['enable'])) ? $payment_option_eway['enable'] : '';
@@ -317,10 +317,10 @@ class Pronto_donation_Public {
 
 					$unsafe_data = maybe_serialize( $card_details );
 	                $unsafe_data = $this->class->pronto_donation_unsafe_encryp( $unsafe_data );
-	                set_transient( 'donor_c_details', utf8_encode( html_entity_decode( $unsafe_data ) ), 5 * 60 );
+	                set_transient( 'donor_c_details'.$post_meta_id, utf8_encode( html_entity_decode( $unsafe_data ) ), 5 * 60 );
 					//------------------- Transient  Card Details -----------------------------//
                 }
-
+                //------------------- Eway Self Payment -----------------------------//
 
 	    		// Call the payment function to execute payment action
 	    		$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data_partial, $this->class);
