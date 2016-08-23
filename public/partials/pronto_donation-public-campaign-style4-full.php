@@ -338,7 +338,7 @@
 			</div>
 
 			<div class="pd-container-padding clearfix">
-				<div class="pd-col s6">
+				<div class="pd-col <?php if($pronto_donation_user_info['user_phone_option'] != 'hide'){echo 's6';}else{echo 's12';} ?> ">
 					<?php if($pronto_donation_user_info['user_email_option'] != 'hide'): ?>
 					<div class="pd-container-group clearfix">
 						<div class="pd-col s12">

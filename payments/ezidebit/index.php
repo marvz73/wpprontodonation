@@ -100,7 +100,7 @@ class ezidebit{
 			'FirstName'				=> $ppd['first_name'],
 			'LastName'				=> $ppd['last_name'],
 			'EmailAddress'			=> $ppd['email'],
-			'MobilePhoneNumber'		=> $ppd['phone'],
+			'MobilePhoneNumber'		=> (isset($ppd['phone'])) ? $ppd['phone'] : '',
 			'PaymentAmount'			=> !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] : $ppd['pd_amount'],
 			'ShowDisabledInputs'	=> 0,
 			'RedirectMethod'		=> 'GET',
@@ -194,7 +194,8 @@ class ezidebit{
 							isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
 						{
 							$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
-							$result = new QueryResult( $class->sf_get_record( $query ) );
+							$result = $class->sf_get_record( $query );
+							$result = new QueryResult( $result );
 
 							if( $result->size == 0 ) {
 								$user_data = array(
@@ -202,7 +203,13 @@ class ezidebit{
 									'FirstName' => $campaign['first_name'],
 									'LastName' => $campaign['last_name'],
 									'Email' => $campaign['email'],
-									'Status' => 'Newsletter sign-up request'
+									'Status' => 'Newsletter sign-up request',
+									'Country' => $campaign['country'],
+									'Street' => $campaign['address'],
+									'State' => $campaign['state'],
+									'City' => $campaign['suburb'],
+									'PostalCode' => $campaign['post_code'],
+									'Phone' => $campaign['phone']
 								);
 
 								array_push( $sf_data, $user_data );
@@ -284,7 +291,8 @@ class ezidebit{
 						isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
 					{
 						$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
-						$result = new QueryResult( $class->sf_get_record( $query ) );
+						$result = $class->sf_get_record( $query );
+						$result = new QueryResult( $result );
 
 						if( $result->size == 0 ) {
 							$user_data = array(
@@ -292,7 +300,13 @@ class ezidebit{
 								'FirstName' => $campaign['first_name'],
 								'LastName' => $campaign['last_name'],
 								'Email' => $campaign['email'],
-								'Status' => 'Newsletter sign-up request'
+								'Status' => 'Newsletter sign-up request',
+								'Country' => $campaign['country'],
+								'Street' => $campaign['address'],
+								'State' => $campaign['state'],
+								'City' => $campaign['suburb'],
+								'PostalCode' => $campaign['post_code'],
+								'Phone' => $campaign['phone']
 							);
 
 							array_push( $sf_data, $user_data );

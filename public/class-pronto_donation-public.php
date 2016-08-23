@@ -212,7 +212,7 @@ class Pronto_donation_Public {
 						}
 					}
 				}
-
+				// save temporarily the card details and it is been encrypted 
 				$unsafe_data = maybe_serialize( $card_details );
 				$unsafe_data = $this->class->pronto_donation_unsafe_encryp( $unsafe_data );
 				set_transient( 'donor_c_details', utf8_encode( html_entity_decode( $unsafe_data ) ), 5 * 60 );
@@ -241,8 +241,6 @@ class Pronto_donation_Public {
 						'status' => $status
 						)
 					);
-
-				wp_send_json_success($campaign_data);
 
 				die();
 				// end of ezidebit self payment process
@@ -277,6 +275,9 @@ class Pronto_donation_Public {
 	    		$campaign_data['statusCode'] = 0;
 	    		$campaign_data['statusText'] = '';
 	    		$campaign_data['timestamp'] = time();
+
+				$unit_number_value =  (isset($campaign_data['unit_number'])) ? $campaign_data['unit_number'] : '';
+	    		$campaign_data['address'] = $unit_number_value.' '.$campaign_data['address'];
 
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
 

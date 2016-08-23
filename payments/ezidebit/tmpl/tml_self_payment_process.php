@@ -295,8 +295,9 @@
 									if(your_a_robot == 0) {
 										if(data == 'An error has occurred attempting to contact the API. Please contact Ezidebit support.') {
 											$('.self-payment-msg').append('<p class="ezidebit-error">Something went wrong, Please try again</p>');
+										} else {
+											$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
 										}
-										$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
 										$('.ezi-lazy-loading').hide();
 								 		grecaptcha.reset(captcha_id);
 								 		cptcha_response = '';
