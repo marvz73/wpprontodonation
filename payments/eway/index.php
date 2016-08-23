@@ -333,7 +333,8 @@ class eway{
 							isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
 						{
 							$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
-							$result = new QueryResult( $class->sf_get_record( $query ) );
+							$result = $class->sf_get_record( $query );
+							$result = new QueryResult( $result);
 
 							if( $result->size == 0 ) {
 								$user_data = array(
@@ -384,7 +385,8 @@ class eway{
 							isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
 						{
 							$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
-							$result = new QueryResult( $class->sf_get_record( $query ) );
+							$result = $class->sf_get_record( $query );
+							$result = new QueryResult( $result);
 
 							if( $result->size == 0 ) {
 								$user_data = array(
