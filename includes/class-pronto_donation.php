@@ -367,6 +367,7 @@ class Pronto_donation {
 	* @return: array query result
 	*/
 	public function sf_get_record( $query ) {
+		$this->manual_loadDependencies();
 		return $this->salesforceAPI->query( $query );
 	}
 
