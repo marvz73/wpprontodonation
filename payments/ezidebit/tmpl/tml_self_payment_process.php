@@ -47,7 +47,7 @@
 				<input type="hidden" id="paymentReference" value="<?php echo substr(md5(uniqid(rand(), true)), 0,24) ?>"/>
 			</div>
 			<div>
-				<input type="hidden" id="amount" value=""/>	
+				<input type="text" id="amount" value=""/>	
 			</div>
 		</div>
 	</div>
@@ -223,10 +223,11 @@
 					url:  ajax_frontend.ajax_url,
 					data: { 'action':'verify_captcha', 'cptcha_response' : cptcha_response },
 					success: function(response) {
- 
+ 						// console.log('a', typeof response.success)
+ 						// console.log('b', typeof response.data.success)
 						$('.self-payment-msg').empty();
 
-						if( response.success === false && captcha_enable == 1 ) {
+						if( typeof response.success != 'undefined' && response.success == false && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
 							$('#payNowButton').removeAttr('disabled');
@@ -235,7 +236,7 @@
 							grecaptcha.reset(captcha_id);
 							cptcha_response = '';
 
-						} else if( response.data.success == false && captcha_enable == 1 ) {
+						} else if( typeof response.success != 'undefined' && response.data.success == false && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
 							$('#payNowButton').removeAttr('disabled');
@@ -244,7 +245,7 @@
 							grecaptcha.reset(captcha_id);
 							cptcha_response = '';
 
-						} else if( response.success == true || captcha_enable == 0 ) {
+						} else if( typeof response.success != 'undefined' && ( response.success == true || captcha_enable == 0 ) ) {
  
 							// this function will be the success callback for ezidebit client side
 							your_a_robot = 0;
@@ -272,7 +273,7 @@
 													additional_url += '&'+ k + '=' + data[k];
 												}
 
-												if( response.success ) {
+												if( typeof response.success != 'undefined' && response.success ) {
 													window.location.href = response.data.redirect_url + $.trim(additional_url) + '&DonationMetaID=' + response.data.donation_meta_id;
 												}
 												your_a_robot = 0;
@@ -372,6 +373,10 @@
 						$('#pd_custom_amount').keyup(function(){
 							$('#amount').val( $(this).val() );
 						})
+
+						if( selected_donation_amount == 0 ) {
+							$('#amount').val( $('#pd_custom_amount').val() );
+						}
 					}
 
 	 			} else if( $(this).val() == 'eWay' ) { // when user select eway
