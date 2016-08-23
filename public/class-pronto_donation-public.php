@@ -288,6 +288,25 @@ class Pronto_donation_Public {
 	    		$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
 	    		//------------------- Eway Self Payment -----------------------------//
 
+
+	    		//------------------- Transient  Card Details -----------------------------//
+	    		$eway_card_number = $campaign_data['eway_card_number'];
+	    		$eway_name_on_card = $campaign_data['eway_name_on_card'];
+	    		$eway_expiry_month = $campaign_data['eway_expiry_month'];
+	    		$eway_expiry_year = $campaign_data['eway_expiry_year'];
+	    		$eway_ccv = $campaign_data['eway_ccv'];
+
+				 
+				// Save the results in a transient named latest_5_posts
+				set_transient( $campaign_data['payment'].$post_meta_id.'card_number', $eway_card_number, 180 );
+				set_transient( $campaign_data['payment'].$post_meta_id.'card_number', $eway_name_on_card, 180 );
+				set_transient( $campaign_data['payment'].$post_meta_id.'card_number', $eway_expiry_month, 180 );
+				set_transient( $campaign_data['payment'].$post_meta_id.'card_number', $eway_expiry_year, 180 );
+				set_transient( $campaign_data['payment'].$post_meta_id.'card_number', $eway_ccv, 180 );
+				//------------------- Transient  Card Details -----------------------------//
+
+
+
 	    		// Call the payment function to execute payment action
 	    		$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data, $this->class);
 
@@ -445,8 +464,10 @@ class Pronto_donation_Public {
 		    require_once('partials/pronto_donation-public-campaign-style' . $formStyle . '-full.php');
 		    require_once ( $this->base . 'ezidebit/index.php' );
 		}
+		//------------------ Google Address Validation ------------------//
 		wp_enqueue_script( 'MyJsforthisshorcode' );
 		wp_enqueue_script( 'gmapscript2' );
+		//------------------ Google Address Validation ------------------//
 	}
 
 	function _array_to_object($option){
