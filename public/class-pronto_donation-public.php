@@ -293,6 +293,7 @@ class Pronto_donation_Public {
 	    		$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data_partial);
 
 	    		$campaign_data['CancelUrl']   = get_home_url() . '/?p=' . $this->campaignOption->CancelPageMessagePage. '&payment_status=C&ref=' . $post_meta_id;
+	    		$campaign_data_partial['CancelUrl']   = get_home_url() . '/?p=' . $this->campaignOption->CancelPageMessagePage. '&payment_status=C&ref=' . $post_meta_id;
 
 	    		$campaign_data['post_meta_id'] = $post_meta_id;
 	    		$campaign_data_partial['post_meta_id'] = $post_meta_id;
@@ -300,7 +301,7 @@ class Pronto_donation_Public {
 	    		//------------------- Eway Self Payment -----------------------------//
 	    		$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
 	    		$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
-	    		
+	    		$campaign_data_partial['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
 
 				
 				$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
