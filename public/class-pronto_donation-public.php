@@ -212,7 +212,8 @@ class Pronto_donation_Public {
 						}
 					}
 				}
-  
+  				$unit_number_value =  (isset($donation_data['unit_number'])) ? $donation_data['unit_number'] : '';
+	    		$donation_data['address'] = $unit_number_value.' '.$donation_data['address'];
 				$donation_data['status'] = 'pending';
 				$donation_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
 				$donation_data['payment_info'] = $payment_details;
