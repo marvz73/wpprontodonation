@@ -54,14 +54,14 @@
 
 	<div class="credit-card-detals pronto-donation-group clearfix">
 		<div class="pd-col s12">
-			<div class="clearfix pronto-donation-group">
+			<div class="pronto-donation-group clearfix">
 				<div class="pd-col s6">
 					<label for="cardNumber">Card Number</label>
 					<input type="text" id="cardNumber" name="cardNumber" maxlength="19"/>
 				</div>
 				<div class="pd-col s6" style="padding-left: 10px;">	
 					<label for="expiryMonth">Expiry Date</label>
-					<div class="pronto-donation-group">
+					<div class="pronto-donation-group clearfix">
 						<div class="pd-col s6">
 							<select id="expiryMonth" name="expiryMonth">
 								<option disabled selected>MM</option>
@@ -99,7 +99,7 @@
 			</div>
 		</div>
 		<div class="pd-col s12">
-			<div class="clearfix pronto-donation-group">
+			<div class="pronto-donation-group clearfix">
 				<div class="pd-col s6">
 					<label for="nameOnCard">Name on Card</label>
 					<input type="text" id="nameOnCard" name="nameOnCard" maxlength="50"/>
