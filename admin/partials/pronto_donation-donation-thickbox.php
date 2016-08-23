@@ -300,6 +300,56 @@
                         <?php
                     }
                     ?>
+
+                    <tr>
+                        <th>
+                            <h3 class="">Opportunity response</h3>
+                        </th>
+                    </tr>
+
+                    <?php 
+
+                    if( isset($donation_details['opportunityStatus']) ) {
+                        ?>
+                            <tr>
+                                <th>
+                                    <label class="">opportunityStatus</label>
+                                </th>
+                                <td>
+                                    <input type="text" class="regular-text donation-details-value" value="<?php echo $donation_details['opportunityStatus'] ?>" readonly>
+                                </td>
+                            </tr>
+                        <?php
+                    }
+
+                    if( isset($donation_details['opportunityMessage']) ) {
+                        ?>
+                            <tr>
+                                <th>
+                                    <label class="">opportunityMessage</label>
+                                </th>
+                                <td>
+                                    <input type="text" class="regular-text donation-details-value" value="<?php echo $donation_details['opportunityMessage'] ?>" readonly>
+                                </td>
+                            </tr>
+                        <?php
+                    }
+
+                    if( isset($donation_details['opportunityId']) ) {
+                        ?>
+                            <tr>
+                                <th>
+                                    <label class="">opportunityId</label>
+                                </th>
+                                <td>
+                                    <input type="text" class="regular-text donation-details-value" value="<?php echo $donation_details['opportunityId'] ?>" readonly>
+                                </td>
+                            </tr>
+                        <?php
+                    }
+
+                    ?>
+
                     <tr>
                         <th>
                             <h3 class="">Status Logs</h3>
