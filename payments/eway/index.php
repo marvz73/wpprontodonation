@@ -334,7 +334,7 @@ class eway{
 						{
 							$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
 							$result = $class->sf_get_record( $query );
-							$result = new QueryResult( $result);
+							$result = new QueryResult( $result );
 
 							if( $result->size == 0 ) {
 								$user_data = array(
@@ -342,7 +342,13 @@ class eway{
 									'FirstName' => $campaign['first_name'],
 									'LastName' => $campaign['last_name'],
 									'Email' => $campaign['email'],
-									'Status' => 'Newsletter sign-up request'
+									'Status' => 'Newsletter sign-up request',
+									'Country' => $campaign['country'],
+									'Street' => $campaign['address'],
+									'State' => $campaign['state'],
+									'City' => $campaign['suburb'],
+									'PostalCode' => $campaign['post_code'],
+									'Phone' => $campaign['phone']
 								);
 
 								array_push( $sf_data, $user_data );
@@ -386,7 +392,7 @@ class eway{
 						{
 							$query = "Select id FROM Lead WHERE email = '". $campaign['email'] ."'";
 							$result = $class->sf_get_record( $query );
-							$result = new QueryResult( $result);
+							$result = new QueryResult( $result );
 
 							if( $result->size == 0 ) {
 								$user_data = array(
@@ -394,7 +400,13 @@ class eway{
 									'FirstName' => $campaign['first_name'],
 									'LastName' => $campaign['last_name'],
 									'Email' => $campaign['email'],
-									'Status' => 'Newsletter sign-up request'
+									'Status' => 'Newsletter sign-up request',
+									'Country' => $campaign['country'],
+									'Street' => $campaign['address'],
+									'State' => $campaign['state'],
+									'City' => $campaign['suburb'],
+									'PostalCode' => $campaign['post_code'],
+									'Phone' => $campaign['phone']
 								);
 
 								array_push( $sf_data, $user_data );
