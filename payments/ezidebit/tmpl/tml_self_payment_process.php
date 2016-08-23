@@ -393,6 +393,14 @@
 	 			}
 			}
 		)
+
+		$('.pronto-donation-form').on('keyup keypress', function(e) {
+		  var keyCode = e.keyCode || e.which;
+		  if (keyCode === 13) { 
+		    e.preventDefault();
+		    return false;
+		  }
+		});
  		
 		setTimeout(function() {
 			if( $('input[name=payment]').length == 1 ) {
