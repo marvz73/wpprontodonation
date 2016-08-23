@@ -341,7 +341,7 @@ class Pronto_donation {
 				}
 
 				if(isset($data['strDonation'])){
-					$opportunity = $this->salesforceAPI->restAPI('donation', $data, 'create');
+					$opportunity = $this->salesforceAPI->restAPI('assfapi/donation', $data, 'create');
 					return $opportunity;
 				}else{
 					return array('error'=>1,'message'=>'strDonation is empty.');
@@ -352,7 +352,7 @@ class Pronto_donation {
 	public function get_salesforceGAU(){
 		
 		$this->manual_loadDependencies();
-		return $this->salesforceAPI->restAPI('gau');
+		return $this->salesforceAPI->restAPI('assfapi/gau');
 
 	}
 

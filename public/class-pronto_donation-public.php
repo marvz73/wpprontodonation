@@ -96,7 +96,7 @@ class Pronto_donation_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts($www) {
+	public function enqueue_scripts() {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -151,7 +151,6 @@ class Pronto_donation_Public {
 		//Process the payment here...
 	    if($_POST)
 	    {
-
 	    	$campaign_data = $_POST;
 			$captcha = isset($campaign_data['g-recaptcha-response']) ? $campaign_data['g-recaptcha-response'] : "";
 
