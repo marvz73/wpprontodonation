@@ -521,87 +521,91 @@ class Pronto_donation {
 		$site_name = get_bloginfo('name');
 		$option = get_option('pronto_donation_settings');
 
-	    //Build admin notification email
-	    $message  = sprintf(__('New donation on your site %s:'), $site_name) . "\r\n\r\n";
-	    $email_value =  (isset($campaign['email'])) ? $campaign['email'] : '';
-	    $message .= sprintf(__('Email: %s'), $email_value) . "\r\n";
+		if(isset($option['ThankYouMailMessageEnable']) && $option['ThankYouMailMessageEnable'] != '')
+		{
+		    //Build admin notification email
+		    $message  = sprintf(__('New donation on your site %s:'), $site_name) . "\r\n\r\n";
+		    $email_value =  (isset($campaign['email'])) ? $campaign['email'] : '';
+		    $message .= sprintf(__('Email: %s'), $email_value) . "\r\n";
 
-	    $first_name_value =  (isset($campaign['first_name'])) ? $campaign['first_name'] : '';
-	    $message .= sprintf(__('First Name: %s'), $first_name_value) . "\r\n";
+		    $first_name_value =  (isset($campaign['first_name'])) ? $campaign['first_name'] : '';
+		    $message .= sprintf(__('First Name: %s'), $first_name_value) . "\r\n";
 
-	    $last_name_value =  (isset($campaign['last_name'])) ? $campaign['last_name'] : '';
-	    $message .= sprintf(__('Last Name: %s'), $last_name_value) . "\r\n";
+		    $last_name_value =  (isset($campaign['last_name'])) ? $campaign['last_name'] : '';
+		    $message .= sprintf(__('Last Name: %s'), $last_name_value) . "\r\n";
 
-	    $address_value =  (isset($campaign['address'])) ? $campaign['address'] : '';
-	    $message .= sprintf(__('Address: %s'), $address_value) . "\r\n";
+		    $address_value =  (isset($campaign['address'])) ? $campaign['address'] : '';
+		    $message .= sprintf(__('Address: %s'), $address_value) . "\r\n";
 
-	    $country_value =  (isset($campaign['country'])) ? $campaign['country'] : '';
-	    $message .= sprintf(__('Country: %s'), $country_value) . "\r\n";
+		    $country_value =  (isset($campaign['country'])) ? $campaign['country'] : '';
+		    $message .= sprintf(__('Country: %s'), $country_value) . "\r\n";
 
-	    $state_value =  (isset($campaign['state'])) ? $campaign['state'] : '';
-	    $message .= sprintf(__('State: %s'), $state_value) . "\r\n";
+		    $state_value =  (isset($campaign['state'])) ? $campaign['state'] : '';
+		    $message .= sprintf(__('State: %s'), $state_value) . "\r\n";
 
-	    $post_code_value =  (isset($campaign['post_code'])) ? $campaign['post_code'] : '';
-	    $message .= sprintf(__('Post Code: %s'), $post_code_value) . "\r\n";
+		    $post_code_value =  (isset($campaign['post_code'])) ? $campaign['post_code'] : '';
+		    $message .= sprintf(__('Post Code: %s'), $post_code_value) . "\r\n";
 
-	    $suburb_value =  (isset($campaign['suburb'])) ? $campaign['suburb'] : '';
-	    $message .= sprintf(__('Suburb: %s'), $suburb_value) . "\r\n\r\n";
-	    
-	    $message .= sprintf(__('Payment Method: %s'), $campaign['payment']) . "\r\n";
-	    $message .= sprintf(__('Currency: %s'), $campaign['CurrencyCode']) . "\r\n";
-	    $message .= sprintf(__('Payment Response: %s'), $campaign['statusText']) . "\r\n";
-	    $message .= sprintf(__('Donation Amount: %s'), $campaign['pd_amount']) . "\r\n";
+		    $suburb_value =  (isset($campaign['suburb'])) ? $campaign['suburb'] : '';
+		    $message .= sprintf(__('Suburb: %s'), $suburb_value) . "\r\n\r\n";
+		    
+		    $message .= sprintf(__('Payment Method: %s'), $campaign['payment']) . "\r\n";
+		    $message .= sprintf(__('Currency: %s'), $campaign['CurrencyCode']) . "\r\n";
+		    $message .= sprintf(__('Payment Response: %s'), $campaign['statusText']) . "\r\n";
+		    $message .= sprintf(__('Donation Amount: %s'), $campaign['pd_amount']) . "\r\n";
 
-	    //Send admin notification email
-	    @wp_mail($option['EmailToBeNotify'], sprintf(__('[%s] New Donation'), $site_name), $message);
+		    //Send admin notification email
+		    @wp_mail($option['EmailToBeNotify'], sprintf(__('[%s] New Donation'), $site_name), $message);
 
-	    //BUILD USER NOTIFICATION EMAIL
-	    $message_template = $option['ThankYouMailMessage'];
+		    //BUILD USER NOTIFICATION EMAIL
+		    $message_template = $option['ThankYouMailMessage'];
 
-	    $email_value =  (isset($campaign['email'])) ? $campaign['email'] : '';
-	    $message = str_ireplace('[email]', $email_value, $message_template);
+		    $email_value =  (isset($campaign['email'])) ? $campaign['email'] : '';
+		    $message = str_ireplace('[email]', $email_value, $message_template);
 
-	    $first_name_value =  (isset($campaign['first_name'])) ? $campaign['first_name'] : '';
-	    $message = str_ireplace('[first-name]', $first_name_value, $message);
+		    $first_name_value =  (isset($campaign['first_name'])) ? $campaign['first_name'] : '';
+		    $message = str_ireplace('[first-name]', $first_name_value, $message);
 
-	    $last_name_value =  (isset($campaign['last_name'])) ? $campaign['last_name'] : '';
-	    $message = str_ireplace('[last-name]', $last_name_value, $message);
+		    $last_name_value =  (isset($campaign['last_name'])) ? $campaign['last_name'] : '';
+		    $message = str_ireplace('[last-name]', $last_name_value, $message);
 
-	    $address_value =  (isset($campaign['address'])) ? $campaign['address'] : '';
-	    $message = str_ireplace('[address]', $address_value, $message);
+		    $address_value =  (isset($campaign['address'])) ? $campaign['address'] : '';
+		    $message = str_ireplace('[address]', $address_value, $message);
 
-	    $country_value =  (isset($campaign['country'])) ? $campaign['country'] : '';
-	    $message = str_ireplace('[country]', $country_value, $message);
+		    $country_value =  (isset($campaign['country'])) ? $campaign['country'] : '';
+		    $message = str_ireplace('[country]', $country_value, $message);
 
-	    $state_value =  (isset($campaign['state'])) ? $campaign['state'] : '';
-	    $message = str_ireplace('[state]', $state_value, $message);
+		    $state_value =  (isset($campaign['state'])) ? $campaign['state'] : '';
+		    $message = str_ireplace('[state]', $state_value, $message);
 
-	    $post_code_value =  (isset($campaign['post_code'])) ? $campaign['post_code'] : '';
-	    $message = str_ireplace('[post-code]', $post_code_value, $message);
+		    $post_code_value =  (isset($campaign['post_code'])) ? $campaign['post_code'] : '';
+		    $message = str_ireplace('[post-code]', $post_code_value, $message);
 
-	    $suburb_value =  (isset($campaign['suburb'])) ? $campaign['suburb'] : '';
-	    $message = str_ireplace('[city]', $suburb_value, $message);
-	    $message = str_ireplace('[suburb]', $suburb_value, $message);
+		    $suburb_value =  (isset($campaign['suburb'])) ? $campaign['suburb'] : '';
+		    $message = str_ireplace('[city]', $suburb_value, $message);
+		    $message = str_ireplace('[suburb]', $suburb_value, $message);
 
-	    $SetCurrencySymbol_value =  (isset($option['SetCurrencySymbol'])) ? $option['SetCurrencySymbol'] : '';
-	    $pd_amount_value =  (isset($campaign['pd_amount'])) ? $campaign['pd_amount'] : '';
-	    $message = str_ireplace('[amount]', $SetCurrencySymbol_value . $pd_amount_value, $message);
+		    $SetCurrencySymbol_value =  (isset($option['SetCurrencySymbol'])) ? $option['SetCurrencySymbol'] : '';
+		    $pd_amount_value =  (isset($campaign['pd_amount'])) ? $campaign['pd_amount'] : '';
+		    $message = str_ireplace('[amount]', $SetCurrencySymbol_value . $pd_amount_value, $message);
 
-	    $donation_campaign_value =  (isset($campaign['donation_campaign'])) ? $campaign['donation_campaign'] : '';
-	    $message = str_ireplace('[campaign-name]', get_the_title($donation_campaign_value), $message);
+		    $donation_campaign_value =  (isset($campaign['donation_campaign'])) ? $campaign['donation_campaign'] : '';
+		    $message = str_ireplace('[campaign-name]', get_the_title($donation_campaign_value), $message);
 
-	    $donation_gift_message_value =  (isset($campaign['donation_gift_message'])) ? $campaign['donation_gift_message'] : '';
-	    $message = str_ireplace('[gift-message]', $donation_gift_message_value, $message);
+		    $donation_gift_message_value =  (isset($campaign['donation_gift_message'])) ? $campaign['donation_gift_message'] : '';
+		    $message = str_ireplace('[gift-message]', $donation_gift_message_value, $message);
 
-	    $SetCurrencyCode_value =  (isset($option['SetCurrencyCode'])) ? $option['SetCurrencyCode'] : '';
-	    $message = str_ireplace('[currency]', $SetCurrencyCode_value, $message);
+		    $SetCurrencyCode_value =  (isset($option['SetCurrencyCode'])) ? $option['SetCurrencyCode'] : '';
+		    $message = str_ireplace('[currency]', $SetCurrencyCode_value, $message);
 
-	    //Prepare headers for HTML
-	    $email_headers[]  = 'MIME-Version: 1.0' . "\r\n";
-	    $email_headers[] = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-	    $email_headers[] = 'From: '.$option['EmailName'].' <'.$option['EmailAddress'].'>';
+		    //Prepare headers for HTML
+		    $email_headers[]  = 'MIME-Version: 1.0' . "\r\n";
+		    $email_headers[] = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		    $email_headers[] = 'From: '.$option['EmailName'].' <'.$option['EmailAddress'].'>';
 
-	    //Send user notification email
-	    wp_mail($campaign['email'], sprintf(__('Thank for %s Donation'), get_the_title($campaign['donation_campaign'])), nl2br($message), $email_headers);
+		    //Send user notification email
+		    @wp_mail($campaign['email'], sprintf(__('Thank for %s Donation'), get_the_title($campaign['donation_campaign'])), nl2br($message), $email_headers);
+		}
+		
 	}
 }

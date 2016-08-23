@@ -321,12 +321,9 @@ class Pronto_donation_Public {
 					//------------------- Transient  Card Details -----------------------------//
                 }
 
-
 	    		// Call the payment function to execute payment action
 	    		$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data_partial, $this->class);
-
-
-
+	    	
 	    	}
 	    }
 	    else
