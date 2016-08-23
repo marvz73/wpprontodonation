@@ -80,9 +80,6 @@ class Pronto_donation {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		$sForce = new salesforceSOAP();
-		$this->salesforceAPI = $sForce->salesforce;
-
 	}
 
 	/**
@@ -134,12 +131,21 @@ class Pronto_donation {
 		//Class for payment field renderer
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-form-builder.php';
 
-		//Salesforce php toolkit
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/salesforce-toolkit/class-salesforce.php';
-		
+
 
 		$this->loader = new Pronto_donation_Loader();
 
+	}
+
+
+	private function manual_loadDependencies(){
+
+		//Salesforce php toolkit
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/salesforce-toolkit/class-salesforce.php';
+		
+		//Init salesforce SOAP
+		$sForce = new salesforceSOAP();
+		$this->salesforceAPI = $sForce->salesforce;
 	}
 
 	/**
@@ -276,9 +282,11 @@ class Pronto_donation {
 
 	public function set_salesforceDonation($campaign){
 
+		$this->manual_loadDependencies();
+
     	$wpOptions = get_option('pronto_donation_settings', 0);
    
-	   if(isset($wpOptions['SalesforceUsername']) && $wpOptions['SalesforceUsername'] != '' &&
+	    if(isset($wpOptions['SalesforceUsername']) && $wpOptions['SalesforceUsername'] != '' &&
 	   	  isset($wpOptions['SalesforcePassword']) && $wpOptions['SalesforcePassword'] != '' &&
 	   	  isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
 	   		{
@@ -334,7 +342,8 @@ class Pronto_donation {
 	}
 
 	public function get_salesforceGAU(){
-
+		
+		$this->manual_loadDependencies();
 		return $this->salesforceAPI->restAPI('gau');
 
 	}
@@ -348,6 +357,7 @@ class Pronto_donation {
 	* @return : array( id, status ) if success 1
 	*/
 	public function sf_create_record( $array_records, $sf_object ) {
+		$this->manual_loadDependencies();
 		return $this->salesforceAPI->create( $array_records, $sf_object );
 	}
 
@@ -385,7 +395,6 @@ class Pronto_donation {
 		return $payments;
 
 	}
-
 
 	public function pronto_donation_payment_amount_level($campaign_id){
 		$html ='';
