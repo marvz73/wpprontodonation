@@ -334,7 +334,7 @@
 							// this function will be the success callback for ezidebit client side
 							your_a_robot = 0;
 							var displaySubmitCallback = function(data) {
- 								console.log('response data', data)
+ 								// console.log('response data', data)
  								var success_response = ['00', '08', '10', '11', '16', '77', '000', '003'];
  								if( $.inArray( data.PaymentResultCode, success_response ) != -1 ) {
  									// console.log('hahahaah success')
