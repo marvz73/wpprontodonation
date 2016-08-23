@@ -215,12 +215,11 @@ class eway{
 					else{
 						$campaign_data['opportunityId'] = $opportunity['recResult']->Id;
 					}
-					$campaign_data['opportunityMessage'] = $opportunity['message'];
-					$campaign_data['opportunityStatus'] = $opportunity['status_code'];
 				}
 				
-		
-
+				$campaign_data['opportunityMessage'] = $opportunity['message'];
+				$campaign_data['opportunityStatus'] = $opportunity['status_code'];
+			
 				$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '".(maybe_serialize($campaign_data))."' WHERE meta_id = " .$ppd['post_meta_id']);
 
 		        require_once('tmpl/tmpl_payment_process.php');       
@@ -286,15 +285,16 @@ class eway{
 					//Salesforce sync response
 					$opportunity = $class->set_salesforceDonation($campaign);
 					if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
-						if(isset($opportunity['oppResult']) && $opportunity['oppResult'] != ''){
+						if((isset($opportunity['oppResult']) && $opportunity['oppResult'] != '')){
 							$campaign['opportunityId'] = $opportunity['oppResult']->Id;
 						}
 						else{
 							$campaign['opportunityId'] = $opportunity['recResult']->Id;
 						}
-						$campaign['opportunityMessage'] = $opportunity['message'];
-						$campaign['opportunityStatus'] = $opportunity['status_code'];
 					}
+					$campaign['opportunityMessage'] = $opportunity['message'];
+					$campaign['opportunityStatus'] = $opportunity['status_code'];
+					
 
 				//--
 				}else{
