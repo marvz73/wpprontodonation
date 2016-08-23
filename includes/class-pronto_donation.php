@@ -288,9 +288,9 @@ class Pronto_donation {
 
     	$wpOptions = get_option('pronto_donation_settings', 0);
 
-		$data = get_transient( 'donor_c_details' );
-		$data = utf8_decode( $data );
-		$data_card_details = maybe_unserialize( $this->pronto_donation_unsafe_decryp( $data ) );
+		$data_transient = get_transient( 'donor_c_details' );
+		$data_transient = utf8_decode( $data_transient );
+		$data_card_details = maybe_unserialize( $this->pronto_donation_unsafe_decryp( $data_transient ) );
 		delete_transient( 'donor_c_details' );
 
 
@@ -312,11 +312,11 @@ class Pronto_donation {
 								"GatewayId" 		=>	 isset($campaign['payment_info']->option['sf_gateway_id']) ? $campaign['payment_info']->option['sf_gateway_id'] : '',
 								"donationType" 		=>	 "monthly",
 								"PaymentSource" 	=>	 array(
-								            "ccname" 	=>	 $data_card_details['nameOnCard'],
-								            "ccno" 		=>	 $data_card_details['cardNumber'],
-								            "expmonth" 	=>	 $data_card_details['expiryMonth'],
-								            "expyear" 	=>	 $data_card_details['expiryYear'],
-								            "ccv" 		=>	 $data_card_details['ccv'],
+								            "ccname" 	=>	 ( isset($data_card_details['nameOnCard']) ) ? $data_card_details['nameOnCard'] : '',
+								            "ccno" 		=>	 ( isset($data_card_details['cardNumber']) ) ? $data_card_details['cardNumber'] : '',
+								            "expmonth" 	=>	 ( isset($data_card_details['expiryMonth']) ) ? $data_card_details['expiryMonth'] : '',
+								            "expyear" 	=>	 ( isset($data_card_details['expiryYear']) ) ? $data_card_details['expiryYear'] : '',
+								            "ccv" 		=>	 ( isset($data_card_details['ccv']) ) ? $data_card_details['ccv'] : '',
 								            "type" 		=>	 "cc"
 									)
 							)
