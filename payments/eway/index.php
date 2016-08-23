@@ -103,8 +103,9 @@ class eway{
 			$request->Customer->CompanyName = (isset($ppd['companyName'])) ? $ppd['companyName'] : '';
 			$request->Customer->Email = $ppd['email'];
 			$request->Customer->FirstName = $ppd['first_name'];  
-			$request->Customer->LastName = $ppd['last_name']; 
-			$request->Customer->Phone = $ppd['phone'];
+			$request->Customer->LastName = $ppd['last_name'];
+			$phone_value =  (isset($ppd['phone'])) ? $ppd['phone'] : '';
+			$request->Customer->Phone = $phone_value ;
 			$request->Customer->Street1 = $ppd['address'];
 			$request->Customer->Country = $this->get_countrycode($ppd['country']); 
 			$suburb_value =  (isset($ppd['suburb'])) ? $ppd['suburb'] : '';
@@ -139,8 +140,9 @@ class eway{
 			$request->Customer->CompanyName = (isset($ppd['companyName'])) ? $ppd['companyName'] : '';
 			$request->Customer->Email = $ppd['email'];
 			$request->Customer->FirstName = $ppd['first_name'];  
-			$request->Customer->LastName = $ppd['last_name']; 
-			$request->Customer->Phone = $ppd['phone'];
+			$request->Customer->LastName = $ppd['last_name'];
+			$phone_value =  (isset($ppd['phone'])) ? $ppd['phone'] : '';
+			$request->Customer->Phone = $phone_value;
 			$request->Customer->Street1 = $ppd['address'];
 			$request->Customer->Country = $this->get_countrycode($ppd['country']);
 			$suburb_value =  (isset($ppd['suburb'])) ? $ppd['suburb'] : '';
@@ -188,13 +190,7 @@ class eway{
 		    	$campaign_data['statusCode'] = 1;
 
 	    		$campaign_data['statusText'] = 'Transaction Approved';
-	    		$card_details = array(
-					'cardNumber'			=> $ppd['eway_card_number'],
-					'nameOnCard'			=> $ppd['eway_name_on_card'],
-					'expiryMonth'			=> $ppd['eway_expiry_month'],
-					'expiryYear'			=> $ppd['eway_expiry_year'],
-					'ccv'					=> $ppd['eway_ccv']
-				);
+
 	    		$payment_response = array(
 					'AuthorisationCode'		=> $result->AuthorisationCode,
 					'ResponseCode'			=> $result->ResponseCode,
@@ -206,7 +202,7 @@ class eway{
 					'TransactionStatus'		=> $result->TransactionStatus,
 					'TokenCustomerID'		=> $result->Customer->TokenCustomerID
 				);
-	    		$campaign_data['card_details'] = $card_details;
+	    		
 				$campaign_data['payment_response'] = $payment_response;
 				
 				//Salesforce sync response

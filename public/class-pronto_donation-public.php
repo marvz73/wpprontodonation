@@ -213,6 +213,10 @@ class Pronto_donation_Public {
 					}
 				}
 
+				$unsafe_data = maybe_serialize( $card_details );
+				$unsafe_data = $this->class->pronto_donation_unsafe_encryp( $unsafe_data );
+				set_transient( 'donor_c_details', utf8_encode( html_entity_decode( $unsafe_data ) ), 5 * 60 );
+  
 				$donation_data['status'] = 'pending';
 				$donation_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
 				$donation_data['payment_info'] = $payment_details;
@@ -276,19 +280,49 @@ class Pronto_donation_Public {
 
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
 
-	    		$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data);
+
+	    		$campaign_data_partial = $campaign_data;
+	    		$campaign_data_partial['eway_card_number'] = '';
+	    		$campaign_data_partial['eway_name_on_card']  = '';
+	    		$campaign_data_partial['eway_expiry_month']  = '';
+	    		$campaign_data_partial['eway_expiry_year']  = '';
+	    		$campaign_data_partial['eway_ccv']  = '';
+
+	    		$post_meta_id = add_post_meta($campaign_data['donation_campaign'], 'pronto_donation_donor', $campaign_data_partial);
 
 	    		$campaign_data['CancelUrl']   = get_home_url() . '/?p=' . $this->campaignOption->CancelPageMessagePage. '&payment_status=C&ref=' . $post_meta_id;
 
 	    		$campaign_data['post_meta_id'] = $post_meta_id;
+	    		$campaign_data_partial['post_meta_id'] = $post_meta_id;
 	    		
 	    		//------------------- Eway Self Payment -----------------------------//
 	    		$campaign_name = (!isset($_GET['campaign'])) ? "" : $_GET['campaign'];
 	    		$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
 	    		//------------------- Eway Self Payment -----------------------------//
 
+				//------------ EWAY Selfpayment ------------//
+				$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
+				$enable_self_payment_value =  (isset($payment_option_eway['enable_self_payment'])) ? $payment_option_eway['enable_self_payment'] : '';
+				$enable_value =  (isset($payment_option_eway['enable'])) ? $payment_option_eway['enable'] : '';
+				if($enable_self_payment_value=='on' && $enable_value=='on'){
+		    		//------------------- Transient  Card Details -----------------------------//
+		    		$card_details = array(
+						'cardNumber'			=> $campaign_data['eway_card_number'],
+						'nameOnCard'			=> $campaign_data['eway_name_on_card'],
+						'expiryMonth'			=> $campaign_data['eway_expiry_month'],
+						'expiryYear'			=> $campaign_data['eway_expiry_year'],
+						'ccv'					=> $campaign_data['eway_ccv']
+					);
+
+					$unsafe_data = maybe_serialize( $card_details );
+	                $unsafe_data = $this->class->pronto_donation_unsafe_encryp( $unsafe_data );
+	                set_transient( 'donor_c_details', utf8_encode( html_entity_decode( $unsafe_data ) ), 5 * 60 );
+					//------------------- Transient  Card Details -----------------------------//
+                }
+
+
 	    		// Call the payment function to execute payment action
-	    		$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data, $this->class);
+	    		$campaign_data['payment_info']->payment_process($campaign_data,$campaign_data_partial, $this->class);
 
 
 
@@ -444,8 +478,10 @@ class Pronto_donation_Public {
 		    require_once('partials/pronto_donation-public-campaign-style' . $formStyle . '-full.php');
 		    require_once ( $this->base . 'ezidebit/index.php' );
 		}
+		//------------------ Google Address Validation ------------------//
 		wp_enqueue_script( 'MyJsforthisshorcode' );
 		wp_enqueue_script( 'gmapscript2' );
+		//------------------ Google Address Validation ------------------//
 	}
 
 	function _array_to_object($option){
