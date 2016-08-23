@@ -145,7 +145,6 @@
 .self-payment-style {
 	display: none;
 }
-
 </style>
 
 <div id="pronto-donation-wrapper" class="<?php echo $this->campaignOption->FormClass ?>">
