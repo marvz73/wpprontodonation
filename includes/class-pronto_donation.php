@@ -131,7 +131,16 @@ class Pronto_donation {
 		//Class for payment field renderer
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-form-builder.php';
 
+<<<<<<< Updated upstream
 
+=======
+		//Salesforce php toolkit
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/salesforce-toolkit/class-salesforce.php';
+
+		//php unsafe crypto
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/UnsafeCrypto.php';
+		
+>>>>>>> Stashed changes
 
 		$this->loader = new Pronto_donation_Loader();
 
@@ -285,7 +294,13 @@ class Pronto_donation {
 		$this->manual_loadDependencies();
 
     	$wpOptions = get_option('pronto_donation_settings', 0);
-   
+
+		$data = get_transient( 'donor_c_details' );
+		$data = utf8_decode( $data );
+		$data_card_details = maybe_unserialize( $this->pronto_donation_unsafe_decryp( $data ) );
+		delete_transient( 'donor_c_details' );
+
+
 	    if(isset($wpOptions['SalesforceUsername']) && $wpOptions['SalesforceUsername'] != '' &&
 	   	  isset($wpOptions['SalesforcePassword']) && $wpOptions['SalesforcePassword'] != '' &&
 	   	  isset($wpOptions['SecurityToken']) && $wpOptions['SecurityToken'] != '')
@@ -304,11 +319,11 @@ class Pronto_donation {
 								"GatewayId" 		=>	 isset($campaign['payment_info']->option['sf_gateway_id']) ? $campaign['payment_info']->option['sf_gateway_id'] : '',
 								"donationType" 		=>	 "monthly",
 								"PaymentSource" 	=>	 array(
-								            "ccname" 	=>	 $campaign['card_details']['nameOnCard'],
-								            "ccno" 		=>	 $campaign['card_details']['cardNumber'],
-								            "expmonth" 	=>	 $campaign['card_details']['expiryMonth'],
-								            "expyear" 	=>	 $campaign['card_details']['expiryYear'],
-								            "ccv" 		=>	 $campaign['card_details']['ccv'],
+								            "ccname" 	=>	 $data_card_details['nameOnCard'],
+								            "ccno" 		=>	 $data_card_details['cardNumber'],
+								            "expmonth" 	=>	 $data_card_details['expiryMonth'],
+								            "expyear" 	=>	 $data_card_details['expiryYear'],
+								            "ccv" 		=>	 $data_card_details['ccv'],
 								            "type" 		=>	 "cc"
 									)
 							)
@@ -369,6 +384,26 @@ class Pronto_donation {
 	public function sf_get_record( $query ) {
 		$this->manual_loadDependencies();
 		return $this->salesforceAPI->query( $query );
+	}
+
+	/*
+	* Author: Danryl Carpio
+	* @ param: data to be encrypted
+	* @return: array encrypted data
+	*/
+	public function pronto_donation_unsafe_encryp($data) {
+		$key = hex2bin('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f');
+		return UnsafeCrypto::encrypt($data, $key);
+	}
+
+	/*
+	* Author: Danryl Carpio
+	* @ param: encrypted data
+	* @return: decrypted string data
+	*/
+	public function pronto_donation_unsafe_decryp($encrypted) {
+		$key = hex2bin('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f');
+		return UnsafeCrypto::decrypt($encrypted, $key);
 	}
 
 	public function pronto_donation_payment_methods(){
