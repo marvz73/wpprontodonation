@@ -301,7 +301,11 @@ class Pronto_donation_Public {
 	    		$campaign_data['redirectErrorURL'] = get_home_url() . '/?campaign='.$campaign_name;
 	    		//------------------- Eway Self Payment -----------------------------//
 
-	    		if($campaign_data['eway_card_number']!='' || !empty($campaign_data['eway_card_number']) || !isset($campaign_data['eway_card_number'])){
+				//------------ EWAY Selfpayment ------------//
+				$payment_option_eway = (empty(get_option('payment_option_eway'))) ? "" : get_option('payment_option_eway');
+				$enable_self_payment_value =  (isset($payment_option_eway['enable_self_payment'])) ? $payment_option_eway['enable_self_payment'] : '';
+				$enable_value =  (isset($payment_option_eway['enable'])) ? $payment_option_eway['enable'] : '';
+				if($enable_self_payment_value=='on' && $enable_value=='on'){
 		    		//------------------- Transient  Card Details -----------------------------//
 		    		$card_details = array(
 						'cardNumber'			=> $campaign_data['eway_card_number'],

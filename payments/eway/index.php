@@ -103,8 +103,9 @@ class eway{
 			$request->Customer->CompanyName = (isset($ppd['companyName'])) ? $ppd['companyName'] : '';
 			$request->Customer->Email = $ppd['email'];
 			$request->Customer->FirstName = $ppd['first_name'];  
-			$request->Customer->LastName = $ppd['last_name']; 
-			$request->Customer->Phone = $ppd['phone'];
+			$request->Customer->LastName = $ppd['last_name'];
+			$phone_value =  (isset($ppd['phone'])) ? $ppd['phone'] : '';
+			$request->Customer->Phone = $phone_value ;
 			$request->Customer->Street1 = $ppd['address'];
 			$request->Customer->Country = $this->get_countrycode($ppd['country']); 
 			$suburb_value =  (isset($ppd['suburb'])) ? $ppd['suburb'] : '';
@@ -139,8 +140,9 @@ class eway{
 			$request->Customer->CompanyName = (isset($ppd['companyName'])) ? $ppd['companyName'] : '';
 			$request->Customer->Email = $ppd['email'];
 			$request->Customer->FirstName = $ppd['first_name'];  
-			$request->Customer->LastName = $ppd['last_name']; 
-			$request->Customer->Phone = $ppd['phone'];
+			$request->Customer->LastName = $ppd['last_name'];
+			$phone_value =  (isset($ppd['phone'])) ? $ppd['phone'] : '';
+			$request->Customer->Phone = $phone_value;
 			$request->Customer->Street1 = $ppd['address'];
 			$request->Customer->Country = $this->get_countrycode($ppd['country']);
 			$suburb_value =  (isset($ppd['suburb'])) ? $ppd['suburb'] : '';
