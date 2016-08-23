@@ -485,6 +485,7 @@ if ( isset($_GET['page']) ) {
 			
 			$cancel_page_message = (empty($_POST['cancel_page_message'])) ? "" : $_POST['cancel_page_message'];
 
+			$thank_you_email_message_enable = (empty($_POST['thank_you_email_message_enable'])) ? "" : $_POST['thank_you_email_message_enable'];
 			$thank_you_email_message = (empty($_POST['thank_you_email_message'])) ? "" : $_POST['thank_you_email_message'];
 
 			// $info_on_offline_payment_panel_page = (empty($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;
@@ -502,15 +503,18 @@ if ( isset($_GET['page']) ) {
 				'InputFieldClass'   => stripslashes($input_field_class),
 				'EditButtonCaption'   => stripslashes($edit_button_caption),
 
+
 				'SetCurrencySymbol'   => $currency_symbols[$set_currency],
 				'SetCurrencyCode'   => stripslashes($set_currency),
 				'SetCountry' => stripslashes($set_country),
 				'EnableAddressValidation' => stripslashes($enable_address_validation),
 				'GoogleGeocodeAPIKey' => stripslashes($google_geocode_api_key),
 
+
 				'GoogleReCaptchaEnable' => stripslashes($google_recaptcha_enable),
 				'GoogleReCaptchaSiteKey' => stripslashes($google_recaptcha_site_key),
 				'GoogleReCaptchaSecretKey' => stripslashes($google_recaptcha_secret_key),
+
 
 				'EmailToBeNotify' => stripslashes(str_replace("/","",$email_to_be_notify)),
 				'EmailAddress' => stripslashes(str_replace("/","",$email_address)),
@@ -530,9 +534,12 @@ if ( isset($_GET['page']) ) {
 				'ThankYouPageMessagePage' => stripslashes($thank_you_page_message_page),
 				'ThankYouPageMessage' => stripslashes($thank_you_page_message),
 
+
 				'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
 				'CancelPageMessage' => stripslashes($cancel_page_message),
 
+
+				'ThankYouMailMessageEnable' => stripslashes($thank_you_email_message_enable),
 				'ThankYouMailMessage' => stripslashes($thank_you_email_message)
 
 				// 'InfoOnOfflinePaymentPanelPage' => stripslashes($info_on_offline_payment_panel_page),
@@ -647,6 +654,7 @@ if ( isset($_GET['page']) ) {
 		$cancel_page_message_page = (empty($pronto_donation_settings['CancelPageMessagePage'])) ? "" : $pronto_donation_settings['CancelPageMessagePage'];
 		$cancel_page_message = (empty($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'];	
 
+		$thank_you_email_message_enable = (empty($pronto_donation_settings['ThankYouMailMessageEnable'])) ? "" : $pronto_donation_settings['ThankYouMailMessageEnable'];
 		$thank_you_email_message = (empty($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
 		
 		// $info_on_offline_payment_panel_page = (empty($pronto_donation_settings['InfoOnOfflinePaymentPanelPage'])) ? "" : $pronto_donation_settings['InfoOnOfflinePaymentPanelPage'];
@@ -1014,6 +1022,14 @@ if ( isset($_GET['page']) ) {
 			<h2 class="title">Thank you Email Message</h2>
 			<table class="form-table">
 				<tbody>
+					<tr>
+						<th scope="row">
+							<label for="thank_you_email_message_enable">
+								<input name="thank_you_email_message_enable" type="checkbox" id="thank_you_email_message_enable" value="1" <?php if($thank_you_email_message_enable==1){echo'checked';}?>>
+							Enable Thank You Email
+							</label>	
+						</th>
+					</tr>
 					<tr>
 						<th scope="row">
 							<p><span class="description">Note: Insert this </span> [first-name] 

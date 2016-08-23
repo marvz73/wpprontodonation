@@ -273,7 +273,7 @@ class Pronto_donation_Activator {
 		$cancel_page_message_page = (!isset($cancel_page_message_post_id)) ? "" : $cancel_page_message_post_id;
 		$cancel_page_message = (!isset($pronto_donation_settings['CancelPageMessage'])) ? "" : $pronto_donation_settings['CancelPageMessage'];
 
-
+		$thank_you_email_message_enable = (!isset($pronto_donation_settings['ThankYouMailMessageEnable'])) ? "" : $pronto_donation_settings['ThankYouMailMessageEnable'];
 		$thank_you_email_message = (!isset($pronto_donation_settings['ThankYouMailMessage'])) ? "" : $pronto_donation_settings['ThankYouMailMessage'];
 
 		$info_on_offline_payment_panel_page = (!isset($info_on_offline_payment_panel_post_id)) ? "" : $info_on_offline_payment_panel_post_id;
@@ -321,6 +321,7 @@ class Pronto_donation_Activator {
 			'CancelPageMessagePage' => stripslashes($cancel_page_message_page),
 			'CancelPageMessage' => stripslashes($cancel_page_message),
 
+			'ThankYouMailMessageEnable' => stripslashes($thank_you_email_message_enable),
 			'ThankYouMailMessage' => stripslashes($thank_you_email_message),
 
 			'InfoOnOfflinePaymentPanelPage' => stripslashes($info_on_offline_payment_panel_page),
