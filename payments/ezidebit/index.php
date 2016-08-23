@@ -237,6 +237,7 @@ class ezidebit{
 			}
 
 			$campaign['payment_response'] = $payment_response;
+			$campaign['post_meta_id'] = esc_html($response['DonationMetaID']);
 
 			//Approve status code
 			$ApproveTransaction = array('00', '08', '10', '11', '16', '77', '000', '003');

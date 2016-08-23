@@ -212,10 +212,6 @@ class Pronto_donation_Public {
 						}
 					}
 				}
-				// save temporarily the card details and it is been encrypted 
-				$unsafe_data = maybe_serialize( $card_details );
-				$unsafe_data = $this->class->pronto_donation_unsafe_encryp( $unsafe_data );
-				set_transient( 'donor_c_details', utf8_encode( html_entity_decode( $unsafe_data ) ), 5 * 60 );
   
 				$donation_data['status'] = 'pending';
 				$donation_data['CurrencyCode'] = $this->campaignOption->SetCurrencyCode;
@@ -227,6 +223,11 @@ class Pronto_donation_Public {
 
 				$redirect_url =  get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $payment_used;
 				$post_meta_id = add_post_meta( $_POST['campaign_id'], 'pronto_donation_donor', $donation_data );
+
+				// save temporarily the card details and it is been encrypted 
+				$unsafe_data = maybe_serialize( $card_details );
+				$unsafe_data = $this->class->pronto_donation_unsafe_encryp( $unsafe_data );
+				set_transient( 'donor_c_details'.$post_meta_id, utf8_encode( html_entity_decode( $unsafe_data ) ), 5 * 60 );
 				
 				$status = "failed";
 
