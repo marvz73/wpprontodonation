@@ -100,7 +100,7 @@ class ezidebit{
 			'FirstName'				=> $ppd['first_name'],
 			'LastName'				=> $ppd['last_name'],
 			'EmailAddress'			=> $ppd['email'],
-			'MobilePhoneNumber'		=> $ppd['phone'],
+			'MobilePhoneNumber'		=> (isset($ppd['phone'])) ? $ppd['phone'] : '',
 			'PaymentAmount'			=> !empty($ppd['pd_custom_amount']) ? $ppd['pd_custom_amount'] : $ppd['pd_amount'],
 			'ShowDisabledInputs'	=> 0,
 			'RedirectMethod'		=> 'GET',
