@@ -926,7 +926,7 @@ class SforceBaseClient {
 
 		//Get instance URL
 		$instance_url = explode('/s',$this->getLocation())[0];
-		
+	
 		//Full rest API URL
 		$url = $instance_url . '/services/apexrest/' . $query;
 
@@ -977,6 +977,7 @@ class SforceBaseClient {
 		$response = json_decode($json_response);
 
 		if($status != 200) {
+
 			if(is_object($response))
 			{
 				foreach($response as $key=>$item){

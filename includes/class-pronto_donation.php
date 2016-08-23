@@ -301,6 +301,7 @@ class Pronto_donation {
 				$data = array();	
 				if($campaign['donation_type'] == 'recurring'){
 					//---------------MONTHLY---------------
+
 					$data = array(
 						'strDonation' => array(
 								"emailReceipt"		=> 	 true,
@@ -340,8 +341,37 @@ class Pronto_donation {
 				}
 
 				if(isset($data['strDonation'])){
-					$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $data, 'create');
-					return $opportunity;
+
+					if($campaign['donation_type'] == 'recurring'){
+
+						$one = array(
+							'strDonation' => array(
+									"emailReceipt"		=> 	 true,
+									"FirstName" 		=>	 $campaign['first_name'],
+									"LastName"  		=>	 $campaign['last_name'],
+									"Email"  			=>	 $campaign['email'],
+									"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
+									"donationType" 		=>	 "one"
+								)
+						);
+
+						if(isset($campaign['donation_gau']) && $campaign['donation_gau'] != ''){
+							$one['strDonation']['GAUAlloc'] = $campaign['donation_gau'];
+						}
+
+						$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $one, 'create');
+
+						if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
+							$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $data, 'create');
+							return $opportunity;
+						}else{
+							return $opportunity;
+						}
+						
+					}else{
+						$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $data, 'create');
+						return $opportunity;
+					}
 				}else{
 					return array('error'=>1,'message'=>'strDonation is empty.');
 				}

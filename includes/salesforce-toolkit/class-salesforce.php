@@ -65,6 +65,8 @@ class salesforceSOAP{
 
       $instanceClass->error = $e->faultstring;
 
+      die($instanceClass->error);
+
     }
 
     return $instanceClass;
