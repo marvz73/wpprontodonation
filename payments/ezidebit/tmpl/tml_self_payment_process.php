@@ -47,7 +47,7 @@
 				<input type="hidden" id="paymentReference" value="<?php echo substr(md5(uniqid(rand(), true)), 0,24) ?>"/>
 			</div>
 			<div>
-				<input type="text" id="amount" value=""/>	
+				<input type="hidden" id="amount" value=""/>	
 			</div>
 		</div>
 	</div>
