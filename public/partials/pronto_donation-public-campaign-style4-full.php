@@ -504,7 +504,7 @@
 							$eway_payment = new eway();
 							$eway_payment->payment_self_payment();			
 						?>
-					</div>
+						</div>
 					<?php
 					}
 					//------------ EWAY Selfpayment ------------//

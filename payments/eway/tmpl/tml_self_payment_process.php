@@ -8,8 +8,13 @@
 		<div class="pd-col s12">
 			<h4>eWay Card Details</h4>
 		</div>
-		<div class="pd-col s12">
-			<div id="eway_card_details_error" class="eway_alert" hidden>Card Details Incomplete</div>
+		<div class="pd-col s6">
+			<div>
+				<div id="eway_card_details_error" class="eway_alert" hidden>Card Details Incomplete</div>
+			</div>
+			<div>
+				<input type="hidden" id="" value=""/>	
+			</div>
 		</div>
 	</div>
 
@@ -45,7 +50,6 @@
 							<select id="eway_expiry_year" name="eway_expiry_year" >
 								<option value="YYYY" disabled selected>YYYY</option>
 								<?php
-
 								$i = date("Y");
 								$j = $i+11;
 								for ($i; $i <= $j; $i++) {

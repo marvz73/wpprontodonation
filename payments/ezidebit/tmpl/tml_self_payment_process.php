@@ -55,14 +55,14 @@
 	<div class="credit-card-detals pronto-donation-group clearfix">
 		<div class="pd-col s12">
 			<div class="clearfix pronto-donation-group">
-				<div class="pd-col s5">
+				<div class="pd-col s6">
 					<label for="cardNumber">Card Number</label>
 					<input type="text" id="cardNumber" name="cardNumber" maxlength="19"/>
 				</div>
 				<div class="pd-col s6" style="padding-left: 10px;">	
 					<label for="expiryMonth">Expiry Date</label>
 					<div class="pronto-donation-group">
-						<div class="pd-col s5">
+						<div class="pd-col s6">
 							<select id="expiryMonth" name="expiryMonth">
 								<option disabled selected>MM</option>
 								<option value="01">01</option>
@@ -84,13 +84,13 @@
 							<select id="expiryYear" name="expiryYear">
 								<option disabled selected>YYYY</option>
 								<?php
-									$i = date("Y");
-									$j = $i+11;
-									for ($i; $i <= $j; $i++) {
-										?>
-										<option value="<?php echo $i ?>"><?php echo $i ?></option>
-										<?php
-									}
+								$i = date("Y");
+								$j = $i+11;
+								for ($i; $i <= $j; $i++) {
+									?>
+									<option value="<?php echo $i ?>"><?php echo $i ?></option>
+									<?php
+								}
 								?>
 							</select>
 						</div>
@@ -100,7 +100,7 @@
 		</div>
 		<div class="pd-col s12">
 			<div class="clearfix pronto-donation-group">
-				<div class="pd-col s5">
+				<div class="pd-col s6">
 					<label for="nameOnCard">Name on Card</label>
 					<input type="text" id="nameOnCard" name="nameOnCard" maxlength="50"/>
 				</div>
