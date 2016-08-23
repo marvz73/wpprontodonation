@@ -279,6 +279,9 @@ class Pronto_donation_Public {
 	    		$campaign_data['statusText'] = '';
 	    		$campaign_data['timestamp'] = time();
 
+				$unit_number_value =  (isset($campaign_data['unit_number'])) ? $campaign_data['unit_number'] : '';
+	    		$campaign_data['address'] = $unit_number_value.' '.$campaign_data['address'];
+
 	    		$campaign_data['redirectURL'] = get_home_url() . '/?p=' . $this->campaignOption->ThankYouPageMessagePage . '&payment_gateway=' . $campaign_data['payment'];
 
 
