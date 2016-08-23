@@ -303,6 +303,7 @@
 				<div class="pd-container-padding clearfix">
 					<div class="pd-col s4">
 						<div class="pronto-donation-group">
+							<label>Donor Type</label>
 							<select placeholder="Donor Type" id="donorType" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="donor_type" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_donor_type_option']) ?> >
 								<option value="I">Individual</option>
 								<option value="B">Business</option>
@@ -311,7 +312,8 @@
 					</div>
 					<div class="pd-col s8">
 						<div class="pronto-donation-group" >
-							<input placeholder="Company Name" disabled="disabled" id="companyName" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="companyName" type="text" />	
+						<label>Company Name</label>
+							<input placeholder="" disabled="disabled" id="companyName" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="companyName" type="text" />	
 						</div>
 					</div>
 				</div>
@@ -322,16 +324,16 @@
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_firstname_option'] != 'hide'): ?>
 					<div class="pronto-donation-group clearfix">
-						
-						<input placeholder="First Name" name="first_name" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'first_name') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_firstname_option']) ?>/>
+						<label>First Name</label>
+						<input placeholder="" name="first_name" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'first_name') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_firstname_option']) ?>/>
 					</div>
 					<?php endif; ?>
 				</div>
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_lastname_option'] != 'hide'): ?>
 						<div class="pronto-donation-group clearfix">
-							
-							<input placeholder="Last Name" name="last_name" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'last_name') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_lastname_option']) ?>/>
+							<label>Last Name</label>
+							<input placeholder="" name="last_name" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'last_name') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_lastname_option']) ?>/>
 						</div>
 					<?php endif; ?>
 				</div>
@@ -343,8 +345,8 @@
 					<div class="pd-container-group clearfix">
 						<div class="pd-col s12">
 							<div class="pronto-donation-group">
-								
-								<input placeholder="Email" name="email" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'email') ?>" type="email" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_email_option']) ?>/>
+								<label>Email</label>
+								<input placeholder="" name="email" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'email') ?>" type="email" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_email_option']) ?>/>
 							</div>
 						</div>
 					</div>
@@ -352,8 +354,9 @@
 				</div>
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_phone_option'] != 'hide'): ?>
-					<div class="pronto-donation-group clearfix">						
-						<input placeholder="Phone" name="phone" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'phone') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_phone_option']) ?>/>
+					<div class="pronto-donation-group clearfix">
+						<label>Phone</label>						
+						<input placeholder="" name="phone" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'phone') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_phone_option']) ?>/>
 					</div>
 					<?php endif; ?>
 				</div>
@@ -364,7 +367,8 @@
 				<div class="pd-col s4">
 					<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
 						<div class="pronto-donation-group clearfix">
-							<input placeholder="Unit Number" type="text" id="unit_number" name="unit_number" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'unit_number') ?>" type="text"/>
+							<label>Unit Number</label>
+							<input placeholder="" type="text" id="unit_number" name="unit_number" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'unit_number') ?>" type="text"/>
 						</div>
 					<?php endif; ?>
 				</div>
@@ -372,7 +376,8 @@
 				<div class="pd-col s8">
 					<?php if($pronto_donation_user_info['user_address_option'] != 'hide'): ?>
 						<div class="pronto-donation-group clearfix">
-							<input placeholder="Street address" type="text" id="<?php if($enable_address_validation==1){ echo 'autocomplete';}else{}?>" name="address" placeholder=""
+							<label>Street address</label>
+							<input placeholder="" type="text" id="<?php if($enable_address_validation==1){ echo 'autocomplete';}else{}?>" name="address" placeholder=""
 				             onFocus="" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'address') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_address_option']) ?>/>
 							<span id="adress_validation" class="invalid-address"></span>
 						</div>
@@ -400,8 +405,8 @@
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_suburb_option'] != 'hide'): ?>
 					<div class="pronto-donation-group clearfix">
-					
-						<input placeholder="Suburb" id="locality" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
+						<label>Suburb</label>
+						<input placeholder="" id="locality" name="suburb" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'suburb') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_suburb_option']) ?>/>
 						<span id="suburb_validation"></span>
 					</div>
 
@@ -413,8 +418,8 @@
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_state_option'] != 'hide'): ?>
 					<div class="pronto-donation-group clearfix">
-						
-						<input placeholder="State" type="text" id="administrative_area_level_1" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>/>
+						<label>State</label>
+						<input placeholder="" type="text" id="administrative_area_level_1" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="state" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_state_option']) ?>/>
 						<span id="state_validation"></span>
 					</div>
 
@@ -429,8 +434,8 @@
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_postcode_option'] != 'hide'): ?>
 						<div class="pronto-donation-group clearfix">
-							
-							<input placeholder="Postcode" id="postal_code" name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
+							<label>Postcode</label>
+							<input placeholder="" id="postal_code" name="post_code" class="<?php echo $this->campaignOption->InputFieldClass ?>" value="<?php $this->_check_field_value($_POST, 'post_code') ?>" type="text" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_postcode_option']) ?>/>
 						</div>
 
 					<?php elseif($pronto_donation_user_info['user_postcode_option'] == 'hide'): ?>
@@ -441,8 +446,8 @@
 				<div class="pd-col s6">
 					<?php if($pronto_donation_user_info['user_country_option'] != 'hide'): ?>
 					<div class="pronto-donation-group clearfix">
-						
-						<input placeholder="Country" type="text" id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>/>
+						<label>Country</label>
+						<input placeholder="" type="text" id="country" class="<?php echo $this->campaignOption->InputFieldClass ?>" name="country" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_country_option']) ?>/>
 						<span id="country_validation"></span>
 					</div>
 					<?php endif; ?>
@@ -452,7 +457,8 @@
 						<div class="pd-container-padding clearfix">
 							<div class="pd-col s12">
 								<div class="pronto-donation-group">
-									<textarea placeholder="Additional Comments" name="comment" rows="5" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_comment_option']) ?>></textarea>
+									<label>Additional Comments</label>
+									<textarea placeholder="" name="comment" rows="5" <?php $this->class->pronto_donation_is_required($pronto_donation_user_info['user_comment_option']) ?>></textarea>
 								</div>
 							</div>
 						</div>
