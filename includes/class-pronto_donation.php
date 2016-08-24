@@ -360,8 +360,6 @@ class Pronto_donation {
 						}
 
 						$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $one, 'create');
-
-						// logs the data passed to the salsforce payment api
 						array_push($data_logs, array(
 							'data' => $one,
 							'api_response' => $opportunity
@@ -370,7 +368,6 @@ class Pronto_donation {
 						if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
 							$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $data, 'create');
 
-							// logs the data passed to the salsforce payment api
  							unset($data['strDonation']['PaymentSource']);
  							array_push($data_logs, array(
  								'data' => $data,
@@ -378,6 +375,7 @@ class Pronto_donation {
  							));
 
  							$data_logs['donation_type'] = 'monthly';
+ 							// logs the data passed to the salsforce payment api
 							$this->pronto_donation_logs_sf_api_details( $data_logs, $campaign['donation_campaign'], $campaign['post_meta_id'] );
 
 							return $opportunity;
@@ -392,8 +390,8 @@ class Pronto_donation {
 							'data' => $data,
 							'api_response' => $opportunity
 						));
-
 						$data_logs['donation_type'] = 'one-off';
+						// logs the data passed to the salsforce payment api
 						$this->pronto_donation_logs_sf_api_details( $data_logs, $campaign['donation_campaign'], $campaign['post_meta_id'] );
 
 						return $opportunity;
