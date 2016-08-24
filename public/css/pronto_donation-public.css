@@ -4,6 +4,16 @@
  * included in this file.
  */
 /*Eway error alert box*/
+
+button:disabled{
+	opacity: 0.3 !important;
+    border-width: 3px;
+    border-style: solid;
+    border-top-style: dotted;
+    border-right-style: solid;
+    border-bottom-style: dotted;
+    border-left-style: solid;
+}
 .eway_alert {
     border: 1px;
     padding-left: 5px;
