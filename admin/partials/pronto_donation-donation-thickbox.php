@@ -9,9 +9,7 @@
         
         $donation_details = unserialize( $result[0]->meta_value );
 
-        // echo "<pre>";
-        // print_r($donation_details);
-        // die();
+
 
         $data_address = ( !empty( $donation_details['address'] ) ) ? $donation_details['address'] ." ": '';
         $data_suburb = ( !empty( $donation_details['suburb'] ) ) ? $donation_details['suburb'] .", ": '';
@@ -20,12 +18,21 @@
         $data_country = ( !empty( $donation_details['country'] ) ) ? $donation_details['country'] : '';
 
         $data_address_concat = $data_address.$data_suburb.$data_state.$data_post_code.$data_country;
+
+
+        $logs_result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_logs".$meta_key."'" );
+        $the_donation_logs = ( !empty( $logs_result ) ) ? unserialize( $logs_result[0]->meta_value ) : '';
+
         ?>
 
         <script type="text/javascript">
 
         jQuery(document).ready(function($){
             var oldvalue;
+
+            $('#api-data-option').click(function(){
+                $('#data-payment-api').toggle();
+            });
 
             $("#donation_status").attr('prev', $("#donation_status").val());
             $('#donation_status').change(function(){
@@ -79,6 +86,13 @@
                 font-family: sans-serif;
             }
 
+            #api-data-option {
+                font-weight: bold;
+            }
+            #api-data-option:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
         </style>
         <div class="wrapper">
 
@@ -378,6 +392,19 @@
                         <?php
                     }
                     ?>
+
+                    <tr>
+                        <th>
+                            <small id="api-data-option" style=""> Show salesforce api logs </small>
+                        </th>
+                        <td>
+                            <div id="data-payment-api" style="display:none;">
+                                <textarea readonly rows="3" cols="46" class="donation-details-value" name="api_logs"><?php echo maybe_serialize( $the_donation_logs ); ?></textarea>
+                            </div>
+                        </td>
+                    </tr>
+
+
                 </tbody>
             </table>
          </div>

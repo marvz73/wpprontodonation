@@ -283,7 +283,6 @@ class Pronto_donation {
 	//----------------------------------------------------------------
 
 	public function set_salesforceDonation($campaign){
-
 		$this->manual_loadDependencies();
 
     	$wpOptions = get_option('pronto_donation_settings', 0);
@@ -299,19 +298,12 @@ class Pronto_donation {
 	   		{
 
 				$data = array();	
-
-				
-				
-
-
 				if($campaign['donation_type'] == 'recurring'){
 					//---------------MONTHLY---------------
 
 					$data = array(
 						'strDonation' => array(
 								"emailReceipt"		=> 	 true,
-								"donorType"			=>	 (isset($campaign['donor_type']) && $campaign['donor_type'] == 'B') ? 'company' : 'individual',
-								"companyName"		=>	 $campaign['companyName'],
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
@@ -333,8 +325,6 @@ class Pronto_donation {
 					$data = array(
 						'strDonation' => array(
 								"emailReceipt"		=> 	 true,
-								"donorType"			=>	 (isset($campaign['donor_type']) && $campaign['donor_type'] == 'B') ? 'company' : 'individual',
-								"companyName"		=>	 $campaign['companyName'],
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
@@ -350,14 +340,13 @@ class Pronto_donation {
 				}
 
 				if(isset($data['strDonation'])){
+					$data_logs = array();
 
 					if($campaign['donation_type'] == 'recurring'){
 
 						$one = array(
 							'strDonation' => array(
 									"emailReceipt"		=> 	 true,
-									"donorType"			=>	 (isset($campaign['donor_type']) && $campaign['donor_type'] == 'B') ? 'company' : 'individual',
-									"companyName"		=>	 $campaign['companyName'],
 									"FirstName" 		=>	 $campaign['first_name'],
 									"LastName"  		=>	 $campaign['last_name'],
 									"Email"  			=>	 $campaign['email'],
@@ -372,8 +361,25 @@ class Pronto_donation {
 
 						$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $one, 'create');
 
+						// logs the data passed to the salsforce payment api
+						array_push($data_logs, array(
+							'data' => $one,
+							'api_response' => $opportunity
+						));
+
 						if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
 							$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $data, 'create');
+
+							// logs the data passed to the salsforce payment api
+ 							unset($data['strDonation']['PaymentSource']);
+ 							array_push($data_logs, array(
+ 								'data' => $data,
+ 								'api_response' => $opportunity
+ 							));
+
+ 							$data_logs['donation_type'] = 'monthly';
+							$this->pronto_donation_logs_sf_api_details( $data_logs, $campaign['donation_campaign'], $campaign['post_meta_id'] );
+
 							return $opportunity;
 						}else{
 							return $opportunity;
@@ -381,6 +387,15 @@ class Pronto_donation {
 						
 					}else{
 						$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $data, 'create');
+
+						array_push($data_logs, array(
+							'data' => $data,
+							'api_response' => $opportunity
+						));
+
+						$data_logs['donation_type'] = 'one-off';
+						$this->pronto_donation_logs_sf_api_details( $data_logs, $campaign['donation_campaign'], $campaign['post_meta_id'] );
+
 						return $opportunity;
 					}
 				}else{
@@ -437,6 +452,10 @@ class Pronto_donation {
 	public function pronto_donation_unsafe_decryp($encrypted) {
 		$key = hex2bin('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f');
 		return UnsafeCrypto::decrypt($encrypted, $key);
+	}
+
+	public function pronto_donation_logs_sf_api_details($data, $campaign_id, $meta_id) {
+		$post_meta_id = add_post_meta( $campaign_id, 'pronto_donation_logs'.$meta_id, $data );
 	}
 
 	public function pronto_donation_payment_methods(){
