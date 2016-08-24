@@ -368,7 +368,17 @@ class Pronto_donation {
 						if(isset($opportunity['status_code']) && ($opportunity['status_code'] == '201' || $opportunity['status_code'] == '200')){
 							$opportunity = $this->salesforceAPI->restAPI('ASSFAPI/donation', $data, 'create');
 
- 							unset($data['strDonation']['PaymentSource']);
+ 							if(!empty($data['strDonation']['PaymentSource'])) {
+ 								$data['strDonation']['PaymentSource']['ccname'] = '';
+ 								$data['strDonation']['PaymentSource']['ccno'] = '';
+ 								$data['strDonation']['PaymentSource']['expmonth'] = '';
+ 								$data['strDonation']['PaymentSource']['expyear'] = '';
+ 								$data['strDonation']['PaymentSource']['ccv'] = '';
+ 								$data['strDonation']['PaymentSource']['type'] = '';
+ 							} else {
+ 								unset($data['strDonation']['PaymentSource']);
+ 							}
+
  							array_push($data_logs, array(
  								'data' => $data,
  								'api_response' => $opportunity

@@ -23,6 +23,9 @@
         $logs_result = $wpdb->get_results("Select * FROM $wpdb->postmeta where meta_key='pronto_donation_logs".$meta_key."'" );
         $the_donation_logs = ( !empty( $logs_result ) ) ? unserialize( $logs_result[0]->meta_value ) : '';
 
+        // echo "<pre>";
+        // print_r( $the_donation_logs );
+
         ?>
 
         <script type="text/javascript">
@@ -399,7 +402,7 @@
                         </th>
                         <td>
                             <div id="data-payment-api" style="display:none;">
-                                <textarea readonly rows="3" cols="46" class="donation-details-value" name="api_logs"><?php echo maybe_serialize( $the_donation_logs ); ?></textarea>
+                                <textarea readonly rows="3" cols="46" class="donation-details-value" name="api_logs"><?php echo serialize( $the_donation_logs ); ?></textarea>
                             </div>
                         </td>
                     </tr>
