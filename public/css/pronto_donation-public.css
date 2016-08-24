@@ -6,7 +6,6 @@
 /*Eway error alert box*/
 
 button:disabled{
-	opacity: 0.3 !important;
     border-width: 3px;
     border-style: solid;
     border-top-style: dotted;
