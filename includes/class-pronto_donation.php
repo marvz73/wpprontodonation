@@ -299,12 +299,19 @@ class Pronto_donation {
 	   		{
 
 				$data = array();	
+
+				
+				
+
+
 				if($campaign['donation_type'] == 'recurring'){
 					//---------------MONTHLY---------------
 
 					$data = array(
 						'strDonation' => array(
 								"emailReceipt"		=> 	 true,
+								"donorType"			=>	 (isset($campaign['donor_type']) && $campaign['donor_type'] == 'B') ? 'company' : 'individual',
+								"companyName"		=>	 $campaign['companyName'],
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
@@ -326,6 +333,8 @@ class Pronto_donation {
 					$data = array(
 						'strDonation' => array(
 								"emailReceipt"		=> 	 true,
+								"donorType"			=>	 (isset($campaign['donor_type']) && $campaign['donor_type'] == 'B') ? 'company' : 'individual',
+								"companyName"		=>	 $campaign['companyName'],
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
@@ -347,6 +356,8 @@ class Pronto_donation {
 						$one = array(
 							'strDonation' => array(
 									"emailReceipt"		=> 	 true,
+									"donorType"			=>	 (isset($campaign['donor_type']) && $campaign['donor_type'] == 'B') ? 'company' : 'individual',
+									"companyName"		=>	 $campaign['companyName'],
 									"FirstName" 		=>	 $campaign['first_name'],
 									"LastName"  		=>	 $campaign['last_name'],
 									"Email"  			=>	 $campaign['email'],
