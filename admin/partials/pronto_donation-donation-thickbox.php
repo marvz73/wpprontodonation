@@ -402,7 +402,7 @@
                         </th>
                         <td>
                             <div id="data-payment-api" style="display:none;">
-                                <textarea readonly rows="3" cols="46" class="donation-details-value" name="api_logs"><?php echo serialize( $the_donation_logs ); ?></textarea>
+                                <textarea readonly rows="3" cols="46" class="donation-details-value" name="api_logs"><?php print_r( $the_donation_logs ); ?></textarea>
                             </div>
                         </td>
                     </tr>
