@@ -220,12 +220,15 @@
 				$('.self-payment-msg').empty();
 				$('.ezidebit-error').remove();
 				$('.form-error').remove();
+				$('#payNowButton').attr('disabled', 'disabled');
 
 				var card_details = [];
 				var cptcha_response = '';
 				var formData = $('.pronto-donation-form').serializeArray();
 
 				for(var i = 0; i < formData.length; i++ ) {
+
+					
 
 					if( formData[i].name == 'comment' ) {
 						if( $('textarea[name='+ formData[i].name +']').prop('required') == true 
@@ -241,50 +244,65 @@
 						if( $('input[name='+ formData[i].name +']').prop('required') == true 
 							&& ( formData[i].value == null || formData[i].value == '' ) ) {
 
-							if( formData[i].name == 'email' ) {
+							if( formData[i].name == 'companyName' ) {
+								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Comapny Name is required.</small>');
+								$('.ezi-lazy-loading').hide();
+								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
+								return;
+							} else if( formData[i].name == 'email' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Email is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
 								return;
 							} else if( formData[i].name == 'first_name' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> First Name is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
 								return;
 							} else if( formData[i].name == 'last_name' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Last Name is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
 								return;
 							} else if( formData[i].name == 'phone' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Phone is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
 								return;
 							} else if( formData[i].name == 'address' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Address is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
 								return;
 							} else if( formData[i].name == 'country' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Country is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
 								return;
 							} else if( formData[i].name == 'post_code' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Post Code is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
 								return;
 							} else if( formData[i].name == 'suburb' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Suburb is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
 								return;
 							} else if( formData[i].name == 'state' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> State is required.</small>');
 								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('#payNowButton').removeAttr('disabled');
 								return;
 							}
 						}
@@ -383,6 +401,7 @@
  									}
  									$('.ezi-lazy-loading').hide();
  									grecaptcha.reset(captcha_id);
+ 									$('#payNowButton').removeAttr('disabled');
 								 	cptcha_response = '';
  									return;
  								}

@@ -52,8 +52,11 @@ jQuery(document).ready(function($){
 		if($(this).val() == 'I')
 		{
 			companyName.attr('disabled', 'disabled');
+			companyName.removeAttr('required')
 		}else if($(this).val() == 'B'){
 			companyName.removeAttr('disabled');
+			companyName.attr('required', '')
+
 		}else{
 			companyName.attr('disabled', 'disabled');
 		}
@@ -92,7 +95,12 @@ jQuery(document).ready(function($){
 				if( $('input[name='+ formData[i].name +']').prop('required') == true 
 					&& ( formData[i].value == null || formData[i].value == '' ) ) {
 
-					if( formData[i].name == 'email' ) {
+					if( formData[i].name == 'companyName' ) {
+						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Company Name is required.</small>');
+						$('.ezi-lazy-loading').hide();
+						$('input[name='+ formData[i].name +']').focus();
+						return false;
+					} else if( formData[i].name == 'email' ) {
 						$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Email is required.</small>');
 						$('.ezi-lazy-loading').hide();
 						$('input[name='+ formData[i].name +']').focus();
