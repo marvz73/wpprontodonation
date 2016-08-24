@@ -237,6 +237,7 @@
 							$('textarea[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Comment is required.</small>');
 							$('.ezi-lazy-loading').hide();
 							$('textarea[name='+ formData[i].name +']').focus();
+							$('#payNowButton').removeAttr('disabled');
 							return;
 						}
 
@@ -422,6 +423,7 @@
 								 		grecaptcha.reset(captcha_id);
 								 		cptcha_response = '';
 								 		return;
+								 		$('#payNowButton').removeAttr('disabled');
 									}
 								}, 3000);
 							};
@@ -449,6 +451,7 @@
 		 				
 		 				$('.self-payment-msg').append('<p class="ezidebit-error">Something went wrong, Please try again</p>');
 		 				$('.ezi-lazy-loading').hide();
+		 				$('#payNowButton').removeAttr('disabled');
 		 				return;
 			        }
 			    });
@@ -508,6 +511,7 @@
 	 				$('#payNowButton').unbind('click', process_payment_ezidebit);
 	 				$('#payNowButton').removeAttr('onclick');
 	 				$('.self-payment-msg').empty();
+	 				$('#payNowButton').removeAttr('disabled');
 	 			}
 			}
 		)
