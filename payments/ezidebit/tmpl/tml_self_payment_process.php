@@ -224,7 +224,9 @@
 
 				var card_details = [];
 				var cptcha_response = '';
+
 				var formData = $('.pronto-donation-form').serializeArray();
+				// console.log(formData)
 
 				for(var i = 0; i < formData.length; i++ ) {
 
@@ -353,7 +355,7 @@
 							// this function will be the success callback for ezidebit client side
 							your_a_robot = 0;
 							var displaySubmitCallback = function(data) {
- 								// console.log('response data', data)
+ 								// console.log('card details', card_details)
  								var success_response = ['00', '08', '10', '11', '16', '77', '000', '003'];
  								if( $.inArray( data.PaymentResultCode, success_response ) != -1 ) {
  									// console.log('hahahaah success')
@@ -367,7 +369,7 @@
 											$.ajax({
 												type: 'POST',
 												url:  ajax_frontend.ajax_url,
-												data: { 'action':'ezi_self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data },
+												data: { 'action':'ezi_self_payment_proccess', 'data' : formData, 'campaign_id' : campaign_id, 'ezidebit_api_response' : data, 'c_details' : card_details },
 												success: function(response){
 
 													// console.log(response)

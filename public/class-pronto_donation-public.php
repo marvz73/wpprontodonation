@@ -207,11 +207,19 @@ class Pronto_donation_Public {
 									}
 								}
 							}
-						} else if( in_array($data['name'], $restricted ) && in_array( $data['name'], $ezidebit_card_details ) ) {
-							$card_details[$data['name']] = $data['value'];
 						}
 					}
 				}
+
+				// capture the card details
+				if( is_array( $_POST['c_details'] ) && sizeof( $_POST['c_details'] ) > 0 ) {
+					foreach ($_POST['c_details'] as $key => $data_c) {
+						if( in_array($data_c['key'], $ezidebit_card_details ) ) {
+							$card_details[$data_c['key']] = $data_c['value'];
+						}
+					}
+				}
+
   				$unit_number_value =  (isset($donation_data['unit_number'])) ? $donation_data['unit_number'] : '';
 	    		$donation_data['address'] = $unit_number_value.' '.$donation_data['address'];
 				$donation_data['status'] = 'pending';
