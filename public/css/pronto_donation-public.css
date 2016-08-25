@@ -9,7 +9,7 @@
 		padding-left: 10px;	
 	}	
 }
-@media(max-width: 768px){
+@media(max-width: 767px){
 	.padding_Input{
 		padding-top: 10px;
 	}	
