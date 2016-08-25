@@ -4,12 +4,12 @@
  * included in this file.
  */
 /*Eway error alert box*/
-@media(min-width: 775px){
+@media(min-width: 768px){
 	.padding_Input{
 		padding-left: 10px;	
 	}	
 }
-@media(max-width: 775px){
+@media(max-width: 768px){
 	.padding_Input{
 		padding-top: 10px;
 	}	
