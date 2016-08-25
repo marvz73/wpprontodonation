@@ -1,7 +1,6 @@
 <?php 
- 
-
-
+$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+$InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : $pronto_donation_settings['InputFieldClass'];
 ?>
 
 <style type="text/css">
@@ -57,13 +56,13 @@
 			<div class="pronto-donation-group clearfix">
 				<div class="pd-col s6">
 					<label for="cardNumber">Card Number</label>
-					<input type="text" id="cardNumber" name="cardNumber" maxlength="19"/>
+					<input class="<?php echo $InputFieldClass; ?>" type="text" id="cardNumber" name="cardNumber" maxlength="19"/>
 				</div>
 				<div class="pd-col s6" style="padding-left: 10px;">	
 					<label for="expiryMonth">Expiry Date</label>
 					<div class="pronto-donation-group clearfix">
 						<div class="pd-col s6">
-							<select id="expiryMonth" name="expiryMonth">
+							<select class="<?php echo $InputFieldClass; ?>" id="expiryMonth" name="expiryMonth">
 								<option disabled selected>MM</option>
 								<option value="01">01</option>
 								<option value="02">02</option>
@@ -81,7 +80,7 @@
 						</div>
 
 						<div class="pd-col s6" style="padding-left: 10px;">
-							<select id="expiryYear" name="expiryYear">
+							<select class="<?php echo $InputFieldClass; ?>" id="expiryYear" name="expiryYear">
 								<option disabled selected>YYYY</option>
 								<?php
 								$i = date("Y");
@@ -102,11 +101,11 @@
 			<div class="pronto-donation-group clearfix">
 				<div class="pd-col s6">
 					<label for="nameOnCard">Name on Card</label>
-					<input type="text" id="nameOnCard" name="nameOnCard" maxlength="50"/>
+					<input class="<?php echo $InputFieldClass; ?>" type="text" id="nameOnCard" name="nameOnCard" maxlength="50"/>
 				</div>
 				<div class="pd-col s6" style="padding-left: 10px;">
 					<label for="ccv">CCV</label>
-					<input id="ccv" name="ccv" placeholder="" type="text" value="">
+					<input class="<?php echo $InputFieldClass; ?>" id="ccv" name="ccv" placeholder="" type="text" value="">
 				</div>
 			</div>	
 		</div>

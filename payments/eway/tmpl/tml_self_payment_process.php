@@ -1,7 +1,6 @@
 <?php 
-
-
-
+$pronto_donation_settings = (empty(get_option('pronto_donation_settings'))) ? "" : get_option('pronto_donation_settings');
+$InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : $pronto_donation_settings['InputFieldClass'];
 ?>
 <div class="wrap">
 	<div class="payment-details pronto-donation-group clearfix">
@@ -17,19 +16,20 @@
 			</div>
 		</div>
 	</div>
+	
 
 	<div class="credit-card-detals pronto-donation-group clearfix">
 		<div class="pd-col s12">
 			<div class="pronto-donation-group clearfix">
 				<div class="pd-col s6">
 					<label for="eway_card_number">Card Number</label>
-					<input type="text" id="eway_card_number" name="eway_card_number" maxlength="19" />
+					<input class="<?php echo $InputFieldClass; ?>" type="text" id="eway_card_number" name="eway_card_number" maxlength="19" />
 				</div>
 				<div class="pd-col s6" style="padding-left: 10px;">	
 					<label for="eway_expiry_month">Expiry Date</label>
 					<div class="pronto-donation-group clearfix">
 						<div class="pd-col s6">
-							<select id="eway_expiry_month" name="eway_expiry_month" >
+							<select class="<?php echo $InputFieldClass; ?>" id="eway_expiry_month" name="eway_expiry_month" >
 								<option value="MM" disabled selected>MM</option>
 								<option value="01">01</option>
 								<option value="02">02</option>
@@ -47,7 +47,7 @@
 						</div>
 
 						<div class="pd-col s6" style="padding-left: 10px;">
-							<select id="eway_expiry_year" name="eway_expiry_year" >
+							<select class="<?php echo $InputFieldClass; ?>" id="eway_expiry_year" name="eway_expiry_year" >
 								<option value="YYYY" disabled selected>YYYY</option>
 								<?php
 								$i = date("Y");
@@ -68,11 +68,11 @@
 			<div class="pronto-donation-group clearfix">
 				<div class="pd-col s6">
 					<label for="eway_name_on_card">Name on Card</label>
-					<input type="text" id="eway_name_on_card" name="eway_name_on_card" maxlength="50" />
+					<input class="<?php echo $InputFieldClass; ?>" type="text" id="eway_name_on_card" name="eway_name_on_card" maxlength="50" />
 				</div>
 				<div class="pd-col s6" style="padding-left: 10px;">
 					<label for="eway_ccv">CCV</label>
-					<input id="eway_ccv" name="eway_ccv" placeholder="" type="text" >
+					<input class="<?php echo $InputFieldClass; ?>" id="eway_ccv" name="eway_ccv" placeholder="" type="text" >
 				</div>				
 			</div>
 		</div>
