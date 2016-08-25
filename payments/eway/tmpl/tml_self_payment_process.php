@@ -25,7 +25,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 					<label for="eway_card_number">Card Number</label>
 					<input class="<?php echo $InputFieldClass; ?>" type="text" id="eway_card_number" name="eway_card_number" maxlength="19" />
 				</div>
-				<div class="pd-col s6" style="padding-left: 10px;">	
+				<div class="pd-col s6 padding_Input">	
 					<label for="eway_expiry_month">Expiry Date</label>
 					<div class="pronto-donation-group clearfix">
 						<div class="pd-col s6">
@@ -46,7 +46,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 							</select>
 						</div>
 
-						<div class="pd-col s6" style="padding-left: 10px;">
+						<div class="pd-col s6 padding_Input">
 							<select class="<?php echo $InputFieldClass; ?>" id="eway_expiry_year" name="eway_expiry_year" >
 								<option value="YYYY" disabled selected>YYYY</option>
 								<?php
@@ -70,7 +70,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 					<label for="eway_name_on_card">Name on Card</label>
 					<input class="<?php echo $InputFieldClass; ?>" type="text" id="eway_name_on_card" name="eway_name_on_card" maxlength="50" />
 				</div>
-				<div class="pd-col s6" style="padding-left: 10px;">
+				<div class="pd-col s6 padding_Input">
 					<label for="eway_ccv">CCV</label>
 					<input class="<?php echo $InputFieldClass; ?>" id="eway_ccv" name="eway_ccv" placeholder="" type="text" >
 				</div>				

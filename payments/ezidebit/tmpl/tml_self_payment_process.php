@@ -58,7 +58,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 					<label for="cardNumber">Card Number</label>
 					<input class="<?php echo $InputFieldClass; ?>" type="text" id="cardNumber" name="cardNumber" maxlength="19"/>
 				</div>
-				<div class="pd-col s6" style="padding-left: 10px;">	
+				<div class="pd-col s6 padding_Input">	
 					<label for="expiryMonth">Expiry Date</label>
 					<div class="pronto-donation-group clearfix">
 						<div class="pd-col s6">
@@ -79,7 +79,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 							</select>
 						</div>
 
-						<div class="pd-col s6" style="padding-left: 10px;">
+						<div class="pd-col s6 padding_Input">
 							<select class="<?php echo $InputFieldClass; ?>" id="expiryYear" name="expiryYear">
 								<option disabled selected>YYYY</option>
 								<?php
@@ -103,7 +103,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 					<label for="nameOnCard">Name on Card</label>
 					<input class="<?php echo $InputFieldClass; ?>" type="text" id="nameOnCard" name="nameOnCard" maxlength="50"/>
 				</div>
-				<div class="pd-col s6" style="padding-left: 10px;">
+				<div class="pd-col s6 padding_Input">
 					<label for="ccv">CCV</label>
 					<input class="<?php echo $InputFieldClass; ?>" id="ccv" name="ccv" placeholder="" type="text" value="">
 				</div>

@@ -4,7 +4,11 @@
  * included in this file.
  */
 /*Eway error alert box*/
-
+@media(min-width: 775px){
+	.padding_Input{
+		padding-left: 10px;	
+	}	
+}
 button:disabled{
     border-width: 3px;
     border-style: solid;
