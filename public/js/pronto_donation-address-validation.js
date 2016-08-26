@@ -81,7 +81,7 @@ jQuery(function(){
 	var google_geocode_api_key_value = jQuery('#google_geocode_api_key').val().length;
 
 	if(enable_address_validation_value == 1 && google_geocode_api_key_value != 0) {
-		console.log('Pronto Donation Google Address Rest API Status : OK');
+		//console.log('Pronto Donation Google Address Rest API Status : OK');
 		jQuery('#autocomplete').attr('onFocus', 'geolocate()');
 		initAutocomplete();
 

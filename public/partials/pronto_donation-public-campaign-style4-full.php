@@ -566,18 +566,17 @@
 					}
 				?>
 			</div>
-			<div class="pd-col s6 clearfix">
+			<div class="pd-col s6 clearfix ">
 				<?php 
 				//------------ Hide Button If 'No Payment available' ------------//
-				if($button_hidden==true){}
-				else{	
+				if($button_hidden!=true){		
 				//------------ Hide Button If 'No Payment available' ------------//
 				?>
-				<p class="submit">
-					<button id="payNowButton" type="submit" class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo (isset($this->campaignOption->EditButtonCaption)) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
-				</p>
-				<?php
-					}
+					<p class="submit">
+						<button id="payNowButton" type="submit" class="button button-primary <?php echo $this->campaignOption->ButtonClass ?>"> <?php echo (isset($this->campaignOption->EditButtonCaption)) ? $this->campaignOption->EditButtonCaption : 'Donate' ?> </button>
+					</p>
+				<?php			
+				}
 				?> 
 			</div>
 		</div>
