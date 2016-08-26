@@ -147,6 +147,8 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
 
         $redirect_url = plugin_dir_url( __FILE__ ) . "pronto_donation-donation-thickbox.php";
 
+        add_thickbox();
+
         foreach ($result as $key => $donor_value) {
 
             $donor_data = unserialize( $donor_value->meta_value );
@@ -480,6 +482,8 @@ class Pronto_Donation_Campaign_WP_Table extends WP_List_Table
         $eway_url = '<img src="'.$eway_url.'" width="70" height="30" alt="Eway">';
 
         $redirect_url = plugin_dir_url( __FILE__ ) . "pronto_donation-donation-thickbox.php";
+
+        add_thickbox();
         
         foreach ($result as $key => $donor_value) {
             $donor_data = unserialize( $donor_value->meta_value );

@@ -4,37 +4,26 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 ?>
 
 <style type="text/css">
-	.ezi-lazy-loading{
-		display: none; 
-		position: absolute;
-		left: 0;
-		right: 0;
-		width: 263px;
-		height: 100px;
-		margin: 0 auto;
-		text-align: center;
-	}
-	.ezi-lazy-loading p {
-		font-size: 13px;
-		color: #de5b5b;
-	}
 
 	.self-payment-style {
 		display: none;
 	}
+
 	.ezidebit-error {
 		font-size: 13px;
 		color: #de5b5b;
 		font-weight: bold;
 		margin-top: 10px;
 	}
-</style>
 
-<div class="ezi-lazy-loading">
-	
-	<img src="<?php echo plugins_url( '../inc/default.gif', __FILE__ ) ?>" alt="payment processing...">
-	<p>Processing Payment, Please wait...</p>
-</div>
+	.ezi-lazy-loading{
+		font-size: 11px;
+		text-align: center;
+		color: #de5b5b;
+		margin-left: 130px;
+	}
+
+</style>
 
 <div class="wrap">
 	<div class="payment-details pronto-donation-group clearfix">
@@ -214,8 +203,14 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 			e.preventDefault();
 			if(e.originalEvent !== undefined) {
 
+				var spinner_ui = '<div class="ezi-lazy-loading"><img src="<?php echo plugins_url( "../inc/default.gif", __FILE__ ) ?>" alt="payment processing..."><p>Processing Payment, Please wait...</p></div>';
+
 				$('#payNowButton').removeAttr('onclick');
-				$('.ezi-lazy-loading').show();
+				$('.submit').append( spinner_ui );
+				$('#payNowButton').hide();
+
+				return;
+				
 				$('.self-payment-msg').empty();
 				$('.ezidebit-error').remove();
 				$('.form-error').remove();
@@ -236,9 +231,10 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 							&& ( formData[i].value == null || formData[i].value == '' ) ) {
 
 							$('textarea[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Comment is required.</small>');
-							$('.ezi-lazy-loading').hide();
 							$('textarea[name='+ formData[i].name +']').focus();
+							$('.ezi-lazy-loading').hide();
 							$('#payNowButton').removeAttr('disabled');
+							$('#payNowButton').show();
 							return;
 						}
 
@@ -248,63 +244,73 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 
 							if( formData[i].name == 'companyName' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Comapny Name is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							} else if( formData[i].name == 'email' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Email is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							} else if( formData[i].name == 'first_name' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> First Name is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							} else if( formData[i].name == 'last_name' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Last Name is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							} else if( formData[i].name == 'phone' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Phone is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							} else if( formData[i].name == 'address' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Address is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							} else if( formData[i].name == 'country' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Country is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							} else if( formData[i].name == 'post_code' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Post Code is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							} else if( formData[i].name == 'suburb' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> Suburb is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							} else if( formData[i].name == 'state' ) {
 								$('input[name='+ formData[i].name +']').after('<small class="form-error"> <span style="color:red;">*</span> State is required.</small>');
-								$('.ezi-lazy-loading').hide();
 								$('input[name='+ formData[i].name +']').focus();
+								$('.ezi-lazy-loading').hide();
 								$('#payNowButton').removeAttr('disabled');
+								$('#payNowButton').show();
 								return;
 							}
 						}
@@ -334,20 +340,28 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 						if( typeof response.success != 'undefined' && response.success == false && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
-							$('#payNowButton').removeAttr('disabled');
 							$('.ezi-lazy-loading').hide();
+							$('#payNowButton').removeAttr('disabled');
+							$('#payNowButton').show();
+
 							your_a_robot++;
-							grecaptcha.reset(captcha_id);
-							cptcha_response = '';
+							if(captcha_enable == 1) {
+								grecaptcha.reset(captcha_id);
+								cptcha_response = '';
+							}
 
 						} else if( typeof response.success != 'undefined' && response.data.success == false && captcha_enable == 1 ) {
 
 							$('.self-payment-msg').append('<p class="ezidebit-error">You are a robot</p>');
-							$('#payNowButton').removeAttr('disabled');
 							$('.ezi-lazy-loading').hide();
+							$('#payNowButton').removeAttr('disabled');
+							$('#payNowButton').show();
+
 							your_a_robot++;
-							grecaptcha.reset(captcha_id);
-							cptcha_response = '';
+							if(captcha_enable == 1) {
+								grecaptcha.reset(captcha_id);
+								cptcha_response = '';
+							}
 
 						} else if( typeof response.success != 'undefined' && ( response.success == true || captcha_enable == 0 ) ) {
  
@@ -389,6 +403,8 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 
 													$('.self-payment-msg').append('<p class="ezidebit-error"> Something went wrong, Please try again </p>');
 													$('.ezi-lazy-loading').hide();
+													$('#payNowButton').removeAttr('disabled');
+													$('#payNowButton').show();
 													return;
 												}
 											});
@@ -401,10 +417,15 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
  									} else {
  										$('.self-payment-msg').append('<p class="ezidebit-error"> '+data.PaymentResultText+' </p>');
  									}
- 									$('.ezi-lazy-loading').hide();
- 									grecaptcha.reset(captcha_id);
- 									$('#payNowButton').removeAttr('disabled');
-								 	cptcha_response = '';
+									
+									$('.ezi-lazy-loading').hide();
+									$('#payNowButton').removeAttr('disabled');
+									$('#payNowButton').show();
+
+									if(captcha_enable == 1) {
+										grecaptcha.reset(captcha_id);
+										cptcha_response = '';
+									}
  									return;
  								}
 							};
@@ -420,11 +441,16 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 										} else {
 											$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
 										}
+
 										$('.ezi-lazy-loading').hide();
-								 		grecaptcha.reset(captcha_id);
-								 		cptcha_response = '';
+										$('#payNowButton').removeAttr('disabled');
+										$('#payNowButton').show();
+
+										if(captcha_enable == 1) {
+											grecaptcha.reset(captcha_id);
+											cptcha_response = '';
+										}
 								 		return;
-								 		$('#payNowButton').removeAttr('disabled');
 									}
 								}, 3000);
 							};
@@ -453,6 +479,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 		 				$('.self-payment-msg').append('<p class="ezidebit-error">Something went wrong, Please try again</p>');
 		 				$('.ezi-lazy-loading').hide();
 		 				$('#payNowButton').removeAttr('disabled');
+		 				$('#payNowButton').show();
 		 				return;
 			        }
 			    });
@@ -513,6 +540,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 	 				$('#payNowButton').removeAttr('onclick');
 	 				$('.self-payment-msg').empty();
 	 				$('#payNowButton').removeAttr('disabled');
+		 			$('#payNowButton').show();
 	 			}
 			}
 		)
