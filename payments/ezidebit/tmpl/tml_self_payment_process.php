@@ -208,8 +208,6 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 				$('#payNowButton').removeAttr('onclick');
 				$('.submit').append( spinner_ui );
 				$('#payNowButton').hide();
-
-				return;
 				
 				$('.self-payment-msg').empty();
 				$('.ezidebit-error').remove();
