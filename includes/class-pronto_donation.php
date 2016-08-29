@@ -311,6 +311,12 @@ class Pronto_donation {
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
+								"phone"				=>	 ( isset($campaign['phone']) ) ? $campaign['phone'] : '',
+								"address"			=>	 ( isset($campaign['address']) ) ? $campaign['address'] : '',
+								"city"				=>	 ( isset($campaign['suburb']) ) ? $campaign['suburb'] : '',
+								"state"				=>	 ( isset($campaign['state']) ) ? $campaign['state'] : '',
+								"postcode"			=>   ( isset($campaign['post_code']) ) ? $campaign['post_code'] : '',
+								"country"			=>	 ( isset($campaign['country']) ) ? $campaign['country'] : '',
 								"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
 								"GatewayId" 		=>	 isset($campaign['payment_info']->option['sf_gateway_id']) ? $campaign['payment_info']->option['sf_gateway_id'] : '',
 								"donationType" 		=>	 "monthly",
@@ -335,6 +341,12 @@ class Pronto_donation {
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
+								"phone"				=>	 ( isset($campaign['phone']) ) ? $campaign['phone'] : '',
+								"address"			=>	 ( isset($campaign['address']) ) ? $campaign['address'] : '',
+								"city"				=>	 ( isset($campaign['suburb']) ) ? $campaign['suburb'] : '',
+								"state"				=>	 ( isset($campaign['state']) ) ? $campaign['state'] : '',
+								"postcode"			=>   ( isset($campaign['post_code']) ) ? $campaign['post_code'] : '',
+								"country"			=>	 ( isset($campaign['country']) ) ? $campaign['country'] : '',
 								"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
 								"donationType" 		=>	 "one"
 							)
@@ -360,6 +372,12 @@ class Pronto_donation {
 									"FirstName" 		=>	 $campaign['first_name'],
 									"LastName"  		=>	 $campaign['last_name'],
 									"Email"  			=>	 $campaign['email'],
+									"phone"				=>	 ( isset($campaign['phone']) ) ? $campaign['phone'] : '',
+									"address"			=>	 ( isset($campaign['address']) ) ? $campaign['address'] : '',
+									"city"				=>	 ( isset($campaign['suburb']) ) ? $campaign['suburb'] : '',
+									"state"				=>	 ( isset($campaign['state']) ) ? $campaign['state'] : '',
+									"postcode"			=>   ( isset($campaign['post_code']) ) ? $campaign['post_code'] : '',
+									"country"			=>	 ( isset($campaign['country']) ) ? $campaign['country'] : '',
 									"Amount"     		=>	 !empty($campaign['pd_custom_amount']) ? $campaign['pd_custom_amount'] : $campaign['pd_amount'],
 									"donationType" 		=>	 "one"
 								)

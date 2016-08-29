@@ -434,7 +434,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 								setTimeout(function(){
 									if(your_a_robot == 0) {
 										if(data == 'An error has occurred attempting to contact the API. Please contact Ezidebit support.') {
-											// $('.self-payment-msg').append('<p class="ezidebit-error">Something went wrong, Please try again</p>');
+											$('.self-payment-msg').append('<p class="ezidebit-error">Something went wrong, Please try again</p>');
 											console.log(data)
 										} else {
 											$('.self-payment-msg').append('<p class="ezidebit-error">'+data+'</p>');
