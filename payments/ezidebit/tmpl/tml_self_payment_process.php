@@ -20,7 +20,6 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 		font-size: 11px;
 		text-align: center;
 		color: #de5b5b;
-		margin-left: 130px;
 	}
 
 </style>
