@@ -283,6 +283,7 @@ class Pronto_donation {
 	//----------------------------------------------------------------
 
 	public function set_salesforceDonation($campaign){
+
 		$this->manual_loadDependencies();
 
     	$wpOptions = get_option('pronto_donation_settings', 0);
@@ -305,7 +306,8 @@ class Pronto_donation {
 						'strDonation' => array(
 								"emailReceipt"		=> 	 true,
 								"donorType"			=>	 (isset($campaign['donor_type']) && $campaign['donor_type'] == 'B') ? 'company' : 'individual',
-								"companyName"		=>	 $campaign['companyName'],
+								"companyName"		=>	 ( isset($campaign['companyName']) ) ? $campaign['companyName'] : '',
+								"honoreeName"		=>   ( isset( $campaign['donation_gift_message'] ) ) ? $campaign['donation_gift_message'] : '',
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
@@ -328,7 +330,8 @@ class Pronto_donation {
 						'strDonation' => array(
 								"emailReceipt"		=> 	 true,
 								"donorType"			=>	 (isset($campaign['donor_type']) && $campaign['donor_type'] == 'B') ? 'company' : 'individual',
-								"companyName"		=>	 $campaign['companyName'],
+								"companyName"		=>	 ( isset($campaign['companyName']) ) ? $campaign['companyName'] : '',
+								"honoreeName"		=>   ( isset( $campaign['donation_gift_message'] ) ) ? $campaign['donation_gift_message'] : '',
 								"FirstName" 		=>	 $campaign['first_name'],
 								"LastName"  		=>	 $campaign['last_name'],
 								"Email"  			=>	 $campaign['email'],
@@ -352,7 +355,8 @@ class Pronto_donation {
 							'strDonation' => array(
 									"emailReceipt"		=> 	 true,
 									"donorType"			=>	 (isset($campaign['donor_type']) && $campaign['donor_type'] == 'B') ? 'company' : 'individual',
-									"companyName"		=>	 $campaign['companyName'],
+									"companyName"		=>	 ( isset($campaign['companyName']) ) ? $campaign['companyName'] : '',
+									"honoreeName"		=>   ( isset( $campaign['donation_gift_message'] ) ) ? $campaign['donation_gift_message'] : '',
 									"FirstName" 		=>	 $campaign['first_name'],
 									"LastName"  		=>	 $campaign['last_name'],
 									"Email"  			=>	 $campaign['email'],
