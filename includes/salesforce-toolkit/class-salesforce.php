@@ -34,7 +34,7 @@ class salesforceSOAP{
       $this->salesforce = $this->_initSalesforce(
         $this->wpOptions->SalesforceUsername, 
         $this->wpOptions->SalesforcePassword . $this->wpOptions->SecurityToken,
-        'xENTERPRICE'
+        'ENTERPRICE'
       );
 
 

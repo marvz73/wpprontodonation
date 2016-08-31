@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Salesforce.com Metadata API version 37.0 
+Salesforce.com Metadata API version 37.0
 
 Copyright 2006-2016 Salesforce.com, inc. All Rights Reserved
 -->
@@ -8601,7 +8601,7 @@ Copyright 2006-2016 Salesforce.com, inc. All Rights Reserved
  <service name="MetadataService">
   <documentation>Manage your Salesforce.com metadata</documentation>
   <port binding="tns:MetadataBinding" name="Metadata">
-   <soap:address location="https://test.salesforce.com/services/Soap/m/37.0"/>
+   <soap:address location="https://login.salesforce.com/services/Soap/m/37.0"/>
   </port>
  </service>
 </definitions>
