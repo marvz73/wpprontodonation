@@ -284,6 +284,14 @@ class Pronto_donation {
 
 	public function set_salesforceDonation($campaign){
 
+		/*
+        * this will restrict from calling/executing the saleforce payment api twice 
+        * during reload
+        */
+        if( isset( $campaign['opportunityId'] ) )
+            return false;
+
+		
 		$this->manual_loadDependencies();
 
     	$wpOptions = get_option('pronto_donation_settings', 0);

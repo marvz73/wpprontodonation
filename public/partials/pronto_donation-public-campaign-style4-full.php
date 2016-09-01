@@ -518,7 +518,7 @@
 
 				if( isset( $ezidebit_option['enable'] ) && isset( $ezidebit_option["enable_ajax_payment"] ) ) {
 					?>
- 					<div class="self-payment-style">
+ 					<div class="self-payment-style" class="">
  						<?php
 						 	$ezidebit_payment = new ezidebit();
 						 	$ezidebit_payment->payment_self_payment( $attrs['campaign'] );
