@@ -106,6 +106,8 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 
 		// payment process function for ezidebit 
 
+		var currecyCode = "<?php print_r($pronto_donation_settings['SetCurrencyCode']) ?>";
+
 		function get_ezidebit_response( errcode ) {
 			var responses = {
 				'01' : "Refer to Card Issuer",
@@ -327,13 +329,13 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 					if( (card_details[i].key == 'amount') ) {
 						var amount_donate = parseInt(card_details[i].value);
 						if( amount_donate > 10000 ) {
-							$('.self-payment-msg').append('<p class="ezidebit-error"> Maximum donation amount per transaction is 10,000 AUD. Thank you. </p>');
+							$('.self-payment-msg').append('<p class="ezidebit-error"> Maximum donation amount per transaction is 10,000 '+ currecyCode +'. Thank you. </p>');
 							$('.ezi-lazy-loading').hide();
 							$('#payNowButton').removeAttr('disabled');
 							$('#payNowButton').show();
 							return;
 						} else if( amount_donate < 2 ) {
-							$('.self-payment-msg').append('<p class="ezidebit-error"> Minimum donation is 2 AUD. Thank you. </p>');
+							$('.self-payment-msg').append('<p class="ezidebit-error"> Minimum donation is 2 '+ currecyCode +'. Thank you. </p>');
 							$('.ezi-lazy-loading').hide();
 							$('#payNowButton').removeAttr('disabled');
 							$('#payNowButton').show();

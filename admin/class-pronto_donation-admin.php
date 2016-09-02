@@ -660,6 +660,8 @@ class Pronto_donation_Admin {
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
 
+				var currecyCode = "<?php print_r($pronto_donation_settings['SetCurrencyCode']) ?>";
+
 				if( $('#amount_level_data').val() == null || $('#amount_level_data').val() == '' ) {
 					$('#hide_custom_amount').attr('disabled', true);
 				}
@@ -744,7 +746,7 @@ class Pronto_donation_Admin {
 
 					// this will restrict to input 2 below
 					if(parseData < 2) {
-						$(this).after("<small id='amount-err' style='color:red;'>  Minimum donation is 2 AUD. Thank you. </small>")
+						$(this).after("<small id='amount-err' style='color:red;'>  Minimum donation is 2 "+ currecyCode +". Thank you.</small>")
 						$('#amount_level').val('');
 
 						setTimeout(function(){
@@ -753,7 +755,7 @@ class Pronto_donation_Admin {
 
 						return false;
 					} else if(parseData > 10000) {
-						$(this).after("<small id='amount-err' style='color:red;'>  Maximum donation amount per transaction is 10,000 AUD. Thank you. </small>")
+						$(this).after("<small id='amount-err' style='color:red;'>  Maximum donation amount per transaction is 10,000 "+ currecyCode +". Thank you.</small>")
 						$('#amount_level').val('');
 
 						setTimeout(function(){
