@@ -462,7 +462,7 @@ class Pronto_donation_Admin {
 
 							<th scope="row"><label for="amount_level">Amount Levels</label></th>
 							<td>
-								<input type="text" name="amount_level" id="amount_level">
+								<input type="number" name="amount_level" id="amount_level" >
 								<input type="hidden" name="amount_level_data" id="amount_level_data" value="<?php if( !empty( $amount_l ) ) echo esc_attr( $amount_l ) ?>">
 								<a class="button button-primary" id="add_amount_btn" href=''>Add</a>
 
@@ -739,6 +739,31 @@ class Pronto_donation_Admin {
 				$('#add_amount_btn').click(function(e){
 
 					var data = $('#amount_level').val();
+
+					var parseData = parseInt(data);
+
+					// this will restrict to input 2 below
+					if(parseData < 2) {
+						$(this).after("<small id='amount-err' style='color:red;'>  An amount of 2 below are not allowed.</small>")
+						$('#amount_level').val('');
+
+						setTimeout(function(){
+							$('#amount-err').remove();
+						},4000);
+
+						return false;
+					} else if(parseData > 10000) {
+						$(this).after("<small id='amount-err' style='color:red;'>  An amount of 10000 above are not allowed.</small>")
+						$('#amount_level').val('');
+
+						setTimeout(function(){
+							$('#amount-err').remove();
+						},4000);
+
+						return false;
+					}
+
+
 					var currency_val = "<?php echo $currency_val ?>";
 				 
 					if(data != null && data != '') {

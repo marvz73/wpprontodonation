@@ -323,6 +323,24 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 				});
 				cptcha_response = captcha_response;
 
+				for( var i = 0; i < card_details.length; i++ ) {
+					if( (card_details[i].key == 'amount') ) {
+						var amount_donate = parseInt(card_details[i].value);
+						if( amount_donate > 10000 ) {
+							$('.self-payment-msg').append('<p class="ezidebit-error"> An amount of 10000 above are not allowed. </p>');
+							$('.ezi-lazy-loading').hide();
+							$('#payNowButton').removeAttr('disabled');
+							$('#payNowButton').show();
+							return;
+						} else if( amount_donate < 2 ) {
+							$('.self-payment-msg').append('<p class="ezidebit-error"> An amount of 2 below are not allowed. </p>');
+							$('.ezi-lazy-loading').hide();
+							$('#payNowButton').removeAttr('disabled');
+							$('#payNowButton').show();
+							return;
+						}
+					}
+				}
 
 			 	// verify_captcha
 				$.ajax({
