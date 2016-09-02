@@ -327,13 +327,13 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 					if( (card_details[i].key == 'amount') ) {
 						var amount_donate = parseInt(card_details[i].value);
 						if( amount_donate > 10000 ) {
-							$('.self-payment-msg').append('<p class="ezidebit-error"> An amount of 10000 above are not allowed. </p>');
+							$('.self-payment-msg').append('<p class="ezidebit-error"> Maximum donation amount per transaction is 10,000 AUD. Thank you. </p>');
 							$('.ezi-lazy-loading').hide();
 							$('#payNowButton').removeAttr('disabled');
 							$('#payNowButton').show();
 							return;
 						} else if( amount_donate < 2 ) {
-							$('.self-payment-msg').append('<p class="ezidebit-error"> An amount of 2 below are not allowed. </p>');
+							$('.self-payment-msg').append('<p class="ezidebit-error"> Minimum donation is 2 AUD. Thank you. </p>');
 							$('.ezi-lazy-loading').hide();
 							$('#payNowButton').removeAttr('disabled');
 							$('#payNowButton').show();
