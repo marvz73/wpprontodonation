@@ -746,7 +746,7 @@ class Pronto_donation_Admin {
 
 					// this will restrict to input 2 below
 					if(parseData < 2) {
-						$(this).after("<small id='amount-err' style='color:red;'>  Minimum donation is 2 "+ currecyCode +". Thank you.</small>")
+						$(this).after("<small id='amount-err' style='color:red;'>  Minimum donation amount per transaction is 2 "+ currecyCode +". Thank you.</small>")
 						$('#amount_level').val('');
 
 						setTimeout(function(){

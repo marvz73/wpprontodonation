@@ -335,7 +335,7 @@ $InputFieldClass = (empty($pronto_donation_settings['InputFieldClass'])) ? "" : 
 							$('#payNowButton').show();
 							return;
 						} else if( amount_donate < 2 ) {
-							$('.self-payment-msg').append('<p class="ezidebit-error"> Minimum donation is 2 '+ currecyCode +'. Thank you. </p>');
+							$('.self-payment-msg').append('<p class="ezidebit-error"> Minimum donation amount per transaction is 2 '+ currecyCode +'. Thank you. </p>');
 							$('.ezi-lazy-loading').hide();
 							$('#payNowButton').removeAttr('disabled');
 							$('#payNowButton').show();
